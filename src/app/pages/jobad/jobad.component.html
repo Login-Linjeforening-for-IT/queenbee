@@ -1,0 +1,121 @@
+<h1>{{title}}</h1>
+Value: {{ jobAdForm.value | json }}
+
+<form [formGroup]="jobAdForm">
+    <div class="form">
+        <hr>
+        <div class="block">
+        <h2>General Information</h2>
+        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" class="block">
+            <mat-tab label="🇳🇴 NOR">
+                <mat-form-field class="row">
+                    <input matInput formControlName="title_no" required>
+                    <mat-label>Ad Title NO</mat-label>
+                </mat-form-field>
+
+                <mat-form-field class="row">
+                    <input matInput formControlName="position_title_no" required>
+                    <mat-label>Position Title NO</mat-label>
+                </mat-form-field>
+
+                <mat-form-field class="row">
+                    <input matInput formControlName="description_short_no" required>
+                    <mat-label>Short Description NO</mat-label>
+                </mat-form-field>
+
+                <mat-form-field class="row">
+                    <textarea matInput placeholder="Long description NO*" formControlName="description_long_no" required></textarea>
+                </mat-form-field>
+            </mat-tab>
+
+            <mat-tab label="🇺🇸 ENG">
+                <mat-form-field class="row">
+                    <input matInput formControlName="title_en">
+                    <mat-label>Ad Title EN</mat-label>
+                </mat-form-field>
+
+                <mat-form-field class="row">
+                    <input matInput formControlName="position_title_en">
+                    <mat-label>Position Title EN</mat-label>
+                </mat-form-field>
+
+                <mat-form-field class="row">
+                    <input matInput formControlName="description_short_en">
+                    <mat-label>Short Description EN</mat-label>
+                </mat-form-field>
+
+                <mat-form-field class="row">
+                    <textarea matInput placeholder="Long description EN" formControlName="description_long_en"></textarea>
+                </mat-form-field>
+            </mat-tab>
+        </mat-tab-group>
+        
+        <!-- THIS WILL PROBABLY BE REPLACE BY A TOGGLE SOMEHOW-->
+        <mat-form-field class="dd">
+            <mat-label>Remote Posibility</mat-label>
+            <mat-select required>
+              <mat-option value="true">Yes</mat-option>
+              <mat-option value="false">No</mat-option>¨
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="dd">
+            <mat-label>Type</mat-label>
+            <mat-select formControlName="type" required>
+              <mat-option *ngFor="let t of types" [value]="t.value">
+                {{t.viewValue}}
+              </mat-option>
+            </mat-select>
+        </mat-form-field> 
+
+        <mat-form-field class="dd">
+            <mat-label>Priority</mat-label>
+            <mat-select formControlName="priority" required>
+              <mat-option *ngFor="let p of priorities" [value]="p.value">
+                {{p.viewValue}}
+              </mat-option>
+            </mat-select>
+        </mat-form-field> 
+
+        <app-datetime (newDatetime)=onPublishChange($event) [dateLabel]="'Publish Date'" [timeLabel]="'Publish Time'"></app-datetime>
+    </div>
+
+    <div class="block">
+        <h2>Application</h2>
+        <mat-form-field class="row">
+            <input matInput formControlName="application_url">
+            <mat-label>Application URL</mat-label>
+        </mat-form-field>
+        <mat-form-field class="row">
+            <input matInput formControlName="application_email">
+            <mat-label>Application Email</mat-label>
+        </mat-form-field>
+        <app-datetime (newDatetime)=onDeadlineChange($event) [dateLabel]="'Deadline Date'" [timeLabel]="'Deadline Time'"></app-datetime>
+    </div>
+
+    <div class="block">
+        <h2>Contact</h2>
+        <mat-form-field class="row">
+            <input matInput formControlName="contact_phone">
+            <mat-label>Contact Phone</mat-label>
+        </mat-form-field>
+        <mat-form-field class="row">
+            <input matInput formControlName="contact_email">
+            <mat-label>Contact Email</mat-label>
+        </mat-form-field>
+    </div>
+
+    <div class="block">
+        <h2>Image</h2>
+        <mat-form-field class="row">
+            <input matInput formControlName="image_small">
+            <mat-label>Image Small</mat-label>
+        </mat-form-field>
+        <mat-form-field class="row">
+            <input matInput formControlName="image_large">
+            <mat-label>Image Large</mat-label>
+        </mat-form-field>
+    </div>
+</div>
+<button type="submit" mat-raised-button color="primary">{{submit}}</button>
+</form>

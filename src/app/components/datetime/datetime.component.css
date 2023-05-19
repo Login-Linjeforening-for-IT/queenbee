@@ -1,0 +1,11 @@
+div {
+  display: inline-block;
+}
+
+.input {
+  margin-right: 1rem;
+}
+
+.disabled {
+  opacity: 30%;
+}

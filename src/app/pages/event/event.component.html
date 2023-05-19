@@ -1,0 +1,110 @@
+<h1>{{title}}</h1>
+Value: {{ eventForm.value | json }}
+
+<form [formGroup]="eventForm">
+  <div class="form">
+    <hr>
+    <div class="block">
+      <h2>General Information</h2>
+      <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" class="block">
+        <mat-tab label="🇳🇴 NOR">
+          <mat-form-field class="row">
+            <input matInput formControlName="name_no" required>
+            <mat-label>Event Name NO</mat-label>
+          </mat-form-field>
+
+          <mat-form-field class="row">
+            <input matInput formControlName="info_no" required>
+            <mat-label>Informational NO</mat-label>
+          </mat-form-field>
+
+          <mat-form-field class="row">
+            <textarea matInput placeholder="Description NO*" formControlName="description_no" required></textarea>
+          </mat-form-field>
+        </mat-tab>
+
+        <mat-tab label="🇺🇸 ENG">
+          <mat-form-field class="row">
+            <input matInput formControlName="name_en">
+            <mat-label>Event Name EN</mat-label>
+          </mat-form-field>
+
+          <mat-form-field class="row">
+            <input matInput formControlName="info_en">
+            <mat-label>Informational EN</mat-label>
+          </mat-form-field>
+
+          <mat-form-field class="row">
+            <textarea matInput placeholder="Description EN" formControlName="description_en"></textarea>
+          </mat-form-field>
+        </mat-tab>
+      </mat-tab-group>
+
+      <app-datetime (newDatetime)=onTimeStartChange($event) [dateLabel]="'Start Date'" [timeLabel]="'Start Time'" [timeDisableable]="true"></app-datetime>
+
+      <app-datetime (newDatetime)=onTimeEndChange($event) [dateLabel]="'End Date'" [timeLabel]="'End Time'" [timeDisableable]="true"></app-datetime>
+
+      <mat-form-field class="dd">
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="category" required>
+          <mat-option *ngFor="let c of categories" [value]="c.value">
+            {{c.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="dd">
+        <mat-label>Organization</mat-label>
+        <mat-select formControlName="organization" required>
+          <mat-option *ngFor="let o of organizations" [value]="o.value">
+            {{o.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="block">
+      <h2>Signup Form</h2>
+      <mat-form-field class="row">
+        <input matInput formControlName="link_signup">
+        <mat-label>Signup Link</mat-label>
+      </mat-form-field>
+
+      <app-datetime (newDatetime)=onSignupReleaseChange($event) [dateLabel]="'Release Date'" [timeLabel]="'Release Time'"></app-datetime>
+
+      <app-datetime (newDatetime)=onSignupDeadlineChange($event) [dateLabel]="'Deadline Date'" [timeLabel]="'Deadline Time'" [timeDisableable]="true"></app-datetime>
+    </div>
+
+    <div class="block">
+      <h2>Image Links</h2>
+      <mat-form-field class="row">
+        <input matInput formControlName="image_small">
+        <mat-label>Image Small Link</mat-label>
+      </mat-form-field>
+
+      <mat-form-field class="row">
+        <input matInput formControlName="image_banner">
+        <mat-label>Image Banner Link</mat-label>
+      </mat-form-field>
+    </div>
+
+    <div class="block">
+      <h2>Social Links</h2>
+      <mat-form-field class="row">
+        <input matInput formControlName="link_facebook">
+        <mat-label>Facebook Link</mat-label>
+      </mat-form-field>
+
+      <mat-form-field class="row">
+        <input matInput formControlName="link_discord">
+        <mat-label>Discord Link</mat-label>
+      </mat-form-field>
+
+      <mat-form-field class="row">
+        <input matInput formControlName="link_stream">
+        <mat-label>Stream Link</mat-label>
+      </mat-form-field>
+    </div>
+  </div>
+  <button type="submit" mat-raised-button color="primary">{{submit}}</button>
+</form>

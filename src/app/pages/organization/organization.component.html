@@ -1,0 +1,79 @@
+<h1>{{title}}</h1>
+Value: {{ organizationForm.value | json }}
+
+<form [formGroup]="organizationForm">
+  <div class="form">
+    <hr>
+    <div class="block">
+      <h2>General Information</h2>
+      <mat-form-field class="row">
+        <input matInput formControlName="shortname" required>
+        <mat-label>Shortname</mat-label>
+      </mat-form-field>
+
+      <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" class="block">
+        <mat-tab label="🇳🇴 NOR">
+          <mat-form-field class="row">
+            <input matInput formControlName="name_no" required>
+            <mat-label>Name NO</mat-label>
+          </mat-form-field>
+
+          <mat-form-field class="row">
+            <textarea matInput placeholder="Description NO*" formControlName="description_no" required></textarea>
+          </mat-form-field>
+        </mat-tab>
+        <mat-tab label="🇺🇸 ENG">
+          <mat-form-field class="row">
+            <input matInput formControlName="name_en" required>
+            <mat-label>Name EN</mat-label>
+          </mat-form-field>
+
+          <mat-form-field class="row">
+            <textarea matInput placeholder="Description EN" formControlName="description_en"></textarea>
+          </mat-form-field>
+        </mat-tab>
+      </mat-tab-group>
+
+      <mat-form-field class="dd">
+        <mat-label>Organization Type</mat-label>
+        <mat-select formControlName="organization_type" required>
+          <mat-option *ngFor="let o of org_types" [value]="o.value">
+            {{o.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="block">
+      <h2>Social Links</h2>
+      <mat-form-field class="row">
+        <input matInput formControlName="url_homepage">
+        <mat-label>URL Homepage</mat-label>
+      </mat-form-field>
+
+      <mat-form-field class="row">
+        <input matInput formControlName="url_linkedin">
+        <mat-label>URL Linkedin</mat-label>
+      </mat-form-field>
+
+      <mat-form-field class="row">
+        <input matInput formControlName="url_facebook">
+        <mat-label>URL Facebook</mat-label>
+      </mat-form-field>
+
+      <mat-form-field class="row">
+        <input matInput formControlName="url_instagram">
+        <mat-label>URL Instagram</mat-label>
+      </mat-form-field>
+    </div>
+
+    <div class="block">
+      <h2>Image Link</h2>
+      <mat-form-field class="row">
+        <input matInput formControlName="logo">
+        <mat-label>Logo Link</mat-label>
+      </mat-form-field>
+    </div>
+  </div>
+  <button type="submit" mat-raised-button color="primary">{{submit}}</button>
+</form>

@@ -1,0 +1,74 @@
+<h1>{{title}}</h1>
+Value: {{ locationForm.value | json }}
+
+<form [formGroup]="locationForm">
+  <div class="form">
+    <div class="block">
+      <h2>General Information</h2>
+      <mat-form-field class="row">
+        <input matInput formControlName="name_no" required>
+        <mat-label>Event Name NO</mat-label>
+      </mat-form-field>
+
+      <mat-form-field class="row">
+        <input matInput formControlName="name_en">
+        <mat-label>Event Name NO</mat-label>
+      </mat-form-field>
+
+      <mat-form-field class="dd">
+        <mat-label>Location Type</mat-label>
+        <mat-select formControlName="type" required>
+          <mat-option *ngFor="let t of locationTypes" [value]="t.value">
+            {{t.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="block" *ngIf="locationForm.controls['type'].value === 'address'">
+      <h2>Address Information</h2>
+      <mat-form-field class="row">
+        <input matInput formControlName="address_street">
+        <mat-label>Address</mat-label>
+      </mat-form-field>
+
+      <mat-form-field class="row">
+        <input matInput formControlName="address_postcode">
+        <mat-label>Postcode</mat-label>
+      </mat-form-field>
+
+      <mat-form-field class="row">
+        <input matInput formControlName="address_city">
+        <mat-label>City</mat-label>
+      </mat-form-field>
+    </div>
+
+    <div class="block" *ngIf="locationForm.controls['type'].value === 'coords'">
+      <h2>Coordinates of Location</h2>
+      <mat-form-field class="row">
+        <input matInput formControlName="coordinate_lat">
+        <mat-label>Latitude</mat-label>
+      </mat-form-field>
+
+      <mat-form-field class="row">
+        <input matInput formControlName="coordinate_long">
+        <mat-label>Longitude</mat-label>
+      </mat-form-field>
+    </div>
+
+    <div class="block" *ngIf="locationForm.controls['type'].value === 'mazemap'">
+      <h2>MazeMap Location</h2>
+      <mat-form-field class="row">
+        <input matInput formControlName="mazemap_campus_id">
+        <mat-label>MazeMap City ID</mat-label>
+      </mat-form-field>
+
+      <mat-form-field class="row">
+        <input matInput formControlName="mazemap_poi_id">
+        <mat-label>MazeMap POI ID</mat-label>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <button type="submit" mat-raised-button color="primary">{{submit}}</button>
+</form>
