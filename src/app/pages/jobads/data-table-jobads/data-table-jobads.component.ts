@@ -55,8 +55,10 @@ export class DataTableJobadsComponent implements AfterViewInit {
     this.table.dataSource = this.dataSource;
   }
 
-  onDelete(id: number) {
-    this.dataSource.deleteItem(id);
-    this.dataSource.refresh();
+  onDelete(id: number): void {
+    if(confirm("Are you sure to delete the event with id: " + id)) {
+      this.dataSource.deleteItem(id);
+      this.dataSource.refresh();
+    }
   }
 }

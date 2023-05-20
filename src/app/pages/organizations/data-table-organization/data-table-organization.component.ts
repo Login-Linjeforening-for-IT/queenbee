@@ -48,7 +48,9 @@ export class DataTableOrganizationComponent implements AfterViewInit {
   }
 
   onDelete(id: number): void {
-    this.dataSource.deleteItem(id);
-    this.dataSource.refresh();
+    if(confirm("Are you sure to delete the event with id: " + id)) {
+      this.dataSource.deleteItem(id);
+      this.dataSource.refresh();
+    }
   }
 }
