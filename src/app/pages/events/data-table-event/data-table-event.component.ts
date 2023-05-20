@@ -4,7 +4,6 @@ import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { DataTableEventDataSource, DataTableEventItem } from './data-table-event-datasource';
 import { TableConstants } from 'src/app/pages/pages.constants';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-data-table-event',
@@ -59,5 +58,9 @@ export class DataTableEventComponent implements AfterViewInit {
       this.dataSource.deleteItem(id);
       this.dataSource.refresh();
     }
+  }
+
+  formatDatetime(dt: string): string {
+    return dt.replace("T", " ").replace("Z", "").replaceAll("-", "/");
   }
 }
