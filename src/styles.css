@@ -95,9 +95,14 @@ main {
 }
 
 /* ======================== TABLES ========================= */
-.form-topbar mat-form-field {
-  margin-right: 1rem;
+.form-topbar {
+  display: flex;
 }
+
+.form-field-container {
+  flex: 1;
+}
+
 .table-container{
   overflow: auto;
   max-height: fit-content;

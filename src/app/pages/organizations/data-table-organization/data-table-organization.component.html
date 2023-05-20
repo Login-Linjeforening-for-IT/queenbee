@@ -1,9 +1,11 @@
 <div class="form-topbar">
-  <mat-form-field>
-    <mat-label>Filter</mat-label>
-    <input matInput #filterInput placeholder="F.ex Login" #input>
-  </mat-form-field>
-
+  <div class="form-field-container">
+    <mat-form-field>
+      <mat-label>Filter</mat-label>
+      <input matInput #filterInput placeholder="F.ex Oslo" #input>
+    </mat-form-field>
+  </div>
+  
   <button class="style_me" routerLink="/organizations/new" mat-raised-button color="primary">Create New</button>
 </div>
 
