@@ -3,8 +3,7 @@ import { OrganizationsConstants } from '../pages.constants';
 
 @Component({
   selector: 'app-organizations',
-  templateUrl: './organizations.component.html',
-  styleUrls: ['./organizations.component.css']
+  templateUrl: './organizations.component.html'
 })
 export class OrganizationsComponent {
   title = OrganizationsConstants.TITLE

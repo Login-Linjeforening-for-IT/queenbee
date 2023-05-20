@@ -3,8 +3,7 @@ import { LocationsConstants } from '../pages.constants';
 
 @Component({
   selector: 'app-locations',
-  templateUrl: './locations.component.html',
-  styleUrls: ['./locations.component.css']
+  templateUrl: './locations.component.html'
 })
 export class LocationsComponent {
   title = LocationsConstants.TITLE
