@@ -14,9 +14,6 @@
   padding: 0;
   outline: 0;
   border: 0;
-  appearance: none;
-  text-decoration: none;
-  list-style: none;
   box-sizing: border-box;
 }
 
@@ -33,14 +30,6 @@ body {
   overflow-x: hidden;
   color: var(--color-info-light);
 }
-/*
-.container {
-  display: grid;
-  width: 96%;
-  margin: 0 auto;
-  gap: 1.8rem;
-  grid-template-columns: 16rem auto;
-}*/
 
 .container {
   width: 100%;
@@ -76,6 +65,43 @@ small {
   font-size: 0.75rem;
 }
 
+/* ======================= MARKDOWN ======================= */
+/* Styles specifically written for the markdown component   */
+
+/* Links */
+a {
+  color: #fd8738;
+}
+
+/* Tables */
+table {
+  border-collapse: collapse;
+}
+
+th,
+td {
+    border: 1px solid var(--color-info-light);
+    padding: 8px;
+}
+
+/* Lists */
+/* Unordered List */
+ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+/* Ordered List */
+ol {
+  list-style-type: decimal;
+  padding-left: 20px;
+}
+
+/* List Items */
+li {
+  margin-bottom: 8px;
+}
+
 /* ========================== SIDEBAR ====================== */
 aside {
   float: left;
@@ -83,6 +109,12 @@ aside {
   width: 14%;
   padding-left: 2rem;
 }
+
+aside * {
+  appearance: none;
+  text-decoration: none;
+  list-style: none;
+} 
 
 /* ========================== MAIN ========================= */
 main {

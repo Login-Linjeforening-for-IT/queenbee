@@ -9,6 +9,8 @@
   min-height: 420px;
   padding: 8px;
   resize: vertical;
+  background-color: #424242;
+  color: #ffffff;
 }
 
 .variable-textarea:hover {
@@ -17,6 +19,6 @@
 }
 
 .variable-binding {
-  display: block;
-  float: right;
+    display: block;
+    float: right;
 }
