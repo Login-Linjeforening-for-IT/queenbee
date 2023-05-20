@@ -60,4 +60,8 @@ export class DataTableJobadsComponent implements AfterViewInit {
       this.dataSource.refresh();
     }
   }
+
+  formatDatetime(dt: string): string {
+    return dt.replace("T", " ").replace("Z", "").replaceAll("-", "/");
+  }
 }
