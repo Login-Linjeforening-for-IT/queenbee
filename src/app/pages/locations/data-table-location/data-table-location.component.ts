@@ -7,8 +7,7 @@ import { TableConstants } from '../../pages.constants';
 
 @Component({
   selector: 'app-data-table-location',
-  templateUrl: './data-table-location.component.html',
-  styleUrls: ['./data-table-location.component.css']
+  templateUrl: './data-table-location.component.html'
 })
 
 export class DataTableLocationComponent implements AfterViewInit {

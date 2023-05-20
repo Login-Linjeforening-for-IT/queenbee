@@ -5,6 +5,9 @@ import {Observable, of as observableOf, merge, fromEvent, BehaviorSubject} from 
 import {ElementRef} from "@angular/core";
 import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 
+/**
+ * This is a base class containing common functionality for the DataSources of tables in the application. Simply extend it to inherit it's methods.
+ */
 export abstract class BaseDataSource<T> extends DataSource<T> {
   data = new BehaviorSubject<T[]>([]);
   paginator: MatPaginator | undefined;
@@ -13,10 +16,6 @@ export abstract class BaseDataSource<T> extends DataSource<T> {
 
   constructor() {
     super();
-  }
-
-  get dataLength(): number {
-    return this.data.getValue().length;
   }
 
   connect(): Observable<T[]> {
@@ -31,13 +30,13 @@ export abstract class BaseDataSource<T> extends DataSource<T> {
   
       filter$.subscribe(() => {
         if (this.paginator) {
-          this.paginator.pageIndex = 0; // reset pagination whenever the filter changes
+          this.paginator.pageIndex = 0; // Reset pagination whenever the filter changes
         }
       });
 
       this.paginator.page.subscribe(() => {
         if(this.filterStr) {
-          this.filterStr.nativeElement.value = ''; // reset filterInput when the page changes
+          this.filterStr.nativeElement.value = ''; // Reset filterInput when the page changes
         }
       });
 
@@ -54,30 +53,48 @@ export abstract class BaseDataSource<T> extends DataSource<T> {
 
   disconnect(): void {}
 
+  get dataLength(): number {
+    return this.data.getValue().length;
+  }
+
+  /**
+   * getPagedData returns the paged data, that is the page of the table the user is currently at
+   * @param data All the data in the table
+   * @returns The paged data
+   */
   getPagedData(data: T[]): T[] {
     if (this.paginator) {
       const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
       return data.slice(startIndex, startIndex + this.paginator.pageSize);
-    } else {
-      return data;
-    }
+    } 
+    return data;
   }
 
+  /**
+   * refresh is used to force a refresh of the table
+   */
   refresh(): void {
     if (this.paginator) {
       this.paginator._changePageSize(this.paginator.pageSize);
     }
   }
 
-  abstract getSortedData(data: T[]): T[];
-
+  /**
+   * deleteItem removes elements with a given id from the data.
+   * @param id Assumed unique id of element
+   */
   deleteItem(id: number): void {
     const currentItems = this.data.value;
     const filteredItems = currentItems.filter(item => this.getItemId(item) !== id);
     this.data.next(filteredItems);
   }
 
-  getFilteredData(data: T[]): T[] {
+  /**
+   * getFilteredData reduces each row and filters them based on the filter term "filterStr"
+   * @param data All the data in the table
+   * @returns A copy of data which is filtered
+   */
+  private getFilteredData(data: T[]): T[] {
     if(!this.filterStr) {
       return data;
     }
@@ -89,6 +106,9 @@ export abstract class BaseDataSource<T> extends DataSource<T> {
       return reducedRowData.includes(filterValue);
     });
   }
+
+  // Abstract methods implemented by children, due to them having child specific content
+  abstract getSortedData(data: T[]): T[];
 
   abstract getItemId(item: T): number;
 }

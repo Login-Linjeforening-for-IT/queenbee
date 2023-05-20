@@ -3,8 +3,7 @@ import {EventsConstants} from '../pages.constants'
 
 @Component({
   selector: 'app-events',
-  templateUrl: './events.component.html',
-  styleUrls: ['./events.component.css']
+  templateUrl: './events.component.html'
 })
 export class EventsComponent {
   title = EventsConstants.TITLE

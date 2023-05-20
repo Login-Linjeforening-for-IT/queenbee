@@ -7,8 +7,7 @@ import { TableConstants } from '../../pages.constants';
 
 @Component({
   selector: 'app-data-table-jobads',
-  templateUrl: './data-table-jobads.component.html',
-  styleUrls: ['./data-table-jobads.component.css']
+  templateUrl: './data-table-jobads.component.html'
 })
 
 export class DataTableJobadsComponent implements AfterViewInit {

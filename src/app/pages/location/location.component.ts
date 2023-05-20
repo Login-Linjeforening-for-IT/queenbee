@@ -5,8 +5,7 @@ import { LocationConstants } from '../pages.constants';
 
 @Component({
   selector: 'app-location',
-  templateUrl: './location.component.html',
-  styleUrls: ['./location.component.css']
+  templateUrl: './location.component.html'
 })
 export class LocationComponent {
   locationTypes = LocationConstants.LOC_TYPES

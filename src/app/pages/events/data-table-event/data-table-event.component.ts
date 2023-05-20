@@ -8,8 +8,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-data-table-event',
-  templateUrl: './data-table-event.component.html',
-  styleUrls: ['./data-table-event.component.css']
+  templateUrl: './data-table-event.component.html'
 })
 export class DataTableEventComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;

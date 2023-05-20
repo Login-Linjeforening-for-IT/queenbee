@@ -5,8 +5,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-jobad',
-  templateUrl: './jobad.component.html',
-  styleUrls: ['./jobad.component.css']
+  templateUrl: './jobad.component.html'
 })
 export class JobadComponent {
   types = JobadConstants.TYPES

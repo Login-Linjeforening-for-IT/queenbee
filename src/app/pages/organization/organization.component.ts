@@ -5,8 +5,7 @@ import { OrganizationConstants } from '../pages.constants';
 
 @Component({
   selector: 'app-organization',
-  templateUrl: './organization.component.html',
-  styleUrls: ['./organization.component.css']
+  templateUrl: './organization.component.html'
 })
 export class OrganizationComponent {
   org_types = OrganizationConstants.ORG_TYPES

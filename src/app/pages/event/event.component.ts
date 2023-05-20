@@ -5,8 +5,7 @@ import { EventConstants } from '../pages.constants';
 
 @Component({
   selector: 'app-event',
-  templateUrl: './event.component.html',
-  styleUrls: ['./event.component.css']
+  templateUrl: './event.component.html'
 })
 export class EventComponent {
   categories = EventConstants.CATEGORIES
