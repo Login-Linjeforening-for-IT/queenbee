@@ -18,8 +18,29 @@
 .topbar .left, .topbar .right {
   flex: 1;
   display: flex;
-  padding-left: 1rem;
+  padding-left: 0.5rem;
 }
+
+.menu-btn {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  text-align: center;
+  border: 1px solid #fd8738; /* change to the color of your choice */
+  border-radius: 4px;
+  background-color: #3b3b3b; /* change to the color of your choice */
+  color: white; /* change to the color of your choice */
+  cursor: pointer;
+  margin-right: 0.5rem;
+  transition: background-color 0.3s;
+}
+
+.menu-btn:hover {
+  background-color: #fd8738; /* change to the color of your choice */
+  color: #3b3b3b; /* change to the color of your choice */
+}
+
 
 .content {
   display: flex;
