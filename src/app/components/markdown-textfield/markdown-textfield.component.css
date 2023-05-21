@@ -1,24 +1,51 @@
-.variable-binding,
-.variable-textarea {
-  width: 49%;
+.box {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: #3b3b3b;
+  display: flex;
+  flex-direction: column;
 }
 
-.variable-textarea {
-  border-radius: 5px;
+.topbar {
+  width: 100%;
+  display: flex;
+  justify-content: center; /* Center the text horizontally */
+  align-items: center; /* Center the text vertically */
+  margin-bottom: 1rem; /* Optional: add some margin below the topbar */
+}
+
+.topbar .left, .topbar .right {
+  flex: 1;
+  display: flex;
+  padding-left: 1rem;
+}
+
+.content {
+  display: flex;
+  width: 100%;
+}
+
+.binding,
+.textarea {
+  flex: 1;
+}
+
+.textarea {
+  width: 100%;
+  border-radius: 0.3rem;
   box-shadow: 0 1px 2px rgba(0,0,0,.07);
-  min-height: 420px;
-  padding: 8px;
+  min-height: 35rem;
+  padding: 0.8rem;
+  margin-right: 1rem;
   resize: vertical;
-  background-color: #424242;
+  background-color: #4A4A4A;
   color: #ffffff;
 }
 
-.variable-textarea:hover {
-  box-shadow: 0 6px 12px 3px rgba(0,0,0,.09),
-    0 2px 3px 1px rgba(0,0,0,.06);
-}
-
-.variable-binding {
-    display: block;
-    float: right;
+.binding {
+  border-radius: 0.3rem;
+  padding: 0.8rem;
+  background-color: #4A4A4A;
+  color: #ffffff;
 }
