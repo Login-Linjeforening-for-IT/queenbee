@@ -1,4 +1,5 @@
 .box {
+  position: relative;
   width: 100%;
   padding: 1rem;
   border-radius: 0.5rem;
@@ -41,6 +42,19 @@
   color: #3b3b3b; /* change to the color of your choice */
 }
 
+.emoji-wrapper {
+  position: relative; 
+  display: inline-block; /* So the wrapper doesn't take up the entire width */
+}
+
+.emoji-mart {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1;
+  transform: scale(0.8);
+  transform-origin: top left;
+}
 
 .content {
   display: flex;

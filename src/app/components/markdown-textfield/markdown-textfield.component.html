@@ -3,6 +3,19 @@
         <div class="left">
             <button class="menu-btn" (click)="makeBold()"><strong>B</strong></button>
             <button class="menu-btn" (click)="makeItalic()"><i>I</i></button>
+            
+            <div #emojiWrapper class="emoji-wrapper">
+                <button class="menu-btn" (click)="toggleEmojiPicker()">🥰</button>
+                <emoji-mart
+                    *ngIf="showEmojiPicker"
+                    class="emoji-mart"
+                    emoji="point_up"
+                    [autoFocus]="true"
+                    [totalFrequentLines]="totalFrequentLines"
+                    color="#fd8738"
+                    (emojiSelect)="insertEmoji($event)"
+                ></emoji-mart>
+            </div>
         </div>
         <div class="right">
             <h2>HTML Preview:</h2>
