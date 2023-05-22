@@ -57,4 +57,12 @@ export class OrganizationComponent {
 
     this.organizationForm.valueChanges.subscribe(console.log)
   }
+
+  onDescriptionNoChange(newVal: { ht: string }) {
+    this.organizationForm.get('description_no')!.patchValue(newVal.ht);
+  }
+
+  onDescriptionEnChange(newVal: { ht: string }) {
+    this.organizationForm.get('description_en')!.patchValue(newVal.ht);
+  }
 }
