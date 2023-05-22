@@ -32,6 +32,11 @@ import { LocationComponent } from './pages/location/location.component';
 import { DataTableLocationComponent } from './pages/locations/data-table-location/data-table-location.component';
 import { DataTableJobadsComponent } from './pages/jobads/data-table-jobads/data-table-jobads.component';
 import { JobadComponent } from './pages/jobad/jobad.component';
+import { MarkdownTextfieldComponent } from './components/markdown-textfield/markdown-textfield.component';
+
+// 3rd party libraries
+import { MarkdownModule } from 'ngx-markdown';
+import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 
 @NgModule({
   declarations: [
@@ -48,7 +53,8 @@ import { JobadComponent } from './pages/jobad/jobad.component';
     LocationComponent,
     DataTableJobadsComponent,
     DataTableLocationComponent,
-    JobadComponent
+    JobadComponent,
+    MarkdownTextfieldComponent
   ],
     imports: [
         BrowserModule,
@@ -69,7 +75,9 @@ import { JobadComponent } from './pages/jobad/jobad.component';
         ReactiveFormsModule,
         FormsModule,
         MatTabsModule,
-        MatMenuModule
+        MatMenuModule,
+        MarkdownModule.forRoot(),
+        PickerComponent,
     ],
   providers: [],
   bootstrap: [AppComponent]

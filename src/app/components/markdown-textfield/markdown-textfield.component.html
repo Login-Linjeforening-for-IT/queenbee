@@ -1,0 +1,31 @@
+<div class="box">
+    <div class="title">
+        <h2>{{titleLabel}}</h2>
+    </div>
+    <div class="topbar">
+        <div class="left">
+            <button class="menu-btn" (click)="makeBold()"><strong>B</strong></button>
+            <button class="menu-btn" (click)="makeItalic()"><i>I</i></button>
+            
+            <div #emojiWrapper class="emoji-wrapper">
+                <button class="menu-btn" (click)="toggleEmojiPicker()">🥰</button>
+                <emoji-mart
+                    *ngIf="showEmojiPicker"
+                    class="emoji-mart"
+                    emoji="point_up"
+                    [autoFocus]="true"
+                    [totalFrequentLines]="totalFrequentLines"
+                    color="#fd8738"
+                    (emojiSelect)="insertEmoji($event)"
+                ></emoji-mart>
+            </div>
+        </div>
+        <div class="right">
+            <h2>HTML Preview:</h2>
+        </div>
+    </div>
+    <div class="content">
+        <textarea class="textarea" [(ngModel)]="markdown" #textarea></textarea>
+        <markdown #mdComponent class="binding beehive-html-styles" [data]="markdown"></markdown>
+    </div>
+</div>

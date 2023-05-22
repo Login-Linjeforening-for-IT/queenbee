@@ -10,43 +10,39 @@ Value: {{ jobAdForm.value | json }}
             <mat-tab label="🇳🇴 NOR">
                 <mat-form-field class="row">
                     <input matInput formControlName="title_no" required>
-                    <mat-label>Ad Title NO</mat-label>
+                    <mat-label>Ad Title NOR</mat-label>
                 </mat-form-field>
 
                 <mat-form-field class="row">
                     <input matInput formControlName="position_title_no" required>
-                    <mat-label>Position Title NO</mat-label>
+                    <mat-label>Position Title NOR</mat-label>
                 </mat-form-field>
 
                 <mat-form-field class="row">
                     <input matInput formControlName="description_short_no" required>
-                    <mat-label>Short Description NO</mat-label>
+                    <mat-label>Short Description NOR</mat-label>
                 </mat-form-field>
 
-                <mat-form-field class="row">
-                    <textarea matInput placeholder="Long description NO*" formControlName="description_long_no" required></textarea>
-                </mat-form-field>
+                <app-markdown-textfield (newHtmlText)=onDescriptionNoChange($event) [titleLabel]="'Long Description NOR'" class="row"></app-markdown-textfield>
             </mat-tab>
 
             <mat-tab label="🇺🇸 ENG">
                 <mat-form-field class="row">
                     <input matInput formControlName="title_en">
-                    <mat-label>Ad Title EN</mat-label>
+                    <mat-label>Ad Title ENG</mat-label>
                 </mat-form-field>
 
                 <mat-form-field class="row">
                     <input matInput formControlName="position_title_en">
-                    <mat-label>Position Title EN</mat-label>
+                    <mat-label>Position Title ENG</mat-label>
                 </mat-form-field>
 
                 <mat-form-field class="row">
                     <input matInput formControlName="description_short_en">
-                    <mat-label>Short Description EN</mat-label>
+                    <mat-label>Short Description ENG</mat-label>
                 </mat-form-field>
 
-                <mat-form-field class="row">
-                    <textarea matInput placeholder="Long description EN" formControlName="description_long_en"></textarea>
-                </mat-form-field>
+                <app-markdown-textfield (newHtmlText)=onDescriptionEnChange($event) [titleLabel]="'Long Description ENG'" class="row"></app-markdown-textfield>
             </mat-tab>
         </mat-tab-group>
         

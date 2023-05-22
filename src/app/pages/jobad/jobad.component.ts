@@ -73,4 +73,12 @@ export class JobadComponent {
   onDeadlineChange(newVal: {dt: string}) {
     this.jobAdForm.value.time_deadline = newVal.dt;
   }
+
+  onDescriptionNoChange(newVal: { ht: string }) {
+    this.jobAdForm.get('description_long_no')!.patchValue(newVal.ht);
+  }
+
+  onDescriptionEnChange(newVal: { ht: string }) {
+    this.jobAdForm.get('description_long_en')!.patchValue(newVal.ht);
+  }
 }
