@@ -10,33 +10,29 @@ Value: {{ eventForm.value | json }}
         <mat-tab label="🇳🇴 NOR">
           <mat-form-field class="row">
             <input matInput formControlName="name_no" required>
-            <mat-label>Event Name NO</mat-label>
+            <mat-label>Event Name NOR</mat-label>
           </mat-form-field>
 
           <mat-form-field class="row">
             <input matInput formControlName="info_no" required>
-            <mat-label>Informational NO</mat-label>
+            <mat-label>Informational NOR</mat-label>
           </mat-form-field>
-
-          <mat-form-field class="row">
-            <textarea matInput placeholder="Description NO*" formControlName="description_no" required></textarea>
-          </mat-form-field>
+          
+          <app-markdown-textfield (newHtmlText)=onDescriptionNoChange($event) [titleLabel]="'Description NOR'" class="row"></app-markdown-textfield>
         </mat-tab>
 
         <mat-tab label="🇺🇸 ENG">
           <mat-form-field class="row">
             <input matInput formControlName="name_en">
-            <mat-label>Event Name EN</mat-label>
+            <mat-label>Event Name ENG</mat-label>
           </mat-form-field>
 
           <mat-form-field class="row">
             <input matInput formControlName="info_en">
-            <mat-label>Informational EN</mat-label>
+            <mat-label>Informational ENG</mat-label>
           </mat-form-field>
 
-          <mat-form-field class="row">
-            <textarea matInput placeholder="Description EN" formControlName="description_en"></textarea>
-          </mat-form-field>
+          <app-markdown-textfield (newHtmlText)=onDescriptionEnChange($event) [titleLabel]="'Description ENG'" class="row"></app-markdown-textfield>
         </mat-tab>
       </mat-tab-group>
 

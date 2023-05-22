@@ -25,7 +25,6 @@ export class EventComponent {
   ngOnInit() {
     this.route.url.subscribe(segments => {
       this.pathElements = segments.map(segment => segment.path);
-      console.log('Path elements:', this.pathElements);
     });
 
     switch (this.pathElements[1]) {
@@ -68,7 +67,7 @@ export class EventComponent {
     this.eventForm.valueChanges.subscribe(console.log)
   }
 
-  // The following functions is used to update various
+  // The following functions is used to update various variables
   onTimeStartChange(newVal: {dt: string}) {
     this.eventForm.value.time_start = newVal.dt;
   }
@@ -83,5 +82,13 @@ export class EventComponent {
 
   onSignupDeadlineChange(newVal: { dt: string }) {
     this.eventForm.value.time_signup_deadline = newVal.dt;
+  }
+
+  onDescriptionNoChange(newVal: { ht: string }) {
+    this.eventForm.get('description_no')!.patchValue(newVal.ht);
+  }
+
+  onDescriptionEnChange(newVal: { ht: string }) {
+    this.eventForm.get('description_en')!.patchValue(newVal.ht);
   }
 }
