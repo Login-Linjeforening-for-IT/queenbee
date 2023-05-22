@@ -1,21 +1,40 @@
-import { Renderer2, Component, ElementRef, VERSION, ViewChild, HostListener } from '@angular/core';
+/**
+ * MarkdownTextfieldComponent: A component providing an interface for editing Markdown text.
+ *
+ * This component includes a text input field for writing in Markdown format, 
+ * as well as an Emoji Mart for adding emojis to the text. It emits the 
+ * compiled HTML equivalent of the entered Markdown text.
+ *
+ * Inputs:
+ * - titleLabel: The title to display above the text input field.
+ *
+ * Outputs:
+ * - newHtmlText: The HTML equivalent of the Markdown text input, emitted 
+ *   whenever the text input changes.
+ */
+import { Renderer2, Component, ElementRef, VERSION, ViewChild, HostListener, Input, Output, EventEmitter } from '@angular/core';
 import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-markdown-textfield',
   templateUrl: './markdown-textfield.component.html',
   styleUrls: ['./markdown-textfield.component.css']
 })
+
 export class MarkdownTextfieldComponent {
+  @Input() titleLabel!: string;
+  @Output() newHtmlText = new EventEmitter<{ht: string}>();
+  // Elements viewed in the html
   @ViewChild('textarea', { static: false }) textarea!: ElementRef;
+  @ViewChild('mdComponent', { read: ElementRef }) mdComponent!: ElementRef;
   @ViewChild('emojiWrapper', { static: false }) emojiMartWrapper!: ElementRef;
 
   angularVersion = VERSION.full;
   ngxMarkdownVersion = '16.0.0';
   showEmojiPicker: boolean = false;
   totalFrequentLines: number = 2;
-
-  // Some dummy text to show basics of markdown
+  // Some dummy text to show basics of markdown, maybe want to remove
   markdown: string = `## Markdown **rulez**!
   Markdown er **veldig** *bra*! 😎
   <br></br>
@@ -37,7 +56,11 @@ export class MarkdownTextfieldComponent {
   | Alice  | 30  | London     |
   | Peter  | 28  | San Francisco |
 
-`;
+  `;
+
+  // For observing changes
+  markdownChange: BehaviorSubject<string> = new BehaviorSubject(this.markdown);
+  private mutationObserver!: MutationObserver;
 
   constructor(private renderer: Renderer2, private el: ElementRef) {
     // Close the emoji picker whenever there is a click outside it
@@ -48,6 +71,31 @@ export class MarkdownTextfieldComponent {
     });
   }
   
+  // For listening to and emitting changes in the inputted markdown  
+  ngAfterViewInit() {
+    this.renderer.listen(this.textarea.nativeElement, 'input', (event: any) => {
+      this.markdown = event.target.value;
+      this.markdownChange.next(this.markdown);
+    });
+  
+    this.mutationObserver = new MutationObserver((mutations) => {
+      let newHtml = this.mdComponent.nativeElement.innerHTML;
+      newHtml = newHtml.replace(/\n/g, ''); // Removing "\n" from the string
+      this.newHtmlText.emit({ ht: newHtml }); // emit new html
+    });
+  
+    this.mutationObserver.observe(this.mdComponent.nativeElement, {
+      attributes: false, 
+      childList: true, 
+      characterData: true,
+      subtree:true
+    });
+  }
+
+  ngOnDestroy() {
+    this.mutationObserver.disconnect();
+  }
+
   /**
    * Used to toggle the emoji picker on/off
    */
@@ -66,6 +114,7 @@ export class MarkdownTextfieldComponent {
     
     // Insert the selected emoji into the markdown string at the cursor position
     this.markdown = this.markdown.slice(0, start) + event.emoji.native + this.markdown.slice(end);
+    this.markdownChange.next(this.markdown);
 
     // Waits until next tick to retain selection 
     setTimeout(() => {
@@ -109,6 +158,7 @@ export class MarkdownTextfieldComponent {
 
     const newText = this.markdown.slice(0, start) + surroundWith + selectedText.trim() + surroundWith + this.markdown.slice(end);
     this.markdown = newText;
+    this.markdownChange.next(this.markdown);
 
     // Waits until next tick to retain selection 
     setTimeout(() => {

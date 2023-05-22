@@ -1,4 +1,7 @@
 <div class="box">
+    <div class="title">
+        <h2>{{titleLabel}}</h2>
+    </div>
     <div class="topbar">
         <div class="left">
             <button class="menu-btn" (click)="makeBold()"><strong>B</strong></button>
@@ -23,6 +26,6 @@
     </div>
     <div class="content">
         <textarea class="textarea" [(ngModel)]="markdown" #textarea></textarea>
-        <markdown class="binding beehive-html-styles" [data]="markdown"></markdown>
+        <markdown #mdComponent class="binding beehive-html-styles" [data]="markdown"></markdown>
     </div>
 </div>
