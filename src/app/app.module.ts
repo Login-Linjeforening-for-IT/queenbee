@@ -37,6 +37,7 @@ import { MarkdownTextfieldComponent } from './components/markdown-textfield/mark
 // 3rd party libraries
 import { MarkdownModule } from 'ngx-markdown';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { DotMenuComponent } from './components/dot-menu/dot-menu.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { PickerComponent } from '@ctrl/ngx-emoji-mart';
     DataTableJobadsComponent,
     DataTableLocationComponent,
     JobadComponent,
-    MarkdownTextfieldComponent
+    MarkdownTextfieldComponent,
+    DotMenuComponent
   ],
     imports: [
         BrowserModule,
