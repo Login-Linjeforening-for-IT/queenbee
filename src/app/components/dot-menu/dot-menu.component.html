@@ -1,0 +1,8 @@
+<button mat-icon-button [matMenuTriggerFor]="menu">
+    <span class="material-symbols-sharp">more_vert</span>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item routerLink="/{{path}}/edit/{{row.id}}"><span class="material-symbols-sharp">edit</span>Edit</button>
+    <button mat-menu-item routerLink="/{{path}}/copy"><span class="material-symbols-sharp">content_copy</span>Copy</button>
+    <button mat-menu-item (click)="onDelete()"><span class="material-symbols-sharp">delete</span>Delete</button>
+  </mat-menu>

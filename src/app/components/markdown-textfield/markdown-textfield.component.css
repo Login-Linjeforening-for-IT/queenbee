@@ -1,19 +1,16 @@
 .box {
   position: relative;
   width: 100%;
-  padding: 1rem;
   border-radius: 0.2rem;
-  background-color: #3b3b3b;
   display: flex;
   flex-direction: column;
 }
 
 .title {
-  margin-left: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.3rem;
 }
 
-h2 {
+p {
   font-size: 1.3rem;
 }
 
@@ -23,13 +20,16 @@ h2 {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 1rem; 
+  margin-bottom: 0.3rem; 
 }
 
 .topbar .left, .topbar .right {
   flex: 1;
   display: flex;
-  padding-left: 0.5rem;
+}
+
+.topbar .right {
+  padding-left: 1rem;
 }
 
 .menu-btn {
@@ -86,6 +86,10 @@ h2 {
   resize: vertical;
   background-color: #4A4A4A;
   color: #ffffff;
+}
+
+textarea:hover {
+  background-color: #575757;
 }
 
 .binding {

@@ -69,13 +69,7 @@
     <ng-container matColumnDef="actions" sticky>
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let row">
-        <button mat-icon-button [matMenuTriggerFor]="menu">
-          <span class="material-symbols-sharp">more_vert</span>
-        </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item routerLink="/organizations/edit/{{row.id}}">Edit</button>
-          <button mat-menu-item (click)="onDelete(row.id)">Delete</button>
-        </mat-menu>
+        <app-dot-menu [path]="'organizations'" [row]="row" (delete)="onDelete($event)"></app-dot-menu>
       </td>
     </ng-container>
 
