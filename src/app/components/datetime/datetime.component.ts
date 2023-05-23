@@ -1,3 +1,7 @@
+/**
+ * used to get the user inputs and combine them into a datetime on the format "YYYY-MM-DD HH:mm:ss". The
+ * datetime is outputted to the parent component.
+ */
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 
@@ -7,8 +11,6 @@ import {FormBuilder, FormGroup} from "@angular/forms";
   styleUrls: ['./datetime.component.css']
 })
 
-// Class is used to get the user inputs and combine them into a datetime on the format "YYYY-MM-DD HH:mm:ss". The
-// datetime is outputted to the parent component.
 export class DatetimeComponent {
   @Input() dateLabel!: string;
   @Input() timeLabel!: string;

@@ -1,3 +1,7 @@
+/**
+ * File containing a load of constants used on the different pages. Much of it will be removed when data retrieval
+ * from the API is implemented!
+ */
 interface DropDownMenu {
     value: string;
     viewValue: string;
