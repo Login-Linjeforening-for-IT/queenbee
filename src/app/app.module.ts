@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import {AppRoutingModule, routingComponents} from "./app-routing.module";
@@ -60,6 +61,7 @@ import { DotMenuComponent } from './components/dot-menu/dot-menu.component';
   ],
     imports: [
         BrowserModule,
+        HttpClientModule,
         AppRoutingModule,
         NoopAnimationsModule,
         MatTableModule,

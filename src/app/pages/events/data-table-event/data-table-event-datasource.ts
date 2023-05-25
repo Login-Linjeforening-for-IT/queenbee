@@ -1,5 +1,8 @@
+import { BehaviorSubject } from 'rxjs';
 import { BaseDataSource } from 'src/app/common/base-data-source';
 import { compare } from 'src/app/common/utils';
+
+import { EventService } from 'src/app/services/api/event.service';
 
 // Interface for the data expected in an event.
 export interface DataTableEventItem {
@@ -40,9 +43,21 @@ export interface DataTableEventItem {
  * (including sorting, pagination, and filtering).
  */
 export class DataTableEventDataSource extends BaseDataSource<DataTableEventItem> {
-  constructor() {
+  dataSubject: BehaviorSubject<DataTableEventItem[]> = new BehaviorSubject<DataTableEventItem[]>([]);
+
+  constructor(private eventsService: EventService) {
     super();
-    this.data.next(EXAMPLE_DATA);
+    
+    this.eventsService.fetchEvents().subscribe({
+      next: events => {
+         this.data.next(events);
+         this.dataSubject.next(events);
+      },
+      error: error => {
+         console.error('Error fetching events', error);
+      }
+    });
+    
   }
 
   override getItemId(item: DataTableEventItem): number {
@@ -80,7 +95,6 @@ export class DataTableEventDataSource extends BaseDataSource<DataTableEventItem>
       }
     });
   }
-
 }
 
 // 300 hundred lines of dummy data below

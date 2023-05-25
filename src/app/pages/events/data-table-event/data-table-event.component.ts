@@ -4,6 +4,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { DataTableEventDataSource, DataTableEventItem } from './data-table-event-datasource';
 import { TableConstants } from 'src/app/pages/pages.constants';
+import { EventService } from 'src/app/services/api/event.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-data-table-event',
@@ -15,7 +17,8 @@ export class DataTableEventComponent implements AfterViewInit {
   @ViewChild(MatTable) table!: MatTable<DataTableEventItem>;
   @ViewChild('filterInput') filterInput!: ElementRef<HTMLInputElement>;
   dataSource: DataTableEventDataSource;
-
+  subscription: Subscription | null = null;
+  
   pageSize = TableConstants.PAGE_SIZE
   pageSizeOptions = TableConstants.PAGE_SIZE_OPTIONS
 
@@ -30,7 +33,7 @@ export class DataTableEventComponent implements AfterViewInit {
     'time_publish',
     'time_signup_release',
     'time_signup_deadline',
-    'time_updated',
+    'created_at',
     'image_small',
     'image_banner',
     'link_facebook',
@@ -40,8 +43,8 @@ export class DataTableEventComponent implements AfterViewInit {
     'link_stream'
   ];
 
-  constructor(private changeDetectorRefs: ChangeDetectorRef) {
-    this.dataSource = new DataTableEventDataSource();
+  constructor(private changeDetectorRefs: ChangeDetectorRef, private eventsService: EventService) {
+    this.dataSource = new DataTableEventDataSource(eventsService);
   }
 
   ngAfterViewInit(): void {
@@ -50,17 +53,27 @@ export class DataTableEventComponent implements AfterViewInit {
     this.dataSource.filterStr = this.filterInput;
     
     // Use dataSource.data as the table's data source
-    this.table.dataSource = this.dataSource;
+    this.subscription = this.dataSource.dataSubject.subscribe(events => {
+      this.table.dataSource = this.dataSource.data;
+      this.changeDetectorRefs.detectChanges();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 
   onDelete(id: number): void {
-    if(confirm("Are you sure to delete the event with id: " + id)) {
+    if(confirm("Are you sure to delete the event with id: " + id + "?")) {
       this.dataSource.deleteItem(id);
       this.dataSource.refresh();
     }
   }
 
   formatDatetime(dt: string): string {
-    return dt.replace("T", " ").replace("Z", "").replaceAll("-", "/");
+    if(dt) {
+      return dt.replace("T", " ").replace("Z", "").replaceAll("-", "/");
+    }
+    return dt
   }
 }
