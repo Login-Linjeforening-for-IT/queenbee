@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup} from "@angular/forms";
 import {ActivatedRoute} from "@angular/router";
 import { EventConstants } from '../pages.constants';
 import { EventService } from 'src/app/services/api/event.service';
+import { EventDetail } from 'src/app/models/dataInterfaces.model';
 
 @Component({
   selector: 'app-event',
@@ -11,6 +12,8 @@ import { EventService } from 'src/app/services/api/event.service';
 export class EventComponent {
   categories = EventConstants.CATEGORIES
   organizations = EventConstants.ORGANIZATIONS
+
+  fetchedEvent!: EventDetail;
 
   eventForm!: FormGroup;
   pathElements!: string[];
@@ -21,33 +24,7 @@ export class EventComponent {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private eventService: EventService
-  ) {}
-
-
-  ngOnInit() {
-    this.route.url.subscribe(segments => {
-      this.pathElements = segments.map(segment => segment.path);
-    });
-
-    switch (this.pathElements[1]) {
-      case 'new':
-        this.title = EventConstants.TITLE_NEW;
-        this.submit = EventConstants.SUBMIT_NEW;
-        break;
-      case 'edit':
-        const eventID = +this.pathElements[2];
-
-        this.eventService.fetchEvent(eventID).subscribe((event) => {
-          console.log(event)
-        });
-        this.title = EventConstants.TITLE_EDIT;
-        this.submit = EventConstants.SUBMIT_EDIT;
-        break;
-      default:
-        this.title = 'title not set!';
-        this.submit = 'submit not set!'
-    }
-
+  ) {
     this.eventForm = this.fb.group({
       name_no: '',
       name_en: '',
@@ -69,7 +46,55 @@ export class EventComponent {
       link_discord: '',
       digital: false,
       link_stream: ''
-    })
+    });
+  }  
+
+  ngOnInit() {
+    this.route.url.subscribe(segments => {
+      this.pathElements = segments.map(segment => segment.path);
+    });
+
+    switch (this.pathElements[1]) {
+      case 'new':
+        this.title = EventConstants.TITLE_NEW;
+        this.submit = EventConstants.SUBMIT_NEW;
+        break;
+      case 'edit':
+        const eventID = +this.pathElements[2];
+
+        this.eventService.fetchEvent(eventID).subscribe((event) => {
+          this.fetchedEvent = event;
+          this.eventForm.patchValue({
+            name_no: event.name_no,
+            name_en: event.name_en,
+            description_no: event.description_no,
+            description_en: event.description_en,
+            info_no: event.information_no,
+            info_en: event.information_en,
+            //category: event.category.id,  // You might need to adjust this depending on the data structure
+            //organization: event.organizations[0].shortname,  // You might need to adjust this
+            time_start: event.time_start,
+            time_end: event.time_end,
+            time_signup_release: event.time_signup_release,
+            time_signup_deadline: event.time_signup_deadline,
+            link_signup: event.link_signup,
+            //info: '',  // This field doesn't seem to exist in your fetched event data
+            image_small: event.image_small,
+            image_banner: event.image_banner,
+            link_facebook: event.link_facebook,
+            link_discord: event.link_discord,
+            digital: event.digital,
+            link_stream: event.link_stream,
+          });
+        });
+
+        this.title = EventConstants.TITLE_EDIT;
+        this.submit = EventConstants.SUBMIT_EDIT;
+        break;
+      default:
+        this.title = 'title not set!';
+        this.submit = 'submit not set!'
+    }
 
     this.eventForm.valueChanges.subscribe(console.log)
   }
