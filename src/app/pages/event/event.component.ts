@@ -4,6 +4,7 @@ import {ActivatedRoute} from "@angular/router";
 import { EventConstants } from '../pages.constants';
 import { EventService } from 'src/app/services/api/event.service';
 import { CategoryService } from 'src/app/services/api/category.service';
+import { OrganizationService } from 'src/app/services/api/organizations.service';
 import { DropDownMenu, EventDetail } from 'src/app/models/dataInterfaces.model';
 import { htmlToMarkdown } from 'src/app/common/utils';
 import { Observable, tap } from 'rxjs';
@@ -14,7 +15,7 @@ import { Observable, tap } from 'rxjs';
 })
 export class EventComponent {
   categories: DropDownMenu[] = [];
-  organizations = EventConstants.ORGANIZATIONS
+  organizations: DropDownMenu[] = [];
   
   fetchedEvent$!: Observable<EventDetail>;
 
@@ -27,7 +28,8 @@ export class EventComponent {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private eventService: EventService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private orgService: OrganizationService
   ) {
     this.eventForm = this.fb.group({
       name_no: '',
@@ -66,9 +68,13 @@ export class EventComponent {
       case 'edit':
         const eventID = +this.pathElements[2];
 
-        this.categoryService.getDropDownMenuCategories().subscribe((cats: DropDownMenu[]) => {
-          console.log(cats)
-          this.categories = cats;
+        this.categoryService.getDropDownMenuCategories().subscribe((c: DropDownMenu[]) => {
+          this.categories = c;
+        });
+
+        this.orgService.getDropDownMenuOrganizations().subscribe((o: DropDownMenu[]) => {
+          console.log(o)
+          this.organizations = o;
         });
 
         this.fetchedEvent$ = this.eventService.fetchEvent(eventID).pipe(
@@ -95,7 +101,8 @@ export class EventComponent {
             link_discord: event.link_discord,
             digital: event.digital,
             link_stream: event.link_stream,
-            category: event.category.id
+            category: event.category.id,
+            organization: event.organizations[0].shortname
           });
         })
         );
