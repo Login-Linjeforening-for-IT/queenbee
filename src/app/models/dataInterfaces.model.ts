@@ -57,7 +57,7 @@ export interface EventDetail {
   organizations: Organization[];
 }
 
-interface Location {
+export interface Location {
   id: number;
   name_no: string;
   name_en: string;
@@ -72,7 +72,7 @@ interface Location {
   url: string;
 }
 
-interface Category {
+export interface Category {
   id: number;
   color: string;
   name_no: string;
@@ -81,7 +81,7 @@ interface Category {
   description_en: string;
 }
 
-interface Rule {
+export interface Rule {
   id: number;
   name_no: string;
   name_en: string;
@@ -90,7 +90,7 @@ interface Rule {
   time_updated: string;
 }
 
-interface Audience {
+export interface Audience {
   id: number;
   name_no: string;
   name_en: string;
@@ -98,7 +98,7 @@ interface Audience {
   description_en: string;
 }
 
-interface Organization {
+export interface Organization {
   shortname: string;
   name_no: string;
   name_en: string;
@@ -109,4 +109,9 @@ interface Organization {
   link_instagram: string;
   link_linkedin: string;
   logo: string;
+}
+
+export interface DropDownMenu {
+  value: number;
+  viewValue: string;
 }

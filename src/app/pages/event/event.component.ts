@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup} from "@angular/forms";
 import {ActivatedRoute} from "@angular/router";
 import { EventConstants } from '../pages.constants';
 import { EventService } from 'src/app/services/api/event.service';
-import { EventDetail } from 'src/app/models/dataInterfaces.model';
+import { CategoryService } from 'src/app/services/api/category.service';
+import { DropDownMenu, EventDetail } from 'src/app/models/dataInterfaces.model';
 import { htmlToMarkdown } from 'src/app/common/utils';
 import { Observable, tap } from 'rxjs';
 
@@ -12,7 +13,7 @@ import { Observable, tap } from 'rxjs';
   templateUrl: './event.component.html'
 })
 export class EventComponent {
-  categories = EventConstants.CATEGORIES
+  categories: DropDownMenu[] = [];
   organizations = EventConstants.ORGANIZATIONS
   
   fetchedEvent$!: Observable<EventDetail>;
@@ -25,7 +26,8 @@ export class EventComponent {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private eventService: EventService
+    private eventService: EventService,
+    private categoryService: CategoryService
   ) {
     this.eventForm = this.fb.group({
       name_no: '',
@@ -63,6 +65,12 @@ export class EventComponent {
         break;
       case 'edit':
         const eventID = +this.pathElements[2];
+
+        this.categoryService.getDropDownMenuCategories().subscribe((cats: DropDownMenu[]) => {
+          console.log(cats)
+          this.categories = cats;
+        });
+
         this.fetchedEvent$ = this.eventService.fetchEvent(eventID).pipe(
           tap((event: EventDetail) => {
           const mdDescription_no = htmlToMarkdown(event.description_no);
@@ -87,12 +95,13 @@ export class EventComponent {
             link_discord: event.link_discord,
             digital: event.digital,
             link_stream: event.link_stream,
+            category: event.category.id
           });
         })
-      );
-      this.title = EventConstants.TITLE_EDIT;
-      this.submit = EventConstants.SUBMIT_EDIT;
-      break;
+        );
+        this.title = EventConstants.TITLE_EDIT;
+        this.submit = EventConstants.SUBMIT_EDIT;
+        break;
       default:
         this.title = 'title not set!';
         this.submit = 'submit not set!'
