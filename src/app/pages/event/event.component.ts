@@ -15,7 +15,6 @@ export class EventComponent {
   categories = EventConstants.CATEGORIES
   organizations = EventConstants.ORGANIZATIONS
   
-  private hasConvertedDescription: {no: boolean, en: boolean} = {no: false, en: false};
   fetchedEvent$!: Observable<EventDetail>;
 
   eventForm!: FormGroup;

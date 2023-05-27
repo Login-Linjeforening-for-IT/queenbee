@@ -14,6 +14,7 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 export class DatetimeComponent {
   @Input() dateLabel!: string;
   @Input() timeLabel!: string;
+  @Input() value!: string;
   @Input() timeDisableable!: boolean;
   @Output() newDatetime = new EventEmitter<{dt: string}>();
 
@@ -26,9 +27,25 @@ export class DatetimeComponent {
 
   // Initialize the form group
   ngOnInit() {
+    let inputDate;
+    let inputTime;
+
+    if (this.value) {
+      const datetime = new Date(this.value);
+      
+      // ISO format is 'yyyy-mm-dd'
+      inputDate = datetime.toISOString().slice(0,10);
+
+      // Time format is 'hh:mm'
+      inputTime = this.padTo2Digits(datetime.getUTCHours()) + ':' + 
+                  this.padTo2Digits(datetime.getUTCMinutes());
+    } else {
+      console.log('this.value is not defined');
+    }
+
     this.timeForm = this.fb.group({
-      date: '',
-      time: ''
+      date: inputDate? inputDate : "",
+      time: inputTime? inputTime : ""
     })
   }
 
