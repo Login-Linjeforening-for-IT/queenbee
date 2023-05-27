@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { BeehiveAPI } from 'src/app/config/constants';
-import { EventData } from 'src/app/models/event-data.model';
+import { EventShort, EventDetail } from 'src/app/models/dataInterfaces.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,13 +11,13 @@ export class EventService {
 
   constructor(private http: HttpClient) { }
 
-  fetchEvent(eventId: number): Observable<any> {
+  fetchEvent(eventId: number): Observable<EventDetail> {
     return this.http
-      .get<any>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}/${eventId}`)
+      .get<EventDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}/${eventId}`)
       .pipe(
         map(resData => {
           if (resData) {
-            const event: any = resData;
+            const event: EventDetail = resData;
             return event;
           }
           throw new Error('No event found with id ' + eventId);
@@ -25,15 +25,15 @@ export class EventService {
       );
   }
 
-  fetchEvents(): Observable<EventData[]> {
+  fetchEvents(): Observable<EventShort[]> {
     return this.http
-      .get<{ [id: string]: EventData }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`)
+      .get<{ [id: string]: EventShort }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`)
       .pipe(
         map(resData => {
-          const eventsArray: EventData[] = [];
+          const eventsArray: EventShort[] = [];
           for (const id in resData) {
             if (resData.hasOwnProperty(id)) {
-              const event: EventData = resData[id];
+              const event: EventShort = resData[id];
               eventsArray.push(event);
             }
           }

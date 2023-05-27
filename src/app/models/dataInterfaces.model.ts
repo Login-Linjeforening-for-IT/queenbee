@@ -1,7 +1,7 @@
 /**
  * Specifically named EventData to not conflict with built in ts Event object.
  */
-export interface EventData {
+export interface EventShort {
   id: number;
   name_no: string;
   name_en: string;
@@ -25,7 +25,7 @@ export interface EventData {
   category: Category;
 }
 
-interface EventDetail {
+export interface EventDetail {
   id: number;
   name_no: string;
   name_en: string;

@@ -2,14 +2,14 @@ import { BaseDataSource } from 'src/app/common/base-data-source';
 import { compare } from 'src/app/common/utils';
 
 import { EventService } from 'src/app/services/api/event.service';
-import { EventData } from 'src/app/models/event-data.model';
+import { EventShort } from 'src/app/models/dataInterfaces.model';
 
 /**
  * Data source for the DataTableEvent view. This class should
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
-export class DataTableEventDataSource extends BaseDataSource<EventData> {
+export class DataTableEventDataSource extends BaseDataSource<EventShort> {
   private eventsService!: EventService;
 
   constructor(private eventService: EventService) {
@@ -23,14 +23,14 @@ export class DataTableEventDataSource extends BaseDataSource<EventData> {
     });
   }
 
-  override getItemId(item: EventData): number {
+  override getItemId(item: EventShort): number {
     return item.id;
   }
 
   /**
    * Sort the data (client-side).
    */
-  override getSortedData(data: EventData[]): EventData[] {
+  override getSortedData(data: EventShort[]): EventShort[] {
     if (!this.sort || !this.sort.active || this.sort.direction === '') {
       return data;
     }

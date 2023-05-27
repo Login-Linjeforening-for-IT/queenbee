@@ -5,7 +5,7 @@ import { MatTable } from '@angular/material/table';
 import { DataTableEventDataSource } from './data-table-event-datasource';
 import { TableConstants } from 'src/app/pages/pages.constants';
 import { EventService } from 'src/app/services/api/event.service';
-import { EventData } from 'src/app/models/event-data.model';
+import { EventShort } from 'src/app/models/dataInterfaces.model';
 
 @Component({
   selector: 'app-data-table-event',
@@ -14,7 +14,7 @@ import { EventData } from 'src/app/models/event-data.model';
 export class DataTableEventComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatTable) table!: MatTable<EventData>;
+  @ViewChild(MatTable) table!: MatTable<EventShort>;
   @ViewChild('filterInput') filterInput!: ElementRef<HTMLInputElement>;
   dataSource!: DataTableEventDataSource;
   
