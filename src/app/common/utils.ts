@@ -16,3 +16,20 @@ export function compare(a: string | number | null | undefined, b: string | numbe
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }
   
+export function htmlToMarkdown(html: string): string {
+  // Convert line breaks to Markdown line breaks
+  let markdown = html.replace(/<br>/g, '  \n');
+
+  // Convert <hN> tags to Markdown
+  markdown = markdown.replace(/<h2>(.*?)<\/h2>/g, '## $1\n');
+  markdown = markdown.replace(/<h3>(.*?)<\/h3>/g, '### $1\n');
+
+  // Convert <p> tags to Markdown
+  markdown = markdown.replace(/<p>(.*?)<\/p>/g, '$1\n');
+
+  // Convert <em> and <i> tags to Markdown
+  markdown = markdown.replace(/<em>(.*?)<\/em>/g, '*$1*');
+  markdown = markdown.replace(/<i>(.*?)<\/i>/g, '*$1*');
+
+  return markdown;
+}
