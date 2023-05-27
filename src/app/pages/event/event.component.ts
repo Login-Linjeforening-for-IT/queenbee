@@ -4,6 +4,8 @@ import {ActivatedRoute} from "@angular/router";
 import { EventConstants } from '../pages.constants';
 import { EventService } from 'src/app/services/api/event.service';
 import { EventDetail } from 'src/app/models/dataInterfaces.model';
+import { htmlToMarkdown } from 'src/app/common/utils';
+import { Observable, tap } from 'rxjs';
 
 @Component({
   selector: 'app-event',
@@ -12,8 +14,9 @@ import { EventDetail } from 'src/app/models/dataInterfaces.model';
 export class EventComponent {
   categories = EventConstants.CATEGORIES
   organizations = EventConstants.ORGANIZATIONS
-
-  fetchedEvent!: EventDetail;
+  
+  private hasConvertedDescription: {no: boolean, en: boolean} = {no: false, en: false};
+  fetchedEvent$!: Observable<EventDetail>;
 
   eventForm!: FormGroup;
   pathElements!: string[];
@@ -61,24 +64,24 @@ export class EventComponent {
         break;
       case 'edit':
         const eventID = +this.pathElements[2];
+        this.fetchedEvent$ = this.eventService.fetchEvent(eventID).pipe(
+          tap((event: EventDetail) => {
+          const mdDescription_no = htmlToMarkdown(event.description_no);
+          const mdDescription_en = htmlToMarkdown(event.description_en);
+          console.log("Description is: " + mdDescription_no)
 
-        this.eventService.fetchEvent(eventID).subscribe((event) => {
-          this.fetchedEvent = event;
           this.eventForm.patchValue({
             name_no: event.name_no,
             name_en: event.name_en,
-            description_no: event.description_no,
-            description_en: event.description_en,
+            description_no: mdDescription_no,
+            description_en: mdDescription_en,
             info_no: event.information_no,
             info_en: event.information_en,
-            //category: event.category.id,  // You might need to adjust this depending on the data structure
-            //organization: event.organizations[0].shortname,  // You might need to adjust this
             time_start: event.time_start,
             time_end: event.time_end,
             time_signup_release: event.time_signup_release,
             time_signup_deadline: event.time_signup_deadline,
             link_signup: event.link_signup,
-            //info: '',  // This field doesn't seem to exist in your fetched event data
             image_small: event.image_small,
             image_banner: event.image_banner,
             link_facebook: event.link_facebook,
@@ -86,11 +89,11 @@ export class EventComponent {
             digital: event.digital,
             link_stream: event.link_stream,
           });
-        });
-
-        this.title = EventConstants.TITLE_EDIT;
-        this.submit = EventConstants.SUBMIT_EDIT;
-        break;
+        })
+      );
+      this.title = EventConstants.TITLE_EDIT;
+      this.submit = EventConstants.SUBMIT_EDIT;
+      break;
       default:
         this.title = 'title not set!';
         this.submit = 'submit not set!'
@@ -119,8 +122,9 @@ export class EventComponent {
   onDescriptionNoChange(newVal: { ht: string }) {
     this.eventForm.get('description_no')!.patchValue(newVal.ht);
   }
-
+  
   onDescriptionEnChange(newVal: { ht: string }) {
     this.eventForm.get('description_en')!.patchValue(newVal.ht);
   }
+  
 }

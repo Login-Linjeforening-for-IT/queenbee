@@ -9,7 +9,7 @@
  * - titleLabel: The title to display above the text input field.
  *
  * Outputs:
- * - newHtmlText: The HTML equivalent of the Markdown text input, emitted 
+ * - newMdText: The Markdown text input, emitted 
  *   whenever the text input changes.
  */
 import { Renderer2, Component, ElementRef, VERSION, ViewChild, HostListener, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
@@ -25,7 +25,7 @@ import { BehaviorSubject } from 'rxjs';
 export class MarkdownTextfieldComponent {
   @Input() titleLabel!: string;
   @Input() value!: string;
-  @Output() newHtmlText = new EventEmitter<{ht: string}>();
+  @Output() newMdText = new EventEmitter<{ht: string}>();
   // Elements viewed in the html
   @ViewChild('textarea', { static: false }) textarea!: ElementRef;
   @ViewChild('mdComponent', { read: ElementRef }) mdComponent!: ElementRef;
@@ -65,9 +65,9 @@ export class MarkdownTextfieldComponent {
     });
   
     this.mutationObserver = new MutationObserver((mutations) => {
-      let newHtml = this.mdComponent.nativeElement.innerHTML;
-      newHtml = newHtml.replace(/\n/g, ''); // Removing "\n" from the string
-      this.newHtmlText.emit({ ht: newHtml }); // emit new html
+      let newMd = this.mdComponent.nativeElement.innerHTML;
+      newMd = newMd.replace(/\n/g, ''); // Removing "\n" from the string
+      this.newMdText.emit({ ht: this.markdown }); // emit new html
     });
   
     this.mutationObserver.observe(this.mdComponent.nativeElement, {

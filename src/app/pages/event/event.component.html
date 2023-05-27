@@ -18,7 +18,7 @@ Value: {{ eventForm.value | json }}
             <mat-label>Informational NOR</mat-label>
           </mat-form-field>
           
-          <app-markdown-textfield class="row" (newHtmlText)=onDescriptionNoChange($event) [titleLabel]="'Description NOR'" [value]="eventForm?.get('description_no')?.value"></app-markdown-textfield>
+          <app-markdown-textfield *ngIf="fetchedEvent$ | async as event" class="row" (newMdText)=onDescriptionNoChange($event) [titleLabel]="'Description NOR'" [value]="eventForm?.get('description_no')?.value"></app-markdown-textfield>
         </mat-tab>
 
         <mat-tab label="🇺🇸 ENG">
@@ -32,7 +32,7 @@ Value: {{ eventForm.value | json }}
             <mat-label>Informational ENG</mat-label>
           </mat-form-field>
 
-          <app-markdown-textfield class="row" (newHtmlText)=onDescriptionEnChange($event) [titleLabel]="'Description ENG'"></app-markdown-textfield>
+          <app-markdown-textfield class="row" (newMdText)=onDescriptionEnChange($event) [titleLabel]="'Description ENG'"></app-markdown-textfield>
         </mat-tab>
       </mat-tab-group>
 
