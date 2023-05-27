@@ -12,7 +12,7 @@
  * - newHtmlText: The HTML equivalent of the Markdown text input, emitted 
  *   whenever the text input changes.
  */
-import { Renderer2, Component, ElementRef, VERSION, ViewChild, HostListener, Input, Output, EventEmitter } from '@angular/core';
+import { Renderer2, Component, ElementRef, VERSION, ViewChild, HostListener, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { BehaviorSubject } from 'rxjs';
 
@@ -24,6 +24,7 @@ import { BehaviorSubject } from 'rxjs';
 
 export class MarkdownTextfieldComponent {
   @Input() titleLabel!: string;
+  @Input() value!: string;
   @Output() newHtmlText = new EventEmitter<{ht: string}>();
   // Elements viewed in the html
   @ViewChild('textarea', { static: false }) textarea!: ElementRef;
@@ -34,29 +35,7 @@ export class MarkdownTextfieldComponent {
   ngxMarkdownVersion = '16.0.0';
   showEmojiPicker: boolean = false;
   totalFrequentLines: number = 2;
-  // Some dummy text to show basics of markdown, maybe want to remove
-  markdown: string = `## Markdown **rulez**!
-  Markdown er **veldig** *bra*! 😎
-  <br></br>
-  Værmelding for dagen: [yr.no](https://www.yr.no)
-  
-  ### Huskeliste
-  1. Datautstyr
-     - ~Datamaskin~
-     - Lader
-     - Mus
-  2. Søvn, ikke lov å sove
-  
-  ## English
-  Coming later!
-  
-  | Name   | Age | City       |
-  |--------|-----|------------|
-  | John   | 25  | New York   |
-  | Alice  | 30  | London     |
-  | Peter  | 28  | San Francisco |
-
-  `;
+  markdown: string = '';
 
   // For observing changes
   markdownChange: BehaviorSubject<string> = new BehaviorSubject(this.markdown);
@@ -70,6 +49,13 @@ export class MarkdownTextfieldComponent {
      }
     });
   }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes['value'] && changes['value'].currentValue !== changes['value'].previousValue) {
+      this.markdown = changes['value'].currentValue;
+      this.markdownChange.next(this.markdown);
+    }
+  }  
   
   // For listening to and emitting changes in the inputted markdown  
   ngAfterViewInit() {
