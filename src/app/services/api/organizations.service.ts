@@ -18,7 +18,7 @@ export class OrganizationService {
    * Returns all organizations
    * @returns Organization array
    */
-  fetchCategories(): Observable<Organization[]> {
+  fetchOrganizations(): Observable<Organization[]> {
     return this.http
       .get<{ [id: string]: Organization }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.CATEGORIES_PATH}`)
       .pipe(
@@ -39,8 +39,8 @@ export class OrganizationService {
    * Fetches all organizations, but converts them to DropDownMenu before returning them.
    * @returns All organizations as DropDownMenu[]
    */
-  getDropDownMenuCategories(): Observable<DropDownMenu[]> {
-    return this.fetchCategories().pipe(
+  getDropDownMenuOrganizations(): Observable<DropDownMenu[]> {
+    return this.fetchOrganizations().pipe(
       map((organizations: Organization[]) => {
         return organizations.map((org: Organization) => {
           return {
