@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs';
-import { Event } from 'src/app/models/event.model';
+import { Observable, map } from 'rxjs';
+import { EventData } from 'src/app/models/event-data.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,15 +14,15 @@ export class EventService {
 
   }
 
-  fetchEvents() {
+  fetchEvents(): Observable<EventData[]> {
     return this.http
-      .get<{ [id: string]: Event }>('http://localhost:8080/api/v1/events')
+      .get<{ [id: string]: EventData }>('http://localhost:8080/api/v1/events')
       .pipe(
         map(resData => {
-          const eventsArray: Event[] = [];
+          const eventsArray: EventData[] = [];
           for (const id in resData) {
             if (resData.hasOwnProperty(id)) {
-              const event: Event = resData[id];
+              const event: EventData = resData[id];
               eventsArray.push(event);
             }
           }
