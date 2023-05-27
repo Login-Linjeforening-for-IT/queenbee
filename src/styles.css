@@ -173,3 +173,7 @@ main {
 .tabs{
   margin-bottom: 0.5rem;
 }
+
+.dd {
+  width: 20rem;
+}
