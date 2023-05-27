@@ -1,4 +1,3 @@
-import { BehaviorSubject, of } from 'rxjs';
 import { BaseDataSource } from 'src/app/common/base-data-source';
 import { compare } from 'src/app/common/utils';
 
@@ -51,7 +50,7 @@ export class DataTableEventDataSource extends BaseDataSource<EventData> {
         case 'full': return compare(+a.full, +b.full, isAsc);
         case 'capacity': return compare(+a.capacity, +b.capacity, isAsc);
         case 'category': return compare(a.category.name_no, b.category.name_no, isAsc);
-        case 'location': return compare(a.location?.name, b.location?.name, isAsc);
+        case 'location': return compare(a.location?.name_no, b.location?.name_no, isAsc);
         default: return 0;
       }
     });

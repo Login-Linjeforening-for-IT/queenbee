@@ -11,13 +11,13 @@ export class EventService {
 
   constructor(private http: HttpClient) { }
 
-  fetchEvent(eventId: number): Observable<EventData> {
+  fetchEvent(eventId: number): Observable<any> {
     return this.http
-      .get<EventData>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}/${eventId}`)
+      .get<any>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}/${eventId}`)
       .pipe(
         map(resData => {
           if (resData) {
-            const event: EventData = resData;
+            const event: any = resData;
             return event;
           }
           throw new Error('No event found with id ' + eventId);

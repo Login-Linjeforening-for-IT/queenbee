@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import {Form, FormBuilder, FormGroup} from "@angular/forms";
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup} from "@angular/forms";
 import {ActivatedRoute} from "@angular/router";
 import { EventConstants } from '../pages.constants';
+import { EventService } from 'src/app/services/api/event.service';
 
 @Component({
   selector: 'app-event',
@@ -18,7 +19,8 @@ export class EventComponent {
 
   constructor(
     private fb: FormBuilder,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private eventService: EventService
   ) {}
 
 
@@ -33,6 +35,11 @@ export class EventComponent {
         this.submit = EventConstants.SUBMIT_NEW;
         break;
       case 'edit':
+        const eventID = +this.pathElements[2];
+
+        this.eventService.fetchEvent(eventID).subscribe((event) => {
+          console.log(event)
+        });
         this.title = EventConstants.TITLE_EDIT;
         this.submit = EventConstants.SUBMIT_EDIT;
         break;
