@@ -112,6 +112,6 @@ export interface Organization {
 }
 
 export interface DropDownMenu {
-  value: number;
+  value: any;
   viewValue: string;
 }
