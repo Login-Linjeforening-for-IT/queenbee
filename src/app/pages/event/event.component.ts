@@ -7,7 +7,7 @@ import { CategoryService } from 'src/app/services/api/category.service';
 import { OrganizationService } from 'src/app/services/api/organizations.service';
 import { DropDownMenu, EventDetail } from 'src/app/models/dataInterfaces.model';
 import { htmlToMarkdown } from 'src/app/common/utils';
-import { Observable, tap } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 
 @Component({
   selector: 'app-event',
@@ -38,20 +38,19 @@ export class EventComponent {
       description_en: '',
       info_no: '',
       info_en: '',
-      category: '',
-      organization: '',
       time_start: '',
       time_end: '',
       time_signup_release: '',
       time_signup_deadline: '',
       link_signup: '',
-      info: '',
       image_small: '',
       image_banner: '',
       link_facebook: '',
       link_discord: '',
       digital: false,
-      link_stream: ''
+      link_stream: '',
+      category: '',
+      organization: ''
     });
   }  
 
@@ -60,50 +59,46 @@ export class EventComponent {
       this.pathElements = segments.map(segment => segment.path);
     });
 
+    this.fetchCategories();
+    this.fetchOrganizations();
+
     switch (this.pathElements[1]) {
       case 'new':
+        this.fetchedEvent$ = of({} as EventDetail); // Trick comopnents ngIf
         this.title = EventConstants.TITLE_NEW;
         this.submit = EventConstants.SUBMIT_NEW;
         break;
       case 'edit':
         const eventID = +this.pathElements[2];
-
-        this.categoryService.getDropDownMenuCategories().subscribe((c: DropDownMenu[]) => {
-          this.categories = c;
-        });
-
-        this.orgService.getDropDownMenuOrganizations().subscribe((o: DropDownMenu[]) => {
-          this.organizations = o;
-        });
-
         this.fetchedEvent$ = this.eventService.fetchEvent(eventID).pipe(
           tap((event: EventDetail) => {
-          const mdDescription_no = htmlToMarkdown(event.description_no);
-          const mdDescription_en = htmlToMarkdown(event.description_en);
+            const mdDescription_no = htmlToMarkdown(event.description_no);
+            const mdDescription_en = htmlToMarkdown(event.description_en);
 
-          this.eventForm.patchValue({
-            name_no: event.name_no,
-            name_en: event.name_en,
-            description_no: mdDescription_no,
-            description_en: mdDescription_en,
-            info_no: event.information_no,
-            info_en: event.information_en,
-            time_start: event.time_start,
-            time_end: event.time_end,
-            time_signup_release: event.time_signup_release,
-            time_signup_deadline: event.time_signup_deadline,
-            link_signup: event.link_signup,
-            image_small: event.image_small,
-            image_banner: event.image_banner,
-            link_facebook: event.link_facebook,
-            link_discord: event.link_discord,
-            digital: event.digital,
-            link_stream: event.link_stream,
-            category: event.category.id,
-            organization: event.organizations[0].shortname
-          });
-        })
+            this.eventForm.patchValue({
+              name_no: event.name_no,
+              name_en: event.name_en,
+              description_no: mdDescription_no,
+              description_en: mdDescription_en,
+              info_no: event.information_no,
+              info_en: event.information_en,
+              time_start: event.time_start,
+              time_end: event.time_end,
+              time_signup_release: event.time_signup_release,
+              time_signup_deadline: event.time_signup_deadline,
+              link_signup: event.link_signup,
+              image_small: event.image_small,
+              image_banner: event.image_banner,
+              link_facebook: event.link_facebook,
+              link_discord: event.link_discord,
+              digital: event.digital,
+              link_stream: event.link_stream,
+              category: event.category.id,
+              organization: event.organizations? event.organizations[0].shortname : ""
+            });
+          })
         );
+
         this.title = EventConstants.TITLE_EDIT;
         this.submit = EventConstants.SUBMIT_EDIT;
         break;
@@ -140,4 +135,15 @@ export class EventComponent {
     this.eventForm.get('description_en')!.patchValue(newVal.ht);
   }
   
+  private fetchCategories() {
+    this.categoryService.getDropDownMenuCategories().subscribe((c: DropDownMenu[]) => {
+      this.categories = c;
+    });
+  }
+
+  private fetchOrganizations() {
+    this.orgService.getDropDownMenuOrganizations().subscribe((o: DropDownMenu[]) => {
+      this.organizations = o;
+    });
+  }
 }

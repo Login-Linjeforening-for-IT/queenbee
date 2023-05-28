@@ -24,7 +24,6 @@ export class JobadComponent {
   ngOnInit() {
     this.route.url.subscribe(segments => {
       this.pathElements = segments.map(segment => segment.path);
-      console.log('Path elements:', this.pathElements);
     });
 
     switch (this.pathElements[1]) {
