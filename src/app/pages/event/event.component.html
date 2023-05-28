@@ -102,5 +102,5 @@ Value: {{ eventForm.value | json }}
       </mat-form-field>
     </div>
   </div>
-  <button type="submit" mat-raised-button color="primary">{{submit}}</button>
+  <button type="submit" (click)="submitEvent()" mat-raised-button color="primary">{{submit}}</button>
 </form>

@@ -112,6 +112,8 @@ export class EventComponent {
 
   // The following functions is used to update various variables
   onTimeStartChange(newVal: {dt: string}) {
+    console.log("Time start triggered!")
+    console.log(newVal.dt)
     this.eventForm.value.time_start = newVal.dt;
   }
 
@@ -128,13 +130,17 @@ export class EventComponent {
   }
 
   onDescriptionNoChange(newVal: { ht: string }) {
-    this.eventForm.get('description_no')!.patchValue(newVal.ht);
+    this.eventForm.value.description_no = newVal.ht;
   }
   
   onDescriptionEnChange(newVal: { ht: string }) {
-    this.eventForm.get('description_en')!.patchValue(newVal.ht);
+    this.eventForm.value.description_en = newVal.ht;
   }
   
+  submitEvent() {
+    console.log("clicked")
+  }
+
   private fetchCategories() {
     this.categoryService.getDropDownMenuCategories().subscribe((c: DropDownMenu[]) => {
       this.categories = c;
