@@ -73,7 +73,6 @@ export class EventComponent {
         });
 
         this.orgService.getDropDownMenuOrganizations().subscribe((o: DropDownMenu[]) => {
-          console.log(o)
           this.organizations = o;
         });
 
@@ -81,7 +80,6 @@ export class EventComponent {
           tap((event: EventDetail) => {
           const mdDescription_no = htmlToMarkdown(event.description_no);
           const mdDescription_en = htmlToMarkdown(event.description_en);
-          console.log("Description is: " + mdDescription_no)
 
           this.eventForm.patchValue({
             name_no: event.name_no,
