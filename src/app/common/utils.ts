@@ -16,6 +16,11 @@ export function compare(a: string | number | null | undefined, b: string | numbe
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }
   
+export function convertToRFC3339(datetime: string) {
+  const dateParts = datetime.split(" ");
+  return `${dateParts[0]}T${dateParts[1]}Z`;
+}
+
 export function htmlToMarkdown(html: string): string {
   // Convert line breaks to Markdown line breaks
   let markdown = html.replace(/<br>/g, '  \n');
