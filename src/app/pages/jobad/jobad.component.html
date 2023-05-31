@@ -23,7 +23,7 @@ Value: {{ jobAdForm.value | json }}
                     <mat-label>Short Description NOR</mat-label>
                 </mat-form-field>
 
-                <app-markdown-textfield (newMdText)=onDescriptionNoChange($event) [titleLabel]="'Long Description NOR'" class="row"></app-markdown-textfield>
+                <app-markdown-textfield (newMdText)=onDescriptionNoChange($event) [placeholder]="'Long Description NOR'" class="row"></app-markdown-textfield>
             </mat-tab>
 
             <mat-tab label="🇺🇸 ENG">
@@ -42,7 +42,7 @@ Value: {{ jobAdForm.value | json }}
                     <mat-label>Short Description ENG</mat-label>
                 </mat-form-field>
 
-                <app-markdown-textfield (newMdText)=onDescriptionEnChange($event) [titleLabel]="'Long Description ENG'" class="row"></app-markdown-textfield>
+                <app-markdown-textfield (newMdText)=onDescriptionEnChange($event) [placeholder]="'Long Description ENG'" class="row"></app-markdown-textfield>
             </mat-tab>
         </mat-tab-group>
         

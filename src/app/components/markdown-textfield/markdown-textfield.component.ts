@@ -23,7 +23,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 
 export class MarkdownTextfieldComponent {
-  @Input() titleLabel!: string;
+  @Input() placeholder!: string;
   @Input() value!: string;
   @Output() newMdText = new EventEmitter<{ht: string}>();
   // Elements viewed in the html

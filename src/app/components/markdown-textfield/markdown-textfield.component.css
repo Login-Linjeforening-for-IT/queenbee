@@ -6,10 +6,6 @@
   flex-direction: column;
 }
 
-.title {
-  margin-bottom: 0.3rem;
-}
-
 p {
   font-size: 1.3rem;
 }
@@ -20,7 +16,7 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 0.3rem; 
+  margin-bottom: 0.5rem; 
 }
 
 .topbar .left, .topbar .right {
