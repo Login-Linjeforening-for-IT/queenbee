@@ -163,6 +163,14 @@ main {
   width: 100%;
 }
 
+.row-narrow {
+  width: 40%;
+}
+
+.row-tiny {
+  width: 20%;
+}
+
 .block {
   display: flex;
   flex-direction: row;
@@ -170,10 +178,20 @@ main {
   margin-bottom: 3rem;
 }
 
+.dual-column-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.column {
+  width: 100%;
+}
+
 .tabs{
   margin-bottom: 0.5rem;
 }
 
 .dd {
-  width: 20rem;
+  width: 70%;
 }

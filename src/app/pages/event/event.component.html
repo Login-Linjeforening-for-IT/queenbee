@@ -36,74 +36,94 @@ Value: {{ eventForm.value | json }}
           <app-markdown-textfield class="row" (newMdText)=onDescriptionEnChange($event) [placeholder]="'Description ENG'"></app-markdown-textfield>
         </mat-tab>
       </mat-tab-group>
+      
+      <div class="dual-column-container row">
+        <div class="column">
+          <app-datetime 
+            (newDatetime)=onTimeStartChange($event) 
+            [dateLabel]="'Start Date'" 
+            [timeLabel]="'Start Time'"
+            [isDateRequired]="true"
+            [isTimeRequired]="true" 
+            [timeDisableable]="true" 
+            [value]="eventForm.get('time_start')?.value">
+          </app-datetime>
 
-      <app-datetime 
-        (newDatetime)=onTimeStartChange($event) 
-        [dateLabel]="'Start Date'" 
-        [timeLabel]="'Start Time'"
-        [isDateRequired]="true"
-        [isTimeRequired]="true" 
-        [timeDisableable]="true" 
-        [value]="eventForm.get('time_start')?.value">
-      </app-datetime>
+          <app-datetime 
+            (newDatetime)=onTimeEndChange($event) 
+            [dateLabel]="'End Date'" 
+            [timeLabel]="'End Time'"
+            [isDateRequired]="true"
+            [isTimeRequired]="true"  
+            [timeDisableable]="true" 
+            [value]="eventForm.get('time_end')?.value">
+          </app-datetime>
 
-      <app-datetime 
-        (newDatetime)=onTimeEndChange($event) 
-        [dateLabel]="'End Date'" 
-        [timeLabel]="'End Time'"
-        [isDateRequired]="true"
-        [isTimeRequired]="true"  
-        [timeDisableable]="true" 
-        [value]="eventForm.get('time_end')?.value">
-      </app-datetime>
+          <app-datetime 
+            (newDatetime)=onTimePublishChange($event) 
+            [dateLabel]="'Publish Date'" 
+            [timeLabel]="'Publish Time'"
+            [value]="eventForm.get('time_publish')?.value">
+          </app-datetime>
+        </div>
 
-      <app-datetime 
-      (newDatetime)=onTimePublishChange($event) 
-      [dateLabel]="'Publish Date'" 
-      [timeLabel]="'Publish Time'"
-      [value]="eventForm.get('time_publish')?.value">
-    </app-datetime>
+        <div class="column">
+          <mat-form-field class="dd">
+            <mat-label>Category</mat-label>
+            <mat-select formControlName="category" required>
+              <mat-option *ngFor="let c of categories" [value]="c.value">
+                {{c.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
 
-      <mat-form-field class="dd">
-        <mat-label>Category</mat-label>
-        <mat-select formControlName="category" required>
-          <mat-option *ngFor="let c of categories" [value]="c.value">
-            {{c.viewValue}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field class="dd">
-        <mat-label>Organization</mat-label>
-        <mat-select formControlName="organization" required>
-          <mat-option *ngFor="let o of organizations" [value]="o.value">
-            {{o.viewValue}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+          <mat-form-field class="dd">
+            <mat-label>Organization</mat-label>
+            <mat-select formControlName="organization" required>
+              <mat-option *ngFor="let o of organizations" [value]="o.value">
+                {{o.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
     </div>
 
     <div class="block">
-      <h2>Signup Form</h2>
+      <h2>Signup</h2>
       <mat-form-field class="row">
         <input matInput formControlName="link_signup">
         <mat-label>Signup Link</mat-label>
       </mat-form-field>
 
-      <app-datetime 
-        (newDatetime)=onSignupReleaseChange($event) 
-        [dateLabel]="'Release Date'" 
-        [timeLabel]="'Release Time'" 
-        [value]="eventForm.get('time_signup_release')?.value">
-      </app-datetime>
+      <div class="dual-column-container row">
+        <div class="column">
+          <app-datetime 
+            (newDatetime)=onSignupReleaseChange($event) 
+            [dateLabel]="'Release Date'" 
+            [timeLabel]="'Release Time'" 
+            [value]="eventForm.get('time_signup_release')?.value">
+          </app-datetime>
 
-      <app-datetime 
-        (newDatetime)=onSignupDeadlineChange($event) 
-        [dateLabel]="'Deadline Date'" 
-        [timeLabel]="'Deadline Time'" 
-        [timeDisableable]="true" 
-        [value]="eventForm.get('time_signup_deadline')?.value">
-      </app-datetime>
+          <app-datetime 
+            (newDatetime)=onSignupDeadlineChange($event) 
+            [dateLabel]="'Deadline Date'" 
+            [timeLabel]="'Deadline Time'" 
+            [timeDisableable]="true" 
+            [value]="eventForm.get('time_signup_deadline')?.value">
+          </app-datetime>
+        </div>
+        
+        <div class="column">
+          <div>
+            <mat-form-field class="dd">
+              <input matInput type="number" min="0" formControlName="capacity">
+              <mat-label>Capacity</mat-label>
+            </mat-form-field>
+            <mat-slide-toggle style="margin-left: 1rem;">Is full</mat-slide-toggle>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="block">

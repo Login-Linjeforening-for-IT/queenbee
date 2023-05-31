@@ -46,6 +46,8 @@ export class EventComponent {
       time_signup_release: '',
       time_signup_deadline: '',
       link_signup: '',
+      capacity: '',
+      full: false,
       image_small: '',
       image_banner: '',
       link_facebook: '',
@@ -58,9 +60,8 @@ export class EventComponent {
 
     this.route.url.subscribe(segments => {
       this.pathElements = segments.map(segment => segment.path);
-    });
-
-    this.fetchCategories();
+    
+      this.fetchCategories();
     this.fetchOrganizations();
 
     switch (this.pathElements[1]) {
@@ -75,6 +76,8 @@ export class EventComponent {
           tap((event: EventDetail) => {
             const mdDescription_no = htmlToMarkdown(event.description_no);
             const mdDescription_en = htmlToMarkdown(event.description_en);
+            console.log("Cap:");
+            console.log(event);
 
             this.eventForm.patchValue({
               name_no: event.name_no,
@@ -89,6 +92,8 @@ export class EventComponent {
               time_signup_release: event.time_signup_release,
               time_signup_deadline: event.time_signup_deadline,
               link_signup: event.link_signup,
+              capacity: event.capacity,
+              full: event.full,
               image_small: event.image_small,
               image_banner: event.image_banner,
               link_facebook: event.link_facebook,
@@ -110,6 +115,7 @@ export class EventComponent {
     }
 
     this.eventForm.valueChanges.subscribe(console.log)
+    });
   }
 
   // The following functions is used to update various variables
