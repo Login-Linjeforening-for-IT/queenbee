@@ -6,7 +6,7 @@ import { EventService } from 'src/app/services/api/event.service';
 import { CategoryService } from 'src/app/services/api/category.service';
 import { OrganizationService } from 'src/app/services/api/organizations.service';
 import { DropDownMenu, EventDetail } from 'src/app/models/dataInterfaces.model';
-import { convertToRFC3339, htmlToMarkdown } from 'src/app/common/utils';
+import { convertToRFC3339, convertFromRFC3339, htmlToMarkdown } from 'src/app/common/utils';
 import { Observable, of, tap } from 'rxjs';
 
 @Component({
@@ -18,11 +18,13 @@ export class EventComponent {
   organizations: DropDownMenu[] = [];
   
   fetchedEvent$!: Observable<EventDetail>;
+  mode! : 'new' | 'edit' | 'copy';
 
   eventForm!: FormGroup;
   pathElements!: string[];
   title!: string;
   submit!: string;
+  timeUpdated!: string;
 
   constructor(
     private fb: FormBuilder,
@@ -62,54 +64,56 @@ export class EventComponent {
       this.pathElements = segments.map(segment => segment.path);
     
       this.fetchCategories();
-    this.fetchOrganizations();
+      this.fetchOrganizations();
 
-    switch (this.pathElements[1]) {
-      case 'new':
-        this.fetchedEvent$ = of({} as EventDetail); // Trick comopnents ngIf
-        this.title = EventConstants.TITLE_NEW;
-        this.submit = EventConstants.SUBMIT_NEW;
-        break;
-      case 'edit':
-        const eventID = +this.pathElements[2];
-        this.fetchedEvent$ = this.eventService.fetchEvent(eventID).pipe(
-          tap((event: EventDetail) => {
-            const mdDescription_no = htmlToMarkdown(event.description_no);
-            const mdDescription_en = htmlToMarkdown(event.description_en);
-            console.log("Cap:");
-            console.log(event);
+      switch (this.pathElements[1]) {
+        case 'new':
+          this.mode = 'new'
+          this.fetchedEvent$ = of({} as EventDetail); // Trick comopnents ngIf
+          this.title = EventConstants.TITLE_NEW;
+          this.submit = EventConstants.SUBMIT_NEW;
+          break;
+        case 'edit':
+          this.mode = 'edit'
+          const eventID = +this.pathElements[2];
+          this.fetchedEvent$ = this.eventService.fetchEvent(eventID).pipe(
+            tap((event: EventDetail) => {
+              this.timeUpdated = convertFromRFC3339(event.time_updated);
+              
+              const mdDescription_no = htmlToMarkdown(event.description_no);
+              const mdDescription_en = htmlToMarkdown(event.description_en);
+              
+              this.eventForm.patchValue({
+                name_no: event.name_no,
+                name_en: event.name_en,
+                description_no: mdDescription_no,
+                description_en: mdDescription_en,
+                info_no: event.information_no,
+                info_en: event.information_en,
+                time_start: event.time_start,
+                time_end: event.time_end,
+                time_publish: event.time_publish,
+                time_signup_release: event.time_signup_release,
+                time_signup_deadline: event.time_signup_deadline,
+                link_signup: event.link_signup,
+                capacity: event.capacity,
+                full: event.full,
+                image_small: event.image_small,
+                image_banner: event.image_banner,
+                link_facebook: event.link_facebook,
+                link_discord: event.link_discord,
+                digital: event.digital,
+                link_stream: event.link_stream,
+                category: event.category.id,
+                organization: event.organizations? event.organizations[0].shortname : ""
+              });
+            })
+          );
 
-            this.eventForm.patchValue({
-              name_no: event.name_no,
-              name_en: event.name_en,
-              description_no: mdDescription_no,
-              description_en: mdDescription_en,
-              info_no: event.information_no,
-              info_en: event.information_en,
-              time_start: event.time_start,
-              time_end: event.time_end,
-              time_publish: event.time_publish,
-              time_signup_release: event.time_signup_release,
-              time_signup_deadline: event.time_signup_deadline,
-              link_signup: event.link_signup,
-              capacity: event.capacity,
-              full: event.full,
-              image_small: event.image_small,
-              image_banner: event.image_banner,
-              link_facebook: event.link_facebook,
-              link_discord: event.link_discord,
-              digital: event.digital,
-              link_stream: event.link_stream,
-              category: event.category.id,
-              organization: event.organizations? event.organizations[0].shortname : ""
-            });
-          })
-        );
-
-        this.title = EventConstants.TITLE_EDIT;
-        this.submit = EventConstants.SUBMIT_EDIT;
-        break;
-      default:
+          this.title = EventConstants.TITLE_EDIT;
+          this.submit = EventConstants.SUBMIT_EDIT;
+          break;
+       default:
         this.title = 'title not set!';
         this.submit = 'submit not set!'
     }

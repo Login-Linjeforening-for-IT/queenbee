@@ -21,6 +21,13 @@ export function convertToRFC3339(datetime: string) {
   return `${dateParts[0]}T${dateParts[1]}Z`;
 }
 
+export function convertFromRFC3339(dt: string): string {
+  if(dt) {
+    return dt.replace("T", " ").replace("Z", "").replaceAll("-", "/");
+  }
+  return dt
+}
+
 export function htmlToMarkdown(html: string): string {
   // Convert line breaks to Markdown line breaks
   let markdown = html.replace(/<br>/g, '  \n');

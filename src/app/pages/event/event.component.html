@@ -1,5 +1,5 @@
 <h1>{{title}}</h1>
-Value: {{ eventForm.value | json }}
+<p class="weak-text" *ngIf="mode === 'edit'">Last updated: {{timeUpdated}}</p>
 
 <form [formGroup]="eventForm">
   <div *ngIf="fetchedEvent$ | async as event" class="form">
@@ -157,5 +157,6 @@ Value: {{ eventForm.value | json }}
       </mat-form-field>
     </div>
   </div>
-  <button type="submit" (click)="submitEvent()" mat-raised-button color="primary">{{submit}}</button>
+  <button class="submit-btn" type="submit" (click)="submitEvent()" mat-raised-button color="primary">{{submit}}</button>
+  <button class="submit-btn" *ngIf="mode === 'edit'" (click)="submitEvent()" mat-raised-button color="warn">Cancel The Event</button>
 </form>
