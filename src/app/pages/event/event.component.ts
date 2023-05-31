@@ -24,6 +24,8 @@ export class EventComponent {
   pathElements!: string[];
   title!: string;
   submit!: string;
+
+  // Used for 'edit' mode
   timeUpdated!: string;
 
   constructor(
@@ -75,6 +77,7 @@ export class EventComponent {
           break;
         case 'edit':
           this.mode = 'edit'
+
           const eventID = +this.pathElements[2];
           this.fetchedEvent$ = this.eventService.fetchEvent(eventID).pipe(
             tap((event: EventDetail) => {
