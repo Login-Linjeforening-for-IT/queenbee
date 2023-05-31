@@ -19,7 +19,7 @@
           </mat-form-field>
           
           <app-markdown-textfield 
-            class="row" (newMdText)=onDescriptionNoChange($event) [placeholder]="'Description NOR'" [value]="eventForm.get('description_no')?.value"></app-markdown-textfield>
+            class="row" (newHtmlText)="onDescriptionNoChange($event)" [placeholder]="'Description NOR'" [value]="eventForm.get('description_no')?.value"></app-markdown-textfield>
         </mat-tab>
 
         <mat-tab label="🇺🇸 ENG">
@@ -33,7 +33,7 @@
             <mat-label>Informational ENG</mat-label>
           </mat-form-field>
 
-          <app-markdown-textfield class="row" (newMdText)=onDescriptionEnChange($event) [placeholder]="'Description ENG'"></app-markdown-textfield>
+          <app-markdown-textfield class="row" (newHtmlText)=onDescriptionEnChange($event) [placeholder]="'Description ENG'"></app-markdown-textfield>
         </mat-tab>
       </mat-tab-group>
       

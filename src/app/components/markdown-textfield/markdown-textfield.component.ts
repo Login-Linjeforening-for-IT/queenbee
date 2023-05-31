@@ -25,16 +25,15 @@ import { BehaviorSubject } from 'rxjs';
 export class MarkdownTextfieldComponent {
   @Input() placeholder!: string;
   @Input() value!: string;
-  @Output() newMdText = new EventEmitter<{ht: string}>();
+  @Output() newHtmlText = new EventEmitter<{ht: string}>();
   // Elements viewed in the html
   @ViewChild('textarea', { static: false }) textarea!: ElementRef;
   @ViewChild('mdComponent', { read: ElementRef }) mdComponent!: ElementRef;
   @ViewChild('emojiWrapper', { static: false }) emojiMartWrapper!: ElementRef;
 
-  angularVersion = VERSION.full;
-  ngxMarkdownVersion = '16.0.0';
   showEmojiPicker: boolean = false;
-  totalFrequentLines: number = 2;
+  totalFrequentLines: number = 2; // Lines in emojiPicker
+  
   markdown: string = '';
 
   // For observing changes
@@ -45,29 +44,23 @@ export class MarkdownTextfieldComponent {
     // Close the emoji picker whenever there is a click outside it
     this.renderer.listen('window', 'click',(e:Event)=>{
      if(!this.emojiMartWrapper.nativeElement.contains(e.target)){
-         this.showEmojiPicker=false;
+         this.showEmojiPicker = false;
      }
     });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if(changes['value'] && changes['value'].currentValue !== changes['value'].previousValue) {
-      this.markdown = changes['value'].currentValue;
-      this.markdownChange.next(this.markdown);
-    }
-  }  
-  
   // For listening to and emitting changes in the inputted markdown  
   ngAfterViewInit() {
+    this.markdown = this.value; // Sets initial markdown value
+
     this.renderer.listen(this.textarea.nativeElement, 'input', (event: any) => {
-      this.markdown = event.target.value;
       this.markdownChange.next(this.markdown);
     });
   
     this.mutationObserver = new MutationObserver((mutations) => {
-      let newMd = this.mdComponent.nativeElement.innerHTML;
-      newMd = newMd.replace(/\n/g, ''); // Removing "\n" from the string
-      this.newMdText.emit({ ht: this.markdown }); // emit new html
+      let newHtml = this.mdComponent.nativeElement.innerHTML;
+      newHtml = newHtml.replace(/\n/g, ''); // Removing "\n" from the string
+      this.newHtmlText.emit({ht: newHtml}) // Emit new html
     });
   
     this.mutationObserver.observe(this.mdComponent.nativeElement, {
