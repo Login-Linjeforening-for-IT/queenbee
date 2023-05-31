@@ -10,6 +10,7 @@ Visit out [Redmine page](https://redmine.login.no/projects/tekkom/wiki/02_-_Data
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.1.
 
 ## Development server
+The project has API connections, that is dependent on the Beehive API which again is dependent on the Beehive database. Therefore you must deploy both the database and API repo to experience all features of this application.
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
