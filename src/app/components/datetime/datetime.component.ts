@@ -15,6 +15,8 @@ export class DatetimeComponent {
   @Input() dateLabel!: string;
   @Input() timeLabel!: string;
   @Input() value!: string;
+  @Input() isTimeRequired!: boolean;
+  @Input() isDateRequired!: boolean;
   @Input() timeDisableable!: boolean;
   @Output() newDatetime = new EventEmitter<{dt: string}>();
 
@@ -30,6 +32,7 @@ export class DatetimeComponent {
     let inputDate;
     let inputTime;
 
+    // Convert optional inputted value to correct format
     if (this.value) {
       const datetime = new Date(this.value);
       
@@ -39,10 +42,9 @@ export class DatetimeComponent {
       // Time format is 'hh:mm'
       inputTime = this.padTo2Digits(datetime.getUTCHours()) + ':' + 
                   this.padTo2Digits(datetime.getUTCMinutes());
-    } else {
-      console.log('this.value is not defined');
     }
 
+    // Set date and time value
     this.timeForm = this.fb.group({
       date: inputDate? inputDate : "",
       time: inputTime? inputTime : ""
@@ -65,7 +67,7 @@ export class DatetimeComponent {
   // function onValueChange().
   onTimeToggle() {
     if (this.isTimeDisabled) {
-      this.timeForm.value.time = '';
+      this.timeForm.get('time')?.setValue('');
       this.onValueChange();
     }
   }

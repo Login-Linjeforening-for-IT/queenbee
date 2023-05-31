@@ -8,7 +8,7 @@
                [ngModel]="timeForm.value.date"
                [matDatepicker]="date" min="{{this.minDate | date:'yyyy-MM-dd'}}"
                formControlName="date"
-               required>
+               [required]="isDateRequired">
         <mat-datepicker-toggle [for]="date" matSuffix></mat-datepicker-toggle>
         <mat-datepicker #date></mat-datepicker>
       </mat-form-field>
@@ -20,7 +20,7 @@
                [ngModel]="timeForm.value.time"
                [attr.disabled]="isTimeDisabled? true : null"
                formControlName="time"
-               [required]="!isTimeDisabled">
+               [required]="isTimeRequired && !isTimeDisabled">
       </mat-form-field>
     </form>
   </div>
