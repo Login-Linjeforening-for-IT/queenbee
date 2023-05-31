@@ -6,7 +6,7 @@ import { EventService } from 'src/app/services/api/event.service';
 import { CategoryService } from 'src/app/services/api/category.service';
 import { OrganizationService } from 'src/app/services/api/organizations.service';
 import { DropDownMenu, EventDetail } from 'src/app/models/dataInterfaces.model';
-import { htmlToMarkdown } from 'src/app/common/utils';
+import { convertToRFC3339, htmlToMarkdown } from 'src/app/common/utils';
 import { Observable, of, tap } from 'rxjs';
 
 @Component({
@@ -30,7 +30,9 @@ export class EventComponent {
     private eventService: EventService,
     private categoryService: CategoryService,
     private orgService: OrganizationService
-  ) {
+  ) {}  
+
+  ngOnInit() {
     this.eventForm = this.fb.group({
       name_no: '',
       name_en: '',
@@ -40,6 +42,7 @@ export class EventComponent {
       info_en: '',
       time_start: '',
       time_end: '',
+      time_publish: '',
       time_signup_release: '',
       time_signup_deadline: '',
       link_signup: '',
@@ -52,9 +55,7 @@ export class EventComponent {
       category: '',
       organization: ''
     });
-  }  
 
-  ngOnInit() {
     this.route.url.subscribe(segments => {
       this.pathElements = segments.map(segment => segment.path);
     });
@@ -84,6 +85,7 @@ export class EventComponent {
               info_en: event.information_en,
               time_start: event.time_start,
               time_end: event.time_end,
+              time_publish: event.time_publish,
               time_signup_release: event.time_signup_release,
               time_signup_deadline: event.time_signup_deadline,
               link_signup: event.link_signup,
@@ -112,33 +114,41 @@ export class EventComponent {
 
   // The following functions is used to update various variables
   onTimeStartChange(newVal: {dt: string}) {
-    console.log("Time start triggered!")
-    console.log(newVal.dt)
-    this.eventForm.value.time_start = newVal.dt;
+    this.eventForm.get('time_start')?.setValue(convertToRFC3339(newVal.dt));
   }
 
   onTimeEndChange(newVal: {dt: string}) {
-    this.eventForm.value.time_end = newVal.dt;
+      this.eventForm.get('time_end')?.setValue(convertToRFC3339(newVal.dt));
   }
 
+  onTimePublishChange(newVal: {dt: string}) {
+    this.eventForm.get('time_publish')?.setValue(convertToRFC3339(newVal.dt));
+}
+
   onSignupReleaseChange(newVal: { dt: string }) {
-    this.eventForm.value.time_signup_release = newVal.dt;
+      this.eventForm.get('time_signup_release')?.setValue(convertToRFC3339(newVal.dt));
   }
 
   onSignupDeadlineChange(newVal: { dt: string }) {
-    this.eventForm.value.time_signup_deadline = newVal.dt;
+      this.eventForm.get('time_signup_deadline')?.setValue(convertToRFC3339(newVal.dt));
   }
 
   onDescriptionNoChange(newVal: { ht: string }) {
-    this.eventForm.value.description_no = newVal.ht;
+      this.eventForm.get('description_no')?.setValue(newVal.ht);
   }
-  
+
   onDescriptionEnChange(newVal: { ht: string }) {
-    this.eventForm.value.description_en = newVal.ht;
+      this.eventForm.get('description_en')?.setValue(newVal.ht);
   }
   
   submitEvent() {
-    console.log("clicked")
+    if(this.pathElements[1] === 'new') {
+      console.log("clicked")
+      this.eventService.createEvent(this.eventForm.value).subscribe(
+        response => console.log(response),
+        error => console.error(error)
+      );
+    }
   }
 
   private fetchCategories() {

@@ -18,7 +18,7 @@ Value: {{ eventForm.value | json }}
             <mat-label>Informational NOR</mat-label>
           </mat-form-field>
           
-          <app-markdown-textfield class="row" (newMdText)=onDescriptionNoChange($event) [titleLabel]="'Description NOR'" [value]="eventForm?.get('description_no')?.value"></app-markdown-textfield>
+          <app-markdown-textfield class="row" (newMdText)=onDescriptionNoChange($event) [titleLabel]="'Description NOR'" [value]="eventForm.get('description_no')?.value"></app-markdown-textfield>
         </mat-tab>
 
         <mat-tab label="🇺🇸 ENG">
@@ -36,9 +36,29 @@ Value: {{ eventForm.value | json }}
         </mat-tab>
       </mat-tab-group>
 
-      <app-datetime (newDatetime)=onTimeStartChange($event) [dateLabel]="'Start Date'" [timeLabel]="'Start Time'" [timeDisableable]="true" [value]="eventForm?.get('time_start')?.value"></app-datetime>
+      <app-datetime 
+        (newDatetime)=onTimeStartChange($event) 
+        [dateLabel]="'Start Date'" 
+        [timeLabel]="'Start Time'"
+        [isDateRequired]="true"
+        [isTimeRequired]="true" 
+        [timeDisableable]="true" 
+        [value]="eventForm.get('time_start')?.value"></app-datetime>
 
-      <app-datetime (newDatetime)=onTimeEndChange($event) [dateLabel]="'End Date'" [timeLabel]="'End Time'" [timeDisableable]="true" [value]="eventForm?.get('time_end')?.value"></app-datetime>
+      <app-datetime 
+        (newDatetime)=onTimeEndChange($event) 
+        [dateLabel]="'End Date'" 
+        [timeLabel]="'End Time'"
+        [isDateRequired]="true"
+        [isTimeRequired]="true"  
+        [timeDisableable]="true" 
+        [value]="eventForm.get('time_end')?.value"></app-datetime>
+
+      <app-datetime 
+      (newDatetime)=onTimePublishChange($event) 
+      [dateLabel]="'Publish Date'" 
+      [timeLabel]="'Publish Time'"
+      [value]="eventForm.get('time_publish')?.value"></app-datetime>
 
       <mat-form-field class="dd">
         <mat-label>Category</mat-label>
@@ -66,9 +86,18 @@ Value: {{ eventForm.value | json }}
         <mat-label>Signup Link</mat-label>
       </mat-form-field>
 
-      <app-datetime (newDatetime)=onSignupReleaseChange($event) [dateLabel]="'Release Date'" [timeLabel]="'Release Time'" [value]="eventForm?.get('time_signup_release')?.value"></app-datetime>
+      <app-datetime 
+        (newDatetime)=onSignupReleaseChange($event) 
+        [dateLabel]="'Release Date'" 
+        [timeLabel]="'Release Time'" 
+        [value]="eventForm.get('time_signup_release')?.value"></app-datetime>
 
-      <app-datetime (newDatetime)=onSignupDeadlineChange($event) [dateLabel]="'Deadline Date'" [timeLabel]="'Deadline Time'" [timeDisableable]="true" [value]="eventForm?.get('time_signup_deadline')?.value"></app-datetime>
+      <app-datetime 
+        (newDatetime)=onSignupDeadlineChange($event) 
+        [dateLabel]="'Deadline Date'" 
+        [timeLabel]="'Deadline Time'" 
+        [timeDisableable]="true" 
+        [value]="eventForm.get('time_signup_deadline')?.value"></app-datetime>
     </div>
 
     <div class="block">
