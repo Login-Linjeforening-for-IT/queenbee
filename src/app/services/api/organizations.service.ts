@@ -56,5 +56,24 @@ export class OrganizationService {
         });
       })
     );
-  }  
+  }
+  
+  /**
+   * Sends a POST request to the API with org
+   * @param org Organization object
+   * @returns 
+   */
+  createOrganization(org: Organization): Observable<Organization> {
+    return this.http
+      .post<Organization>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.ORGANIZATIONS_PATH}`, org)
+      .pipe(
+        map(resData => {
+          if (resData) {
+            const newEvent: Organization = resData;
+            return newEvent;
+          }
+          throw new Error('Failed to create event');
+        })
+      );
+  }
 }

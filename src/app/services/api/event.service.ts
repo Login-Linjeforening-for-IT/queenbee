@@ -1,3 +1,6 @@
+/**
+ * Service for handeling requests to the events endpoint of Beehive API
+ */
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
@@ -11,6 +14,11 @@ export class EventService {
 
   constructor(private http: HttpClient) { }
 
+  /**
+   * Gets a single event from the epi.
+   * @param eventId id of event
+   * @returns EventDetail observable
+   */
   fetchEvent(eventId: number): Observable<EventDetail> {
     return this.http
       .get<EventDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}/${eventId}`)
@@ -25,6 +33,10 @@ export class EventService {
       );
   }
 
+  /**
+   * Gets all events from the epi.
+   * @returns EventShort array
+   */
   fetchEvents(): Observable<EventShort[]> {
     return this.http
       .get<{ [id: string]: EventShort }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`)
@@ -38,6 +50,38 @@ export class EventService {
             }
           }
           return eventsArray;
+        })
+      );
+  }
+
+  /**
+   * Sends a POST request to the API with event
+   * @param event EventDetail object
+   * @returns observable
+   */
+  createEvent(event: EventDetail) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    };
+
+    // Set potentially null fields to an empty string
+    event.image_small = event.image_small || "NONE";
+    event.image_banner = event.image_banner || "NONE";
+    event.link_facebook = event.link_facebook || "NONE";
+    event.link_discord = event.link_discord || "NONE";
+    event.link_signup = event.link_signup || "NONE";
+
+    return this.http
+      .post<EventDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`, event, httpOptions)
+      .pipe(
+        map(resData => {
+          if (resData) {
+            const newEvent: EventDetail = resData;
+            return newEvent;
+          }
+          throw new Error('Failed to create event');
         })
       );
   }
