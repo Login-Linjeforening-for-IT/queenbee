@@ -57,6 +57,7 @@ export class EventComponent {
       link_facebook: '',
       link_discord: '',
       digital: false,
+      canceled: false,
       link_stream: '',
       category: '',
       organization: ''
@@ -106,6 +107,7 @@ export class EventComponent {
                 link_facebook: event.link_facebook,
                 link_discord: event.link_discord,
                 digital: event.digital,
+                canceled: event.canceled,
                 link_stream: event.link_stream,
                 category: event.category.id,
                 organization: event.organizations? event.organizations[0].shortname : ""
@@ -156,11 +158,17 @@ export class EventComponent {
   
   submitEvent() {
     if(this.pathElements[1] === 'new') {
-      console.log("clicked")
       this.eventService.createEvent(this.eventForm.value).subscribe(
         response => console.log(response),
         error => console.error(error)
       );
+    }
+  }
+
+  cancelEvent() {
+    console.log("Cancelling clicked")
+    if(confirm("Are you sure you want to cancel this event? (it will not be deleted)")) {
+      this.eventForm.get('canceled')?.setValue(true);
     }
   }
 
