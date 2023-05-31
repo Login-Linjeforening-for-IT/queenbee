@@ -41,6 +41,8 @@ export interface EventDetail {
   time_updated: string;
   time_created: string;
   time_type: string;
+  capacity: number;
+  full: boolean;
   canceled: boolean;
   digital: boolean;
   highlight: boolean;
