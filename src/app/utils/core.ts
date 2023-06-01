@@ -15,18 +15,6 @@ export function compare(a: string | number | null | undefined, b: string | numbe
     }
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }
-  
-export function convertToRFC3339(datetime: string) {
-  const dateParts = datetime.split(" ");
-  return `${dateParts[0]}T${dateParts[1]}Z`;
-}
-
-export function convertFromRFC3339(dt: string): string {
-  if(dt) {
-    return dt.replace("T", " ").replace("Z", "").replaceAll("-", "/");
-  }
-  return dt
-}
 
 export function htmlToMarkdown(html: string): string {
   // Convert line breaks to Markdown line breaks

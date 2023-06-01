@@ -1,6 +1,6 @@
 import { JobadsConstants } from '../../pages.constants';
 import { BaseDataSource } from 'src/app/common/base-data-source';
-import { compare } from 'src/app/common/utils';
+import { compare } from 'src/app/utils/core';
 import { of } from 'rxjs';
 
 // Interface for the data expected in a Job ad.

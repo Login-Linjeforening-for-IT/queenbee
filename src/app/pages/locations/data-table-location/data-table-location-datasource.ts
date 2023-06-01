@@ -1,6 +1,6 @@
 import { of } from 'rxjs';
 import { BaseDataSource } from 'src/app/common/base-data-source';
-import { compare } from 'src/app/common/utils';
+import { compare } from 'src/app/utils/core';
 
 // Interface for the data expected in an event.
 export interface DataTableLocationItem {

@@ -1,5 +1,5 @@
 import { BaseDataSource } from 'src/app/common/base-data-source';
-import { compare } from 'src/app/common/utils';
+import { compare } from 'src/app/utils/core';
 
 import { EventService } from 'src/app/services/api/event.service';
 import { EventShort } from 'src/app/models/dataInterfaces.model';

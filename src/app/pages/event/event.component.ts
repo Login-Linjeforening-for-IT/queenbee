@@ -6,7 +6,8 @@ import { EventService } from 'src/app/services/api/event.service';
 import { CategoryService } from 'src/app/services/api/category.service';
 import { OrganizationService } from 'src/app/services/api/organizations.service';
 import { DropDownMenu, EventDetail } from 'src/app/models/dataInterfaces.model';
-import { convertToRFC3339, convertFromRFC3339, htmlToMarkdown } from 'src/app/common/utils';
+import { convertToRFC3339, convertFromRFC3339 } from 'src/app/utils/time';
+import { htmlToMarkdown } from 'src/app/utils/core'
 import { Observable, of, tap } from 'rxjs';
 
 @Component({
@@ -50,7 +51,7 @@ export class EventComponent {
       time_signup_release: '',
       time_signup_deadline: '',
       link_signup: '',
-      capacity: '',
+      capacity: null,
       full: false,
       image_small: '',
       image_banner: '',
@@ -157,6 +158,8 @@ export class EventComponent {
   }
   
   submitEvent() {
+    this.validateEvent();
+
     if(this.pathElements[1] === 'new') {
       this.eventService.createEvent(this.eventForm.value).subscribe(
         response => console.log(response),
@@ -182,5 +185,9 @@ export class EventComponent {
     this.orgService.getDropDownMenuOrganizations().subscribe((o: DropDownMenu[]) => {
       this.organizations = o;
     });
+  }
+
+  private validateEvent() {
+    
   }
 }
