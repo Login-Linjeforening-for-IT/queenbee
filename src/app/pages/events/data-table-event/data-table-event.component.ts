@@ -6,6 +6,7 @@ import { DataTableEventDataSource } from './data-table-event-datasource';
 import { TableConstants } from 'src/app/pages/pages.constants';
 import { EventService } from 'src/app/services/api/event.service';
 import { EventShort } from 'src/app/models/dataInterfaces.model';
+import { isDatetimeUnset } from 'src/app/utils/time';
 
 @Component({
   selector: 'app-data-table-event',
@@ -66,6 +67,10 @@ export class DataTableEventComponent implements OnInit, AfterViewInit {
 
   formatDatetime(dt: string): string {
     if(dt) {
+      console.log(dt)
+      if(isDatetimeUnset(dt)) {
+        return ""
+      }
       return dt.replace("T", " ").replace("Z", "").replaceAll("-", "/");
     }
     return dt

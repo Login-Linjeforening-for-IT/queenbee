@@ -7,5 +7,7 @@ export const BeehiveAPI = {
     AUDIENCES_PATH: '/audiences',
     ORGANIZATIONS_PATH: '/organizations',
     RULES_PATH: '/rules',
-    LOCATIONS_PATH: '/locations'
+    LOCATIONS_PATH: '/locations',
+
+    TIME_UNSET: '0001-01-01T00:00:00Z'
 }
