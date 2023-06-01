@@ -67,7 +67,6 @@ export class DataTableEventComponent implements OnInit, AfterViewInit {
 
   formatDatetime(dt: string): string {
     if(dt) {
-      console.log(dt)
       if(isDatetimeUnset(dt)) {
         return ""
       }

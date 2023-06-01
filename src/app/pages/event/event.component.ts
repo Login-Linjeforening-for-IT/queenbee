@@ -6,7 +6,7 @@ import { EventService } from 'src/app/services/api/event.service';
 import { CategoryService } from 'src/app/services/api/category.service';
 import { OrganizationService } from 'src/app/services/api/organizations.service';
 import { DropDownMenu, EventDetail } from 'src/app/models/dataInterfaces.model';
-import { convertToRFC3339, convertFromRFC3339 } from 'src/app/utils/time';
+import { convertToRFC3339, convertFromRFC3339, isDatetimeUnset } from 'src/app/utils/time';
 import { htmlToMarkdown } from 'src/app/utils/core'
 import { Observable, of, tap } from 'rxjs';
 
@@ -95,11 +95,11 @@ export class EventComponent {
                 description_en: mdDescription_en,
                 info_no: event.information_no,
                 info_en: event.information_en,
-                time_start: event.time_start,
-                time_end: event.time_end,
-                time_publish: event.time_publish,
-                time_signup_release: event.time_signup_release,
-                time_signup_deadline: event.time_signup_deadline,
+                time_start: !isDatetimeUnset(event.time_start)? event.time_start : "",
+                time_end: !isDatetimeUnset(event.time_end)? event.time_end : "",
+                time_publish: !isDatetimeUnset(event.time_publish)? event.time_publish : "",
+                time_signup_release: !isDatetimeUnset(event.time_signup_release)? event.time_signup_release : "",
+                time_signup_deadline: !isDatetimeUnset(event.time_signup_deadline)? event.time_signup_deadline : "",
                 link_signup: event.link_signup,
                 capacity: event.capacity,
                 full: event.full,
