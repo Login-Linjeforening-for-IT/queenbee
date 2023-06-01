@@ -7,6 +7,8 @@ import { TableConstants } from 'src/app/pages/pages.constants';
 import { EventService } from 'src/app/services/api/event.service';
 import { EventShort } from 'src/app/models/dataInterfaces.model';
 import { isDatetimeUnset } from 'src/app/utils/time';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmComponent } from 'src/app/components/dialog/confirm/confirm.component';
 
 @Component({
   selector: 'app-data-table-event',
@@ -40,7 +42,7 @@ export class DataTableEventComponent implements OnInit, AfterViewInit {
     'created_at',
   ];
 
-  constructor(private eventsService: EventService, private cdr: ChangeDetectorRef) {
+  constructor(private eventsService: EventService, private cdr: ChangeDetectorRef, private dialog: MatDialog) {
     this.dataSource = new DataTableEventDataSource(eventsService);
   }
 
@@ -59,10 +61,18 @@ export class DataTableEventComponent implements OnInit, AfterViewInit {
   }
 
   onDelete(id: number): void {
-    if(confirm("Are you sure to delete the event with id: " + id + "?")) {
-      this.dataSource.deleteItem(id);
-      this.dataSource.refresh();
-    }
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      data: {
+        details: 'This will permanently delete the event with id: ' + id,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.dataSource.deleteItem(id);
+        this.dataSource.refresh();
+      }
+    });
   }
 
   formatDatetime(dt: string): string {
