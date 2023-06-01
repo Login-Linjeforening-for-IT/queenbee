@@ -131,6 +131,10 @@ main {
 }
 
 /* ======================== TABLES ========================= */
+.data-table {
+  margin-top: 2rem;
+}
+
 .form-topbar {
   display: flex;
 }
