@@ -49,6 +49,8 @@ export class DatetimeComponent {
       date: inputDate? inputDate : "",
       time: inputTime? inputTime : ""
     })
+
+    this.timeForm.valueChanges.subscribe(() => console.log(this.timeForm))
   }
 
   // onValueChange emits value changes when it is called. It must be called whenever the user enters new data.

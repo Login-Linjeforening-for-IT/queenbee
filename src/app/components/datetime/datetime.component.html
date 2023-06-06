@@ -11,6 +11,12 @@
                [required]="isDateRequired">
         <mat-datepicker-toggle [for]="date" matSuffix></mat-datepicker-toggle>
         <mat-datepicker #date></mat-datepicker>
+        <mat-error *ngIf="timeForm.controls['date'].hasError('matDatepickerParse') || timeForm.controls['date'].hasError('matDatepickerMin')">
+          Invalid, format is <strong>DD/MM/YYYY</strong>.
+        </mat-error>
+        <mat-error *ngIf="timeForm.controls['date'].hasError('required')">
+          Date is <strong>required</strong>
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field class="input" [class.disabled]="isTimeDisabled">
