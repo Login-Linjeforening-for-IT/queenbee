@@ -15,7 +15,7 @@
           Invalid, format is <strong>DD/MM/YYYY</strong>.
         </mat-error>
         <mat-error *ngIf="timeForm.controls['date'].hasError('required')">
-          Date is <strong>required</strong>
+          Field is <strong>required</strong>
         </mat-error>
       </mat-form-field>
 
@@ -27,6 +27,9 @@
                [attr.disabled]="isTimeDisabled? true : null"
                formControlName="time"
                [required]="isTimeRequired && !isTimeDisabled">
+        <mat-error *ngIf="timeForm.controls['date'].hasError('required')">
+          Field is <strong>required</strong>
+        </mat-error>         
       </mat-form-field>
     </form>
   </div>
