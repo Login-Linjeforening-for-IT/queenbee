@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, Input } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-error',
@@ -7,13 +7,17 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./error.component.css']
 })
 export class ErrorComponent {
-  errorMessage: string = "This is a error!"
-
-  constructor(private dialogRef: MatDialogRef<ErrorComponent>) { }
+  @Input() title!: string;
+  @Input() details!: string;
+  
+  constructor(
+    private dialogRef: MatDialogRef<ErrorComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+      this.title = data.title;
+      this.details = data.details;
+    }
 
   onClose(): void {
-    // Emit false to indicate deletion cancellation
-    console.log("Clicked")
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 }

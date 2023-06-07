@@ -1,10 +1,11 @@
 <div class="container">
-    <h3 mat-dialog-title>Are you sure?</h3>
+    <h3 mat-dialog-title>{{title}}</h3>
     <div mat-dialog-content>
-        <p>Det har vært en erroR!</p>
+      <p>{{details}}</p>
     </div>
     
     <div mat-dialog-actions>
-        <button mat-button (click)="onClose()">OK</button>
+      <button mat-raised-button class="dialog-btn" color="primary" (click)="onClose()">OK</button>
     </div>
-</div>
+  </div>
+  
