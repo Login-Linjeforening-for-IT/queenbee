@@ -9,10 +9,10 @@
  * - titleLabel: The title to display above the text input field.
  *
  * Outputs:
- * - newHtmlText: The HTML equivalent of the Markdown text input, emitted 
+ * - newMdText: The Markdown text input, emitted 
  *   whenever the text input changes.
  */
-import { Renderer2, Component, ElementRef, VERSION, ViewChild, HostListener, Input, Output, EventEmitter } from '@angular/core';
+import { Renderer2, Component, ElementRef, VERSION, ViewChild, HostListener, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { BehaviorSubject } from 'rxjs';
 
@@ -23,40 +23,18 @@ import { BehaviorSubject } from 'rxjs';
 })
 
 export class MarkdownTextfieldComponent {
-  @Input() titleLabel!: string;
+  @Input() placeholder!: string;
+  @Input() value!: string;
   @Output() newHtmlText = new EventEmitter<{ht: string}>();
   // Elements viewed in the html
   @ViewChild('textarea', { static: false }) textarea!: ElementRef;
   @ViewChild('mdComponent', { read: ElementRef }) mdComponent!: ElementRef;
   @ViewChild('emojiWrapper', { static: false }) emojiMartWrapper!: ElementRef;
 
-  angularVersion = VERSION.full;
-  ngxMarkdownVersion = '16.0.0';
   showEmojiPicker: boolean = false;
-  totalFrequentLines: number = 2;
-  // Some dummy text to show basics of markdown, maybe want to remove
-  markdown: string = `## Markdown **rulez**!
-  Markdown er **veldig** *bra*! 😎
-  <br></br>
-  Værmelding for dagen: [yr.no](https://www.yr.no)
+  totalFrequentLines: number = 2; // Lines in emojiPicker
   
-  ### Huskeliste
-  1. Datautstyr
-     - ~Datamaskin~
-     - Lader
-     - Mus
-  2. Søvn, ikke lov å sove
-  
-  ## English
-  Coming later!
-  
-  | Name   | Age | City       |
-  |--------|-----|------------|
-  | John   | 25  | New York   |
-  | Alice  | 30  | London     |
-  | Peter  | 28  | San Francisco |
-
-  `;
+  markdown: string = '';
 
   // For observing changes
   markdownChange: BehaviorSubject<string> = new BehaviorSubject(this.markdown);
@@ -66,22 +44,23 @@ export class MarkdownTextfieldComponent {
     // Close the emoji picker whenever there is a click outside it
     this.renderer.listen('window', 'click',(e:Event)=>{
      if(!this.emojiMartWrapper.nativeElement.contains(e.target)){
-         this.showEmojiPicker=false;
+         this.showEmojiPicker = false;
      }
     });
   }
-  
+
   // For listening to and emitting changes in the inputted markdown  
   ngAfterViewInit() {
+    this.markdown = this.value; // Sets initial markdown value
+
     this.renderer.listen(this.textarea.nativeElement, 'input', (event: any) => {
-      this.markdown = event.target.value;
       this.markdownChange.next(this.markdown);
     });
   
     this.mutationObserver = new MutationObserver((mutations) => {
       let newHtml = this.mdComponent.nativeElement.innerHTML;
       newHtml = newHtml.replace(/\n/g, ''); // Removing "\n" from the string
-      this.newHtmlText.emit({ ht: newHtml }); // emit new html
+      this.newHtmlText.emit({ht: newHtml}) // Emit new html
     });
   
     this.mutationObserver.observe(this.mdComponent.nativeElement, {

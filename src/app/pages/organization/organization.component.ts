@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {ActivatedRoute} from "@angular/router";
 import { OrganizationConstants } from '../pages.constants';
+import { OrganizationService } from 'src/app/services/api/organizations.service';
 
 @Component({
   selector: 'app-organization',
@@ -17,7 +18,8 @@ export class OrganizationComponent {
 
   constructor(
     private fb: FormBuilder,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private organizationService: OrganizationService
   ) {}
 
 
@@ -47,7 +49,7 @@ export class OrganizationComponent {
       name_en: '',
       description_no: '',
       description_en: '',
-      organization_type: '',
+      //organization_type: '',
       url_homepage: '',
       url_linkedin: '',
       url_facebook: '',
@@ -64,5 +66,15 @@ export class OrganizationComponent {
 
   onDescriptionEnChange(newVal: { ht: string }) {
     this.organizationForm.get('description_en')!.patchValue(newVal.ht);
+  }
+
+  submitEvent() {
+    if(this.pathElements[1] === 'new') {
+      console.log("clicked org")
+      this.organizationService.createOrganization(this.organizationForm.value).subscribe(
+        response => console.log(response),
+        error => console.error(error)
+      );
+    }
   }
 }

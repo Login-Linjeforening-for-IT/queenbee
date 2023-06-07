@@ -18,7 +18,7 @@ Value: {{ organizationForm.value | json }}
             <mat-label>Name NOR</mat-label>
           </mat-form-field>
 
-          <app-markdown-textfield (newHtmlText)=onDescriptionNoChange($event) [titleLabel]="'Description NOR'" class="row"></app-markdown-textfield>
+          <app-markdown-textfield (newHtmlText)=onDescriptionNoChange($event) [placeholder]="'Description NOR'" class="row"></app-markdown-textfield>
         </mat-tab>
         <mat-tab label="🇺🇸 ENG">
           <mat-form-field class="row">
@@ -26,18 +26,18 @@ Value: {{ organizationForm.value | json }}
             <mat-label>Name ENG</mat-label>
           </mat-form-field>
 
-          <app-markdown-textfield (newHtmlText)=onDescriptionEnChange($event) [titleLabel]="'Description ENG'" class="row"></app-markdown-textfield>
+          <app-markdown-textfield (newHtmlText)=onDescriptionEnChange($event) [placeholder]="'Description ENG'" class="row"></app-markdown-textfield>
         </mat-tab>
       </mat-tab-group>
 
-      <mat-form-field class="dd">
+      <!-- <mat-form-field class="dd">
         <mat-label>Organization Type</mat-label>
         <mat-select formControlName="organization_type" required>
           <mat-option *ngFor="let o of org_types" [value]="o.value">
             {{o.viewValue}}
           </mat-option>
         </mat-select>
-      </mat-form-field>
+      </mat-form-field> -->
     </div>
 
     <div class="block">
@@ -71,5 +71,5 @@ Value: {{ organizationForm.value | json }}
       </mat-form-field>
     </div>
   </div>
-  <button type="submit" mat-raised-button color="primary">{{submit}}</button>
+  <button type="submit" (click)="submitEvent()" mat-raised-button color="primary">{{submit}}</button>
 </form>

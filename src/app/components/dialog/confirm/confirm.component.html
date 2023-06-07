@@ -1,0 +1,11 @@
+<div class="container">
+    <h3 mat-dialog-title>Are you sure?</h3>
+    <div mat-dialog-content>
+        <p>{{ details }}</p>
+    </div>
+    
+    <div mat-dialog-actions>
+        <button mat-raised-button class="dialog-btn" color="warn" (click)="onConfirm()">Confirm</button>
+        <button mat-raised-button class="dialog-btn" color="primary" (click)="onClose()">Cancel</button>
+    </div>
+</div>

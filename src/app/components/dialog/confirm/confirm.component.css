@@ -1,0 +1,13 @@
+.container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+.container > * {
+    width: 100%;
+}
+
+.dialog-btn {
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+}

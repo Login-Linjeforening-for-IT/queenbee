@@ -14,11 +14,11 @@ export abstract class BaseDataSource<T> extends DataSource<T> {
   paginator: MatPaginator | undefined;
   sort: MatSort | undefined;
   filterStr: ElementRef<HTMLInputElement> | undefined;
-
+  
   constructor() {
     super();
   }
-
+  
   connect(): Observable<T[]> {
     if (this.paginator && this.sort && this.filterStr) {
       // setup for the filter
@@ -53,6 +53,10 @@ export abstract class BaseDataSource<T> extends DataSource<T> {
   }
 
   disconnect(): void {}
+
+  updateData(data: T[]): void {
+    this.data.next(data);
+  }
 
   get dataLength(): number {
     return this.data.getValue().length;

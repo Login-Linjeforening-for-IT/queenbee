@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import {AppRoutingModule, routingComponents} from "./app-routing.module";
@@ -38,6 +39,9 @@ import { MarkdownTextfieldComponent } from './components/markdown-textfield/mark
 import { MarkdownModule } from 'ngx-markdown';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { DotMenuComponent } from './components/dot-menu/dot-menu.component';
+import { ErrorComponent } from './components/dialog/error/error.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ConfirmComponent } from './components/dialog/confirm/confirm.component';
 
 @NgModule({
   declarations: [
@@ -56,10 +60,13 @@ import { DotMenuComponent } from './components/dot-menu/dot-menu.component';
     DataTableLocationComponent,
     JobadComponent,
     MarkdownTextfieldComponent,
-    DotMenuComponent
+    DotMenuComponent,
+    ErrorComponent,
+    ConfirmComponent
   ],
     imports: [
         BrowserModule,
+        HttpClientModule,
         AppRoutingModule,
         NoopAnimationsModule,
         MatTableModule,
@@ -80,6 +87,7 @@ import { DotMenuComponent } from './components/dot-menu/dot-menu.component';
         MatMenuModule,
         MarkdownModule.forRoot(),
         PickerComponent,
+        MatDialogModule
     ],
   providers: [],
   bootstrap: [AppComponent]
