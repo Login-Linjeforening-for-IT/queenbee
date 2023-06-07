@@ -4,18 +4,26 @@
 <form [formGroup]="eventForm">
   <div *ngIf="fetchedEvent$ | async as event" class="form">
     <hr>
+
+    <!--GENERAL INFORMATION BLOCK-->
     <div class="block">
       <h2>General Information</h2>
+      <!--TAB WITH LANGUAGE SPECIFIC INFORMATION-->
       <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" class="block">
         <mat-tab label="🇳🇴 NOR">
           <mat-form-field class="row">
-            <input matInput formControlName="name_no" required>
+            <input matInput formControlName="name_no" maxlength="50">
             <mat-label>Event Name NOR</mat-label>
+            <mat-hint align="end">{{eventForm.get('name_no')?.value?.length || 0}} / 50</mat-hint>
+            <mat-error *ngIf="eventForm.controls['name_no'].hasError('required')">
+              This field is <strong>required</strong>
+            </mat-error>
           </mat-form-field>
 
           <mat-form-field class="row">
-            <input matInput formControlName="info_no">
+            <input matInput formControlName="info_no" maxlength="180">
             <mat-label>Informational NOR</mat-label>
+            <mat-hint align="end">{{eventForm.get('info_no')?.value?.length || 0}} / 180</mat-hint>
           </mat-form-field>
           
           <app-markdown-textfield 
@@ -24,19 +32,22 @@
 
         <mat-tab label="🇺🇸 ENG">
           <mat-form-field class="row">
-            <input matInput formControlName="name_en">
+            <input matInput formControlName="name_en" maxlength="50">
             <mat-label>Event Name ENG</mat-label>
+            <mat-hint align="end">{{eventForm.get('name_en')?.value?.length || 0}} / 50</mat-hint>
           </mat-form-field>
 
           <mat-form-field class="row">
-            <input matInput formControlName="info_en">
+            <input matInput formControlName="info_en" maxlength="180">
             <mat-label>Informational ENG</mat-label>
+            <mat-hint align="end">{{eventForm.get('info_en')?.value?.length || 0}} / 180</mat-hint>
           </mat-form-field>
 
           <app-markdown-textfield class="row" (newHtmlText)=onDescriptionEnChange($event) [placeholder]="'Description ENG'" [value]="eventForm.get('description_en')?.value"></app-markdown-textfield>
         </mat-tab>
       </mat-tab-group>
       
+      <!--NON-LANGUAGE SPECIFIC GENERAL INFORMATION-->
       <div class="dual-column-container row">
         <div class="column">
           <app-datetime 
@@ -70,25 +81,32 @@
         <div class="column">
           <mat-form-field class="dd">
             <mat-label>Category</mat-label>
-            <mat-select formControlName="category" required>
+            <mat-select formControlName="category">
               <mat-option *ngFor="let c of categories" [value]="c.value">
                 {{c.viewValue}}
               </mat-option>
             </mat-select>
+            <mat-error *ngIf="eventForm.controls['category'].hasError('required')">
+              This field is <strong>required</strong>
+            </mat-error>
           </mat-form-field>
 
           <mat-form-field class="dd">
             <mat-label>Organization</mat-label>
-            <mat-select formControlName="organization" required>
+            <mat-select formControlName="organization">
               <mat-option *ngFor="let o of organizations" [value]="o.value">
                 {{o.viewValue}}
               </mat-option>
             </mat-select>
+            <mat-error *ngIf="eventForm.controls['organization'].hasError('required')">
+              This field is <strong>required</strong>
+            </mat-error>
           </mat-form-field>
         </div>
       </div>
     </div>
 
+    <!--SIGN UP BLOCK-->
     <div class="block">
       <h2>Signup</h2>
       <mat-form-field class="row">
@@ -98,7 +116,7 @@
 
       <div class="dual-column-container row">
         <div class="column">
-          <app-datetime 
+          <app-datetime
             (newDatetime)=onSignupReleaseChange($event) 
             [dateLabel]="'Release Date'" 
             [timeLabel]="'Release Time'" 
@@ -116,9 +134,15 @@
         
         <div class="column">
           <div>
-            <mat-form-field class="dd">
-              <input matInput type="number" min="0" formControlName="capacity">
+            <mat-form-field>
+              <input matInput type="number" min="0" step="1" formControlName="capacity" placeholder="Enter number">
               <mat-label>Capacity</mat-label>
+              <mat-error *ngIf="eventForm.controls['capacity'].hasError('min')">
+                Number must be <strong>positive</strong>
+              </mat-error>
+              <mat-error *ngIf="eventForm.controls['capacity'].hasError('decimal')">
+                Number cannot be a <strong>decimal</strong>
+              </mat-error>
             </mat-form-field>
             <mat-slide-toggle style="margin-left: 1rem;">Is full</mat-slide-toggle>
           </div>
@@ -126,6 +150,7 @@
       </div>
     </div>
 
+    <!--IMAGE BLOCK-->
     <div class="block">
       <h2>Image Links</h2>
       <mat-form-field class="row">
@@ -139,6 +164,7 @@
       </mat-form-field>
     </div>
 
+    <!--LINKS BLOCK-->
     <div class="block">
       <h2>Social Links</h2>
       <mat-form-field class="row">
@@ -157,6 +183,7 @@
       </mat-form-field>
     </div>
   </div>
+  
   <button class="submit-btn" type="submit" (click)="submitEvent()" mat-raised-button color="primary">
     <span class="material-symbols-sharp">save</span>{{submit}}
   </button>

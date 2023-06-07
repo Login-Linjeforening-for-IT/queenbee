@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup} from "@angular/forms";
-import {ActivatedRoute} from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
 import { EventConstants } from '../pages.constants';
 import { EventService } from 'src/app/services/api/event.service';
 import { CategoryService } from 'src/app/services/api/category.service';
@@ -9,12 +9,15 @@ import { DropDownMenu, EventDetail } from 'src/app/models/dataInterfaces.model';
 import { convertToRFC3339, convertFromRFC3339, isDatetimeUnset } from 'src/app/utils/time';
 import { htmlToMarkdown } from 'src/app/utils/core'
 import { Observable, of, tap } from 'rxjs';
+import { NoDecimalValidator } from 'src/app/common/validators';
+import { ErrorComponent } from 'src/app/components/dialog/error/error.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-event',
   templateUrl: './event.component.html'
 })
-export class EventComponent {
+export class EventComponent implements OnInit{
   categories: DropDownMenu[] = [];
   organizations: DropDownMenu[] = [];
   
@@ -34,12 +37,13 @@ export class EventComponent {
     private route: ActivatedRoute,
     private eventService: EventService,
     private categoryService: CategoryService,
-    private orgService: OrganizationService
+    private orgService: OrganizationService,
+    private dialog: MatDialog
   ) {}  
 
   ngOnInit() {
     this.eventForm = this.fb.group({
-      name_no: '',
+      name_no: ['', Validators.required],
       name_en: '',
       description_no: '',
       description_en: '',
@@ -51,7 +55,7 @@ export class EventComponent {
       time_signup_release: '',
       time_signup_deadline: '',
       link_signup: '',
-      capacity: null,
+      capacity: [null, [Validators.min(0), NoDecimalValidator()]],
       full: false,
       image_small: '',
       image_banner: '',
@@ -60,8 +64,8 @@ export class EventComponent {
       digital: false,
       canceled: false,
       link_stream: '',
-      category: '',
-      organization: ''
+      category: ['', Validators.required],
+      organization: ['', Validators.required],
     });
 
     this.route.url.subscribe(segments => {
@@ -101,7 +105,7 @@ export class EventComponent {
                 time_signup_release: !isDatetimeUnset(event.time_signup_release)? event.time_signup_release : "",
                 time_signup_deadline: !isDatetimeUnset(event.time_signup_deadline)? event.time_signup_deadline : "",
                 link_signup: event.link_signup,
-                capacity: event.capacity,
+                capacity: event.capacity !== 0 ? event.capacity : null,
                 full: event.full,
                 image_small: event.image_small,
                 image_banner: event.image_banner,
@@ -124,7 +128,7 @@ export class EventComponent {
         this.submit = 'submit not set!'
     }
 
-    this.eventForm.valueChanges.subscribe(console.log)
+    this.eventForm.valueChanges.subscribe(() => console.log(this.eventForm))
     });
   }
 
@@ -161,15 +165,26 @@ export class EventComponent {
     this.validateEvent();
 
     if(this.pathElements[1] === 'new') {
-      this.eventService.createEvent(this.eventForm.value).subscribe(
-        response => console.log(response),
-        error => console.error(error)
-      );
+      this.eventService.createEvent(this.eventForm.value).subscribe({
+        next: () => {
+          console.log("Event created successfully");
+          // here you could navigate to another page, or show a success message, etc.
+        },
+        error: (error) => {
+          console.log("Erroring")
+          this.dialog.open(ErrorComponent, {
+            data: {
+              title: "Error: " + error.status + " " + error.statusText,
+              details: error.error.error,
+            },
+          });
+
+        }
+      });
     }
   }
 
   cancelEvent() {
-    console.log("Cancelling clicked")
     if(confirm("Are you sure you want to cancel this event? (it will not be deleted)")) {
       this.eventForm.get('canceled')?.setValue(true);
     }
