@@ -1,0 +1,7 @@
+<div>
+    <h1>New Event</h1>
+    <app-event-form (formValues)="onFormValuesEmit($event)"></app-event-form>
+    <button class="submit-btn" type="submit" (click)="submitEvent()" mat-raised-button color="primary">
+        <span class="material-symbols-sharp">save</span>Create
+    </button>
+</div>

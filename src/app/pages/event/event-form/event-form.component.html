@@ -1,14 +1,9 @@
-<h1>{{title}}</h1>
-<p class="weak-text" *ngIf="mode === 'edit'">Last updated: {{timeUpdated}}</p>
-
 <form [formGroup]="eventForm">
-  <div *ngIf="fetchedEvent$ | async as event" class="form">
+  <div class="form">
     <hr>
 
-    <!--GENERAL INFORMATION BLOCK-->
     <div class="block">
       <h2>General Information</h2>
-      <!--TAB WITH LANGUAGE SPECIFIC INFORMATION-->
       <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" class="block">
         <mat-tab label="🇳🇴 NOR">
           <mat-form-field class="row">
@@ -47,7 +42,6 @@
         </mat-tab>
       </mat-tab-group>
       
-      <!--NON-LANGUAGE SPECIFIC GENERAL INFORMATION-->
       <div class="dual-column-container row">
         <div class="column">
           <app-datetime 
@@ -106,7 +100,6 @@
       </div>
     </div>
 
-    <!--SIGN UP BLOCK-->
     <div class="block">
       <h2>Signup</h2>
       <mat-form-field class="row">
@@ -150,7 +143,6 @@
       </div>
     </div>
 
-    <!--IMAGE BLOCK-->
     <div class="block">
       <h2>Image Links</h2>
       <mat-form-field class="row">
@@ -164,7 +156,6 @@
       </mat-form-field>
     </div>
 
-    <!--LINKS BLOCK-->
     <div class="block">
       <h2>Social Links</h2>
       <mat-form-field class="row">
@@ -183,11 +174,4 @@
       </mat-form-field>
     </div>
   </div>
-  
-  <button class="submit-btn" type="submit" (click)="submitEvent()" mat-raised-button color="primary">
-    <span class="material-symbols-sharp">save</span>{{submit}}
-  </button>
-  <button class="submit-btn" *ngIf="mode === 'edit'" (click)="cancelEvent()" mat-raised-button color="warn">
-    <span class="material-symbols-sharp">event_busy</span>Cancel The Event
-  </button>
 </form>

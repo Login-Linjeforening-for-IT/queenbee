@@ -7,17 +7,18 @@ import {OrganizationsComponent} from "./pages/organizations/organizations.compon
 import {LocationsComponent} from "./pages/locations/locations.component";
 import {RulesComponent} from "./pages/rules/rules.component";
 import {PageNotFoundComponent} from "./pages/page-not-found/page-not-found.component";
-import {EventComponent} from "./pages/event/event.component";
 import {OrganizationComponent} from "./pages/organization/organization.component";
 import {LocationComponent} from "./pages/location/location.component";
 import { JobadComponent } from "./pages/jobad/jobad.component";
+import { EventNewComponent } from "./pages/event/event-new/event-new.component";
+import { EventEditComponent } from "./pages/event/event-edit/event-edit.component";
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent},
   { path: 'events', component: EventsComponent, pathMatch: 'full'},
-  { path: 'events/new', component: EventComponent, pathMatch: 'full'},
-  { path: 'events/edit/:id', component: EventComponent, pathMatch: 'full'},
+  { path: 'events/new', component: EventNewComponent, pathMatch: 'full'},
+  { path: 'events/edit/:id', component: EventEditComponent, pathMatch: 'full'},
   { path: 'job-ads', component: JobadsComponent, pathMatch: 'full'},
   { path: 'job-ads/new', component: JobadComponent, pathMatch: 'full'},
   { path: 'job-ads/edit/:id', component: JobadComponent, pathMatch: 'full'},

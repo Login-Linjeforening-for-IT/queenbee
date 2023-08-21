@@ -7,8 +7,6 @@ import {AppRoutingModule, routingComponents} from "./app-routing.module";
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { DataTableEventComponent } from './pages/events/data-table-event/data-table-event.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
-import { EventComponent } from './pages/event/event.component';
-
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
@@ -42,6 +40,9 @@ import { DotMenuComponent } from './components/dot-menu/dot-menu.component';
 import { ErrorComponent } from './components/dialog/error/error.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmComponent } from './components/dialog/confirm/confirm.component';
+import { EventNewComponent } from './pages/event/event-new/event-new.component';
+import { EventFormComponent } from './pages/event/event-form/event-form.component';
+import { EventEditComponent } from './pages/event/event-edit/event-edit.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,6 @@ import { ConfirmComponent } from './components/dialog/confirm/confirm.component'
     routingComponents,
     DataTableEventComponent,
     PageNotFoundComponent,
-    EventComponent,
     SidebarComponent,
     DatetimeComponent,
     OrganizationsComponent,
@@ -62,7 +62,10 @@ import { ConfirmComponent } from './components/dialog/confirm/confirm.component'
     MarkdownTextfieldComponent,
     DotMenuComponent,
     ErrorComponent,
-    ConfirmComponent
+    ConfirmComponent,
+    EventNewComponent,
+    EventFormComponent,
+    EventEditComponent
   ],
     imports: [
         BrowserModule,
