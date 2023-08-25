@@ -136,8 +136,3 @@ export interface Organization {
   link_linkedin: string;
   logo: string;
 }
-
-export interface DropDownMenu {
-  value: any;
-  viewValue: string;
-}

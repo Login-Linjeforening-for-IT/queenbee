@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 import { NoDecimalValidator } from 'src/app/common/validators';
-import { DropDownMenu, EventDetail } from 'src/app/models/dataInterfaces.model';
+import { Category, EventDetail, Organization } from 'src/app/models/dataInterfaces.model';
 import { CategoryService } from 'src/app/services/api/category.service';
 import { OrganizationService } from 'src/app/services/api/organizations.service';
 import { convertToRFC3339 } from 'src/app/utils/time';
@@ -15,17 +15,17 @@ export class EventFormComponent implements OnInit{
   @Input() event!: EventDetail;
   @Output() formValues = new EventEmitter<{fv: EventDetail}>();
 
-  categories: DropDownMenu[] = [];
-  organizations: DropDownMenu[] = [];
+  categories: Category[] = [];
+  organizations: Organization[] = [];
   
   fetchedEvent$!: Observable<EventDetail>;
 
   eventForm!: FormGroup;
 
-  autoControlCats = new FormControl<string | DropDownMenu>('');
-  filteredCats!: Observable<DropDownMenu[]>;
-  autoControlOrgs = new FormControl<string | DropDownMenu>('');
-  filteredOrgs!: Observable<DropDownMenu[]>;
+  autoControlCats = new FormControl<string | Category>('');
+  filteredCats!: Observable<Category[]>;
+  autoControlOrgs = new FormControl<string | Organization>('');
+  filteredOrgs!: Observable<Organization[]>;
 
   constructor(
     private fb: FormBuilder,
@@ -39,22 +39,22 @@ export class EventFormComponent implements OnInit{
     this.filteredOrgs = this.autoControlOrgs.valueChanges.pipe(
       startWith(''),
       map(value => {
-        const viewValue = typeof value === 'string' ? value : value?.viewValue;
-        return viewValue ? this._filter(viewValue as string) : this.organizations.slice();
+        const viewValue = typeof value === 'string' ? value : value?.name_no;
+        return viewValue ? this._filterOrganizations(viewValue as string) : this.organizations.slice();
       })
     );
 
     this.filteredCats = this.autoControlCats.valueChanges.pipe(
       startWith(''),
       map(value => {
-        const viewValue = typeof value === 'string' ? value : value?.viewValue;
-        return viewValue ? this._filter(viewValue as string) : this.categories.slice();
+        const viewValue = typeof value === 'string' ? value : value?.name_no;
+        return viewValue ? this._filterCategories(viewValue as string) : this.categories.slice();
       })
     );
 
     this.autoControlOrgs.valueChanges.subscribe(value => {
       if (value && typeof value === 'object') {
-        this.eventForm.get('organization')?.setValue(value.value);
+        this.eventForm.get('organization')?.setValue(value.shortname);
       } else {
         this.eventForm.get('organization')?.setValue(value);
       }
@@ -62,7 +62,7 @@ export class EventFormComponent implements OnInit{
 
     this.autoControlCats.valueChanges.subscribe(value => {
       if (value && typeof value === 'object') {
-        this.eventForm.get('category')?.setValue(value.value);
+        this.eventForm.get('category')?.setValue(value.id);
       } else {
         this.eventForm.get('category')?.setValue(value);
       }
@@ -114,8 +114,12 @@ export class EventFormComponent implements OnInit{
       this.eventForm.get('description_en')?.setValue(newVal.ht);
   }
 
-  displayFn(subject: DropDownMenu): string {
-    return subject && subject.viewValue ? subject.viewValue : '';
+  displayCategoryFn(category: Category): string {
+    return category ? category.name_en : '';
+  }
+
+  displayOrganizationFn(organization: Organization): string {
+    return organization ? organization.name_en : '';
   }
 
   private initForm() {
@@ -182,21 +186,34 @@ export class EventFormComponent implements OnInit{
   }
 
   private fetchCategories() {
-    this.categoryService.getDropDownMenuCategories().subscribe((c: DropDownMenu[]) => {
+    this.categoryService.fetchCategories().subscribe((c: Category[]) => {
+      console.log("Category: ", c)
       this.categories = c;
     });
   }
 
   private fetchOrganizations() {
-    this.orgService.getDropDownMenuOrganizations().subscribe((o: DropDownMenu[]) => {
+    this.orgService.fetchOrganizations().subscribe((o: Organization[]) => {
+      console.log("Organization: ", o)
       this.organizations = o;
     });
   }
 
-  // Function for filtering dropdown menu
-  private _filter(value: string): DropDownMenu[] {
+  // Function for filtering category dropdown
+  private _filterCategories(value: string): Category[] {
     const filterValue = value.toLowerCase();
+    return this.categories.filter(category =>
+      category.name_en.toLowerCase().includes(filterValue) ||
+      category.name_no.toLowerCase().includes(filterValue)
+    );
+  }
 
-    return this.organizations.filter(option => option.viewValue.toLowerCase().includes(filterValue));
+  // Function for filtering organization dropdown
+  private _filterOrganizations(value: string): Organization[] {
+    const filterValue = value.toLowerCase();
+    return this.organizations.filter(organization =>
+      organization.name_en.toLowerCase().includes(filterValue) ||
+      organization.name_no.toLowerCase().includes(filterValue)
+    );
   }
 }

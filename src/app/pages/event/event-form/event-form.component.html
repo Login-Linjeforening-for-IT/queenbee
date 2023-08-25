@@ -83,12 +83,12 @@
                 [formControl]="autoControlCats"
                 [matAutocomplete]="autoCat"/>
 
-              <mat-autocomplete autoActiveFirstOption #autoCat="matAutocomplete" [displayWith]="displayFn">
+              <mat-autocomplete autoActiveFirstOption #autoCat="matAutocomplete" [displayWith]="displayCategoryFn">
                 <mat-option
                   *ngFor="let o of filteredCats | async"
                   [value]="o"
                 >
-                  {{ o.viewValue }}
+                  {{ o.name_no }}
                 </mat-option>
               </mat-autocomplete>
 
@@ -108,12 +108,12 @@
                 [matAutocomplete]="autoOrg"
                 />
                 
-              <mat-autocomplete autoActiveFirstOption #autoOrg="matAutocomplete" [displayWith]="displayFn">
+              <mat-autocomplete autoActiveFirstOption #autoOrg="matAutocomplete" [displayWith]="displayOrganizationFn">
                 <mat-option
                   *ngFor="let o of filteredOrgs | async"
                   [value]="o"
                 >
-                  {{ o.viewValue }}
+                  {{ o.name_no }}
                 </mat-option>
               </mat-autocomplete>
 
