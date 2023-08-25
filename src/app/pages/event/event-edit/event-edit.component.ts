@@ -1,8 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import { ConfirmComponent } from 'src/app/components/dialog/confirm/confirm.component';
 import { EventDetail } from 'src/app/models/dataInterfaces.model';
 import { EventService } from 'src/app/services/api/event.service';
+import { scrollToTop } from 'src/app/utils/core';
 import { convertFromRFC3339 } from 'src/app/utils/time';
+import { EventFormComponent } from '../event-form/event-form.component';
+import { ErrorComponent } from 'src/app/components/dialog/error/error.component';
 
 @Component({
   selector: 'app-event-edit',
@@ -10,13 +15,17 @@ import { convertFromRFC3339 } from 'src/app/utils/time';
   styleUrls: ['./event-edit.component.css']
 })
 export class EventEditComponent {
+  @ViewChild(EventFormComponent) eventFormComponent!: EventFormComponent;
+  eventFormValues!: EventDetail;
+
   eventID!: number;
   event!: EventDetail;
   timeUpdated!: string;
   
   constructor(
     private eventService: EventService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -34,29 +43,53 @@ export class EventEditComponent {
     })
   }
 
-  updateEvent() {
-    /*
-    this.eventService.createEvent(this.eventForm.value).subscribe({
+  onFormValuesEmit(eventFormValues: { fv: EventDetail }) {
+    console.log("New values")
+    this.eventFormValues = eventFormValues.fv;
+
+    this.eventService.patchEvent(eventFormValues.fv).subscribe({
       next: () => {
         console.log("Event created successfully");
         // here you could navigate to another page, or show a success message, etc.
       },
       error: (error) => {
+        scrollToTop();
         console.log("Erroring")
         this.dialog.open(ErrorComponent, {
           data: {
             title: "Error: " + error.status + " " + error.statusText,
             details: error.error.error,
+            autoFocus: false
           },
         });
 
       }
-    });*/
+    });
+  }
+
+  updateEvent() {
+    this.eventFormComponent.onEmit();
   }
 
   cancelEvent() {
-    /*if(confirm("Are you sure you want to cancel this event? (it will not be deleted)")) {
-      this.eventForm.get('canceled')?.setValue(true);
-    }*/
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      data: {
+        details: "Are you sure you want to cancel the event? (It will not be deleted)"
+      }
+    })
+
+    scrollToTop();
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        // User clicked "Confirm"
+        console.log("User confirmed");
+      } else if (result === false) {
+        // User clicked "Close"
+        console.log("User closed");
+      } else {
+        // Dialog was dismissed without user action
+        console.log("Dialog dismissed");
+      }
+    });
   }
 }

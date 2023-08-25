@@ -4,7 +4,7 @@ import { ErrorComponent } from 'src/app/components/dialog/error/error.component'
 import { EventDetail } from 'src/app/models/dataInterfaces.model';
 import { EventService } from 'src/app/services/api/event.service';
 import { EventFormComponent } from '../event-form/event-form.component';
-import { ConfirmComponent } from 'src/app/components/dialog/confirm/confirm.component';
+import { scrollToTop } from 'src/app/utils/core';
 
 @Component({
   selector: 'app-event-new',
@@ -30,7 +30,7 @@ export class EventNewComponent {
         // here you could navigate to another page, or show a success message, etc.
       },
       error: (error) => {
-        this.scrollToTop();
+        scrollToTop();
         console.log("Erroring")
         this.dialog.open(ErrorComponent, {
           data: {
@@ -41,13 +41,6 @@ export class EventNewComponent {
         });
 
       }
-    });
-  }
-
-  private scrollToTop() {
-    window.scrollTo({
-      top: 0,
-      behavior: 'auto',
     });
   }
 
