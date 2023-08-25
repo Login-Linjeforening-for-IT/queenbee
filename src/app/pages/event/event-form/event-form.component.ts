@@ -5,7 +5,7 @@ import { NoDecimalValidator } from 'src/app/common/validators';
 import { Category, EventDetail, Organization } from 'src/app/models/dataInterfaces.model';
 import { CategoryService } from 'src/app/services/api/category.service';
 import { OrganizationService } from 'src/app/services/api/organizations.service';
-import { convertToRFC3339 } from 'src/app/utils/time';
+import { convertToRFC3339, isDatetimeUnset } from 'src/app/utils/time';
 
 @Component({
   selector: 'app-event-form',
@@ -114,7 +114,7 @@ export class EventFormComponent implements OnInit{
   }
 
   displayCategoryFn(category: Category): string {
-    return category ? category.name_en : 'none';
+    return category ? category.name_en : '';
   }
 
   displayOrganizationFn(organization: Organization): string {
@@ -161,9 +161,9 @@ export class EventFormComponent implements OnInit{
         info_en: this.event.information_en || '',
         time_start: this.event.time_start || '',
         time_end: this.event.time_end || '',
-        time_publish: this.event.time_publish || '',
-        time_signup_release: this.event.time_signup_release || '',
-        time_signup_deadline: this.event.time_signup_deadline || '',
+        time_publish: !isDatetimeUnset(this.event.time_publish) ? this.event.time_publish : '',
+        time_signup_release: !isDatetimeUnset(this.event.time_signup_release) ? this.event.time_signup_release : '',
+        time_signup_deadline: !isDatetimeUnset(this.event.time_signup_deadline) ? this.event.time_signup_deadline : '',
         link_signup: this.event.link_signup || '',
         capacity: this.event.capacity || null,
         full: this.event.full || false,
