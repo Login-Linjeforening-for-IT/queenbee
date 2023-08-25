@@ -22,19 +22,10 @@ export class EventFormComponent implements OnInit{
 
   eventForm!: FormGroup;
 
-  autoControl = new FormControl();
-  filteredOptions!: Observable<string[]>;
-  options: string[] = ['Angular', 'React', 'Vue'];
-  objectOptions = [
-    {name: 'Angular'},
-    {name: 'Angular Material'},
-    {name: 'React'},
-    {name: 'Vue'}
-  ]
-
-  displayFunc(subject: { name: any; }) {
-    return subject ? subject.name : undefined;
-  }
+  autoControlCats = new FormControl<string | DropDownMenu>('');
+  filteredCats!: Observable<DropDownMenu[]>;
+  autoControlOrgs = new FormControl<string | DropDownMenu>('');
+  filteredOrgs!: Observable<DropDownMenu[]>;
 
   constructor(
     private fb: FormBuilder,
@@ -43,10 +34,21 @@ export class EventFormComponent implements OnInit{
   ) {}
   
   ngOnInit() {
-    this.filteredOptions = this.autoControl.valueChanges.pipe(
+    this.filteredOrgs = this.autoControlOrgs.valueChanges.pipe(
       startWith(''),
-      map(value => this._filter(value))
-    )
+      map(value => {
+        const viewValue = typeof value === 'string' ? value : value?.viewValue;
+        return viewValue ? this._filter(viewValue as string) : this.organizations.slice();
+      })
+    );
+
+    this.filteredCats = this.autoControlCats.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const viewValue = typeof value === 'string' ? value : value?.viewValue;
+        return viewValue ? this._filter(viewValue as string) : this.categories.slice();
+      })
+    );  
 
     this.initForm();
     this.fetchCategories();
@@ -55,12 +57,6 @@ export class EventFormComponent implements OnInit{
     if (this.event) {
       this.updateFormFields();
     }
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLocaleLowerCase();
-    return this.options.filter(option =>
-      option.toLocaleLowerCase().includes(filterValue));
   }
 
   onEmit() {
@@ -94,6 +90,10 @@ export class EventFormComponent implements OnInit{
 
   onDescriptionEnChange(newVal: { ht: string }) {
       this.eventForm.get('description_en')?.setValue(newVal.ht);
+  }
+
+  displayFn(subject: DropDownMenu): string {
+    return subject && subject.viewValue ? subject.viewValue : '';
   }
 
   private initForm() {
@@ -169,5 +169,12 @@ export class EventFormComponent implements OnInit{
     this.orgService.getDropDownMenuOrganizations().subscribe((o: DropDownMenu[]) => {
       this.organizations = o;
     });
+  }
+
+  // Function for filtering dropdown menu
+  private _filter(value: string): DropDownMenu[] {
+    const filterValue = value.toLowerCase();
+
+    return this.organizations.filter(option => option.viewValue.toLowerCase().includes(filterValue));
   }
 }

@@ -73,49 +73,57 @@
         </div>
 
         <div class="column">
-          <mat-form-field class="dd">
-            <mat-label>Category</mat-label>
-            <mat-select formControlName="category">
-              <mat-option *ngFor="let c of categories" [value]="c.value">
-                {{c.viewValue}}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="eventForm.controls['category'].hasError('required')">
-              This field is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
+          <div *ngIf="categories.length > 0">
+            <mat-form-field class="dd">
+              <mat-label>Category</mat-label>
+              
+              <input
+                type="text"
+                matInput
+                formControlName="category"
+                [formControl]="autoControlCats"
+                [matAutocomplete]="autoCat"/>
 
-          <mat-form-field class="dd">
-            <mat-label>Organization</mat-label>
-            <input
-              type="text"
-              matInput
-              [matAutocomplete]="auto"
-              formControlName="organization"
+              <mat-autocomplete autoActiveFirstOption #autoCat="matAutocomplete" [displayWith]="displayFn">
+                <mat-option
+                  *ngFor="let o of filteredCats | async"
+                  [value]="o"
+                >
+                  {{ o.viewValue }}
+                </mat-option>
+              </mat-autocomplete>
 
-            />
-            <mat-autocomplete #auto="matAutocomplete">
-              <mat-option
-                *ngFor="let o of organizations"
-                [value]="o.value"
-              >
-                {{ o.viewValue }}
-              </mat-option>
-            </mat-autocomplete>
-            <mat-error *ngIf="eventForm.controls['organization'].hasError('required')">
-              This field is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
+              <mat-error *ngIf="eventForm.controls['category'].hasError('required')">
+                This field is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
 
-          <mat-form-field class="dd">
-            <mat-label>Number</mat-label>
-            <input type="text" matInput [matAutocomplete]="test123" [formControl]="autoControl"/>
-            <mat-autocomplete #test123="matAutocomplete" [displayWith]="displayFunc">
-              <mat-option *ngFor="let o of objectOptions" [value]="o">
-                {{o.name}}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
+          <div *ngIf="organizations.length > 0">
+            <mat-form-field class="dd">
+              <mat-label>Organization</mat-label>
+              <input
+                type="text"
+                matInput
+                formControlName="organization"
+                [formControl]="autoControlOrgs"
+                [matAutocomplete]="autoOrg"/>
+
+              <mat-autocomplete autoActiveFirstOption #autoOrg="matAutocomplete" [displayWith]="displayFn">
+                <mat-option
+                  *ngFor="let o of filteredOrgs | async"
+                  [value]="o"
+                >
+                  {{ o.viewValue }}
+                </mat-option>
+              </mat-autocomplete>
+
+              <mat-error *ngIf="eventForm.controls['organization'].hasError('required')">
+                This field is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
         </div>
       </div>
     </div>
