@@ -80,7 +80,6 @@
               <input
                 type="text"
                 matInput
-                formControlName="category"
                 [formControl]="autoControlCats"
                 [matAutocomplete]="autoCat"/>
 
@@ -105,10 +104,10 @@
               <input
                 type="text"
                 matInput
-                formControlName="organization"
                 [formControl]="autoControlOrgs"
-                [matAutocomplete]="autoOrg"/>
-
+                [matAutocomplete]="autoOrg"
+                />
+                
               <mat-autocomplete autoActiveFirstOption #autoOrg="matAutocomplete" [displayWith]="displayFn">
                 <mat-option
                   *ngFor="let o of filteredOrgs | async"

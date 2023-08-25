@@ -34,6 +34,8 @@ export class EventFormComponent implements OnInit{
   ) {}
   
   ngOnInit() {
+    this.initForm();
+
     this.filteredOrgs = this.autoControlOrgs.valueChanges.pipe(
       startWith(''),
       map(value => {
@@ -48,9 +50,28 @@ export class EventFormComponent implements OnInit{
         const viewValue = typeof value === 'string' ? value : value?.viewValue;
         return viewValue ? this._filter(viewValue as string) : this.categories.slice();
       })
-    );  
+    );
 
-    this.initForm();
+    this.autoControlOrgs.valueChanges.subscribe(value => {
+      if (value && typeof value === 'object') {
+        this.eventForm.get('organization')?.setValue(value.value);
+      } else {
+        this.eventForm.get('organization')?.setValue(value);
+      }
+    });
+
+    this.autoControlCats.valueChanges.subscribe(value => {
+      if (value && typeof value === 'object') {
+        this.eventForm.get('category')?.setValue(value.value);
+      } else {
+        this.eventForm.get('category')?.setValue(value);
+      }
+    });
+
+    this.eventForm.valueChanges.subscribe(value => {
+      console.log('Form Value:', value);
+    });
+
     this.fetchCategories();
     this.fetchOrganizations();
 
@@ -60,6 +81,7 @@ export class EventFormComponent implements OnInit{
   }
 
   onEmit() {
+    console.log(this.event)
     this.formValues.emit({fv: this.eventForm.value});
   }
 
