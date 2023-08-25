@@ -22,6 +22,7 @@ export class EventFormComponent implements OnInit{
 
   eventForm!: FormGroup;
 
+  // Variables used by autocomplete 
   autoControlCats = new FormControl<string | Category>('');
   filteredCats!: Observable<Category[]>;
   autoControlOrgs = new FormControl<string | Organization>('');
@@ -35,43 +36,7 @@ export class EventFormComponent implements OnInit{
   
   ngOnInit() {
     this.initForm();
-
-    this.filteredOrgs = this.autoControlOrgs.valueChanges.pipe(
-      startWith(''),
-      map(value => {
-        const viewValue = typeof value === 'string' ? value : value?.name_no;
-        return viewValue ? this._filterOrganizations(viewValue as string) : this.organizations.slice();
-      })
-    );
-
-    this.filteredCats = this.autoControlCats.valueChanges.pipe(
-      startWith(''),
-      map(value => {
-        const viewValue = typeof value === 'string' ? value : value?.name_no;
-        return viewValue ? this._filterCategories(viewValue as string) : this.categories.slice();
-      })
-    );
-
-    this.autoControlOrgs.valueChanges.subscribe(value => {
-      if (value && typeof value === 'object') {
-        this.eventForm.get('organization')?.setValue(value.shortname);
-      } else {
-        this.eventForm.get('organization')?.setValue(value);
-      }
-    });
-
-    this.autoControlCats.valueChanges.subscribe(value => {
-      if (value && typeof value === 'object') {
-        this.eventForm.get('category')?.setValue(value.id);
-      } else {
-        this.eventForm.get('category')?.setValue(value);
-      }
-    });
-
-    this.eventForm.valueChanges.subscribe(value => {
-      console.log('Form Value:', value);
-    });
-
+    this.initDropdownControls();
     this.fetchCategories();
     this.fetchOrganizations();
 
@@ -80,6 +45,9 @@ export class EventFormComponent implements OnInit{
     }
   }
 
+  /**
+   * Important function used to emit the whole form containing values
+   */
   onEmit() {
     this.formValues.emit({fv: this.eventForm.value});
   }
@@ -121,6 +89,9 @@ export class EventFormComponent implements OnInit{
     return organization ? organization.name_en : '';
   }
 
+  /**
+   * Initialize the form, alongside corresponding validators
+   */
   private initForm() {
     this.eventForm = this.fb.group({
       name_no: ['', Validators.required],
@@ -150,6 +121,46 @@ export class EventFormComponent implements OnInit{
     });
   }
 
+  /**
+   * Initialized needed logic for the autocompleting dropdown menues.
+   */
+  private initDropdownControls() {
+    this.filteredOrgs = this.autoControlOrgs.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const viewValue = typeof value === 'string' ? value : value?.name_no;
+        return viewValue ? this._filterOrganizations(viewValue as string) : this.organizations.slice();
+      })
+    );
+
+    this.filteredCats = this.autoControlCats.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const viewValue = typeof value === 'string' ? value : value?.name_no;
+        return viewValue ? this._filterCategories(viewValue as string) : this.categories.slice();
+      })
+    );
+
+    this.autoControlOrgs.valueChanges.subscribe(value => {
+      if (value && typeof value === 'object') {
+        this.eventForm.get('organization')?.setValue(value.shortname);
+      } else {
+        this.eventForm.get('organization')?.setValue(value);
+      }
+    });
+
+    this.autoControlCats.valueChanges.subscribe(value => {
+      if (value && typeof value === 'object') {
+        this.eventForm.get('category')?.setValue(value.id);
+      } else {
+        this.eventForm.get('category')?.setValue(value);
+      }
+    });
+  }
+
+  /**
+   * Used to update the formfields with provided values
+   */
   private updateFormFields() {
     if (this.event) {
       this.eventForm.patchValue({
@@ -159,8 +170,8 @@ export class EventFormComponent implements OnInit{
         description_en: this.event.description_en || '',
         info_no: this.event.information_no || '',
         info_en: this.event.information_en || '',
-        time_start: this.event.time_start || '',
-        time_end: this.event.time_end || '',
+        time_start: !isDatetimeUnset(this.event.time_start) ? this.event.time_start : '',
+        time_end: !isDatetimeUnset(this.event.time_end) ? this.event.time_end : '',
         time_publish: !isDatetimeUnset(this.event.time_publish) ? this.event.time_publish : '',
         time_signup_release: !isDatetimeUnset(this.event.time_signup_release) ? this.event.time_signup_release : '',
         time_signup_deadline: !isDatetimeUnset(this.event.time_signup_deadline) ? this.event.time_signup_deadline : '',
@@ -178,6 +189,9 @@ export class EventFormComponent implements OnInit{
         organization: this.event.organizations || '',
         test: ''
       });
+      
+      this.autoControlCats.setValue(this.event.category);
+      this.autoControlOrgs.setValue(this.event.organizations[0]);
     } else {
       // Reset the form fields when the event is undefined
       this.initForm();
@@ -186,14 +200,12 @@ export class EventFormComponent implements OnInit{
 
   private fetchCategories() {
     this.categoryService.fetchCategories().subscribe((c: Category[]) => {
-      console.log("Category: ", c)
       this.categories = c;
     });
   }
 
   private fetchOrganizations() {
     this.orgService.fetchOrganizations().subscribe((o: Organization[]) => {
-      console.log("Organization: ", o)
       this.organizations = o;
     });
   }
