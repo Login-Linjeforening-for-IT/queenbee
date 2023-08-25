@@ -81,7 +81,6 @@ export class EventFormComponent implements OnInit{
   }
 
   onEmit() {
-    console.log(this.event)
     this.formValues.emit({fv: this.eventForm.value});
   }
 
@@ -115,7 +114,7 @@ export class EventFormComponent implements OnInit{
   }
 
   displayCategoryFn(category: Category): string {
-    return category ? category.name_en : '';
+    return category ? category.name_en : 'none';
   }
 
   displayOrganizationFn(organization: Organization): string {
