@@ -82,11 +82,17 @@ export class EventFormComponent implements OnInit{
   }
 
   displayCategoryFn(category: Category): string {
-    return category ? category.name_en : '';
+    if(category) {
+      return category.name_en || category.name_no
+    }
+    return ''
   }
 
   displayOrganizationFn(organization: Organization): string {
-    return organization ? organization.name_en : '';
+    if(organization) {
+      return organization.name_en || organization.name_no
+    }
+    return ''
   }
 
   /**
