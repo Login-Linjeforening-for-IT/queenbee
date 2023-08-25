@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable, map, startWith } from 'rxjs';
 import { NoDecimalValidator } from 'src/app/common/validators';
 import { DropDownMenu, EventDetail } from 'src/app/models/dataInterfaces.model';
 import { CategoryService } from 'src/app/services/api/category.service';
@@ -22,14 +22,32 @@ export class EventFormComponent implements OnInit{
 
   eventForm!: FormGroup;
 
+  autoControl = new FormControl();
+  filteredOptions!: Observable<string[]>;
+  options: string[] = ['Angular', 'React', 'Vue'];
+  objectOptions = [
+    {name: 'Angular'},
+    {name: 'Angular Material'},
+    {name: 'React'},
+    {name: 'Vue'}
+  ]
+
+  displayFunc(subject: { name: any; }) {
+    return subject ? subject.name : undefined;
+  }
+
   constructor(
     private fb: FormBuilder,
-    //private eventService: EventService,
     private categoryService: CategoryService,
     private orgService: OrganizationService
   ) {}
   
   ngOnInit() {
+    this.filteredOptions = this.autoControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value))
+    )
+
     this.initForm();
     this.fetchCategories();
     this.fetchOrganizations();
@@ -39,9 +57,14 @@ export class EventFormComponent implements OnInit{
     }
   }
 
+  private _filter(value: string): string[] {
+    const filterValue = value.toLocaleLowerCase();
+    return this.options.filter(option =>
+      option.toLocaleLowerCase().includes(filterValue));
+  }
+
   onEmit() {
-    const formValues = this.eventForm.value; // Assuming form structure matches EventDetail
-    this.formValues.emit({fv: formValues});
+    this.formValues.emit({fv: this.eventForm.value});
   }
 
   // The following functions is used to update various variables
@@ -98,6 +121,7 @@ export class EventFormComponent implements OnInit{
       link_stream: '',
       category: ['', Validators.required],
       organization: ['', Validators.required],
+      test: ''
     });
   }
 
@@ -127,6 +151,7 @@ export class EventFormComponent implements OnInit{
         link_stream: this.event.link_stream || '',
         category: this.event.category || '',
         organization: this.event.organizations || '',
+        test: ''
       });
     } else {
       // Reset the form fields when the event is undefined

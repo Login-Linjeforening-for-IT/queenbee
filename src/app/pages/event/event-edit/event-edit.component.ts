@@ -31,8 +31,6 @@ export class EventEditComponent {
     this.eventService.fetchEvent(this.eventID).subscribe((e: EventDetail) => {
       this.timeUpdated = convertFromRFC3339(e.time_updated);
       this.event = e;
-      console.log("Edit component:")
-      console.log(this.event)
     })
   }
 

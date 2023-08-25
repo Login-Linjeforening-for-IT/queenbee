@@ -1,24 +1,45 @@
 import { Component, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { ErrorComponent } from 'src/app/components/dialog/error/error.component';
+import { EventFormComponent } from '../event-form/event-form.component';
 import { EventDetail } from 'src/app/models/dataInterfaces.model';
 import { EventService } from 'src/app/services/api/event.service';
-import { EventFormComponent } from '../event-form/event-form.component';
-import { ConfirmComponent } from 'src/app/components/dialog/confirm/confirm.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ErrorComponent } from 'src/app/components/dialog/error/error.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-event-new',
-  templateUrl: './event-new.component.html',
-  styleUrls: ['./event-new.component.css']
+  selector: 'app-event-copy',
+  templateUrl: './event-copy.component.html'
 })
-export class EventNewComponent {
+export class EventCopyComponent {
   @ViewChild(EventFormComponent) eventFormComponent!: EventFormComponent;
   eventFormValues!: EventDetail;
+  eventID!: number;
+  event!: EventDetail;
 
   constructor(
     private eventService: EventService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private route: ActivatedRoute
   ) {}
+  
+  ngOnInit() {
+    // Get the event ID from the URL
+    this.route.url.subscribe(segments => {
+      if (segments.length >= 3) {
+        this.eventID = +segments[2].path;
+      }
+    });
+
+    // Fetch the event
+    this.eventService.fetchEvent(this.eventID).subscribe((e: EventDetail) => {
+      // Erase a couple of fields
+      e.time_start = "";
+      e.time_end = "";
+      e.time_publish = "";
+
+      this.event = e;
+    })
+  }
 
   onFormValuesEmit(eventFormValues: { fv: EventDetail }) {
     console.log("New values")
@@ -50,8 +71,8 @@ export class EventNewComponent {
       behavior: 'auto',
     });
   }
-
-  submitEvent() {
+  
+  createEvent() {
     this.eventFormComponent.onEmit();
   }
 }
