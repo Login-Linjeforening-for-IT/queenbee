@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 import { NoDecimalValidator } from 'src/app/common/validators';
@@ -13,7 +13,6 @@ import { convertToRFC3339, isDatetimeUnset } from 'src/app/utils/time';
 })
 export class EventFormComponent implements OnInit{
   @Input() event!: EventDetail;
-  @Output() formValues = new EventEmitter<{fv: EventDetail}>();
 
   categories: Category[] = [];
   organizations: Organization[] = [];
@@ -46,10 +45,11 @@ export class EventFormComponent implements OnInit{
   }
 
   /**
-   * Important function used to emit the whole form containing values
+   * Simply returns the value of the form
+   * @returns The whole form
    */
-  onEmit() {
-    this.formValues.emit({fv: this.eventForm.value});
+  getFormValues(): EventDetail {
+    return this.eventForm.value;
   }
 
   // The following functions is used to update various variables

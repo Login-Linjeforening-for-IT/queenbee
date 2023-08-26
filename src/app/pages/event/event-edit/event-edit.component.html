@@ -2,7 +2,7 @@
 
 <ng-container  *ngIf="event">
     <p class="weak-text">Last updated: {{timeUpdated}}</p>
-    <app-event-form [event]="event" (formValues)="onFormValuesEmit($event)"></app-event-form>
+    <app-event-form [event]="event"></app-event-form>
 </ng-container>
 
 <button class="submit-btn" type="submit" (click)="updateEvent()" mat-raised-button color="primary">

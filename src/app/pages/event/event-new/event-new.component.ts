@@ -20,11 +20,10 @@ export class EventNewComponent {
     private dialog: MatDialog
   ) {}
 
-  onFormValuesEmit(eventFormValues: { fv: EventDetail }) {
-    console.log("New values")
-    this.eventFormValues = eventFormValues.fv;
+  submitEvent() {
+    const formValues = this.eventFormComponent.getFormValues();
 
-    this.eventService.createEvent(eventFormValues.fv).subscribe({
+    this.eventService.createEvent(formValues).subscribe({
       next: () => {
         console.log("Event created successfully");
         // here you could navigate to another page, or show a success message, etc.
@@ -42,9 +41,5 @@ export class EventNewComponent {
 
       }
     });
-  }
-
-  submitEvent() {
-    this.eventFormComponent.onEmit();
   }
 }

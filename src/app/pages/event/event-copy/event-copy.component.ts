@@ -36,22 +36,23 @@ export class EventCopyComponent {
       e.time_start = "";
       e.time_end = "";
       e.time_publish = "";
+      e.link_signup = "";
+      e.time_signup_release = "";
+      e.time_signup_deadline = "";
 
       this.event = e;
     })
   }
 
-  onFormValuesEmit(eventFormValues: { fv: EventDetail }) {
-    console.log("New values")
-    this.eventFormValues = eventFormValues.fv;
+  createEvent() {
+    const formValues = this.eventFormComponent.getFormValues();
 
-    this.eventService.createEvent(eventFormValues.fv).subscribe({
+    this.eventService.createEvent(formValues).subscribe({
       next: () => {
         console.log("Event created successfully");
         // here you could navigate to another page, or show a success message, etc.
       },
       error: (error) => {
-        this.scrollToTop();
         console.log("Erroring")
         this.dialog.open(ErrorComponent, {
           data: {
@@ -63,16 +64,5 @@ export class EventCopyComponent {
 
       }
     });
-  }
-
-  private scrollToTop() {
-    window.scrollTo({
-      top: 0,
-      behavior: 'auto',
-    });
-  }
-  
-  createEvent() {
-    this.eventFormComponent.onEmit();
   }
 }

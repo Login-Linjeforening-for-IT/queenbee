@@ -43,11 +43,12 @@ export class EventEditComponent {
     })
   }
 
-  onFormValuesEmit(eventFormValues: { fv: EventDetail }) {
-    console.log("New values")
-    this.eventFormValues = eventFormValues.fv;
+  updateEvent() {
+    const formValues = this.eventFormComponent.getFormValues();
+    console.log(formValues)
 
-    this.eventService.patchEvent(eventFormValues.fv).subscribe({
+
+    this.eventService.patchEvent(formValues).subscribe({
       next: () => {
         console.log("Event created successfully");
         // here you could navigate to another page, or show a success message, etc.
@@ -67,10 +68,6 @@ export class EventEditComponent {
     });
   }
 
-  updateEvent() {
-    this.eventFormComponent.onEmit();
-  }
-
   cancelEvent() {
     const dialogRef = this.dialog.open(ConfirmComponent, {
       data: {
@@ -81,8 +78,29 @@ export class EventEditComponent {
     scrollToTop();
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
-        // User clicked "Confirm"
         console.log("User confirmed");
+
+        const formValues = this.eventFormComponent.getFormValues();
+        formValues.canceled = true;
+    
+        this.eventService.patchEvent(formValues).subscribe({
+          next: () => {
+            console.log("Event created successfully");
+            // here you could navigate to another page, or show a success message, etc.
+          },
+          error: (error) => {
+            scrollToTop();
+            console.log("Erroring")
+            this.dialog.open(ErrorComponent, {
+              data: {
+                title: "Error: " + error.status + " " + error.statusText,
+                details: error.error.error,
+                autoFocus: false
+              },
+            });
+
+          }
+        });
       } else if (result === false) {
         // User clicked "Close"
         console.log("User closed");
