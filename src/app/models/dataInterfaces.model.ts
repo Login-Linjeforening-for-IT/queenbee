@@ -83,6 +83,21 @@ export interface JobadDetail {
   priority: number*/
 }
 
+export interface JobadShort {
+  id: number,
+  position_title_no: string,
+  position_title_en: string,
+  description_short_no: string,
+  description_short_en: string,
+  organization: {
+    shortname: string,
+    title_no: string,
+    title_en: string,
+    logo: string
+  },
+  cities: string[]
+}
+
 export interface Location {
   id: number;
   name_no: string;

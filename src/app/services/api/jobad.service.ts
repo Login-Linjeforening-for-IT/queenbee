@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { BeehiveAPI } from 'src/app/config/constants';
-import { JobadDetail } from 'src/app/models/dataInterfaces.model';
+import { JobadDetail, JobadShort } from 'src/app/models/dataInterfaces.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,23 +31,16 @@ export class JobadService {
   }
 
   /**
-   * Gets all jobads from the epi. REWRITE THIS TO JOBAD!!!
+   * Gets all jobads from the API
    * @returns EventShort array
    */
-  /*fetchEvents(): Observable<EventShort[]> {
+  fetchJobads(): Observable<JobadShort[]> {
     return this.http
-      .get<{ [id: string]: EventShort }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`)
+      .get<{ [id: string]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}`)
       .pipe(
         map(resData => {
-          const eventsArray: EventShort[] = [];
-          for (const id in resData) {
-            if (resData.hasOwnProperty(id)) {
-              const event: EventShort = resData[id];
-              eventsArray.push(event);
-            }
-          }
-          return eventsArray;
+          return resData['jobs'];
         })
       );
-  }*/
+  }
 }

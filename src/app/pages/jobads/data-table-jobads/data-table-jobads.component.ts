@@ -1,9 +1,12 @@
-import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { DataTableJobadsDataSource, DataTableJobadsItem } from './data-table-jobads-datasource';
+import { DataTableJobadsDataSource } from './data-table-jobads-datasource';
 import { TableConstants } from '../../pages.constants';
+import { JobadService } from 'src/app/services/api/jobad.service';
+import { MatDialog } from '@angular/material/dialog';
+import { JobadShort } from 'src/app/models/dataInterfaces.model';
 
 @Component({
   selector: 'app-data-table-jobads',
@@ -13,7 +16,7 @@ import { TableConstants } from '../../pages.constants';
 export class DataTableJobadsComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatTable) table!: MatTable<DataTableJobadsItem>;
+  @ViewChild(MatTable) table!: MatTable<JobadShort>;
   @ViewChild('filterInput') filterInput!: ElementRef<HTMLInputElement>;
   dataSource: DataTableJobadsDataSource;
 
@@ -24,25 +27,18 @@ export class DataTableJobadsComponent implements AfterViewInit {
   displayedColumns = [
     'actions',
     'id',
-    'title_no',
     'position_title_no',
+    'position_title_en',
     'description_short_no',
-    'time_publish',
-    'time_deadline',
-    'time_updated',
-    'application_url',
-    'application_email',
-    'contact_email',
-    'contact_phone',
-    'image_small',
-    'image_banner',
-    'remote',
-    'type',
-    'priority'
+    'description_short_en'
   ];
 
-  constructor() {
-    this.dataSource = new DataTableJobadsDataSource();
+  constructor(private jobadService: JobadService, private cdr: ChangeDetectorRef, private dialog: MatDialog) {
+    this.dataSource = new DataTableJobadsDataSource(jobadService);
+  }
+
+  ngOnInit() {
+    this.dataSource.fetchJobads();
   }
 
   ngAfterViewInit(): void {
@@ -52,6 +48,7 @@ export class DataTableJobadsComponent implements AfterViewInit {
     
     // Use dataSource.data as the table's data source
     this.table.dataSource = this.dataSource;
+    this.cdr.detectChanges();
   }
 
   onDelete(id: number): void {
@@ -63,5 +60,10 @@ export class DataTableJobadsComponent implements AfterViewInit {
 
   formatDatetime(dt: string): string {
     return dt.replace("T", " ").replace("Z", "").replaceAll("-", "/");
+  }
+
+  // Refreshes the table. Used when you need to force a refresh
+  refresh() {
+    this.paginator._changePageSize(this.paginator.pageSize);
   }
 }
