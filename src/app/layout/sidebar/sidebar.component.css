@@ -4,7 +4,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 }
 
 .logo {
@@ -22,7 +22,7 @@
   position: fixed;
   display: flex;
   flex-direction: column;
-  width: 11vw;
+  width: 13vw;
 }
 
 .sidebar {
@@ -58,7 +58,7 @@
 }
 
 .sidebar a.active {
-  background: var(--color-black);
+  background: var(--color-background);
   color: var(--color-primary);
   margin-left: 0;
 }
