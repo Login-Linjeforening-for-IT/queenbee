@@ -33,3 +33,10 @@ export function htmlToMarkdown(html: string): string {
 
   return markdown;
 }
+
+export function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'auto',
+  });
+}

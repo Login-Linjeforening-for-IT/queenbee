@@ -7,20 +7,26 @@ import {OrganizationsComponent} from "./pages/organizations/organizations.compon
 import {LocationsComponent} from "./pages/locations/locations.component";
 import {RulesComponent} from "./pages/rules/rules.component";
 import {PageNotFoundComponent} from "./pages/page-not-found/page-not-found.component";
-import {EventComponent} from "./pages/event/event.component";
 import {OrganizationComponent} from "./pages/organization/organization.component";
 import {LocationComponent} from "./pages/location/location.component";
-import { JobadComponent } from "./pages/jobad/jobad.component";
+import { EventNewComponent } from "./pages/event/event-new/event-new.component";
+import { EventEditComponent } from "./pages/event/event-edit/event-edit.component";
+import { JobadNewComponent } from "./pages/jobad/jobad-new/jobad-new.component";
+import { JobadEditComponent } from "./pages/jobad/jobad-edit/jobad-edit.component";
+import { EventCopyComponent } from "./pages/event/event-copy/event-copy.component";
+import { JobadCopyComponent } from "./pages/jobad/jobad-copy/jobad-copy.component";
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent},
   { path: 'events', component: EventsComponent, pathMatch: 'full'},
-  { path: 'events/new', component: EventComponent, pathMatch: 'full'},
-  { path: 'events/edit/:id', component: EventComponent, pathMatch: 'full'},
+  { path: 'events/new', component: EventNewComponent, pathMatch: 'full'},
+  { path: 'events/edit/:id', component: EventEditComponent, pathMatch: 'full'},
+  { path: 'events/copy/:id', component: EventCopyComponent, pathMatch: 'full'},
   { path: 'job-ads', component: JobadsComponent, pathMatch: 'full'},
-  { path: 'job-ads/new', component: JobadComponent, pathMatch: 'full'},
-  { path: 'job-ads/edit/:id', component: JobadComponent, pathMatch: 'full'},
+  { path: 'job-ads/new', component: JobadNewComponent, pathMatch: 'full'},
+  { path: 'job-ads/edit/:id', component: JobadEditComponent, pathMatch: 'full'},
+  { path: 'job-ads/copy/:id', component: JobadCopyComponent, pathMatch: 'full'},
   { path: 'organizations', component: OrganizationsComponent},
   { path: 'organizations/new', component: OrganizationComponent, pathMatch: 'full'},
   { path: 'organizations/edit/:id', component: OrganizationComponent, pathMatch: 'full'},

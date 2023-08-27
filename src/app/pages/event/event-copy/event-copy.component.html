@@ -1,0 +1,10 @@
+<h1>Copy Event</h1>
+<app-alert [alertMsg]="'Your are copying an event, make sure to update information!'"></app-alert>
+
+<ng-container  *ngIf="event">
+    <app-event-form [event]="event"></app-event-form>
+</ng-container>
+
+<button class="submit-btn" type="submit" (click)="createEvent()" mat-raised-button color="primary">
+    <span class="material-symbols-sharp">save</span>Create
+</button>

@@ -1,0 +1,8 @@
+<h1>Edit Job Ad</h1>
+<ng-container  *ngIf="jobad">
+    <p class="weak-text">Last updated: {{timeUpdated}}</p>
+    <app-jobad-form [jobad]="jobad"></app-jobad-form>    
+</ng-container>
+<button class="submit-btn" type="submit" (click)="updateJobad()" mat-raised-button color="primary">
+    <span class="material-symbols-sharp">save</span>Update
+</button>

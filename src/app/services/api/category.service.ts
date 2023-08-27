@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { BeehiveAPI } from 'src/app/config/constants';
-import { Category, DropDownMenu } from 'src/app/models/dataInterfaces.model';
+import { Category } from 'src/app/models/dataInterfaces.model';
 
 @Injectable({
   providedIn: 'root'
@@ -34,22 +34,4 @@ export class CategoryService {
         })
       );
   }
-
-  /**
-   * Fetches all categories, but converts them to DropDownMenu before returning them.
-   * @returns All categories as DropDownMenu[]
-   */
-  getDropDownMenuCategories(): Observable<DropDownMenu[]> {
-    return this.fetchCategories().pipe(
-      map((categories: Category[]) => {
-        return categories.map((category: Category) => {
-          return {
-            value: category.id,
-            viewValue: category.name_no
-          };
-        });
-      })
-    );
-  }
-  
 }

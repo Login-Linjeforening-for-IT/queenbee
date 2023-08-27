@@ -59,6 +59,45 @@ export interface EventDetail {
   organizations: Organization[];
 }
 
+export interface JobadDetail {
+  id: number,
+  title_no: string,
+  title_en: string,
+  position_title_no: string,
+  position_title_en: string,
+  description_short_no: string,
+  description_short_en: string,
+  description_long_no: string,
+  description_long_en: string,
+  time_publish: string,
+  application_deadline: string,
+  updated_at: string,
+  /*application_url: string,
+  application_email: string,
+  contact_email: string,
+  contact_phone: string,
+  image_small: string,
+  image_banner: string,
+  remote: boolean,
+  type: string,
+  priority: number*/
+}
+
+export interface JobadShort {
+  id: number,
+  position_title_no: string,
+  position_title_en: string,
+  description_short_no: string,
+  description_short_en: string,
+  organization: {
+    shortname: string,
+    title_no: string,
+    title_en: string,
+    logo: string
+  },
+  cities: string[]
+}
+
 export interface Location {
   id: number;
   name_no: string;
@@ -111,9 +150,4 @@ export interface Organization {
   link_instagram: string;
   link_linkedin: string;
   logo: string;
-}
-
-export interface DropDownMenu {
-  value: any;
-  viewValue: string;
 }

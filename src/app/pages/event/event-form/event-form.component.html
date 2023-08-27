@@ -1,14 +1,9 @@
-<h1>{{title}}</h1>
-<p class="weak-text" *ngIf="mode === 'edit'">Last updated: {{timeUpdated}}</p>
-
 <form [formGroup]="eventForm">
-  <div *ngIf="fetchedEvent$ | async as event" class="form">
+  <div class="form">
     <hr>
 
-    <!--GENERAL INFORMATION BLOCK-->
     <div class="block">
       <h2>General Information</h2>
-      <!--TAB WITH LANGUAGE SPECIFIC INFORMATION-->
       <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" class="block">
         <mat-tab label="🇳🇴 NOR">
           <mat-form-field class="row">
@@ -47,7 +42,6 @@
         </mat-tab>
       </mat-tab-group>
       
-      <!--NON-LANGUAGE SPECIFIC GENERAL INFORMATION-->
       <div class="dual-column-container row">
         <div class="column">
           <app-datetime 
@@ -79,34 +73,60 @@
         </div>
 
         <div class="column">
-          <mat-form-field class="dd">
-            <mat-label>Category</mat-label>
-            <mat-select formControlName="category">
-              <mat-option *ngFor="let c of categories" [value]="c.value">
-                {{c.viewValue}}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="eventForm.controls['category'].hasError('required')">
-              This field is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
+          <div *ngIf="categories.length > 0">
+            <mat-form-field class="dd">
+              <mat-label>Category</mat-label>
+              
+              <input
+                type="text"
+                matInput
+                [formControl]="autoControlCats"
+                [matAutocomplete]="autoCat"/>
 
-          <mat-form-field class="dd">
-            <mat-label>Organization</mat-label>
-            <mat-select formControlName="organization">
-              <mat-option *ngFor="let o of organizations" [value]="o.value">
-                {{o.viewValue}}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="eventForm.controls['organization'].hasError('required')">
-              This field is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
+              <mat-autocomplete autoActiveFirstOption #autoCat="matAutocomplete" [displayWith]="displayCategoryFn">
+                <mat-option
+                  *ngFor="let o of filteredCats | async"
+                  [value]="o"
+                >
+                  {{ o.name_en || o.name_no }}
+                </mat-option>
+              </mat-autocomplete>
+
+              <mat-error *ngIf="eventForm.controls['category'].hasError('required')">
+                This field is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div *ngIf="organizations.length > 0">
+            <mat-form-field class="dd">
+              <mat-label>Organization</mat-label>
+              <input
+                type="text"
+                matInput
+                [formControl]="autoControlOrgs"
+                [matAutocomplete]="autoOrg"
+                />
+                
+              <mat-autocomplete autoActiveFirstOption #autoOrg="matAutocomplete" [displayWith]="displayOrganizationFn">
+                <mat-option
+                  *ngFor="let o of filteredOrgs | async"
+                  [value]="o"
+                >
+                  {{ o.name_en || o.name_no }}
+                </mat-option>
+              </mat-autocomplete>
+
+              <mat-error *ngIf="eventForm.controls['organization'].hasError('required')">
+                This field is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
         </div>
       </div>
     </div>
 
-    <!--SIGN UP BLOCK-->
     <div class="block">
       <h2>Signup</h2>
       <mat-form-field class="row">
@@ -150,7 +170,6 @@
       </div>
     </div>
 
-    <!--IMAGE BLOCK-->
     <div class="block">
       <h2>Image Links</h2>
       <mat-form-field class="row">
@@ -164,7 +183,6 @@
       </mat-form-field>
     </div>
 
-    <!--LINKS BLOCK-->
     <div class="block">
       <h2>Social Links</h2>
       <mat-form-field class="row">
@@ -183,11 +201,4 @@
       </mat-form-field>
     </div>
   </div>
-  
-  <button class="submit-btn" type="submit" (click)="submitEvent()" mat-raised-button color="primary">
-    <span class="material-symbols-sharp">save</span>{{submit}}
-  </button>
-  <button class="submit-btn" *ngIf="mode === 'edit'" (click)="cancelEvent()" mat-raised-button color="warn">
-    <span class="material-symbols-sharp">event_busy</span>Cancel The Event
-  </button>
 </form>

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy, OnInit, Output, EventEmitter } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
@@ -15,6 +15,7 @@ import { ConfirmComponent } from 'src/app/components/dialog/confirm/confirm.comp
   templateUrl: './data-table-event.component.html'
 })
 export class DataTableEventComponent implements OnInit, AfterViewInit {
+  @Output() scrollToTop = new EventEmitter<string>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<EventShort>;
@@ -61,6 +62,8 @@ export class DataTableEventComponent implements OnInit, AfterViewInit {
   }
 
   onDelete(id: number): void {
+    this.scrollToTop.emit();
+
     const dialogRef = this.dialog.open(ConfirmComponent, {
       data: {
         details: 'This will permanently delete the event with id: ' + id,
