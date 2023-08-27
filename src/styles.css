@@ -4,9 +4,13 @@
 
 :root {
   --color-primary: #fd8738;
-  --color-black: #212121;
+
   --color-info-light: #fff;
-  --color-background: #181818;
+  --color-info-weak: #9e9e9e;
+
+  --color-black: #212121;
+  --color-navbar: #181818;
+  --color-background: #1b1b1b;
 }
 
 * {
@@ -67,7 +71,7 @@ small {
 }
 
 .weak-text {
-  color: #9e9e9e;
+  color: var(--color-info-weak);
 }
 
 /* ======================= MARKDOWN ======================= */
@@ -108,10 +112,12 @@ small {
 
 /* ========================== SIDEBAR ====================== */
 aside {
+  background-color: var(--color-navbar);
+  position: fixed;
   float: left;
   height: 100vh;
-  width: 12%;
-  padding-left: 1rem;
+  width: 13vw;
+  padding-left: 0.5rem;
 }
 
 aside * {
@@ -122,10 +128,10 @@ aside * {
 
 /* ========================== MAIN ========================= */
 main {
-  float: left;
-  margin-top: 1rem;
-  padding: 1rem;
-  width: 83%;
+  position:static;
+  margin-left: 13vw;
+  padding: 2rem;
+  width: 87vw;
   height: 100vh;
   display: block;
 }
