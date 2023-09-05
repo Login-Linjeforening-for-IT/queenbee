@@ -1,23 +1,10 @@
 <form [formGroup]="locationForm">
   <div class="form">
-    <label id="example-radio-group-label">Select location type:</label>
     <div class="block">
-      <mat-radio-group
-        aria-labelledby="example-radio-group-label"
-        class="example-radio-group"
-        formControlName="type"
-        [(ngModel)]="defaultType"
-        (ngModelChange)="onSeasonChange()">
-        <mat-radio-button class="example-radio-button" *ngFor="let t of types" [value]="defaultType">
-          {{t}}
-        </mat-radio-button>
-      </mat-radio-group>
-    </div>
-
-    <div class="block" *ngIf="currentType === 'Mazemap'">
       <h2>General Information</h2>
+      
       <mat-form-field class="row">
-        <input matInput formControlName="name_no" maxlength="50">
+        <input matInput formControlName="name_no" maxlength="50"> 
         <mat-label>Location Nickname NOR</mat-label>
       </mat-form-field>
 
@@ -30,14 +17,28 @@
         <input matInput formControlName="url">
         <mat-label>URL</mat-label>
       </mat-form-field>
+
+      <label id="example-radio-group-label">Select location type:</label>
+      <p class="weak-text" *ngIf="locationForm.value.type === 'Address' || locationForm.value.type === 'Mazemap' || locationForm.value.type === 'Coordinate'">
+        (Changing type will clear location type data.)
+      </p>      
+      <mat-radio-group
+        aria-labelledby="example-radio-group-label"
+        class="example-radio-group"
+        formControlName="type"
+        (ngModelChange)="onTypeChange()">
+        <mat-radio-button class="example-radio-button" *ngFor="let t of types" [value]="t">
+          {{t}}
+        </mat-radio-button>
+      </mat-radio-group>
     </div>
 
-    <div class="block">
+    <div class="block" *ngIf="locationForm.value.type == 'Mazemap'">
       <h2>MazeMap</h2>
 
     </div>
 
-    <div class="block">
+    <div class="block" *ngIf="locationForm.value.type == 'Address'">
       <h2>Address</h2>
       <mat-form-field class="row">
         <input matInput formControlName="address_street">
@@ -55,7 +56,7 @@
       </mat-form-field>
     </div>
 
-    <div class="block">
+    <div class="block" *ngIf="locationForm.value.type == 'Coordinate'">
       <h2>Coordinate</h2>
 
       <mat-form-field class="row">

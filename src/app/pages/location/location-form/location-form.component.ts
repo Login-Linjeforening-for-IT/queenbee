@@ -1,19 +1,13 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {CategoryService} from "../../../services/api/category.service";
-import {OrganizationService} from "../../../services/api/organizations.service";
-import {NoDecimalValidator} from "../../../common/validators";
 
 @Component({
   selector: 'app-location-form',
-  templateUrl: './location-form.component.html',
-  styleUrls: ['./location-form.component.css']
+  templateUrl: './location-form.component.html'
 })
 export class LocationFormComponent {
   locationForm!: FormGroup;
 
-  currentType: string = 'Default';
-  defaultType: string = 'Default';
   types: string[] = ['Default', 'Mazemap', 'Address', 'Coordinate'];
 
   constructor(
@@ -24,11 +18,15 @@ export class LocationFormComponent {
     this.initForm();
   }
 
+  onTypeChange() {
+    this.clearTypes();
+  }
+
   private initForm() {
     this.locationForm = this.fb.group({
       name_no: ['', Validators.required],
       name_en: '',
-      type: '',
+      type: 'Default',
       mazemap_campus_id: '',
       mazemap_poi_id: '',
       address_street: '',
@@ -38,9 +36,22 @@ export class LocationFormComponent {
       coordinate_long: '',
       url: ''
     });
+
+    this.locationForm.valueChanges.subscribe(x => {
+      console.log(x)
+    })
   }
 
-  onSeasonChange() {
-    this.currentType = this.defaultType;
+  private clearTypes() {
+    this.locationForm.patchValue({
+      mazemap_campus_id: '',
+      mazemap_poi_id: '',
+      address_street: '',
+      address_postcode: '',
+      city_name: '',
+      coordinate_lat: '',
+      coordinate_long: '',
+      url: ''
+    });
   }
 }
