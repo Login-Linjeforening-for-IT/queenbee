@@ -52,6 +52,7 @@ import { AlertComponent } from './components/alert/alert.component';
 import { LocationNewComponent } from './pages/location/location-new/location-new.component';
 import { LocationFormComponent } from './pages/location/location-form/location-form.component';
 import {MatRadioButton} from "@angular/material/radio";
+import { MapComponent } from './map/map.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import {MatRadioButton} from "@angular/material/radio";
     EventCopyComponent,
     AlertComponent,
     LocationNewComponent,
-    LocationFormComponent
+    LocationFormComponent,
+    MapComponent
   ],
     imports: [
         BrowserModule,
