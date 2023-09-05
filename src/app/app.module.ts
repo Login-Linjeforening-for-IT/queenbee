@@ -21,6 +21,7 @@ import {MatDatepicker, MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import {MatFormField, MatFormFieldModule} from "@angular/material/form-field";
+import {MatRadioModule} from "@angular/material/radio";
 import { DatetimeComponent } from './components/datetime/datetime.component';
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatTabsModule} from "@angular/material/tabs";
@@ -28,7 +29,6 @@ import {MatMenuModule} from "@angular/material/menu";
 import { OrganizationsComponent } from './pages/organizations/organizations.component';
 import { DataTableOrganizationComponent } from "./pages/organizations/data-table-organization/data-table-organization.component";
 import { OrganizationComponent } from './pages/organization/organization.component';
-import { LocationComponent } from './pages/location/location.component';
 import { DataTableLocationComponent } from './pages/locations/data-table-location/data-table-location.component';
 import { DataTableJobadsComponent } from './pages/jobads/data-table-jobads/data-table-jobads.component';
 import { MarkdownTextfieldComponent } from './components/markdown-textfield/markdown-textfield.component';
@@ -49,6 +49,9 @@ import { JobadFormComponent } from './pages/jobad/jobad-form/jobad-form.componen
 import { JobadNewComponent } from './pages/jobad/jobad-new/jobad-new.component';
 import { EventCopyComponent } from './pages/event/event-copy/event-copy.component';
 import { AlertComponent } from './components/alert/alert.component';
+import { LocationNewComponent } from './pages/location/location-new/location-new.component';
+import { LocationFormComponent } from './pages/location/location-form/location-form.component';
+import {MatRadioButton} from "@angular/material/radio";
 
 @NgModule({
   declarations: [
@@ -61,7 +64,6 @@ import { AlertComponent } from './components/alert/alert.component';
     OrganizationsComponent,
     DataTableOrganizationComponent,
     OrganizationComponent,
-    LocationComponent,
     DataTableJobadsComponent,
     DataTableLocationComponent,
     MarkdownTextfieldComponent,
@@ -76,7 +78,9 @@ import { AlertComponent } from './components/alert/alert.component';
     JobadCopyComponent,
     JobadEditComponent,
     EventCopyComponent,
-    AlertComponent
+    AlertComponent,
+    LocationNewComponent,
+    LocationFormComponent
   ],
     imports: [
         BrowserModule,
@@ -95,6 +99,7 @@ import { AlertComponent } from './components/alert/alert.component';
         MatNativeDateModule,
         MatFormFieldModule,
         MatSlideToggleModule,
+        MatRadioModule,
         ReactiveFormsModule,
         FormsModule,
         MatTabsModule,

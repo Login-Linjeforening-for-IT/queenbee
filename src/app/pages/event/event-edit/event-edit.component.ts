@@ -21,7 +21,7 @@ export class EventEditComponent {
   eventID!: number;
   event!: EventDetail;
   timeUpdated!: string;
-  
+
   constructor(
     private eventService: EventService,
     private route: ActivatedRoute,
@@ -82,7 +82,7 @@ export class EventEditComponent {
 
         const formValues = this.eventFormComponent.getFormValues();
         formValues.canceled = true;
-    
+
         this.eventService.patchEvent(formValues).subscribe({
           next: () => {
             console.log("Event created successfully");

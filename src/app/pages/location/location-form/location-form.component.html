@@ -1,0 +1,73 @@
+<form [formGroup]="locationForm">
+  <div class="form">
+    <label id="example-radio-group-label">Select location type:</label>
+    <div class="block">
+      <mat-radio-group
+        aria-labelledby="example-radio-group-label"
+        class="example-radio-group"
+        formControlName="type"
+        [(ngModel)]="defaultType"
+        (ngModelChange)="onSeasonChange()">
+        <mat-radio-button class="example-radio-button" *ngFor="let t of types" [value]="defaultType">
+          {{t}}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div class="block" *ngIf="currentType === 'Mazemap'">
+      <h2>General Information</h2>
+      <mat-form-field class="row">
+        <input matInput formControlName="name_no" maxlength="50">
+        <mat-label>Location Nickname NOR</mat-label>
+      </mat-form-field>
+
+      <mat-form-field class="row">
+        <input matInput formControlName="name_en" maxlength="50">
+        <mat-label>Location Nickname ENG</mat-label>
+      </mat-form-field>
+
+      <mat-form-field class="row">
+        <input matInput formControlName="url">
+        <mat-label>URL</mat-label>
+      </mat-form-field>
+    </div>
+
+    <div class="block">
+      <h2>MazeMap</h2>
+
+    </div>
+
+    <div class="block">
+      <h2>Address</h2>
+      <mat-form-field class="row">
+        <input matInput formControlName="address_street">
+        <mat-label>Address</mat-label>
+      </mat-form-field>
+
+      <mat-form-field class="row">
+        <input matInput formControlName="address_postcode">
+        <mat-label>Postal Code</mat-label>
+      </mat-form-field>
+
+      <mat-form-field class="row">
+        <input matInput formControlName="city_name">
+        <mat-label>City</mat-label>
+      </mat-form-field>
+    </div>
+
+    <div class="block">
+      <h2>Coordinate</h2>
+
+      <mat-form-field class="row">
+        <input matInput formControlName="coordinate_lat">
+        <mat-label>Latitude</mat-label>
+      </mat-form-field>
+
+      <mat-form-field class="row">
+        <input matInput formControlName="coordinate_long">
+        <mat-label>Longitude</mat-label>
+      </mat-form-field>
+    </div>
+
+  </div>
+</form>
