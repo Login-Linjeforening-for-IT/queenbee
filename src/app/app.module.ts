@@ -52,7 +52,7 @@ import { AlertComponent } from './components/alert/alert.component';
 import { LocationNewComponent } from './pages/location/location-new/location-new.component';
 import { LocationFormComponent } from './pages/location/location-form/location-form.component';
 import {MatRadioButton} from "@angular/material/radio";
-import { MapComponent } from './map/map.component';
+import { MapComponent } from './components/map/map.component';
 
 @NgModule({
   declarations: [

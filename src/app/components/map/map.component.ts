@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Output} from '@angular/core';
 import * as L from 'leaflet';
 
 @Component({
@@ -7,6 +7,8 @@ import * as L from 'leaflet';
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements AfterViewInit {
+  @Output() coords = new EventEmitter<{lat: string, long: string}>();
+
   private map: any;
   private currentMarker: L.Marker | null = null;
   markerIcon = {
@@ -25,7 +27,7 @@ export class MapComponent implements AfterViewInit {
       center: [ 60.79039181292657, 10.683486407725253 ], // Coords of a special room
       zoom: 13
     });
-    
+
     const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,
       minZoom: 3,
@@ -33,21 +35,21 @@ export class MapComponent implements AfterViewInit {
     });
 
     tiles.addTo(this.map);
-    
+
     this.map.on("click", (e: { latlng: { lat: number; lng: number; }; }) => {
-      console.log(e.latlng);
+      this.coords.emit({lat: '' + e.latlng.lat, long: '' + e.latlng.lng})
 
       if(this.currentMarker) {
         this.map.removeLayer(this.currentMarker);
       }
 
-      this.currentMarker = L.marker([e.latlng.lat, e.latlng.lng], this.markerIcon).addTo(this.map); 
+      this.currentMarker = L.marker([e.latlng.lat, e.latlng.lng], this.markerIcon).addTo(this.map);
     });
   }
-  
+
   constructor() { }
 
-  ngAfterViewInit(): void { 
+  ngAfterViewInit(): void {
     this.initMap();
   }
 }

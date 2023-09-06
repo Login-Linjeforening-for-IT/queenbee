@@ -1,0 +1,15 @@
+.coords-container {
+  display: inline-block;
+  height: 100%;
+}
+
+.coords-input {
+  width: 30%;
+  float: left;
+  padding-right: 1.5rem;
+}
+
+.leaflet-container {
+  width: 70%;
+  float: left;
+}

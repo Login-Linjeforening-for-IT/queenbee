@@ -3,7 +3,8 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-location-form',
-  templateUrl: './location-form.component.html'
+  templateUrl: './location-form.component.html',
+  styleUrls: ['./location-form.component.css']
 })
 export class LocationFormComponent {
   locationForm!: FormGroup;
@@ -53,5 +54,10 @@ export class LocationFormComponent {
       coordinate_long: '',
       url: ''
     });
+  }
+
+  onNewCoords(newVal: { lat: string; long: string }) {
+    this.locationForm.get('coordinate_lat')?.setValue(newVal.lat);
+    this.locationForm.get('coordinate_long')?.setValue(newVal.long);
   }
 }

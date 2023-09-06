@@ -2,9 +2,9 @@
   <div class="form">
     <div class="block">
       <h2>General Information</h2>
-      
+
       <mat-form-field class="row">
-        <input matInput formControlName="name_no" maxlength="50"> 
+        <input matInput formControlName="name_no" maxlength="50">
         <mat-label>Location Nickname NOR</mat-label>
       </mat-form-field>
 
@@ -21,7 +21,7 @@
       <label id="example-radio-group-label">Select location type:</label>
       <p class="weak-text" *ngIf="locationForm.value.type === 'Address' || locationForm.value.type === 'Mazemap' || locationForm.value.type === 'Coordinate'">
         (Changing type will clear location type data.)
-      </p>      
+      </p>
       <mat-radio-group
         aria-labelledby="example-radio-group-label"
         class="example-radio-group"
@@ -56,20 +56,24 @@
       </mat-form-field>
     </div>
 
-    <div class="block" *ngIf="locationForm.value.type == 'Coordinate'">
+    <div class="block coords-container" *ngIf="locationForm.value.type == 'Coordinate'">
       <h2>Coordinate</h2>
 
-      <mat-form-field class="row">
-        <input matInput formControlName="coordinate_lat">
-        <mat-label>Latitude</mat-label>
-      </mat-form-field>
+      <div class="coords-input">
+        <mat-form-field class="row">
+          <input matInput formControlName="coordinate_lat">
+          <mat-label>Latitude</mat-label>
+        </mat-form-field>
 
-      <mat-form-field class="row">
-        <input matInput formControlName="coordinate_long">
-        <mat-label>Longitude</mat-label>
-      </mat-form-field>
+        <mat-form-field class="row">
+          <input matInput formControlName="coordinate_long">
+          <mat-label>Longitude</mat-label>
+        </mat-form-field>
+      </div>
 
-      <app-map></app-map>
+      <div class="leaflet-container">
+        <app-map (coords)="onNewCoords($event)"></app-map>
+      </div>
     </div>
 
   </div>
