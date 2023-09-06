@@ -8,7 +8,7 @@ import * as L from 'leaflet';
 })
 export class MapComponent implements AfterViewInit {
   @Output() coords = new EventEmitter<{lat: string, long: string}>();
-
+  isSatelliteView: boolean = false;
   private map: any;
   private currentMarker: L.Marker | null = null;
   markerIcon = {
@@ -34,7 +34,31 @@ export class MapComponent implements AfterViewInit {
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     });
 
+    const satelliteTiles = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png', {
+      maxZoom: 18,
+      minZoom: 3,
+      attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+    });
+
     tiles.addTo(this.map);
+
+    const toggleButton = document.getElementById('toggleMapView') as HTMLButtonElement;
+
+    toggleButton.addEventListener('click', () => {
+      if (this.isSatelliteView) {
+        // Switch to OpenStreetMap view
+        this.map.removeLayer(satelliteTiles);
+        tiles.addTo(this.map);
+        toggleButton.textContent = 'Toggle Satellite View';
+      } else {
+        // Switch to Satellite view
+        this.map.removeLayer(tiles);
+        satelliteTiles.addTo(this.map);
+        toggleButton.textContent = 'Toggle Map View';
+      }
+
+      this.isSatelliteView = !this.isSatelliteView;
+    });
 
     this.map.on("click", (e: { latlng: { lat: number; lng: number; }; }) => {
       this.coords.emit({lat: '' + e.latlng.lat, long: '' + e.latlng.lng})
