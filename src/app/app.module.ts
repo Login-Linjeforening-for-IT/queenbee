@@ -53,6 +53,7 @@ import { LocationNewComponent } from './pages/location/location-new/location-new
 import { LocationFormComponent } from './pages/location/location-form/location-form.component';
 import {MatRadioButton} from "@angular/material/radio";
 import { MapComponent } from './components/map/map.component';
+import { MazemapComponent } from './components/mazemap/mazemap.component';
 
 @NgModule({
   declarations: [
@@ -82,7 +83,8 @@ import { MapComponent } from './components/map/map.component';
     AlertComponent,
     LocationNewComponent,
     LocationFormComponent,
-    MapComponent
+    MapComponent,
+    MazemapComponent
   ],
     imports: [
         BrowserModule,

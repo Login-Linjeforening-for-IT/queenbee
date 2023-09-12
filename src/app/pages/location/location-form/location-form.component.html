@@ -35,7 +35,9 @@
 
     <div class="block" *ngIf="locationForm.value.type == 'Mazemap'">
       <h2>MazeMap</h2>
-
+      <div class="leaflet-container">
+        <app-mazemap></app-mazemap>
+      </div>
     </div>
 
     <div class="block" *ngIf="locationForm.value.type == 'Address'">

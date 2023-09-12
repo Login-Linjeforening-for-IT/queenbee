@@ -27,7 +27,7 @@ export class LocationFormComponent {
     this.locationForm = this.fb.group({
       name_no: ['', Validators.required],
       name_en: '',
-      type: 'Coordinate',
+      type: 'Mazemap',
       mazemap_campus_id: '',
       mazemap_poi_id: '',
       address_street: '',
