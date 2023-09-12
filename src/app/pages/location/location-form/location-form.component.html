@@ -33,9 +33,22 @@
       </mat-radio-group>
     </div>
 
-    <div class="block" *ngIf="locationForm.value.type == 'Mazemap'">
+    <div class="block map-block" *ngIf="locationForm.value.type == 'Mazemap'">
       <h2>MazeMap</h2>
-      <div class="leaflet-container">
+
+      <div class="map-input">
+        <mat-form-field class="row">
+          <input matInput formControlName="mazemap_campus_id">
+          <mat-label>Campus ID</mat-label>
+        </mat-form-field>
+
+        <mat-form-field class="row">
+          <input matInput formControlName="mazemap_poi_id">
+          <mat-label>POI ID</mat-label>
+        </mat-form-field>
+      </div>
+
+      <div class="map-container">
         <app-mazemap></app-mazemap>
       </div>
     </div>
@@ -58,10 +71,10 @@
       </mat-form-field>
     </div>
 
-    <div class="block coords-container" *ngIf="locationForm.value.type == 'Coordinate'">
+    <div class="block map-block" *ngIf="locationForm.value.type == 'Coordinate'">
       <h2>Coordinate</h2>
 
-      <div class="coords-input">
+      <div class="map-input">
         <p class="weak-text">Click on the map to automatically get coordinates!</p>
         
         <br>
@@ -77,7 +90,7 @@
         </mat-form-field>
       </div>
 
-      <div class="leaflet-container">
+      <div class="map-container">
         <app-map (coords)="onNewCoords($event)"></app-map>
       </div>
     </div>

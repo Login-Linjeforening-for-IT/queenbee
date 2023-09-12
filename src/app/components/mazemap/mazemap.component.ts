@@ -10,7 +10,7 @@ export class MazemapComponent implements AfterViewInit {
     const mapContainer = document.getElementById('mazemap'); // Get the map container element
     const mapOptions = {
       container: mapContainer, // Use the map container as the container for the map
-      center: { lat: 60.79004952939053, lng: 10.683486407725253 }, // Coordinates to a special room
+      center: { lat: 60.79004952939053, lng: 10.683486407725253 }, // Coordinates centered between Kobolt, Ametyst and Gneis
       zoom: 17,
       zLevel: 1
     };
