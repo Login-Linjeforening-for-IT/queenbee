@@ -5,7 +5,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { BeehiveAPI } from 'src/app/config/constants';
-import { OrgShort, Organization } from 'src/app/models/dataInterfaces.model';
+import { OrgShort, OrgTableItem, Organization } from 'src/app/models/dataInterfaces.model';
+import { convertFromRFC3339 } from 'src/app/utils/time';
 
 @Injectable({
   providedIn: 'root'
@@ -18,14 +19,24 @@ export class OrganizationService {
    * Returns all organizations
    * @returns Organization array
    */
-  fetchOrganizations(): Observable<OrgShort[]> {
+  fetchOrganizations(): Observable<OrgTableItem[]> {
     return this.http
       .get<{ [id: string]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.ORGANIZATIONS_PATH}`)
       .pipe(
         map(resData => {
-          const orgArray: OrgShort[] = [];
+          const orgArray: OrgTableItem[] = [];
           for (const shortname in resData) {
-            const org: OrgShort = resData[shortname]
+            const orgShort: OrgShort = resData[shortname]
+            
+            const org: OrgTableItem = {
+              shortname: orgShort.shortname,
+              name: orgShort.name_en || orgShort.name_no, // Set name to name_en if it exists, else set to name_no
+              link_homepage: orgShort.link_homepage,
+              logo: orgShort.logo,
+              updated_at: convertFromRFC3339(orgShort.updated_at),
+              is_deleted: orgShort.is_deleted,
+            };
+
             orgArray.push(org);
           }
           return orgArray;

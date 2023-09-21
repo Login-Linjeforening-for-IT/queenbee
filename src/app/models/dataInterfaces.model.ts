@@ -55,7 +55,7 @@ export interface EventDetail {
   category: Category;
   rule: Rule;
   audiences: Audience[];
-  organizations: OrgShort[];
+  organizations: OrgTableItem[];
 }
 
 export interface JobadDetail {
@@ -142,6 +142,15 @@ export interface OrgShort {
   shortname: string;
   name_no: string;
   name_en: string;
+  link_homepage: string;
+  logo: string;
+  updated_at: string;
+  is_deleted: boolean;
+}
+
+export interface OrgTableItem {
+  shortname: string;
+  name: string;
   link_homepage: string;
   logo: string;
   updated_at: string;

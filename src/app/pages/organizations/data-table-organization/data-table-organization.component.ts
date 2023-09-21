@@ -7,7 +7,7 @@ import { TableConstants } from '../../pages.constants';
 import { OrganizationService } from 'src/app/services/api/organizations.service';
 import { MatDialog } from '@angular/material/dialog';
 import { isDatetimeUnset } from 'src/app/utils/time';
-import { OrgShort } from 'src/app/models/dataInterfaces.model';
+import { OrgTableItem } from 'src/app/models/dataInterfaces.model';
 
 @Component({
   selector: 'app-data-table-organization',
@@ -18,7 +18,7 @@ import { OrgShort } from 'src/app/models/dataInterfaces.model';
 export class DataTableOrganizationComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatTable) table!: MatTable<OrgShort>;
+  @ViewChild(MatTable) table!: MatTable<OrgTableItem>;
   @ViewChild('filterInput') filterInput!: ElementRef<HTMLInputElement>;
   dataSource: DataTableOrganizationDataSource;
 
@@ -58,16 +58,6 @@ export class DataTableOrganizationComponent implements AfterViewInit {
       this.dataSource.deleteItem(id);
       this.dataSource.refresh();
     }
-  }
-
-  formatDatetime(dt: string): string {
-    if(dt) {
-      if(isDatetimeUnset(dt)) {
-        return ""
-      }
-      return dt.replace("T", " ").replace("Z", "").replaceAll("-", "/");
-    }
-    return dt
   }
 
   // Refreshes the table. Used when you need to force a refresh
