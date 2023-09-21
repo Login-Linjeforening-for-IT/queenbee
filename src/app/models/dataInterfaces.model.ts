@@ -1,6 +1,3 @@
-/**
- * Specifically named EventData to not conflict with built in ts Event object.
- */
 export interface EventShort {
   id: number;
   visible: boolean;
@@ -18,6 +15,26 @@ export interface EventShort {
   category_name_en: string;
   location_name_no: string;
   location_name_en: string;
+  updated_at: string;
+  is_deleted: false;
+  audiences: string[];
+  organizers: string[];
+}
+
+export interface EventTableItem {
+  id: number;
+  visible: boolean;
+  name: string;
+  time_type: string;
+  time_start: string;
+  time_end: string;
+  time_publish: string;
+  canceled: boolean;
+  link_signup: string;
+  capacity: number;
+  full: boolean;
+  category_name: string;
+  location_name: string;
   updated_at: string;
   is_deleted: false;
   audiences: string[];

@@ -5,20 +5,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map, retry } from 'rxjs';
 import { BeehiveAPI } from 'src/app/config/constants';
-import { EventShort, EventDetail } from 'src/app/models/dataInterfaces.model';
+import { EventTableItem, EventDetail, EventShort } from 'src/app/models/dataInterfaces.model';
+import { convertFromRFC3339 } from 'src/app/utils/time';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventService {
-  private authHeaders: HttpHeaders; 
   
-  constructor(private http: HttpClient) {
-    this.authHeaders = new HttpHeaders({
-      'auth': 'secret',
-      'mode': 'no-cors'
-    });
-  }
+  constructor(private http: HttpClient) {}
 
   /**
    * Gets a single event from the epi.
@@ -39,19 +34,35 @@ export class EventService {
       );
   }
 
-  /**
-   * Gets all events from the epi.
-   * @returns EventShort array
-   */
-  fetchEvents(): Observable<EventShort[]> {
+  fetchEvents(): Observable<EventTableItem[]> {
     return this.http
-      .get<{ [id: string]: EventShort }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`,  { headers: this.authHeaders })
+      .get<{ [id: string]: EventShort }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`)
       .pipe(
         map(resData => {
-          const eventsArray: EventShort[] = [];
+          const eventsArray: EventTableItem[] = [];
           for (const id in resData) {
             if (resData.hasOwnProperty(id)) {
-              const event: EventShort = resData[id];
+              const eventShort: EventShort = resData[id];
+              const event: EventTableItem = {
+                id: eventShort.id,
+                visible: eventShort.visible,
+                name: eventShort.name_en || eventShort.name_no, // Set name to name_en if it exists, else set to name_no
+                time_type: eventShort.time_type,
+                time_start: convertFromRFC3339(eventShort.time_start),
+                time_end: convertFromRFC3339(eventShort.time_end),
+                time_publish: convertFromRFC3339(eventShort.time_publish),
+                canceled: eventShort.canceled,
+                link_signup: eventShort.link_signup,
+                capacity: eventShort.capacity,
+                full: eventShort.full,
+                category_name: eventShort.category_name_en || eventShort.category_name_no, // Set category_name to name_en if it exists, else set to name_no
+                location_name: eventShort.location_name_en || eventShort.location_name_no, // Set location_name to name_en if it exists, else set to name_no
+                updated_at: convertFromRFC3339(eventShort.updated_at),
+                is_deleted: false, // Assuming this is a constant value
+                audiences: eventShort.audiences,
+                organizers: eventShort.organizers,
+              };
+  
               eventsArray.push(event);
             }
           }
@@ -59,6 +70,7 @@ export class EventService {
         })
       );
   }
+  
 
   /**
    * Sends a POST request to the API with event

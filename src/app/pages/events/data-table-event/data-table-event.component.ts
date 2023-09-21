@@ -5,7 +5,7 @@ import { MatTable } from '@angular/material/table';
 import { DataTableEventDataSource } from './data-table-event-datasource';
 import { TableConstants } from 'src/app/pages/pages.constants';
 import { EventService } from 'src/app/services/api/event.service';
-import { EventShort } from 'src/app/models/dataInterfaces.model';
+import { EventTableItem } from 'src/app/models/dataInterfaces.model';
 import { isDatetimeUnset } from 'src/app/utils/time';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmComponent } from 'src/app/components/dialog/confirm/confirm.component';
@@ -18,7 +18,7 @@ export class DataTableEventComponent implements OnInit, AfterViewInit {
   @Output() scrollToTop = new EventEmitter<string>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatTable) table!: MatTable<EventShort>;
+  @ViewChild(MatTable) table!: MatTable<EventTableItem>;
   @ViewChild('filterInput') filterInput!: ElementRef<HTMLInputElement>;
   dataSource!: DataTableEventDataSource;
   
@@ -29,14 +29,17 @@ export class DataTableEventComponent implements OnInit, AfterViewInit {
   displayedColumns = [
     'actions',
     'id',
-    'name_no',
-    'category',
+    'name',
+    'category_name',
+    'location_name',
+    'time_type',
     'time_start',
     'time_end',
     'time_publish',
     'capacity',
     'full',
     'canceled',
+    'updated_at'
   ];
 
   constructor(private eventsService: EventService, private cdr: ChangeDetectorRef, private dialog: MatDialog) {
@@ -72,16 +75,6 @@ export class DataTableEventComponent implements OnInit, AfterViewInit {
         this.dataSource.refresh();
       }
     });
-  }
-
-  formatDatetime(dt: string): string {
-    if(dt) {
-      if(isDatetimeUnset(dt)) {
-        return ""
-      }
-      return dt.replace("T", " ").replace("Z", "").replaceAll("-", "/");
-    }
-    return dt
   }
 
   // Refreshes the table. Used when you need to force a refresh
