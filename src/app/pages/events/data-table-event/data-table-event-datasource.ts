@@ -10,8 +10,6 @@ import { EventShort } from 'src/app/models/dataInterfaces.model';
  * (including sorting, pagination, and filtering).
  */
 export class DataTableEventDataSource extends BaseDataSource<EventShort> {
-  private eventsService!: EventService;
-
   constructor(private eventService: EventService) {
     super();
   }

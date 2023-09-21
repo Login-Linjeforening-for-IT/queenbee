@@ -14,6 +14,13 @@ export class DataTableOrganizationDataSource extends BaseDataSource<OrgShort> {
     super();
   }
 
+  public fetchOrganizations() {
+    this.orgService.fetchOrganizations().subscribe((orgs) => {
+      this.updateData(orgs);
+      this.refresh();
+    });
+  }
+
   override getItemId(item: OrgShort): string {
     return item.shortname;
   }

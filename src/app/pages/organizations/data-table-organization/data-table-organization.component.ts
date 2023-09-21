@@ -2,10 +2,7 @@ import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild} from
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import {
-  DataTableOrganizationDataSource,
-  
-} from './data-table-organization-datasource';
+import {DataTableOrganizationDataSource} from './data-table-organization-datasource';
 import { TableConstants } from '../../pages.constants';
 import { OrganizationService } from 'src/app/services/api/organizations.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -40,6 +37,10 @@ export class DataTableOrganizationComponent implements AfterViewInit {
 
   constructor(private orgService: OrganizationService, private cdr: ChangeDetectorRef, private dialog: MatDialog) {
     this.dataSource = new DataTableOrganizationDataSource(orgService);
+  }
+
+  ngOnInit() {
+    this.dataSource.fetchOrganizations();
   }
 
   ngAfterViewInit(): void {
