@@ -7,7 +7,11 @@ export function convertToRFC3339(datetime: string) {
 
 export function convertFromRFC3339(dt: string): string {
   if(dt) {
-    return dt.replace("T", " ").replace("Z", "").replaceAll("-", "/");
+    // Remove milliseconds (including dot and fractional seconds)
+    const withoutMilliseconds = dt.replace(/\.\d+/g, '');
+
+    // Replace 'T' with space and remove 'Z'
+    return withoutMilliseconds.replace("T", " ").replace("Z", "").replaceAll("-", "/");
   }
   return dt
 }
