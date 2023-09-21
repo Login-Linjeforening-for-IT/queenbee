@@ -3,26 +3,25 @@
  */
 export interface EventShort {
   id: number;
+  visible: boolean;
   name_no: string;
   name_en: string;
-  description_no: string;
-  description_en: string;
-  information_no: string;
-  information_en: string;
+  time_type: string;
   time_start: string;
   time_end: string;
   time_publish: string;
-  time_signup_release: string;
-  time_signup_deadline: string;
-  time_type: string;
-  created_at: string;
   canceled: boolean;
-  highlight: boolean;
-  image_small: string;
+  link_signup: string;
   capacity: number;
   full: boolean;
-  location: Location;
-  category: Category;
+  category_name_no: string;
+  category_name_en: string;
+  location_name_no: string;
+  location_name_en: string;
+  updated_at: string;
+  is_deleted: false;
+  audiences: string[];
+  organizers: string[];
 }
 
 export interface EventDetail {
@@ -56,7 +55,7 @@ export interface EventDetail {
   category: Category;
   rule: Rule;
   audiences: Audience[];
-  organizations: Organization[];
+  organizations: OrgShort[];
 }
 
 export interface JobadDetail {
@@ -137,6 +136,16 @@ export interface Audience {
   name_en: string;
   description_no: string;
   description_en: string;
+}
+
+export interface OrgShort {
+  shortname: string;
+  name_no: string;
+  name_en: string;
+  link_homepage: string;
+  logo: string;
+  updated_at: string;
+  is_deleted: boolean;
 }
 
 export interface Organization {

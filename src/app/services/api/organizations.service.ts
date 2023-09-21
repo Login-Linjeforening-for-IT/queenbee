@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { BeehiveAPI } from 'src/app/config/constants';
-import { Organization } from 'src/app/models/dataInterfaces.model';
+import { OrgShort, Organization } from 'src/app/models/dataInterfaces.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +18,17 @@ export class OrganizationService {
    * Returns all organizations
    * @returns Organization array
    */
-  fetchOrganizations(): Observable<Organization[]> {
+  fetchOrganizations(): Observable<OrgShort[]> {
     return this.http
       .get<{ [id: string]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.ORGANIZATIONS_PATH}`)
       .pipe(
         map(resData => {
-          return resData['organizations'];
+          const orgArray: OrgShort[] = [];
+          for (const shortname in resData) {
+            const org: OrgShort = resData[shortname]
+            orgArray.push(org);
+          }
+          return orgArray;
         })
       );
   }

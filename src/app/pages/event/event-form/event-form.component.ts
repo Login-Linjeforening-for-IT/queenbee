@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 import { NoDecimalValidator } from 'src/app/common/validators';
-import { Category, EventDetail, Organization } from 'src/app/models/dataInterfaces.model';
+import { Category, EventDetail, OrgShort, Organization } from 'src/app/models/dataInterfaces.model';
 import { CategoryService } from 'src/app/services/api/category.service';
 import { OrganizationService } from 'src/app/services/api/organizations.service';
 import { convertToRFC3339, isDatetimeUnset } from 'src/app/utils/time';
@@ -15,7 +15,7 @@ export class EventFormComponent implements OnInit{
   @Input() event!: EventDetail;
 
   categories: Category[] = [];
-  organizations: Organization[] = [];
+  organizations: OrgShort[] = [];
   
   fetchedEvent$!: Observable<EventDetail>;
 
@@ -24,8 +24,8 @@ export class EventFormComponent implements OnInit{
   // Variables used by autocomplete 
   autoControlCats = new FormControl<string | Category>('');
   filteredCats!: Observable<Category[]>;
-  autoControlOrgs = new FormControl<string | Organization>('');
-  filteredOrgs!: Observable<Organization[]>;
+  autoControlOrgs = new FormControl<string | OrgShort>('');
+  filteredOrgs!: Observable<OrgShort[]>;
 
   constructor(
     private fb: FormBuilder,
@@ -88,7 +88,7 @@ export class EventFormComponent implements OnInit{
     return ''
   }
 
-  displayOrganizationFn(organization: Organization): string {
+  displayOrganizationFn(organization: OrgShort): string {
     if(organization) {
       return organization.name_en || organization.name_no
     }
@@ -211,7 +211,7 @@ export class EventFormComponent implements OnInit{
   }
 
   private fetchOrganizations() {
-    this.orgService.fetchOrganizations().subscribe((o: Organization[]) => {
+    this.orgService.fetchOrganizations().subscribe((o: OrgShort[]) => {
       this.organizations = o;
     });
   }
@@ -226,7 +226,7 @@ export class EventFormComponent implements OnInit{
   }
 
   // Function for filtering organization dropdown
-  private _filterOrganizations(value: string): Organization[] {
+  private _filterOrganizations(value: string): OrgShort[] {
     const filterValue = value.toLowerCase();
     return this.organizations.filter(organization =>
       organization.name_en.toLowerCase().includes(filterValue) ||

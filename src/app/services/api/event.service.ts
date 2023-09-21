@@ -3,7 +3,7 @@
  */
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, catchError, map, retry } from 'rxjs';
 import { BeehiveAPI } from 'src/app/config/constants';
 import { EventShort, EventDetail } from 'src/app/models/dataInterfaces.model';
 
@@ -11,8 +11,14 @@ import { EventShort, EventDetail } from 'src/app/models/dataInterfaces.model';
   providedIn: 'root'
 })
 export class EventService {
-
-  constructor(private http: HttpClient) { }
+  private authHeaders: HttpHeaders; 
+  
+  constructor(private http: HttpClient) {
+    this.authHeaders = new HttpHeaders({
+      'auth': 'secret',
+      'mode': 'no-cors'
+    });
+  }
 
   /**
    * Gets a single event from the epi.
@@ -39,7 +45,7 @@ export class EventService {
    */
   fetchEvents(): Observable<EventShort[]> {
     return this.http
-      .get<{ [id: string]: EventShort }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`)
+      .get<{ [id: string]: EventShort }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`,  { headers: this.authHeaders })
       .pipe(
         map(resData => {
           const eventsArray: EventShort[] = [];

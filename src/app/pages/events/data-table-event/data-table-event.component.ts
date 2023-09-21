@@ -31,16 +31,12 @@ export class DataTableEventComponent implements OnInit, AfterViewInit {
     'id',
     'name_no',
     'category',
-    'location',
     'time_start',
     'time_end',
     'time_publish',
     'capacity',
     'full',
     'canceled',
-    'time_signup_release',
-    'time_signup_deadline',
-    'created_at',
   ];
 
   constructor(private eventsService: EventService, private cdr: ChangeDetectorRef, private dialog: MatDialog) {

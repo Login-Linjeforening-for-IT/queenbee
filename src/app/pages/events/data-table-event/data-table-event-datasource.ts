@@ -43,14 +43,11 @@ export class DataTableEventDataSource extends BaseDataSource<EventShort> {
         case 'time_start': return compare(a.time_start, b.time_start, isAsc);
         case 'time_end': return compare(a.time_end, b.time_end, isAsc);
         case 'time_publish': return compare(a.time_publish, b.time_publish, isAsc);
-        case 'time_signup_deadline': return compare(a.time_signup_deadline, b.time_signup_deadline, isAsc);
-        case 'time_signup_release': return compare(a.time_signup_release, b.time_signup_release, isAsc);
-        case 'created_at': return compare(a.created_at, b.created_at, isAsc);
         case 'canceled': return compare(+a.canceled, +b.canceled, isAsc);
         case 'full': return compare(+a.full, +b.full, isAsc);
         case 'capacity': return compare(+a.capacity, +b.capacity, isAsc);
-        case 'category': return compare(a.category.name_no, b.category.name_no, isAsc);
-        case 'location': return compare(a.location?.name_no, b.location?.name_no, isAsc);
+        //case 'category': return compare(a.category.name_no, b.category.name_no, isAsc);
+        //case 'location': return compare(a.location?.name_no, b.location?.name_no, isAsc);
         default: return 0;
       }
     });
