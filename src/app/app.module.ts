@@ -29,7 +29,7 @@ import {MatMenuModule} from "@angular/material/menu";
 import { OrganizationsComponent } from './pages/organizations/organizations.component';
 import { DataTableOrganizationComponent } from "./pages/organizations/data-table-organization/data-table-organization.component";
 import { OrganizationComponent } from './pages/organization/organization.component';
-import { DataTableLocationComponent } from './pages/locations/data-table-location/data-table-location.component';
+import { DataTableLocationAddressComponent } from './pages/locations/data-table-location-address/data-table-location-address.component';
 import { DataTableJobadsComponent } from './pages/jobads/data-table-jobads/data-table-jobads.component';
 import { MarkdownTextfieldComponent } from './components/markdown-textfield/markdown-textfield.component';
 
@@ -67,7 +67,7 @@ import { MazemapComponent } from './components/mazemap/mazemap.component';
     DataTableOrganizationComponent,
     OrganizationComponent,
     DataTableJobadsComponent,
-    DataTableLocationComponent,
+    DataTableLocationAddressComponent,
     MarkdownTextfieldComponent,
     DotMenuComponent,
     ErrorComponent,

@@ -114,6 +114,20 @@ export interface JobadShort {
   cities: string[]
 }
 
+export interface LocationTableItem {
+  id: number;
+  name: string;
+  mazemap_campus_id: number;
+  mazemap_poi_id: number;
+  address_street: string;
+  address_postcode: number;
+  city_name: string;
+  coordinate_lat: number;
+  coordinate_long: number;
+  url: string;
+  updated_at: string;
+}
+
 export interface Location {
   id: number;
   name_no: string;
@@ -127,6 +141,9 @@ export interface Location {
   coordinate_lat: number;
   coordinate_long: number;
   url: string;
+  updated_at: string;
+  created_at: string;
+  deleted_at: string;
 }
 
 export interface Category {

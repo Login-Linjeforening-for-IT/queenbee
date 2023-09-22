@@ -1,21 +1,24 @@
-import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { DataTableLocationDataSource, DataTableLocationItem } from './data-table-location-datasource';
+import { DataTableLocationAddressDataSource } from './data-table-location-datasource-address';
 import { TableConstants } from '../../pages.constants';
+import { LocationService } from 'src/app/services/api/location.service';
+import { MatDialog } from '@angular/material/dialog';
+import { LocationTableItem } from 'src/app/models/dataInterfaces.model';
 
 @Component({
-  selector: 'app-data-table-location',
-  templateUrl: './data-table-location.component.html'
+  selector: 'app-data-table-location-address',
+  templateUrl: './data-table-location-address.component.html'
 })
 
-export class DataTableLocationComponent implements AfterViewInit {
+export class DataTableLocationAddressComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatTable) table!: MatTable<DataTableLocationItem>;
+  @ViewChild(MatTable) table!: MatTable<LocationTableItem>;
   @ViewChild('filterInput') filterInput!: ElementRef<HTMLInputElement>;
-  dataSource: DataTableLocationDataSource;
+  dataSource: DataTableLocationAddressDataSource;
 
   pageSize = TableConstants.PAGE_SIZE
   pageSizeOptions = TableConstants.PAGE_SIZE_OPTIONS
@@ -24,19 +27,19 @@ export class DataTableLocationComponent implements AfterViewInit {
   displayedColumns = [
     'actions',
     'id',
-    'name_no',
-    'type',
-    'mazemap_campus_id',
-    'mazemap_poi_id',
+    'name',
     'address_street',
     'address_postcode',
-    'address_city',
-    'coordinate_lat',
-    'coordinate_long'
+    'city_name',
+    'updated_at'
   ];
 
-  constructor() {
-    this.dataSource = new DataTableLocationDataSource();
+  constructor(private locationService: LocationService, private cdr: ChangeDetectorRef, private dialog: MatDialog) {
+    this.dataSource = new DataTableLocationAddressDataSource(locationService);
+  }
+
+  ngOnInit() {
+    this.dataSource.fetchLocations();
   }
 
   ngAfterViewInit(): void {

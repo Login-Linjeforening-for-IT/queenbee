@@ -1,2 +1,19 @@
-<h1>{{title}}</h1>
-<app-data-table-location></app-data-table-location>
+<div>
+    <h1>Locations</h1>
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" class="block">  
+        <mat-tab label="Address">
+            <div class="data-table">
+                <app-data-table-location-address></app-data-table-location-address>
+            </div>
+        </mat-tab>
+
+        <mat-tab label="MazeMap">
+            <p>Mazemap</p>
+        </mat-tab>
+
+        <mat-tab label="Coordinates">
+            <p>Coords</p>
+        </mat-tab>
+    </mat-tab-group>
+</div>
+  
