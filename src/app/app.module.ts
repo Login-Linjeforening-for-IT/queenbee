@@ -56,6 +56,8 @@ import { MapComponent } from './components/map/map.component';
 import { MazemapComponent } from './components/mazemap/mazemap.component';
 import { DataTableMazemapComponent } from './pages/locations/data-table-mazemap/data-table-mazemap.component';
 import { DataTableCoordsComponent } from './pages/locations/data-table-coords/data-table-coords.component';
+import { DataTableRulesDataSource } from './pages/rules/data-table-rules/data-table-rules-datasource';
+import { DataTableRulesComponent } from './pages/rules/data-table-rules/data-table-rules.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +74,7 @@ import { DataTableCoordsComponent } from './pages/locations/data-table-coords/da
     DataTableAddressComponent,
     DataTableMazemapComponent,
     DataTableCoordsComponent,
+    DataTableRulesComponent,
     MarkdownTextfieldComponent,
     DotMenuComponent,
     ErrorComponent,
@@ -88,7 +91,7 @@ import { DataTableCoordsComponent } from './pages/locations/data-table-coords/da
     LocationNewComponent,
     LocationFormComponent,
     MapComponent,
-    MazemapComponent
+    MazemapComponent,
   ],
     imports: [
         BrowserModule,

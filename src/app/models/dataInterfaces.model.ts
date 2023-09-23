@@ -41,6 +41,7 @@ export interface EventTableItem {
   organizers: string[];
 }
 
+// Named EventDetail instead of Event to not conflict with the native Event object in ts
 export interface EventDetail {
   id: number;
   name_no: string;
@@ -202,4 +203,23 @@ export interface Organization {
   link_instagram: string;
   link_linkedin: string;
   logo: string;
+}
+
+export interface RulesTableItem {
+  id: number;
+  name_no: string;
+  name_en: string;
+  is_deleted: boolean;
+}
+
+export interface Rule {
+  id: number;
+  name_no: string;
+  name_en: string;
+  description_no: string;
+  description_en: string;
+  updated_at: string;
+  created_at: string;
+  deleted_at: string;
+  is_deleted: boolean;
 }
