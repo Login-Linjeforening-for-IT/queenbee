@@ -2,7 +2,7 @@ import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild} from
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { DataTableAddressDataSource } from './data-table-datasource-address';
+import { DataTableAddressDataSource } from './data-table-address-datasource';
 import { TableConstants } from '../../pages.constants';
 import { LocationService } from 'src/app/services/api/location.service';
 import { MatDialog } from '@angular/material/dialog';
