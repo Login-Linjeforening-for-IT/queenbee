@@ -4,15 +4,15 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 
-import { DataTableLocationAddressComponent } from './data-table-location-address.component';
+import { DataTableAddressComponent } from './data-table-address.component';
 
 describe('DataTableEventComponent', () => {
-  let component: DataTableLocationAddressComponent;
-  let fixture: ComponentFixture<DataTableLocationAddressComponent>;
+  let component: DataTableAddressComponent;
+  let fixture: ComponentFixture<DataTableAddressComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ DataTableLocationAddressComponent ],
+      declarations: [ DataTableAddressComponent ],
       imports: [
         NoopAnimationsModule,
         MatPaginatorModule,
@@ -23,7 +23,7 @@ describe('DataTableEventComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DataTableLocationAddressComponent);
+    fixture = TestBed.createComponent(DataTableAddressComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

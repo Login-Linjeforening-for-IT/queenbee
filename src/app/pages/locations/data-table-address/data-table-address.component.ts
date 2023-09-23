@@ -2,23 +2,23 @@ import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild} from
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { DataTableLocationAddressDataSource } from './data-table-location-datasource-address';
+import { DataTableAddressDataSource } from './data-table-datasource-address';
 import { TableConstants } from '../../pages.constants';
 import { LocationService } from 'src/app/services/api/location.service';
 import { MatDialog } from '@angular/material/dialog';
 import { LocationTableItem } from 'src/app/models/dataInterfaces.model';
 
 @Component({
-  selector: 'app-data-table-location-address',
-  templateUrl: './data-table-location-address.component.html'
+  selector: 'app-data-table-address',
+  templateUrl: './data-table-address.component.html'
 })
 
-export class DataTableLocationAddressComponent implements AfterViewInit {
+export class DataTableAddressComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<LocationTableItem>;
   @ViewChild('filterInput') filterInput!: ElementRef<HTMLInputElement>;
-  dataSource: DataTableLocationAddressDataSource;
+  dataSource: DataTableAddressDataSource;
 
   pageSize = TableConstants.PAGE_SIZE
   pageSizeOptions = TableConstants.PAGE_SIZE_OPTIONS
@@ -31,11 +31,12 @@ export class DataTableLocationAddressComponent implements AfterViewInit {
     'address_street',
     'address_postcode',
     'city_name',
+    'url',
     'updated_at'
   ];
 
   constructor(private locationService: LocationService, private cdr: ChangeDetectorRef, private dialog: MatDialog) {
-    this.dataSource = new DataTableLocationAddressDataSource(locationService);
+    this.dataSource = new DataTableAddressDataSource(locationService);
   }
 
   ngOnInit() {
