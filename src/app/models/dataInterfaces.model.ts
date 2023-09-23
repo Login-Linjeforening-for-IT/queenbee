@@ -101,18 +101,36 @@ export interface JobadDetail {
 }
 
 export interface JobadShort {
-  id: number,
-  position_title_no: string,
-  position_title_en: string,
-  description_short_no: string,
-  description_short_en: string,
-  organization: {
-    shortname: string,
-    title_no: string,
-    title_en: string,
-    logo: string
-  },
-  cities: string[]
+  id: number;
+  title_no: string;
+  title_en: string;
+  position_title_no: string;
+  position_title_en: string;
+  job_type: string;
+  time_publish: string;
+  application_deadline: string;
+  application_url: string;
+  updated_at: string;
+  visible: boolean;
+  deleted_at: string;
+  is_deleted: boolean;
+  name_no: string;
+  name_en: string;
+}
+
+export interface JobadTableItem {
+  id: number;
+  title: string;
+  position_title: string;
+  job_type: string;
+  time_publish: string;
+  application_deadline: string;
+  application_url: string;
+  updated_at: string;
+  visible: boolean;
+  deleted_at: string;
+  is_deleted: boolean;
+  company_name: string;
 }
 
 export interface LocationTableItem {

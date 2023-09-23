@@ -6,7 +6,7 @@ import { DataTableJobadsDataSource } from './data-table-jobads-datasource';
 import { TableConstants } from '../../pages.constants';
 import { JobadService } from 'src/app/services/api/jobad.service';
 import { MatDialog } from '@angular/material/dialog';
-import { JobadShort } from 'src/app/models/dataInterfaces.model';
+import { JobadTableItem } from 'src/app/models/dataInterfaces.model';
 
 @Component({
   selector: 'app-data-table-jobads',
@@ -16,7 +16,7 @@ import { JobadShort } from 'src/app/models/dataInterfaces.model';
 export class DataTableJobadsComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatTable) table!: MatTable<JobadShort>;
+  @ViewChild(MatTable) table!: MatTable<JobadTableItem>;
   @ViewChild('filterInput') filterInput!: ElementRef<HTMLInputElement>;
   dataSource: DataTableJobadsDataSource;
 
@@ -27,10 +27,15 @@ export class DataTableJobadsComponent implements AfterViewInit {
   displayedColumns = [
     'actions',
     'id',
-    'position_title_no',
-    'position_title_en',
-    'description_short_no',
-    'description_short_en'
+    'title',
+    'company_name',
+    'position_title',
+    'job_type',
+    'time_publish',
+    'application_deadline',
+    'application_url',
+    'visible',
+    'updated_at',
   ];
 
   constructor(private jobadService: JobadService, private cdr: ChangeDetectorRef, private dialog: MatDialog) {
