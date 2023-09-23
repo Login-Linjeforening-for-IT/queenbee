@@ -55,6 +55,7 @@ import {MatRadioButton} from "@angular/material/radio";
 import { MapComponent } from './components/map/map.component';
 import { MazemapComponent } from './components/mazemap/mazemap.component';
 import { DataTableMazemapComponent } from './pages/locations/data-table-mazemap/data-table-mazemap.component';
+import { DataTableCoordsComponent } from './pages/locations/data-table-coords/data-table-coords.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { DataTableMazemapComponent } from './pages/locations/data-table-mazemap/
     DataTableJobadsComponent,
     DataTableLocationAddressComponent,
     DataTableMazemapComponent,
+    DataTableCoordsComponent,
     MarkdownTextfieldComponent,
     DotMenuComponent,
     ErrorComponent,
