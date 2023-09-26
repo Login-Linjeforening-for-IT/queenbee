@@ -115,5 +115,5 @@ export abstract class BaseDataSource<T> extends DataSource<T> {
   // Abstract methods implemented by children, due to them having child specific content
   abstract getSortedData(data: T[]): T[];
 
-  abstract getItemId(item: T): number;
+  abstract getItemId(item: T): any;
 }

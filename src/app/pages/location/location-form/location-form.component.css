@@ -1,0 +1,15 @@
+.map-block {
+  display: inline-block;
+  height: 100%;
+}
+
+.map-input {
+  width: 30%;
+  float: left;
+  padding-right: 1.5rem;
+}
+
+.map-container {
+  width: 70%;
+  float: left;
+}

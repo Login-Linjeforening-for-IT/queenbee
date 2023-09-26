@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 import { NoDecimalValidator } from 'src/app/common/validators';
-import { Category, EventDetail, Organization } from 'src/app/models/dataInterfaces.model';
+import { Category, EventDetail, OrgTableItem, Organization } from 'src/app/models/dataInterfaces.model';
 import { CategoryService } from 'src/app/services/api/category.service';
 import { OrganizationService } from 'src/app/services/api/organizations.service';
 import { convertToRFC3339, isDatetimeUnset } from 'src/app/utils/time';
@@ -15,7 +15,7 @@ export class EventFormComponent implements OnInit{
   @Input() event!: EventDetail;
 
   categories: Category[] = [];
-  organizations: Organization[] = [];
+  organizations: OrgTableItem[] = [];
   
   fetchedEvent$!: Observable<EventDetail>;
 
@@ -24,8 +24,8 @@ export class EventFormComponent implements OnInit{
   // Variables used by autocomplete 
   autoControlCats = new FormControl<string | Category>('');
   filteredCats!: Observable<Category[]>;
-  autoControlOrgs = new FormControl<string | Organization>('');
-  filteredOrgs!: Observable<Organization[]>;
+  autoControlOrgs = new FormControl<string | OrgTableItem>('');
+  filteredOrgs!: Observable<OrgTableItem[]>;
 
   constructor(
     private fb: FormBuilder,
@@ -88,9 +88,9 @@ export class EventFormComponent implements OnInit{
     return ''
   }
 
-  displayOrganizationFn(organization: Organization): string {
+  displayOrganizationFn(organization: OrgTableItem): string {
     if(organization) {
-      return organization.name_en || organization.name_no
+      return organization.name
     }
     return ''
   }
@@ -134,7 +134,7 @@ export class EventFormComponent implements OnInit{
     this.filteredOrgs = this.autoControlOrgs.valueChanges.pipe(
       startWith(''),
       map(value => {
-        const viewValue = typeof value === 'string' ? value : value?.name_no;
+        const viewValue = typeof value === 'string' ? value : value?.name;
         return viewValue ? this._filterOrganizations(viewValue as string) : this.organizations.slice();
       })
     );
@@ -211,7 +211,7 @@ export class EventFormComponent implements OnInit{
   }
 
   private fetchOrganizations() {
-    this.orgService.fetchOrganizations().subscribe((o: Organization[]) => {
+    this.orgService.fetchOrganizations().subscribe((o: OrgTableItem[]) => {
       this.organizations = o;
     });
   }
@@ -226,11 +226,10 @@ export class EventFormComponent implements OnInit{
   }
 
   // Function for filtering organization dropdown
-  private _filterOrganizations(value: string): Organization[] {
+  private _filterOrganizations(value: string): OrgTableItem[] {
     const filterValue = value.toLowerCase();
     return this.organizations.filter(organization =>
-      organization.name_en.toLowerCase().includes(filterValue) ||
-      organization.name_no.toLowerCase().includes(filterValue)
+      organization.name.toLowerCase().includes(filterValue)
     );
   }
 }

@@ -1,21 +1,24 @@
-import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { DataTableLocationDataSource, DataTableLocationItem } from './data-table-location-datasource';
+import { DataTableRulesDataSource } from './data-table-rules-datasource';
 import { TableConstants } from '../../pages.constants';
+import { MatDialog } from '@angular/material/dialog';
+import { RulesTableItem } from 'src/app/models/dataInterfaces.model';
+import { RulesService } from 'src/app/services/api/rules.service';
 
 @Component({
-  selector: 'app-data-table-location',
-  templateUrl: './data-table-location.component.html'
+  selector: 'app-data-table-rules',
+  templateUrl: './data-table-rules.component.html'
 })
 
-export class DataTableLocationComponent implements AfterViewInit {
+export class DataTableRulesComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatTable) table!: MatTable<DataTableLocationItem>;
+  @ViewChild(MatTable) table!: MatTable<RulesTableItem>;
   @ViewChild('filterInput') filterInput!: ElementRef<HTMLInputElement>;
-  dataSource: DataTableLocationDataSource;
+  dataSource: DataTableRulesDataSource;
 
   pageSize = TableConstants.PAGE_SIZE
   pageSizeOptions = TableConstants.PAGE_SIZE_OPTIONS
@@ -25,18 +28,15 @@ export class DataTableLocationComponent implements AfterViewInit {
     'actions',
     'id',
     'name_no',
-    'type',
-    'mazemap_campus_id',
-    'mazemap_poi_id',
-    'address_street',
-    'address_postcode',
-    'address_city',
-    'coordinate_lat',
-    'coordinate_long'
+    'name_en'
   ];
 
-  constructor() {
-    this.dataSource = new DataTableLocationDataSource();
+  constructor(private rulesService: RulesService, private cdr: ChangeDetectorRef, private dialog: MatDialog) {
+    this.dataSource = new DataTableRulesDataSource(rulesService);
+  }
+
+  ngOnInit() {
+    this.dataSource.fetchRules();
   }
 
   ngAfterViewInit(): void {

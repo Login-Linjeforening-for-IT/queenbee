@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { BeehiveAPI } from 'src/app/config/constants';
-import { JobadDetail, JobadShort } from 'src/app/models/dataInterfaces.model';
+import { JobadDetail, JobadShort, JobadTableItem } from 'src/app/models/dataInterfaces.model';
+import { convertFromRFC3339 } from 'src/app/utils/time';
 
 @Injectable({
   providedIn: 'root'
@@ -34,12 +35,33 @@ export class JobadService {
    * Gets all jobads from the API
    * @returns EventShort array
    */
-  fetchJobads(): Observable<JobadShort[]> {
+  fetchJobads(): Observable<JobadTableItem[]> {
     return this.http
       .get<{ [id: string]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}`)
       .pipe(
         map(resData => {
-          return resData['jobs'];
+          const jobArray: JobadTableItem[] = [];
+          for (const shortname in resData) {
+            const jobShort: JobadShort = resData[shortname]
+            
+            const job: JobadTableItem = {
+              id: jobShort.id,
+              title: jobShort.title_en || jobShort.title_no, 
+              position_title: jobShort.position_title_en || jobShort.position_title_no,
+              job_type: jobShort.job_type,
+              time_publish: convertFromRFC3339(jobShort.time_publish),
+              application_deadline: convertFromRFC3339(jobShort.application_deadline),
+              application_url: jobShort.application_url,
+              updated_at: convertFromRFC3339(jobShort.updated_at),
+              visible: jobShort.visible,
+              deleted_at: jobShort.deleted_at,
+              is_deleted: jobShort.is_deleted,
+              company_name: jobShort.name_en || jobShort.name_no 
+            };
+
+            jobArray.push(job);
+          }
+          return jobArray;
         })
       );
   }

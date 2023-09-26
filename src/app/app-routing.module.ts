@@ -8,13 +8,13 @@ import {LocationsComponent} from "./pages/locations/locations.component";
 import {RulesComponent} from "./pages/rules/rules.component";
 import {PageNotFoundComponent} from "./pages/page-not-found/page-not-found.component";
 import {OrganizationComponent} from "./pages/organization/organization.component";
-import {LocationComponent} from "./pages/location/location.component";
 import { EventNewComponent } from "./pages/event/event-new/event-new.component";
 import { EventEditComponent } from "./pages/event/event-edit/event-edit.component";
 import { JobadNewComponent } from "./pages/jobad/jobad-new/jobad-new.component";
 import { JobadEditComponent } from "./pages/jobad/jobad-edit/jobad-edit.component";
 import { EventCopyComponent } from "./pages/event/event-copy/event-copy.component";
 import { JobadCopyComponent } from "./pages/jobad/jobad-copy/jobad-copy.component";
+import {LocationNewComponent} from "./pages/location/location-new/location-new.component";
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -31,8 +31,8 @@ const routes: Routes = [
   { path: 'organizations/new', component: OrganizationComponent, pathMatch: 'full'},
   { path: 'organizations/edit/:id', component: OrganizationComponent, pathMatch: 'full'},
   { path: 'locations', component: LocationsComponent},
-  { path: 'locations/new', component: LocationComponent},
-  { path: 'locations/edit/:id', component: LocationComponent},
+  { path: 'locations/new', component: LocationNewComponent},
+  { path: 'locations/edit/:id', component: LocationNewComponent},
   { path: 'rules', component: RulesComponent},
   { path: '**', component: PageNotFoundComponent} // ** detects all other routes, IMPORTANT that its last
 ];

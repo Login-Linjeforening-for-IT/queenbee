@@ -1,12 +1,13 @@
-import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import {
-  DataTableOrganizationDataSource,
-  DataTableOrganizationItem
-} from './data-table-organization-datasource';
+import {DataTableOrganizationDataSource} from './data-table-organization-datasource';
 import { TableConstants } from '../../pages.constants';
+import { OrganizationService } from 'src/app/services/api/organizations.service';
+import { MatDialog } from '@angular/material/dialog';
+import { isDatetimeUnset } from 'src/app/utils/time';
+import { OrgTableItem } from 'src/app/models/dataInterfaces.model';
 
 @Component({
   selector: 'app-data-table-organization',
@@ -17,7 +18,7 @@ import { TableConstants } from '../../pages.constants';
 export class DataTableOrganizationComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatTable) table!: MatTable<DataTableOrganizationItem>;
+  @ViewChild(MatTable) table!: MatTable<OrgTableItem>;
   @ViewChild('filterInput') filterInput!: ElementRef<HTMLInputElement>;
   dataSource: DataTableOrganizationDataSource;
 
@@ -27,24 +28,29 @@ export class DataTableOrganizationComponent implements AfterViewInit {
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered (ordering done here, not in html!). */
   displayedColumns = [
     'actions',
-    'id',
     'shortname',
-    'url_homepage',
-    'url_linkedin',
-    'url_facebook',
-    'url_instagram',
+    'name',
+    'link_homepage',
+    'updated_at',
     'logo'
   ];
 
-  constructor() {
-    this.dataSource = new DataTableOrganizationDataSource();
+  constructor(private orgService: OrganizationService, private cdr: ChangeDetectorRef, private dialog: MatDialog) {
+    this.dataSource = new DataTableOrganizationDataSource(orgService);
+  }
+
+  ngOnInit() {
+    this.dataSource.fetchOrganizations();
   }
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
-    this.table.dataSource = this.dataSource;
     this.dataSource.filterStr = this.filterInput;
+
+    // Use dataSource.data as the table's data source
+    this.table.dataSource = this.dataSource;
+    this.cdr.detectChanges();
   }
 
   onDelete(id: number): void {
@@ -52,5 +58,10 @@ export class DataTableOrganizationComponent implements AfterViewInit {
       this.dataSource.deleteItem(id);
       this.dataSource.refresh();
     }
+  }
+
+  // Refreshes the table. Used when you need to force a refresh
+  refresh() {
+    this.paginator._changePageSize(this.paginator.pageSize);
   }
 }
