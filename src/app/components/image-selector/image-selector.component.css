@@ -1,6 +1,7 @@
 .file-item {
   display: flex;
   align-items: center;
+  white-space: nowrap; /* Prevents '-' characters in filenames from screwing up the list */
 }
 
 .file-item * {
