@@ -1,6 +1,6 @@
 import { BaseDataSource } from 'src/app/common/base-data-source';
 import { LocationTableItem } from 'src/app/models/dataInterfaces.model';
-import { LocationService } from 'src/app/services/api/location.service';
+import { LocationService } from 'src/app/services/admin-api/location.service';
 import { compare } from 'src/app/utils/core';
 
 /**

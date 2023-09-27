@@ -3,8 +3,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Observable, map, startWith } from 'rxjs';
 import { NoDecimalValidator } from 'src/app/common/validators';
 import { Category, EventDetail, OrgTableItem, Organization } from 'src/app/models/dataInterfaces.model';
-import { CategoryService } from 'src/app/services/api/category.service';
-import { OrganizationService } from 'src/app/services/api/organizations.service';
+import { CategoryService } from 'src/app/services/admin-api/category.service';
+import { OrganizationService } from 'src/app/services/admin-api/organizations.service';
 import { convertToRFC3339, isDatetimeUnset } from 'src/app/utils/time';
 
 @Component({

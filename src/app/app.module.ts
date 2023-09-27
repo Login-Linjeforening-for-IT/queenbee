@@ -58,6 +58,9 @@ import { DataTableMazemapComponent } from './pages/locations/data-table-mazemap/
 import { DataTableCoordsComponent } from './pages/locations/data-table-coords/data-table-coords.component';
 import { DataTableRulesDataSource } from './pages/rules/data-table-rules/data-table-rules-datasource';
 import { DataTableRulesComponent } from './pages/rules/data-table-rules/data-table-rules.component';
+import { ImageSelectorComponent } from './components/image-selector/image-selector.component';
+import { S3 } from '@aws-sdk/client-s3';
+import { DoSpacesService } from './services/do/do-spaces.service';
 
 @NgModule({
   declarations: [
@@ -92,6 +95,7 @@ import { DataTableRulesComponent } from './pages/rules/data-table-rules/data-tab
     LocationFormComponent,
     MapComponent,
     MazemapComponent,
+    ImageSelectorComponent,
   ],
     imports: [
         BrowserModule,

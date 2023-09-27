@@ -19,6 +19,7 @@
     "@angular/platform-browser": "^16.0.2",
     "@angular/platform-browser-dynamic": "^16.0.2",
     "@angular/router": "^16.0.2",
+    "@aws-sdk/client-s3": "^3.420.0",
     "@ctrl/ngx-emoji-mart": "^9.1.2",
     "leaflet": "^1.9.4",
     "marked": "^5.0.2",

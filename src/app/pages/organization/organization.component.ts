@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {ActivatedRoute} from "@angular/router";
 import { OrganizationConstants } from '../pages.constants';
-import { OrganizationService } from 'src/app/services/api/organizations.service';
+import { OrganizationService } from 'src/app/services/admin-api/organizations.service';
 
 @Component({
   selector: 'app-organization',

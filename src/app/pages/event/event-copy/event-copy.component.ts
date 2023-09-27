@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { EventFormComponent } from '../event-form/event-form.component';
 import { EventDetail } from 'src/app/models/dataInterfaces.model';
-import { EventService } from 'src/app/services/api/event.service';
+import { EventService } from 'src/app/services/admin-api/event.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorComponent } from 'src/app/components/dialog/error/error.component';
 import { ActivatedRoute } from '@angular/router';

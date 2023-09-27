@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmComponent } from 'src/app/components/dialog/confirm/confirm.component';
 import { EventDetail } from 'src/app/models/dataInterfaces.model';
-import { EventService } from 'src/app/services/api/event.service';
+import { EventService } from 'src/app/services/admin-api/event.service';
 import { scrollToTop } from 'src/app/utils/core';
 import { convertFromRFC3339 } from 'src/app/utils/time';
 import { EventFormComponent } from '../event-form/event-form.component';

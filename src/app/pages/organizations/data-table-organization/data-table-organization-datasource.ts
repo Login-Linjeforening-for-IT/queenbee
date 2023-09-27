@@ -1,7 +1,7 @@
 import { of } from 'rxjs';
 import { BaseDataSource } from 'src/app/common/base-data-source';
 import { OrgTableItem } from 'src/app/models/dataInterfaces.model';
-import { OrganizationService } from 'src/app/services/api/organizations.service';
+import { OrganizationService } from 'src/app/services/admin-api/organizations.service';
 import { compare } from 'src/app/utils/core';
 
 /**
