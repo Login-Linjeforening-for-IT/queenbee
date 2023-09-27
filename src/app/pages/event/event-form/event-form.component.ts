@@ -16,12 +16,12 @@ export class EventFormComponent implements OnInit{
 
   categories: Category[] = [];
   organizations: OrgTableItem[] = [];
-  
+
   fetchedEvent$!: Observable<EventDetail>;
 
   eventForm!: FormGroup;
 
-  // Variables used by autocomplete 
+  // Variables used by autocomplete
   autoControlCats = new FormControl<string | Category>('');
   filteredCats!: Observable<Category[]>;
   autoControlOrgs = new FormControl<string | OrgTableItem>('');
@@ -32,7 +32,7 @@ export class EventFormComponent implements OnInit{
     private categoryService: CategoryService,
     private orgService: OrganizationService
   ) {}
-  
+
   ngOnInit() {
     this.initForm();
     this.initDropdownControls();
@@ -195,7 +195,7 @@ export class EventFormComponent implements OnInit{
         organization: this.event.organizations || '',
         test: ''
       });
-      
+
       this.autoControlCats.setValue(this.event.category);
       this.autoControlOrgs.setValue(this.event.organizations[0]);
     } else {

@@ -1,1 +1,16 @@
-<p>image-selector works!</p>
+<form *ngIf="locations.length > 0" class="example-form">
+  <mat-form-field class="row">
+    <mat-label>Image</mat-label>
+    <input type="text"
+           placeholder="Pick one"
+           matInput
+           [formControl]="myControl"
+           [matAutocomplete]="auto">
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+      <mat-option *ngFor="let loc of filteredOptions | async" [value]="loc.name">
+        <span>{{loc.name}}</span> |
+        <small>{{loc.size}}</small>
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>

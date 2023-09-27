@@ -241,3 +241,8 @@ export interface Rule {
   deleted_at: string;
   is_deleted: boolean;
 }
+
+export interface DropDownFileItem {
+  name: string;
+  size: string;
+}

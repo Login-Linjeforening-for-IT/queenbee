@@ -34,6 +34,19 @@ export function htmlToMarkdown(html: string): string {
   return markdown;
 }
 
+/**
+ * Converts a number of bytes to a string of KiB or MiB. If there are more bytes than 1024 * 1024 it is converted into
+ * MiB, else it is converted to KiB.
+ * @param bytes number of bytes
+ * @param precession amount of decimals
+ */
+export function byteConverter(bytes: number, precession: number): string {
+  if (bytes > 1024 * 1024) {
+    return (bytes / 1024 / 1024).toFixed(precession) + 'MiB'
+  }
+  return (bytes / 1024).toFixed(precession) + 'KiB'
+}
+
 export function scrollToTop() {
   window.scrollTo({
     top: 0,
