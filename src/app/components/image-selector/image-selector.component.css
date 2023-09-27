@@ -1,0 +1,8 @@
+.file-item {
+  display: flex;
+  align-items: center;
+}
+
+.file-item * {
+  margin: 0.2rem;
+}

@@ -1,4 +1,4 @@
-<form *ngIf="locations.length > 0" class="example-form">
+<form *ngIf="locations.length > 0">
   <mat-form-field class="row">
     <mat-label>Image</mat-label>
     <input type="text"
@@ -8,8 +8,11 @@
            [matAutocomplete]="auto">
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
       <mat-option *ngFor="let loc of filteredOptions | async" [value]="loc.name">
-        <span>{{loc.name}}</span> |
-        <small>{{loc.size}}</small>
+        <div class="file-item">
+          <img alt="" [src]="'https://cdn.login.no/' + loc.filepath" height="25">
+          <span>{{loc.name}}</span> |
+          <small>{{loc.size}}</small>
+        </div>
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>

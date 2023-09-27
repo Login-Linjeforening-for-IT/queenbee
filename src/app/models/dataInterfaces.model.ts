@@ -245,4 +245,5 @@ export interface Rule {
 export interface DropDownFileItem {
   name: string;
   size: string;
+  filepath: string;
 }

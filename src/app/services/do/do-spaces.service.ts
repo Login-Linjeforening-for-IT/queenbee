@@ -41,12 +41,13 @@ export class DoSpacesService {
     return from(listObjectsPromise).pipe(
       map((response: any) => {
         const images = response.Contents.map((object: any) => {
-          return {name: this.removePrefix(object.Key, "img/events/"), size: byteConverter(object.Size, 2)};
+          return {name: this.removePrefix(object.Key, "img/events/"), size: byteConverter(object.Size, 2), filepath: object.Key};
         });
 
         if(images.length > 0) {
           images[0].name = "Default";
           images[0].size = "0";
+          images[0].filepath = "";
         }
 
         return images;
