@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { S3 } from "@aws-sdk/client-s3";
+import { PutObjectCommand, S3 } from "@aws-sdk/client-s3";
 import { ListObjectsCommand } from "@aws-sdk/client-s3";
-import { Observable, from, map } from 'rxjs';
+import { Observable, catchError, from, map, of } from 'rxjs';
 import { CREDENTIALS } from 'src/app/config/env';
 import {DropDownFileItem} from "../../models/dataInterfaces.model";
 import {byteConverter} from "../../utils/core";
@@ -52,6 +52,22 @@ export class DoSpacesService {
 
         return images;
       })
+    );
+  }
+
+  uploadImage(file: File, key: string): Observable<boolean> {
+    const params = {
+      Bucket: 'beehive',
+      Key: key,
+      Body: file,
+      ACL: 'private'
+    };
+
+    const uploadObjectPromise = this.s3Client.send(new PutObjectCommand(params));
+
+    return from(uploadObjectPromise).pipe(
+      map(() => true), // Return true if the upload is successful
+      catchError(() => of(false)) // Return false if there is an error
     );
   }
 

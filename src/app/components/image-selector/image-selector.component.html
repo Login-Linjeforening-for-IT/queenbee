@@ -1,19 +1,24 @@
-<form *ngIf="locations.length > 0">
-  <mat-form-field class="row">
-    <mat-label>Image</mat-label>
-    <input type="text"
-           placeholder="Pick one"
-           matInput
-           [formControl]="myControl"
-           [matAutocomplete]="auto">
-    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-      <mat-option *ngFor="let loc of filteredOptions | async" [value]="loc.name">
-        <div class="file-item">
-          <img alt="" [src]="'https://cdn.login.no/' + loc.filepath" height="25">
-          <span>{{loc.name}}</span> |
-          <small>{{loc.size}}</small>
-        </div>
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-</form>
+<div class="table-container">
+  <div class="table-row">
+    <form class="form-cell" *ngIf="locations.length > 0">
+      <mat-form-field class="row">
+        <mat-label>Image</mat-label>
+        <input type="text"
+              placeholder="Pick one"
+              matInput
+              [formControl]="myControl"
+              [matAutocomplete]="auto">
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+          <mat-option *ngFor="let loc of filteredOptions | async" [value]="loc.name">
+            <div class="file-item">
+              <img alt="" [src]="'https://cdn.login.no/' + loc.filepath" height="25">
+              <span>{{loc.name}}</span> |
+              <small>{{loc.size}}</small>
+            </div>
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+    <app-single-file-upload class="upload-cell"></app-single-file-upload>
+  </div>
+</div>
