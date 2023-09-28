@@ -33,7 +33,6 @@ export class EventFormComponent implements OnInit{
     private fb: FormBuilder,
     private categoryService: CategoryService,
     private orgService: OrganizationService,
-    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -96,10 +95,6 @@ export class EventFormComponent implements OnInit{
       return organization.name
     }
     return ''
-  }
-
-  cropImage() {
-    this.dialog.open(CropComponent, {});
   }
 
   /**

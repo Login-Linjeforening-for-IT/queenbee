@@ -1,5 +1,5 @@
 .wide {
-    width: 50vw;
+    width: 35vw;
 }
 
 /* ============================= TOPBAR ========================= */
@@ -38,4 +38,9 @@
   .menu-btn:hover {
     background-color: #fd8738;
     color: #3b3b3b;
+  }
+
+  .file-input {
+    padding: 0.5rem 0;
+    cursor: pointer;
   }

@@ -4,6 +4,8 @@ import {FormBuilder, FormControl} from "@angular/forms";
 import {Observable, startWith} from "rxjs";
 import {map} from "rxjs/operators";
 import {DropDownFileItem} from "../../models/dataInterfaces.model";
+import { CropComponent } from '../dialog/crop/crop.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-image-selector',
@@ -16,7 +18,7 @@ export class ImageSelectorComponent {
   locations: DropDownFileItem[] = [];
   filteredOptions!: Observable<DropDownFileItem[]>;
 
-  constructor(private doService: DoSpacesService, private fb: FormBuilder) {}
+  constructor(private doService: DoSpacesService, private dialog: MatDialog) {}
 
   ngOnInit() {
     this.filteredOptions = this.myControl.valueChanges.pipe(
@@ -33,6 +35,10 @@ export class ImageSelectorComponent {
         console.error('Error occurred:', error);
       }
     );
+  }
+
+  cropImage() {
+    this.dialog.open(CropComponent, {});
   }
 
   private _filter(value: string): DropDownFileItem[] {

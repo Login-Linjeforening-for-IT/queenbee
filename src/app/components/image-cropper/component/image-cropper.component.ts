@@ -195,11 +195,11 @@ export class ImageCropperComponent implements OnChanges {
     }
 
     rotateLeft() {
-        this.transformBase64(8);
+        this.transformBase64(6);
     }
 
     rotateRight() {
-        this.transformBase64(6);
+        this.transformBase64(8);
     }
 
     flipHorizontal() {

@@ -19,6 +19,10 @@
         </mat-autocomplete>
       </mat-form-field>
     </form>
-    <app-single-file-upload class="upload-cell"></app-single-file-upload>
+    <div class="upload-cell">
+      <button (click)="cropImage()" mat-raised-button color="primary">
+        <span class="material-symbols-sharp">upload</span>New Image
+      </button>
+    </div>
   </div>
 </div>

@@ -8,29 +8,35 @@
             <button class="menu-btn" (click)="flipVertical()" title="Flip Vertically">↕️</button>
         </div>
         
-        
-        <input type="file" (change)="fileChangeEvent($event)" />
-        <div>
-        <image-cropper
-            [imageChangedEvent]="imageChangedEvent"
-            [maintainAspectRatio]="true"
-            [aspectRatio]="10 / 4"
-            [cropperMinWidth]="128"
-            [onlyScaleDown]="true"
-            [roundCropper]="false"
-            format="png"
-            outputType="base64"
-            (imageCropped)="imageCropped($event)"
-            (imageLoaded)="imageLoaded()"
-            (cropperReady)="cropperReady()"
-            (loadImageFailed)="loadImageFailed()"
-            [style.display]="showCropper ? null : 'none'"
-        ></image-cropper>
-        </div>
-        <img [src]="croppedImage" />
+        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="left">
+            <mat-tab label="Original">
+                <input class="file-input" type="file" (change)="fileChangeEvent($event)" accept=".jpg, .jpeg, .png, .svg"/>
+                <div>
+                    <image-cropper
+                        [imageChangedEvent]="imageChangedEvent"
+                        [maintainAspectRatio]="true"
+                        [aspectRatio]="10 / 4"
+                        [cropperMinWidth]="128"
+                        [onlyScaleDown]="true"
+                        [roundCropper]="false"
+                        format="png"
+                        outputType="base64"
+                        (imageCropped)="imageCropped($event)"
+                        (imageLoaded)="imageLoaded()"
+                        (cropperReady)="cropperReady()"
+                        (loadImageFailed)="loadImageFailed()"
+                        [style.display]="showCropper ? null : 'none'"
+                    ></image-cropper>
+                </div>
+            </mat-tab>
+            <mat-tab label="Cropped">
+                <img [src]="croppedImage" />
+                <p *ngIf="!croppedImage">Missing image!</p>
+            </mat-tab>
+        </mat-tab-group>
     </div>
     
     <div mat-dialog-actions>
-      <button mat-raised-button class="dialog-btn" color="primary" (click)="onClose()">OK</button>
+      <button mat-raised-button color="primary" (click)="onClose()"><span class="material-symbols-sharp">upload</span>Upload Image</button>
     </div>
   </div>
