@@ -172,7 +172,13 @@
 
     <div class="block">
       <h2>Image Links</h2>
+      
       <app-image-selector></app-image-selector>
+
+      <button class="submit-btn" type="submit" (click)="cropImage()" mat-raised-button color="primary">
+        <span class="material-symbols-sharp">save</span>Cropping-Time
+      </button>
+
       <mat-form-field class="row">
         <input matInput formControlName="image_small">
         <mat-label>Image Small Link</mat-label>

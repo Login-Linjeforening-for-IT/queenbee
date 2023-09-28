@@ -20,7 +20,6 @@ yarn-error.log
 *.launch
 .settings/
 *.sublime-workspace
-src/app/config/env.ts
 
 # Visual Studio Code
 .vscode/*
@@ -38,3 +37,6 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Containing credentials, DO NOT REMOVE!! 
+src/app/config/env.ts
