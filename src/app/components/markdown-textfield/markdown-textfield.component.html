@@ -1,11 +1,11 @@
 <div class="box">
     <div class="topbar">
         <div class="left">
-            <button class="menu-btn" (click)="makeBold()"><strong>B</strong></button>
-            <button class="menu-btn" (click)="makeItalic()"><i>I</i></button>
+            <button class="menu-btn" (click)="makeBold()" title="Bold"><strong>B</strong></button>
+            <button class="menu-btn" (click)="makeItalic()" title="Italic"><em>I</em></button>
             
             <div #emojiWrapper class="emoji-wrapper">
-                <button class="menu-btn" (click)="toggleEmojiPicker()">🥰</button>
+                <button class="menu-btn" (click)="toggleEmojiPicker()" title="Emoji">🥰</button>
                 <emoji-mart
                     *ngIf="showEmojiPicker"
                     class="emoji-mart"
