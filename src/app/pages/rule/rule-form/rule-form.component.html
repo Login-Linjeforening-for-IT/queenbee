@@ -1,0 +1,28 @@
+<form>
+  <div class="block">
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" class="block">
+      <mat-tab label="🇳🇴 NOR">
+        <mat-form-field class="row">
+          <input matInput formControlName="name_no" maxlength="50">
+          <mat-label>Rule Name NOR</mat-label>
+          <mat-hint align="end">{{ruleForm.get('name_no')?.value?.length || 0}} / 50</mat-hint>
+          <mat-error *ngIf="ruleForm.controls['name_no'].hasError('required')">
+            This field is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <app-markdown-textfield class="row"></app-markdown-textfield>
+      </mat-tab>
+
+      <mat-tab label="🇺🇸 ENG">
+        <mat-form-field class="row">
+          <input matInput maxlength="50">
+          <mat-label>Rule Name ENG</mat-label>
+          <mat-hint align="end">{{ruleForm.get('name_en')?.value?.length || 0}} / 50</mat-hint>
+        </mat-form-field>
+
+        <app-markdown-textfield class="row"></app-markdown-textfield>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</form>

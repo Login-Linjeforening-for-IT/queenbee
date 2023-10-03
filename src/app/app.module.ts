@@ -62,6 +62,8 @@ import { ImageSelectorComponent } from './components/image-selector/image-select
 import { SingleFileUploadComponent } from './components/single-file-upload/single-file-upload.component';
 import { ImageCropperModule } from './components/image-cropper/image-cropper.module';
 import { CropComponent } from './components/dialog/crop/crop.component';
+import { RuleNewComponent } from './pages/rule/rule-new/rule-new.component';
+import { RuleFormComponent } from './pages/rule/rule-form/rule-form.component';
 
 @NgModule({
   declarations: [
@@ -99,6 +101,8 @@ import { CropComponent } from './components/dialog/crop/crop.component';
     ImageSelectorComponent,
     SingleFileUploadComponent,
     CropComponent,
+    RuleNewComponent,
+    RuleFormComponent,
   ],
     imports: [
         BrowserModule,
