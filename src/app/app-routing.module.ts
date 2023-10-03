@@ -15,6 +15,7 @@ import { JobadEditComponent } from "./pages/jobad/jobad-edit/jobad-edit.componen
 import { EventCopyComponent } from "./pages/event/event-copy/event-copy.component";
 import { JobadCopyComponent } from "./pages/jobad/jobad-copy/jobad-copy.component";
 import {LocationNewComponent} from "./pages/location/location-new/location-new.component";
+import {RuleNewComponent} from "./pages/rule/rule-new/rule-new.component";
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -34,6 +35,7 @@ const routes: Routes = [
   { path: 'locations/new', component: LocationNewComponent},
   { path: 'locations/edit/:id', component: LocationNewComponent},
   { path: 'rules', component: RulesComponent},
+  { path: 'rules/new', component: RuleNewComponent},
   { path: '**', component: PageNotFoundComponent} // ** detects all other routes, IMPORTANT that its last
 ];
 
