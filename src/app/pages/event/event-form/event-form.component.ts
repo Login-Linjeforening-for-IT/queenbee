@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable, map, startWith } from 'rxjs';
 import { NoDecimalValidator } from 'src/app/common/validators';
 import { CropComponent } from 'src/app/components/dialog/crop/crop.component';
-import { Category, EventDetail, OrgTableItem, Organization } from 'src/app/models/dataInterfaces.model';
+import { Category, FullEvent, OrgTableItem, Organization } from 'src/app/models/dataInterfaces.model';
 import { CategoryService } from 'src/app/services/admin-api/category.service';
 import { OrganizationService } from 'src/app/services/admin-api/organizations.service';
 import { convertToRFC3339, isDatetimeUnset } from 'src/app/utils/time';
@@ -14,12 +14,12 @@ import { convertToRFC3339, isDatetimeUnset } from 'src/app/utils/time';
   templateUrl: './event-form.component.html'
 })
 export class EventFormComponent implements OnInit{
-  @Input() event!: EventDetail;
+  @Input() fe!: FullEvent;
 
   categories: Category[] = [];
   organizations: OrgTableItem[] = [];
 
-  fetchedEvent$!: Observable<EventDetail>;
+  fetchedEvent$!: Observable<FullEvent>;
 
   eventForm!: FormGroup;
 
@@ -41,7 +41,7 @@ export class EventFormComponent implements OnInit{
     this.fetchCategories();
     this.fetchOrganizations();
 
-    if (this.event) {
+    if (this.fe.event) {
       this.updateFormFields();
     }
   }
@@ -50,7 +50,7 @@ export class EventFormComponent implements OnInit{
    * Simply returns the value of the form
    * @returns The whole form
    */
-  getFormValues(): EventDetail {
+  getFormValues(): FullEvent {
     return this.eventForm.value;
   }
 
@@ -170,36 +170,38 @@ export class EventFormComponent implements OnInit{
    * Used to update the formfields with provided values
    */
   private updateFormFields() {
-    if (this.event) {
+    if (this.fe) {
+      console.log(this.fe.event)
+
       this.eventForm.patchValue({
-        name_no: this.event.name_no || '',
-        name_en: this.event.name_en || '',
-        description_no: this.event.description_no || '',
-        description_en: this.event.description_en || '',
-        info_no: this.event.information_no || '',
-        info_en: this.event.information_en || '',
-        time_start: !isDatetimeUnset(this.event.time_start) ? this.event.time_start : '',
-        time_end: !isDatetimeUnset(this.event.time_end) ? this.event.time_end : '',
-        time_publish: !isDatetimeUnset(this.event.time_publish) ? this.event.time_publish : '',
-        time_signup_release: !isDatetimeUnset(this.event.time_signup_release) ? this.event.time_signup_release : '',
-        time_signup_deadline: !isDatetimeUnset(this.event.time_signup_deadline) ? this.event.time_signup_deadline : '',
-        link_signup: this.event.link_signup || '',
-        capacity: this.event.capacity || null,
-        full: this.event.full || false,
-        image_small: this.event.image_small || '',
-        image_banner: this.event.image_banner || '',
-        link_facebook: this.event.link_facebook || '',
-        link_discord: this.event.link_discord || '',
-        digital: this.event.digital || false,
-        canceled: this.event.canceled || false,
-        link_stream: this.event.link_stream || '',
-        category: this.event.category || '',
-        organization: this.event.organizations || '',
+        name_no: this.fe.event.name_no || '',
+        name_en: this.fe.event.name_en || '',
+        description_no: this.fe.event.description_no || '',
+        description_en: this.fe.event.description_en || '',
+        //info_no: this.fe.event.information_no || '',
+        //info_en: this.fe.event.information_en || '',
+        time_start: !isDatetimeUnset(this.fe.event.time_start) ? this.fe.event.time_start : '',
+        time_end: !isDatetimeUnset(this.fe.event.time_end) ? this.fe.event.time_end : '',
+        time_publish: !isDatetimeUnset(this.fe.event.time_publish) ? this.fe.event.time_publish : '',
+        time_signup_release: !isDatetimeUnset(this.fe.event.time_signup_release) ? this.fe.event.time_signup_release : '',
+        time_signup_deadline: !isDatetimeUnset(this.fe.event.time_signup_deadline) ? this.fe.event.time_signup_deadline : '',
+        link_signup: this.fe.event.link_signup || '',
+        capacity: this.fe.event.capacity || null,
+        full: this.fe.event.full || false,
+        image_small: this.fe.event.image_small || '',
+        image_banner: this.fe.event.image_banner || '',
+        link_facebook: this.fe.event.link_facebook || '',
+        link_discord: this.fe.event.link_discord || '',
+        digital: this.fe.event.digital || false,
+        canceled: this.fe.event.canceled || false,
+        link_stream: this.fe.event.link_stream || '',
+        category: this.fe.event.category || '',
+        //organization: this.fe.event.organizations || '',
         test: ''
       });
 
-      this.autoControlCats.setValue(this.event.category);
-      this.autoControlOrgs.setValue(this.event.organizations[0]);
+      //this.autoControlCats.setValue(this.fe.event.category);
+      //this.autoControlOrgs.setValue(this.fe.event.organizations[0]);
     } else {
       // Reset the form fields when the event is undefined
       this.initForm();
@@ -235,3 +237,4 @@ export class EventFormComponent implements OnInit{
     );
   }
 }
+ 

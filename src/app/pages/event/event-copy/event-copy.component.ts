@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { EventFormComponent } from '../event-form/event-form.component';
-import { EventDetail } from 'src/app/models/dataInterfaces.model';
+import { FullEvent } from 'src/app/models/dataInterfaces.model';
 import { EventService } from 'src/app/services/admin-api/event.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorComponent } from 'src/app/components/dialog/error/error.component';
@@ -12,9 +12,9 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class EventCopyComponent {
   @ViewChild(EventFormComponent) eventFormComponent!: EventFormComponent;
-  eventFormValues!: EventDetail;
+  eventFormValues!: FullEvent;
   eventID!: number;
-  event!: EventDetail;
+  event!: FullEvent;
 
   constructor(
     private eventService: EventService,
@@ -31,16 +31,16 @@ export class EventCopyComponent {
     });
 
     // Fetch the event
-    this.eventService.fetchEvent(this.eventID).subscribe((e: EventDetail) => {
+    this.eventService.fetchEvent(this.eventID).subscribe((fe: FullEvent) => {
       // Erase a couple of fields
-      e.time_start = "";
-      e.time_end = "";
-      e.time_publish = "";
-      e.link_signup = "";
-      e.time_signup_release = "";
-      e.time_signup_deadline = "";
+      fe.event.time_start = "";
+      fe.event.time_end = "";
+      fe.event.time_publish = "";
+      fe.event.link_signup = "";
+      fe.event.time_signup_release = "";
+      fe.event.time_signup_deadline = "";
 
-      this.event = e;
+      this.event = fe;
     })
   }
 

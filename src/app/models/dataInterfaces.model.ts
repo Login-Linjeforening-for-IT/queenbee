@@ -41,25 +41,21 @@ export interface EventTableItem {
   organizers: string[];
 }
 
-// Named EventDetail instead of Event to not conflict with the native Event object in ts
-export interface EventDetail {
+interface EventData {
   id: number;
+  visible: boolean;
   name_no: string;
   name_en: string;
   description_no: string;
   description_en: string;
-  information_no: string;
-  information_en: string;
+  informational_no: string;
+  informational_en: string;
+  time_type: string;
   time_start: string;
   time_end: string;
   time_publish: string;
   time_signup_release: string;
   time_signup_deadline: string;
-  time_updated: string;
-  time_created: string;
-  time_type: string;
-  capacity: number;
-  full: boolean;
   canceled: boolean;
   digital: boolean;
   highlight: boolean;
@@ -69,12 +65,94 @@ export interface EventDetail {
   link_discord: string;
   link_signup: string;
   link_stream: string;
-  location: Location;
-  category: Category;
-  rule: Rule;
-  audiences: Audience[];
-  organizations: OrgTableItem[];
+  capacity: number;
+  full: boolean;
+  category: number;
+  location: number;
+  parent: number;
+  rule: number;
+  updated_at: string;
+  created_at: string;
+  deleted_at: string;
 }
+
+interface CategoryData {
+  id: number;
+  color: string;
+  name_no: string;
+  name_en: string;
+  description_no: string;
+  description_en: string;
+  updated_at: string;
+  created_at: string;
+}
+
+interface RuleData {
+  id: number;
+  name_no: string;
+  name_en: string;
+  description_no: string;
+  description_en: string;
+  updated_at: string;
+  created_at: string;
+  deleted_at: string;
+}
+
+interface LocationData {
+  id: number;
+  name_no: string;
+  name_en: string;
+  type: string;
+  mazemap_campus_id: number;
+  mazemap_poi_id: number;
+  address_street: string;
+  address_postcode: number;
+  city_name: string;
+  coordinate_lat: number;
+  coordinate_long: number;
+  url: string;
+  updated_at: string;
+  created_at: string;
+  deleted_at: string;
+}
+
+interface OrganizationData {
+  shortname: string;
+  name_no: string;
+  name_en: string;
+  description_no: string;
+  description_en: string;
+  link_homepage: string;
+  link_linkedin: string;
+  link_facebook: string;
+  link_instagram: string;
+  logo: string;
+  updated_at: string;
+  created_at: string;
+  deleted_at: string;
+  is_deleted: boolean;
+}
+
+interface AudienceData {
+  id: number;
+  name_no: string;
+  name_en: string;
+  description_no: string;
+  description_en: string;
+  updated_at: string;
+  created_at: string;
+  deleted_at: string;
+}
+
+export interface FullEvent {
+  event: EventData;
+  category: CategoryData;
+  rule: RuleData;
+  location: LocationData;
+  organizations: OrganizationData[];
+  audiences: AudienceData[];
+}
+
 
 export interface JobadDetail {
   id: number,
