@@ -16,6 +16,19 @@
                     (emojiSelect)="insertEmoji($event)"
                 ></emoji-mart>
             </div>
+
+            
+            <!-- Add the input fields for rows and columns -->
+            <div #tableWrapper class="table-wrapper">
+                <button class="menu-btn" (click)="toggleTableMaker()" title="Table">T</button>
+                <div class="table-inputs" *ngIf="showTableInputs">
+                    <label>Rows:</label>
+                    <input type="number" placeholder="Rows" [(ngModel)]="tableRows">
+                    <label>Cols:</label>
+                    <input type="number" placeholder="Columns" [(ngModel)]="tableColumns">
+                    <button (click)="generateTable()" title="Generate Table">Generate</button>
+                </div>
+            </div>
         </div>
         <div class="right">
             <p class="title">HTML Preview:</p>

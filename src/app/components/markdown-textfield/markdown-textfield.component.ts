@@ -30,9 +30,14 @@ export class MarkdownTextfieldComponent {
   @ViewChild('textarea', { static: false }) textarea!: ElementRef;
   @ViewChild('mdComponent', { read: ElementRef }) mdComponent!: ElementRef;
   @ViewChild('emojiWrapper', { static: false }) emojiMartWrapper!: ElementRef;
+  @ViewChild('tableWrapper', { static: false }) tableWrapper!: ElementRef;
 
   showEmojiPicker: boolean = false;
   totalFrequentLines: number = 2; // Lines in emojiPicker
+  
+  showTableInputs: boolean = false;
+  tableRows: number = 2; // Default number of rows
+  tableColumns: number = 2; // Default number of columns
   
   markdown: string = '';
 
@@ -47,6 +52,12 @@ export class MarkdownTextfieldComponent {
          this.showEmojiPicker = false;
      }
     });
+
+    this.renderer.listen('window', 'click',(e:Event)=>{
+      if(!this.tableWrapper.nativeElement.contains(e.target)){
+          this.showTableInputs = false;
+      }
+     });
   }
 
   // For listening to and emitting changes in the inputted markdown  
@@ -112,6 +123,22 @@ export class MarkdownTextfieldComponent {
 
   makeItalic() {
     this.surroundText('*');
+  }
+
+  toggleTableMaker() {
+    // Display the input fields for rows and columns on button click
+    this.showTableInputs = !this.showTableInputs;
+}
+
+  generateTable() {
+      // Generate the table in markdown using the provided rows and columns
+      const markdownTable = `|${''.padEnd(this.tableColumns, ' |')} \n${'|'.padEnd(this.tableColumns * 4, '-|')}\n${'|'.padEnd(this.tableColumns * 4, ' |')}`;
+      
+      // Append the generated table to the current text
+      this.markdown += markdownTable;
+
+      // Hide the input fields after generating the table
+      this.showTableInputs = false;
   }
 
   /**
