@@ -22,7 +22,7 @@ export class EventService {
    */
   fetchEvent(eventId: number): Observable<EventDetail> {
     return this.http
-      .get<EventDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}/${eventId}`)
+      .get<EventDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}${eventId}`)
       .pipe(
         map(resData => {
           if (resData) {
