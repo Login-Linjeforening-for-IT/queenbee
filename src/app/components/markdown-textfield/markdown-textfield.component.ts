@@ -131,14 +131,14 @@ export class MarkdownTextfieldComponent {
 }
 
   generateTable() {
-      // Generate the table in markdown using the provided rows and columns
-      const markdownTable = `|${''.padEnd(this.tableColumns, ' |')} \n${'|'.padEnd(this.tableColumns * 4, '-|')}\n${'|'.padEnd(this.tableColumns * 4, ' |')}`;
-      
-      // Append the generated table to the current text
-      this.markdown += markdownTable;
+    // Generate the table in markdown using the provided rows and columns
+    const markdownTable = `\n${'|'.padEnd(this.tableColumns, ' |')}|\n${'|'.padEnd(this.tableColumns, '-|')}|`;
+    
+    // Append the generated table to the current text
+    this.markdown += markdownTable;
 
-      // Hide the input fields after generating the table
-      this.showTableInputs = false;
+    // Hide the input fields after generating the table
+    this.showTableInputs = false;
   }
 
   /**
