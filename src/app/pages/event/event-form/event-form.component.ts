@@ -83,6 +83,14 @@ export class EventFormComponent implements OnInit{
       this.eventForm.get('description_en')?.setValue(newVal.ht);
   }
 
+  onImageBannerChange(newVal: {val: string}) {
+    this.eventForm.get('image_banner')?.setValue(newVal.val);
+  }
+
+  onImageSmallChange(newVal: {val: string}) {
+    this.eventForm.get('image_small')?.setValue(newVal.val);
+  }
+
   displayCategoryFn(category: Category): string {
     if(category) {
       return category.name_en || category.name_no
@@ -125,7 +133,11 @@ export class EventFormComponent implements OnInit{
       link_stream: '',
       category: ['', Validators.required],
       organization: ['', Validators.required],
-      test: ''
+    });
+
+    // Subscribe to value changes for a specific form control
+    this.eventForm?.valueChanges.subscribe((value) => {
+      console.log('eventName value changed:', value);
     });
   }
 
@@ -197,7 +209,6 @@ export class EventFormComponent implements OnInit{
         link_stream: this.fe.event.link_stream || '',
         category: this.fe.event.category || '',
         //organization: this.fe.event.organizations || '',
-        test: ''
       });
 
       //this.autoControlCats.setValue(this.fe.event.category);

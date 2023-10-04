@@ -1,19 +1,19 @@
 <div class="table-container">
   <div class="table-row">
-    <form class="form-cell" *ngIf="locations.length > 0">
+    <form class="form-cell" *ngIf="images.length > 0">
       <mat-form-field class="row">
-        <mat-label>Image</mat-label>
+        <mat-label>{{title}}</mat-label>
         <input type="text"
               placeholder="Pick one"
               matInput
-              [formControl]="myControl"
+              [formControl]="selectedImg"
               [matAutocomplete]="auto">
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-          <mat-option *ngFor="let loc of filteredOptions | async" [value]="loc.name">
+          <mat-option *ngFor="let img of filteredOptions | async" [value]="img.name">
             <div class="file-item">
-              <img alt="" [src]="'https://cdn.login.no/' + loc.filepath" height="25">
-              <span>{{loc.name}}</span> |
-              <small>{{loc.size}}</small>
+              <img alt="" [src]="'https://cdn.login.no/' + img.filepath" height="25">
+              <span>{{img.name}}</span> |
+              <small>{{img.size}}</small>
             </div>
           </mat-option>
         </mat-autocomplete>

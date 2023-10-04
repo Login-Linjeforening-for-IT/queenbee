@@ -42,8 +42,7 @@
         </mat-tab>
       </mat-tab-group>
       
-      <div class="dual-column-container row">
-        <div class="column">
+     
           <app-datetime 
             (newDatetime)=onTimeStartChange($event) 
             [dateLabel]="'Start Date'" 
@@ -70,9 +69,8 @@
             [timeLabel]="'Publish Time'"
             [value]="eventForm.get('time_publish')?.value">
           </app-datetime>
-        </div>
+        
 
-        <div class="column">
           <div *ngIf="categories.length > 0">
             <mat-form-field class="dd">
               <mat-label>Category</mat-label>
@@ -123,8 +121,7 @@
             </mat-form-field>
           </div>
 
-        </div>
-      </div>
+        
     </div>
 
     <div class="block">
@@ -134,56 +131,46 @@
         <mat-label>Signup Link</mat-label>
       </mat-form-field>
 
-      <div class="dual-column-container row">
-        <div class="column">
-          <app-datetime
-            (newDatetime)=onSignupReleaseChange($event) 
-            [dateLabel]="'Release Date'" 
-            [timeLabel]="'Release Time'" 
-            [value]="eventForm.get('time_signup_release')?.value">
-          </app-datetime>
+      <app-datetime
+        (newDatetime)=onSignupReleaseChange($event) 
+        [dateLabel]="'Release Date'" 
+        [timeLabel]="'Release Time'" 
+        [value]="eventForm.get('time_signup_release')?.value">
+      </app-datetime>
 
-          <app-datetime 
-            (newDatetime)=onSignupDeadlineChange($event) 
-            [dateLabel]="'Deadline Date'" 
-            [timeLabel]="'Deadline Time'" 
-            [timeDisableable]="true" 
-            [value]="eventForm.get('time_signup_deadline')?.value">
-          </app-datetime>
-        </div>
-        
-        <div class="column">
-          <div>
-            <mat-form-field>
-              <input matInput type="number" min="0" step="1" formControlName="capacity" placeholder="Enter number">
-              <mat-label>Capacity</mat-label>
-              <mat-error *ngIf="eventForm.controls['capacity'].hasError('min')">
-                Number must be <strong>positive</strong>
-              </mat-error>
-              <mat-error *ngIf="eventForm.controls['capacity'].hasError('decimal')">
-                Number cannot be a <strong>decimal</strong>
-              </mat-error>
-            </mat-form-field>
-            <mat-slide-toggle style="margin-left: 1rem;">Is full</mat-slide-toggle>
-          </div>
-        </div>
-      </div>
+      <app-datetime 
+        (newDatetime)=onSignupDeadlineChange($event) 
+        [dateLabel]="'Deadline Date'" 
+        [timeLabel]="'Deadline Time'" 
+        [timeDisableable]="true" 
+        [value]="eventForm.get('time_signup_deadline')?.value">
+      </app-datetime>
+    
+      <mat-form-field>
+        <input matInput type="number" min="0" step="1" formControlName="capacity" placeholder="Enter number">
+        <mat-label>Capacity</mat-label>
+        <mat-error *ngIf="eventForm.controls['capacity'].hasError('min')">
+          Number must be <strong>positive</strong>
+        </mat-error>
+        <mat-error *ngIf="eventForm.controls['capacity'].hasError('decimal')">
+          Number cannot be a <strong>decimal</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-slide-toggle style="margin-left: 1rem;">Is full</mat-slide-toggle>
     </div>
 
     <div class="block">
       <h2>Image Links</h2>
       
-      <app-image-selector></app-image-selector>
-
-      <mat-form-field class="row">
-        <input matInput formControlName="image_small">
-        <mat-label>Image Small Link</mat-label>
-      </mat-form-field>
-
-      <mat-form-field class="row">
-        <input matInput formControlName="image_banner">
-        <mat-label>Image Banner Link</mat-label>
-      </mat-form-field>
+      <app-image-selector 
+        title="Image Banner"
+        (valEmitter)="onImageBannerChange($event)"
+      ></app-image-selector>
+      
+      <app-image-selector 
+        title="Image Small"
+        (valEmitter)="onImageSmallChange($event)"
+      ></app-image-selector>
     </div>
 
     <div class="block">
