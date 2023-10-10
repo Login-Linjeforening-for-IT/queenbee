@@ -1,0 +1,30 @@
+<form *ngIf="chipItems">
+    <mat-form-field class="example-chip-list">
+      <mat-label>{{title}}</mat-label>
+      <mat-chip-grid #chipGrid aria-label="Item selection">
+        <mat-chip-row *ngFor="let item of selectedItems" (removed)="remove(item)">
+          {{item.name}}
+          <button matChipRemove [attr.aria-label]="'remove ' + item">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      </mat-chip-grid>
+      <input 
+        [placeholder]=placeholder
+        #itemInput
+        [formControl]="itemCtrl"
+        [matChipInputFor]="chipGrid"
+        [matAutocomplete]="auto"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        />
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+          <ng-container *ngFor="let item of filteredItems | async">
+            <!-- ngIf used here to filter out already selected options on normal click. It works... -->
+            <mat-option *ngIf="!selectedItems.includes(item)" [value]="item">
+              {{item.name}}
+            </mat-option>
+          </ng-container>
+        <mat-option disabled *ngIf="!(filteredItems | async)?.length">No results found</mat-option>
+      </mat-autocomplete>        
+    </mat-form-field>
+  </form>

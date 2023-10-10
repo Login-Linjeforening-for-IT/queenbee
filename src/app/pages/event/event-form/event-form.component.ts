@@ -2,7 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 import { NoDecimalValidator } from 'src/app/common/validators';
-import { Category, FullEvent, OrgTableItem } from 'src/app/models/dataInterfaces.model';
+import { Audience, AudienceChip, Category, FullEvent, OrgTableItem } from 'src/app/models/dataInterfaces.model';
+import { AudienceService } from 'src/app/services/admin-api/audience.service';
 import { CategoryService } from 'src/app/services/admin-api/category.service';
 import { OrganizationService } from 'src/app/services/admin-api/organizations.service';
 import { convertToRFC3339, isDatetimeUnset } from 'src/app/utils/time';
@@ -34,6 +35,7 @@ export class EventFormComponent implements OnInit{
   autoControlCats = new FormControl<string | Category>('');
   filteredCats!: Observable<Category[]>;
   autoControlOrgs = new FormControl<string | OrgTableItem>('');
+  chipItems: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry','Blueberry'];
   filteredOrgs!: Observable<OrgTableItem[]>;
 
   constructor(

@@ -269,6 +269,11 @@ export interface Audience {
   description_en: string;
 }
 
+export interface AudienceChip {
+  id: number;
+  name: string;
+}
+
 export interface OrgShort {
   shortname: string;
   name_no: string;

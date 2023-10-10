@@ -64,7 +64,7 @@ import { ImageCropperModule } from './components/image-cropper/image-cropper.mod
 import { CropComponent } from './components/dialog/crop/crop.component';
 import { RuleNewComponent } from './pages/rule/rule-new/rule-new.component';
 import { RuleFormComponent } from './pages/rule/rule-form/rule-form.component';
-import { ChipSelectorComponent } from './components/chip-selector/chip-selector.component';
+import { AudienceSelectorComponent } from './components/audience-selector/audience-selector.component';
 import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
@@ -105,7 +105,7 @@ import { MatIconModule } from '@angular/material/icon';
     CropComponent,
     RuleNewComponent,
     RuleFormComponent,
-    ChipSelectorComponent,
+    AudienceSelectorComponent,
   ],
     imports: [
         BrowserModule,
