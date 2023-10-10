@@ -8,6 +8,10 @@ import { ImageCroppedEvent } from 'src/app/components/image-cropper/interfaces';
   templateUrl: './crop.component.html',
   styleUrls: ['./crop.component.css']
 })
+
+/**
+ * The 'CropComponent' is a dialog that is used to crop images.
+ */
 export class CropComponent {
   imageChangedEvent: any = '';
   croppedImage: any = '';

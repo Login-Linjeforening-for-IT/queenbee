@@ -1,10 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { Observable, map, startWith } from 'rxjs';
 import { NoDecimalValidator } from 'src/app/common/validators';
-import { CropComponent } from 'src/app/components/dialog/crop/crop.component';
-import { Category, FullEvent, OrgTableItem, Organization } from 'src/app/models/dataInterfaces.model';
+import { Category, FullEvent, OrgTableItem } from 'src/app/models/dataInterfaces.model';
 import { CategoryService } from 'src/app/services/admin-api/category.service';
 import { OrganizationService } from 'src/app/services/admin-api/organizations.service';
 import { convertToRFC3339, isDatetimeUnset } from 'src/app/utils/time';
@@ -13,6 +11,15 @@ import { convertToRFC3339, isDatetimeUnset } from 'src/app/utils/time';
   selector: 'app-event-form',
   templateUrl: './event-form.component.html'
 })
+
+/**
+ * The 'EventFormComponent' is the form used to manipulate all events.
+ *
+ * @example
+ * <app-event-form
+ *   [fe]="fullEvent">
+ * </app-event-form>
+ */
 export class EventFormComponent implements OnInit{
   @Input() fe!: FullEvent;
 
@@ -248,4 +255,3 @@ export class EventFormComponent implements OnInit{
     );
   }
 }
- 

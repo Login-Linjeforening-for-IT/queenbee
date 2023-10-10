@@ -5,6 +5,10 @@ import { AfterViewInit, Component } from '@angular/core';
   templateUrl: './mazemap.component.html',
   styleUrls: ['./mazemap.component.css']
 })
+
+/**
+ * The 'MazemapComponent' is used for displaying MazeMap map of campuses.
+ */
 export class MazemapComponent implements AfterViewInit {
   private initMap(): void {
     const mapContainer = document.getElementById('mazemap'); // Get the map container element
