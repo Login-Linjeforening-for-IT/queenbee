@@ -43,85 +43,85 @@
       </mat-tab-group>
       
      
-          <app-datetime 
-            (newDatetime)=onTimeStartChange($event) 
-            [dateLabel]="'Start Date'" 
-            [timeLabel]="'Start Time'"
-            [isDateRequired]="true"
-            [isTimeRequired]="true" 
-            [timeDisableable]="true" 
-            [value]="eventForm.get('time_start')?.value">
-          </app-datetime>
+      <app-datetime 
+        (newDatetime)=onTimeStartChange($event) 
+        [dateLabel]="'Start Date'" 
+        [timeLabel]="'Start Time'"
+        [isDateRequired]="true"
+        [isTimeRequired]="true" 
+        [timeDisableable]="true" 
+        [value]="eventForm.get('time_start')?.value">
+      </app-datetime>
 
-          <app-datetime 
-            (newDatetime)=onTimeEndChange($event) 
-            [dateLabel]="'End Date'" 
-            [timeLabel]="'End Time'"
-            [isDateRequired]="true"
-            [isTimeRequired]="true"  
-            [timeDisableable]="true" 
-            [value]="eventForm.get('time_end')?.value">
-          </app-datetime>
+      <app-datetime 
+        (newDatetime)=onTimeEndChange($event) 
+        [dateLabel]="'End Date'" 
+        [timeLabel]="'End Time'"
+        [isDateRequired]="true"
+        [isTimeRequired]="true"  
+        [timeDisableable]="true" 
+        [value]="eventForm.get('time_end')?.value">
+      </app-datetime>
 
-          <app-datetime 
-            (newDatetime)=onTimePublishChange($event) 
-            [dateLabel]="'Publish Date'" 
-            [timeLabel]="'Publish Time'"
-            [value]="eventForm.get('time_publish')?.value">
-          </app-datetime>
-        
+      <app-datetime 
+        (newDatetime)=onTimePublishChange($event) 
+        [dateLabel]="'Publish Date'" 
+        [timeLabel]="'Publish Time'"
+        [value]="eventForm.get('time_publish')?.value">
+      </app-datetime>
+    
 
-          <div *ngIf="categories.length > 0">
-            <mat-form-field class="dd">
-              <mat-label>Category</mat-label>
-              
-              <input
-                type="text"
-                matInput
-                [formControl]="autoControlCats"
-                [matAutocomplete]="autoCat"/>
+      <div *ngIf="categories.length > 0">
+        <mat-form-field class="dd">
+          <mat-label>Category</mat-label>
+          
+          <input
+            type="text"
+            matInput
+            [formControl]="autoControlCats"
+            [matAutocomplete]="autoCat"/>
 
-              <mat-autocomplete autoActiveFirstOption #autoCat="matAutocomplete" [displayWith]="displayCategoryFn">
-                <mat-option
-                  *ngFor="let o of filteredCats | async"
-                  [value]="o"
-                >
-                  {{ o.name_en || o.name_no }}
-                </mat-option>
-              </mat-autocomplete>
+          <mat-autocomplete autoActiveFirstOption #autoCat="matAutocomplete" [displayWith]="displayCategoryFn">
+            <mat-option
+              *ngFor="let o of filteredCats | async"
+              [value]="o"
+            >
+              {{ o.name_en || o.name_no }}
+            </mat-option>
+          </mat-autocomplete>
 
-              <mat-error *ngIf="eventForm.controls['category'].hasError('required')">
-                This field is <strong>required</strong>
-              </mat-error>
-            </mat-form-field>
-          </div>
+          <mat-error *ngIf="eventForm.controls['category'].hasError('required')">
+            This field is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
 
-          <div *ngIf="organizations.length > 0">
-            <mat-form-field class="dd">
-              <mat-label>Organization</mat-label>
-              <input
-                type="text"
-                matInput
-                [formControl]="autoControlOrgs"
-                [matAutocomplete]="autoOrg"
-                />
-                
-              <mat-autocomplete autoActiveFirstOption #autoOrg="matAutocomplete" [displayWith]="displayOrganizationFn">
-                <mat-option
-                  *ngFor="let o of filteredOrgs | async"
-                  [value]="o"
-                >
-                  {{ o.name }}
-                </mat-option>
-              </mat-autocomplete>
+      <div *ngIf="organizations.length > 0">
+        <mat-form-field class="dd">
+          <mat-label>Organization</mat-label>
+          <input
+            type="text"
+            matInput
+            [formControl]="autoControlOrgs"
+            [matAutocomplete]="autoOrg"
+            />
+            
+          <mat-autocomplete autoActiveFirstOption #autoOrg="matAutocomplete" [displayWith]="displayOrganizationFn">
+            <mat-option
+              *ngFor="let o of filteredOrgs | async"
+              [value]="o"
+            >
+              {{ o.name }}
+            </mat-option>
+          </mat-autocomplete>
 
-              <mat-error *ngIf="eventForm.controls['organization'].hasError('required')">
-                This field is <strong>required</strong>
-              </mat-error>
-            </mat-form-field>
-          </div>
+          <mat-error *ngIf="eventForm.controls['organization'].hasError('required')">
+            This field is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
 
-        
+      <app-chip-selector title="Audiences" placeholder="Select audience"></app-chip-selector>
     </div>
 
     <div class="block">

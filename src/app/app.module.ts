@@ -64,6 +64,8 @@ import { ImageCropperModule } from './components/image-cropper/image-cropper.mod
 import { CropComponent } from './components/dialog/crop/crop.component';
 import { RuleNewComponent } from './pages/rule/rule-new/rule-new.component';
 import { RuleFormComponent } from './pages/rule/rule-form/rule-form.component';
+import { ChipSelectorComponent } from './components/chip-selector/chip-selector.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -103,6 +105,7 @@ import { RuleFormComponent } from './pages/rule/rule-form/rule-form.component';
     CropComponent,
     RuleNewComponent,
     RuleFormComponent,
+    ChipSelectorComponent,
   ],
     imports: [
         BrowserModule,
@@ -130,7 +133,8 @@ import { RuleFormComponent } from './pages/rule/rule-form/rule-form.component';
         PickerComponent,
         MatDialogModule,
         MatAutocompleteModule,
-        ImageCropperModule
+        ImageCropperModule,
+        MatIconModule
     ],
   providers: [],
   bootstrap: [AppComponent]
