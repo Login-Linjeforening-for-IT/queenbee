@@ -1,7 +1,7 @@
 import { BaseDataSource } from 'src/app/common/base-data-source';
 import { LocationTableItem, RulesTableItem } from 'src/app/models/dataInterfaces.model';
-import { LocationService } from 'src/app/services/api/location.service';
-import { RulesService } from 'src/app/services/api/rules.service';
+import { LocationService } from 'src/app/services/admin-api/location.service';
+import { RulesService } from 'src/app/services/admin-api/rules.service';
 import { compare } from 'src/app/utils/core';
 
 /**

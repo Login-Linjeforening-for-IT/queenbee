@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { JobadDetail } from 'src/app/models/dataInterfaces.model';
-import { JobadService } from 'src/app/services/api/jobad.service';
+import { JobadService } from 'src/app/services/admin-api/jobad.service';
 import { convertFromRFC3339 } from 'src/app/utils/time';
 
 @Component({

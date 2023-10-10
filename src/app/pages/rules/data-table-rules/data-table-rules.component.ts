@@ -6,7 +6,7 @@ import { DataTableRulesDataSource } from './data-table-rules-datasource';
 import { TableConstants } from '../../pages.constants';
 import { MatDialog } from '@angular/material/dialog';
 import { RulesTableItem } from 'src/app/models/dataInterfaces.model';
-import { RulesService } from 'src/app/services/api/rules.service';
+import { RulesService } from 'src/app/services/admin-api/rules.service';
 
 @Component({
   selector: 'app-data-table-rules',

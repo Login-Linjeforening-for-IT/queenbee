@@ -42,89 +42,86 @@
         </mat-tab>
       </mat-tab-group>
       
-      <div class="dual-column-container row">
-        <div class="column">
-          <app-datetime 
-            (newDatetime)=onTimeStartChange($event) 
-            [dateLabel]="'Start Date'" 
-            [timeLabel]="'Start Time'"
-            [isDateRequired]="true"
-            [isTimeRequired]="true" 
-            [timeDisableable]="true" 
-            [value]="eventForm.get('time_start')?.value">
-          </app-datetime>
+     
+      <app-datetime 
+        (newDatetime)=onTimeStartChange($event) 
+        [dateLabel]="'Start Date'" 
+        [timeLabel]="'Start Time'"
+        [isDateRequired]="true"
+        [isTimeRequired]="true" 
+        [timeDisableable]="true" 
+        [value]="eventForm.get('time_start')?.value">
+      </app-datetime>
 
-          <app-datetime 
-            (newDatetime)=onTimeEndChange($event) 
-            [dateLabel]="'End Date'" 
-            [timeLabel]="'End Time'"
-            [isDateRequired]="true"
-            [isTimeRequired]="true"  
-            [timeDisableable]="true" 
-            [value]="eventForm.get('time_end')?.value">
-          </app-datetime>
+      <app-datetime 
+        (newDatetime)=onTimeEndChange($event) 
+        [dateLabel]="'End Date'" 
+        [timeLabel]="'End Time'"
+        [isDateRequired]="true"
+        [isTimeRequired]="true"  
+        [timeDisableable]="true" 
+        [value]="eventForm.get('time_end')?.value">
+      </app-datetime>
 
-          <app-datetime 
-            (newDatetime)=onTimePublishChange($event) 
-            [dateLabel]="'Publish Date'" 
-            [timeLabel]="'Publish Time'"
-            [value]="eventForm.get('time_publish')?.value">
-          </app-datetime>
-        </div>
+      <app-datetime 
+        (newDatetime)=onTimePublishChange($event) 
+        [dateLabel]="'Publish Date'" 
+        [timeLabel]="'Publish Time'"
+        [value]="eventForm.get('time_publish')?.value">
+      </app-datetime>
+    
 
-        <div class="column">
-          <div *ngIf="categories.length > 0">
-            <mat-form-field class="dd">
-              <mat-label>Category</mat-label>
-              
-              <input
-                type="text"
-                matInput
-                [formControl]="autoControlCats"
-                [matAutocomplete]="autoCat"/>
+      <div *ngIf="categories.length > 0">
+        <mat-form-field class="dd">
+          <mat-label>Category</mat-label>
+          
+          <input
+            type="text"
+            matInput
+            [formControl]="autoControlCats"
+            [matAutocomplete]="autoCat"/>
 
-              <mat-autocomplete autoActiveFirstOption #autoCat="matAutocomplete" [displayWith]="displayCategoryFn">
-                <mat-option
-                  *ngFor="let o of filteredCats | async"
-                  [value]="o"
-                >
-                  {{ o.name_en || o.name_no }}
-                </mat-option>
-              </mat-autocomplete>
+          <mat-autocomplete autoActiveFirstOption #autoCat="matAutocomplete" [displayWith]="displayCategoryFn">
+            <mat-option
+              *ngFor="let o of filteredCats | async"
+              [value]="o"
+            >
+              {{ o.name_en || o.name_no }}
+            </mat-option>
+          </mat-autocomplete>
 
-              <mat-error *ngIf="eventForm.controls['category'].hasError('required')">
-                This field is <strong>required</strong>
-              </mat-error>
-            </mat-form-field>
-          </div>
-
-          <div *ngIf="organizations.length > 0">
-            <mat-form-field class="dd">
-              <mat-label>Organization</mat-label>
-              <input
-                type="text"
-                matInput
-                [formControl]="autoControlOrgs"
-                [matAutocomplete]="autoOrg"
-                />
-                
-              <mat-autocomplete autoActiveFirstOption #autoOrg="matAutocomplete" [displayWith]="displayOrganizationFn">
-                <mat-option
-                  *ngFor="let o of filteredOrgs | async"
-                  [value]="o"
-                >
-                  {{ o.name }}
-                </mat-option>
-              </mat-autocomplete>
-
-              <mat-error *ngIf="eventForm.controls['organization'].hasError('required')">
-                This field is <strong>required</strong>
-              </mat-error>
-            </mat-form-field>
-          </div>
-
-        </div>
+          <mat-error *ngIf="eventForm.controls['category'].hasError('required')">
+            This field is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
       </div>
+
+      <div *ngIf="organizations.length > 0">
+        <mat-form-field class="dd">
+          <mat-label>Organization</mat-label>
+          <input
+            type="text"
+            matInput
+            [formControl]="autoControlOrgs"
+            [matAutocomplete]="autoOrg"
+            />
+            
+          <mat-autocomplete autoActiveFirstOption #autoOrg="matAutocomplete" [displayWith]="displayOrganizationFn">
+            <mat-option
+              *ngFor="let o of filteredOrgs | async"
+              [value]="o"
+            >
+              {{ o.name }}
+            </mat-option>
+          </mat-autocomplete>
+
+          <mat-error *ngIf="eventForm.controls['organization'].hasError('required')">
+            This field is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <app-chip-selector title="Audiences" placeholder="Select audience"></app-chip-selector>
     </div>
 
     <div class="block">
@@ -134,53 +131,46 @@
         <mat-label>Signup Link</mat-label>
       </mat-form-field>
 
-      <div class="dual-column-container row">
-        <div class="column">
-          <app-datetime
-            (newDatetime)=onSignupReleaseChange($event) 
-            [dateLabel]="'Release Date'" 
-            [timeLabel]="'Release Time'" 
-            [value]="eventForm.get('time_signup_release')?.value">
-          </app-datetime>
+      <app-datetime
+        (newDatetime)=onSignupReleaseChange($event) 
+        [dateLabel]="'Release Date'" 
+        [timeLabel]="'Release Time'" 
+        [value]="eventForm.get('time_signup_release')?.value">
+      </app-datetime>
 
-          <app-datetime 
-            (newDatetime)=onSignupDeadlineChange($event) 
-            [dateLabel]="'Deadline Date'" 
-            [timeLabel]="'Deadline Time'" 
-            [timeDisableable]="true" 
-            [value]="eventForm.get('time_signup_deadline')?.value">
-          </app-datetime>
-        </div>
-        
-        <div class="column">
-          <div>
-            <mat-form-field>
-              <input matInput type="number" min="0" step="1" formControlName="capacity" placeholder="Enter number">
-              <mat-label>Capacity</mat-label>
-              <mat-error *ngIf="eventForm.controls['capacity'].hasError('min')">
-                Number must be <strong>positive</strong>
-              </mat-error>
-              <mat-error *ngIf="eventForm.controls['capacity'].hasError('decimal')">
-                Number cannot be a <strong>decimal</strong>
-              </mat-error>
-            </mat-form-field>
-            <mat-slide-toggle style="margin-left: 1rem;">Is full</mat-slide-toggle>
-          </div>
-        </div>
-      </div>
+      <app-datetime 
+        (newDatetime)=onSignupDeadlineChange($event) 
+        [dateLabel]="'Deadline Date'" 
+        [timeLabel]="'Deadline Time'" 
+        [timeDisableable]="true" 
+        [value]="eventForm.get('time_signup_deadline')?.value">
+      </app-datetime>
+    
+      <mat-form-field>
+        <input matInput type="number" min="0" step="1" formControlName="capacity" placeholder="Enter number">
+        <mat-label>Capacity</mat-label>
+        <mat-error *ngIf="eventForm.controls['capacity'].hasError('min')">
+          Number must be <strong>positive</strong>
+        </mat-error>
+        <mat-error *ngIf="eventForm.controls['capacity'].hasError('decimal')">
+          Number cannot be a <strong>decimal</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-slide-toggle style="margin-left: 1rem;">Is full</mat-slide-toggle>
     </div>
 
     <div class="block">
       <h2>Image Links</h2>
-      <mat-form-field class="row">
-        <input matInput formControlName="image_small">
-        <mat-label>Image Small Link</mat-label>
-      </mat-form-field>
-
-      <mat-form-field class="row">
-        <input matInput formControlName="image_banner">
-        <mat-label>Image Banner Link</mat-label>
-      </mat-form-field>
+      
+      <app-image-selector 
+        title="Image Banner"
+        (valEmitter)="onImageBannerChange($event)"
+      ></app-image-selector>
+      
+      <app-image-selector 
+        title="Image Small"
+        (valEmitter)="onImageSmallChange($event)"
+      ></app-image-selector>
     </div>
 
     <div class="block">

@@ -1,7 +1,7 @@
 import { BaseDataSource } from 'src/app/common/base-data-source';
 import { compare } from 'src/app/utils/core';
 
-import { EventService } from 'src/app/services/api/event.service';
+import { EventService } from 'src/app/services/admin-api/event.service';
 import { EventTableItem } from 'src/app/models/dataInterfaces.model';
 
 /**

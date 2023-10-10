@@ -1,6 +1,6 @@
 import { BaseDataSource } from 'src/app/common/base-data-source';
 import { compare } from 'src/app/utils/core';
-import { JobadService } from 'src/app/services/api/jobad.service';
+import { JobadService } from 'src/app/services/admin-api/jobad.service';
 import { JobadTableItem } from 'src/app/models/dataInterfaces.model';
 
 /**

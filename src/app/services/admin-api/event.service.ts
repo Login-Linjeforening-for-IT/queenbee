@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map, retry } from 'rxjs';
 import { BeehiveAPI } from 'src/app/config/constants';
-import { EventTableItem, EventDetail, EventShort } from 'src/app/models/dataInterfaces.model';
+import { EventTableItem, EventShort, FullEvent } from 'src/app/models/dataInterfaces.model';
 import { convertFromRFC3339 } from 'src/app/utils/time';
 
 @Injectable({
@@ -20,13 +20,13 @@ export class EventService {
    * @param eventId id of event
    * @returns EventDetail observable
    */
-  fetchEvent(eventId: number): Observable<EventDetail> {
+  fetchEvent(eventId: number): Observable<FullEvent> {
     return this.http
-      .get<EventDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}/${eventId}`)
+      .get<FullEvent>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}${eventId}`)
       .pipe(
         map(resData => {
           if (resData) {
-            const event: EventDetail = resData;
+            const event: FullEvent = resData;
             return event;
           }
           throw new Error('No event found with id ' + eventId);
@@ -77,7 +77,7 @@ export class EventService {
    * @param event EventDetail object
    * @returns observable
    */
-  createEvent(event: EventDetail) {
+  createEvent(event: FullEvent) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json'
@@ -85,18 +85,18 @@ export class EventService {
     };
 
     // Set potentially null fields to an empty string
-    event.image_small = event.image_small || "NONE";
+    /*event.image_small = event.image_small || "NONE";
     event.image_banner = event.image_banner || "NONE";
     event.link_facebook = event.link_facebook || "NONE";
     event.link_discord = event.link_discord || "NONE";
-    event.link_signup = event.link_signup || "NONE";
+    event.link_signup = event.link_signup || "NONE";*/
 
     return this.http
-      .post<EventDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`, event, httpOptions)
+      .post<FullEvent>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`, event, httpOptions)
       .pipe(
         map(resData => {
           if (resData) {
-            const newEvent: EventDetail = resData;
+            const newEvent: FullEvent = resData;
             return newEvent;
           }
           throw new Error('Failed to create event');
@@ -109,7 +109,7 @@ export class EventService {
    * @param event EventDetail object
    * @returns observable
    */
-  patchEvent(event: EventDetail) {
+  patchEvent(event: FullEvent) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json'
@@ -117,18 +117,18 @@ export class EventService {
     };
 
     // Set potentially null fields to an empty string
-    event.image_small = event.image_small || "NONE";
+    /*event.image_small = event.image_small || "NONE";
     event.image_banner = event.image_banner || "NONE";
     event.link_facebook = event.link_facebook || "NONE";
     event.link_discord = event.link_discord || "NONE";
-    event.link_signup = event.link_signup || "NONE";
+    event.link_signup = event.link_signup || "NONE";*/
 
     return this.http
-      .patch<EventDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`, event, httpOptions)
+      .patch<FullEvent>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`, event, httpOptions)
       .pipe(
         map(resData => {
           if (resData) {
-            const newEvent: EventDetail = resData;
+            const newEvent: FullEvent = resData;
             return newEvent;
           }
           throw new Error('Failed to patch event');

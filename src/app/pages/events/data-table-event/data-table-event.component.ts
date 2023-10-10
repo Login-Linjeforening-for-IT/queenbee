@@ -4,7 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { DataTableEventDataSource } from './data-table-event-datasource';
 import { TableConstants } from 'src/app/pages/pages.constants';
-import { EventService } from 'src/app/services/api/event.service';
+import { EventService } from 'src/app/services/admin-api/event.service';
 import { EventTableItem } from 'src/app/models/dataInterfaces.model';
 import { isDatetimeUnset } from 'src/app/utils/time';
 import { MatDialog } from '@angular/material/dialog';

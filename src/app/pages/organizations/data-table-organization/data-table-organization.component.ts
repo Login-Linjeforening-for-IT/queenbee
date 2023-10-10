@@ -4,7 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import {DataTableOrganizationDataSource} from './data-table-organization-datasource';
 import { TableConstants } from '../../pages.constants';
-import { OrganizationService } from 'src/app/services/api/organizations.service';
+import { OrganizationService } from 'src/app/services/admin-api/organizations.service';
 import { MatDialog } from '@angular/material/dialog';
 import { isDatetimeUnset } from 'src/app/utils/time';
 import { OrgTableItem } from 'src/app/models/dataInterfaces.model';

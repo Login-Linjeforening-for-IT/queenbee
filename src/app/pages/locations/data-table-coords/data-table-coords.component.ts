@@ -4,7 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { DataTableCoordsDataSource } from './data-table-coords-datasource';
 import { TableConstants } from '../../pages.constants';
-import { LocationService } from 'src/app/services/api/location.service';
+import { LocationService } from 'src/app/services/admin-api/location.service';
 import { MatDialog } from '@angular/material/dialog';
 import { LocationTableItem } from 'src/app/models/dataInterfaces.model';
 

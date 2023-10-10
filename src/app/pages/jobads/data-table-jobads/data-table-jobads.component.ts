@@ -4,7 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { DataTableJobadsDataSource } from './data-table-jobads-datasource';
 import { TableConstants } from '../../pages.constants';
-import { JobadService } from 'src/app/services/api/jobad.service';
+import { JobadService } from 'src/app/services/admin-api/jobad.service';
 import { MatDialog } from '@angular/material/dialog';
 import { JobadTableItem } from 'src/app/models/dataInterfaces.model';
 

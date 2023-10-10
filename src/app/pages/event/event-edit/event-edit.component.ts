@@ -2,8 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmComponent } from 'src/app/components/dialog/confirm/confirm.component';
-import { EventDetail } from 'src/app/models/dataInterfaces.model';
-import { EventService } from 'src/app/services/api/event.service';
+import { FullEvent } from 'src/app/models/dataInterfaces.model';
+import { EventService } from 'src/app/services/admin-api/event.service';
 import { scrollToTop } from 'src/app/utils/core';
 import { convertFromRFC3339 } from 'src/app/utils/time';
 import { EventFormComponent } from '../event-form/event-form.component';
@@ -16,10 +16,10 @@ import { ErrorComponent } from 'src/app/components/dialog/error/error.component'
 })
 export class EventEditComponent {
   @ViewChild(EventFormComponent) eventFormComponent!: EventFormComponent;
-  eventFormValues!: EventDetail;
+  eventFormValues!: FullEvent;
 
   eventID!: number;
-  event!: EventDetail;
+  event!: FullEvent;
   timeUpdated!: string;
 
   constructor(
@@ -37,9 +37,10 @@ export class EventEditComponent {
     });
 
     // Fetch the event
-    this.eventService.fetchEvent(this.eventID).subscribe((e: EventDetail) => {
-      this.timeUpdated = convertFromRFC3339(e.time_updated);
-      this.event = e;
+    this.eventService.fetchEvent(this.eventID).subscribe((fe: FullEvent) => {
+      this.timeUpdated = convertFromRFC3339(fe.event.updated_at);
+      this.event = fe;
+      console.log(this.event)
     })
   }
 
@@ -81,7 +82,7 @@ export class EventEditComponent {
         console.log("User confirmed");
 
         const formValues = this.eventFormComponent.getFormValues();
-        formValues.canceled = true;
+        formValues.event.canceled = true;
 
         this.eventService.patchEvent(formValues).subscribe({
           next: () => {

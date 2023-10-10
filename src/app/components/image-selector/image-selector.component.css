@@ -1,0 +1,27 @@
+.file-item {
+  display: flex;
+  align-items: center;
+  white-space: nowrap; /* Prevents '-' characters in filenames from screwing up the list */
+}
+
+.file-item * {
+  margin: 0.2rem;
+}
+
+.container {
+  display: table;
+}
+
+.table-row {
+	display:table-row;
+}
+
+.form-cell {
+  width: 30vw;
+  display: table-cell;
+}
+
+.upload-cell {
+  display: table-cell;
+  padding-left: 0.5rem;
+}
