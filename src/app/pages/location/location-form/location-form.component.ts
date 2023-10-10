@@ -6,6 +6,15 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
   templateUrl: './location-form.component.html',
   styleUrls: ['./location-form.component.css']
 })
+
+/**
+ * The 'LocationFormComponent' is the form used to manipulate all locations.
+ *
+ * @example
+ * <app-location-form
+ *   [location]="locObject">
+ * </app-location-form>
+ */
 export class LocationFormComponent {
   locationForm!: FormGroup;
 

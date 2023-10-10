@@ -1,9 +1,15 @@
 <div class="container">
-  <aside>
-    <app-sidebar></app-sidebar>
-  </aside>
+  <div *ngIf="false">
+    <p>Yeah motherfucker!!</p>
+  </div>
 
-  <main>
-    <router-outlet></router-outlet>
-  </main>
+  <div *ngIf="true">
+    <aside>
+      <app-sidebar></app-sidebar>
+    </aside>
+  </div>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+
 </div>

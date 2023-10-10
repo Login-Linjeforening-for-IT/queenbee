@@ -6,8 +6,19 @@ import * as L from 'leaflet';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css']
 })
+
+/**
+ * The 'MapComponent' is used for displaying both satellite and standard map. It is also registers clicks and can output
+ * the corresponding coordinates.
+ *
+ * @example
+ * <app-map
+ *   (coords)="onNewCoords($event)">
+ * </app-map>
+ */
 export class MapComponent implements AfterViewInit {
   @Output() coords = new EventEmitter<{lat: string, long: string}>();
+
   isSatelliteView: boolean = false;
   private map: any;
   private currentMarker: L.Marker | null = null;

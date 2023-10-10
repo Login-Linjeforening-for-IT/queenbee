@@ -6,6 +6,15 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
   selector: 'app-rule-form',
   templateUrl: './rule-form.component.html'
 })
+
+/**
+ * The 'RuleFormComponent' is the form used to manipulate all rules.
+ *
+ * @example
+ * <app-rules-form
+ *   [rule]="ruleObject">
+ * </app-rules-form>
+ */
 export class RuleFormComponent {
   @Input() rule!: Rule;
   ruleForm!: FormGroup;

@@ -1,13 +1,3 @@
-/**
- * Component for dot-menu meant to be used in each row in tables.
- * 
- * Inputted:
- * - row
- * - path, to redirect to
- * 
- * Outputted:
- * - delete event
- */
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
@@ -15,6 +5,17 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   templateUrl: './dot-menu.component.html',
   styleUrls: ['./dot-menu.component.css']
 })
+
+/**
+ * Component for dot-menu meant to be used in each row in tables.
+ *
+ * @example
+ * <app-dot-menu
+ *   [path]="'events'"
+ *   [row]="row"
+ *   (delete)="onDelete($event)">
+ * </app-dot-menu>
+ */
 export class DotMenuComponent {
   @Input() row: any;
   @Input() path!: string;

@@ -6,6 +6,10 @@ import { DoSpacesService } from 'src/app/services/do/do-spaces.service';
   templateUrl: './single-file-upload.component.html',
   styleUrls: ['./single-file-upload.component.css']
 })
+
+/**
+ * The 'SingleFileUploadComponent' is used for uploading a single file to a S3 bucket, for example a .jpg file.
+ */
 export class SingleFileUploadComponent {
   status: "initial" | "uploading" | "success" | "fail" = "initial"; // Variable to store file status
   file: File | null = null; // Variable to store file

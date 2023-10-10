@@ -12,6 +12,17 @@ import { MatDialog } from '@angular/material/dialog';
   templateUrl: './image-selector.component.html',
   styleUrls: ['./image-selector.component.css']
 })
+
+/**
+ * The 'ImageSelectorComponent' is for selecting images stored in S3 buckets.
+ *
+ * @example
+ * <app-image-selector
+ *         [title]="'Image Banner'"
+ *         [value]="SELECTED_OBJECT"
+ *         (valEmitter)="onImageBannerChange($event)">
+ * </app-image-selector>
+ */
 export class ImageSelectorComponent {
   @Input() title: string = '';
   @Input() value!: string;

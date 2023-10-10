@@ -8,6 +8,15 @@ import { JobadDetail } from 'src/app/models/dataInterfaces.model';
   selector: 'app-jobad-form',
   templateUrl: './jobad-form.component.html'
 })
+
+/**
+ * The 'JobFormComponent' is the form used to manipulate all job ads.
+ *
+ * @example
+ * <app-job-form
+ *   [jobad]="jobadObject">
+ * </app-job-form>
+ */
 export class JobadFormComponent {
   @Input() jobad!: JobadDetail;
   @Output() formValues = new EventEmitter<{fv: JobadDetail}>();

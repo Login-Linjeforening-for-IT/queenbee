@@ -10,28 +10,18 @@ Visit out [Redmine page](https://redmine.login.no/projects/tekkom/wiki/02_-_Data
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.1.
 
 ## Development server
-The project has API connections, that is dependent on the Beehive API which again is dependent on the Beehive database. Therefore you must deploy both the database and API repo to experience all features of this application.
-
+### Angular frontend
 You might have to use `npm --force install` to install the dependencies in the application. 
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-## Code scaffolding
+### API integrations
+The website can be run without APIs, but then the functionality is naturally limited. To connect to the Admin API and database, look at the respective repositories.
 
-Run `ng generate component component-name` (or shorthand `ng g c component-name`) to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+The website is connected to a S3 bucket in Digital Ocean, to use that you respective secret keys. This is not vital for development, since it only affects image selection and other image interactions. If you need keys contact a TekKom member with "verv".
 
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+Also, Angular Material is widely used in the application, check out [https://material.angular.io/](https://material.angular.io/) for docs. 

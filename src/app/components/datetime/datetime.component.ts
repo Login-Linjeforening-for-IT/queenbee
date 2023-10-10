@@ -11,6 +11,20 @@ import {FormBuilder, FormGroup} from "@angular/forms";
   styleUrls: ['./datetime.component.css']
 })
 
+/**
+ * The 'DatetimeComponent' provide inputs for selecting both date and time. It also provides several options to
+ * customize the input.
+ *
+ * @example
+ * <app-datetime
+ *  [dateLabel]="'Start Date'"
+ *  [timeLabel]="'Start Time'"
+ *  [isTimeRequired]="true"
+ *  [isDateRequired]="false"
+ *  [timeDisableable]="true"
+ *  (newDatetime)=onTimeStartChange($event)>
+ * </app-datetime>
+ */
 export class DatetimeComponent {
   @Input() dateLabel!: string;
   @Input() timeLabel!: string;
@@ -35,12 +49,12 @@ export class DatetimeComponent {
     // Convert optional inputted value to correct format
     if (this.value) {
       const datetime = new Date(this.value);
-      
+
       // ISO format is 'yyyy-mm-dd'
       inputDate = datetime.toISOString().slice(0,10);
 
       // Time format is 'hh:mm'
-      inputTime = this.padTo2Digits(datetime.getUTCHours()) + ':' + 
+      inputTime = this.padTo2Digits(datetime.getUTCHours()) + ':' +
                   this.padTo2Digits(datetime.getUTCMinutes());
     }
 

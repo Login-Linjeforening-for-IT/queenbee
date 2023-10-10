@@ -1,17 +1,3 @@
-/**
- * MarkdownTextfieldComponent: A component providing an interface for editing Markdown text.
- *
- * This component includes a text input field for writing in Markdown format, 
- * as well as an Emoji Mart for adding emojis to the text. It emits the 
- * compiled HTML equivalent of the entered Markdown text.
- *
- * Inputs:
- * - titleLabel: The title to display above the text input field.
- *
- * Outputs:
- * - newMdText: The Markdown text input, emitted 
- *   whenever the text input changes.
- */
 import { Renderer2, Component, ElementRef, VERSION, ViewChild, HostListener, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { BehaviorSubject } from 'rxjs';
@@ -22,6 +8,20 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./markdown-textfield.component.css']
 })
 
+/**
+ * MarkdownTextfieldComponent: A component providing an interface for editing Markdown text.
+ *
+ * This component includes a text input field for writing in Markdown format,
+ * as well as an Emoji Mart for adding emojis to the text. It emits the
+ * compiled HTML equivalent of the entered Markdown text.
+ *
+ * @example
+ * <app-markdown-textfield
+ *   [placeholder]="'Description ENG'"
+ *   [value]="eventForm.get('description_en')?.value"
+ *   (newHtmlText)=onDescriptionEnChange($event)>
+ * </app-markdown-textfield>
+ */
 export class MarkdownTextfieldComponent {
   @Input() placeholder!: string;
   @Input() value!: string;
@@ -34,11 +34,11 @@ export class MarkdownTextfieldComponent {
 
   showEmojiPicker: boolean = false;
   totalFrequentLines: number = 2; // Lines in emojiPicker
-  
+
   showTableInputs: boolean = false;
   tableRows: number = 2; // Default number of rows
   tableColumns: number = 2; // Default number of columns
-  
+
   markdown: string = '';
 
   // For observing changes
@@ -60,23 +60,23 @@ export class MarkdownTextfieldComponent {
      });
   }
 
-  // For listening to and emitting changes in the inputted markdown  
+  // For listening to and emitting changes in the inputted markdown
   ngAfterViewInit() {
     this.markdown = this.value; // Sets initial markdown value
 
     this.renderer.listen(this.textarea.nativeElement, 'input', (event: any) => {
       this.markdownChange.next(this.markdown);
     });
-  
+
     this.mutationObserver = new MutationObserver((mutations) => {
       let newHtml = this.mdComponent.nativeElement.innerHTML;
       newHtml = newHtml.replace(/\n/g, ''); // Removing "\n" from the string
       this.newHtmlText.emit({ht: newHtml}) // Emit new html
     });
-  
+
     this.mutationObserver.observe(this.mdComponent.nativeElement, {
-      attributes: false, 
-      childList: true, 
+      attributes: false,
+      childList: true,
       characterData: true,
       subtree:true
     });
@@ -101,12 +101,12 @@ export class MarkdownTextfieldComponent {
     const textarea = this.textarea.nativeElement;
     const start = textarea.selectionStart;
     const end = textarea.selectionEnd;
-    
+
     // Insert the selected emoji into the markdown string at the cursor position
     this.markdown = this.markdown.slice(0, start) + event.emoji.native + this.markdown.slice(end);
     this.markdownChange.next(this.markdown);
 
-    // Waits until next tick to retain selection 
+    // Waits until next tick to retain selection
     setTimeout(() => {
       // Move the cursor to after the inserted emoji
       if(event.emoji.native) {
@@ -133,7 +133,7 @@ export class MarkdownTextfieldComponent {
   generateTable() {
     // Generate the table in markdown using the provided rows and columns
     const markdownTable = `\n${'|'.padEnd(this.tableColumns, ' |')}|\n${'|'.padEnd(this.tableColumns, '-|')}|`;
-    
+
     // Append the generated table to the current text
     this.markdown += markdownTable;
 
@@ -166,7 +166,7 @@ export class MarkdownTextfieldComponent {
     this.markdown = newText;
     this.markdownChange.next(this.markdown);
 
-    // Waits until next tick to retain selection 
+    // Waits until next tick to retain selection
     setTimeout(() => {
       // Apply string to each end of the selected area
       textarea.focus();
