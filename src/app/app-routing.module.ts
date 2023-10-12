@@ -16,6 +16,8 @@ import { EventCopyComponent } from "./pages/event/event-copy/event-copy.componen
 import { JobadCopyComponent } from "./pages/jobad/jobad-copy/jobad-copy.component";
 import {LocationNewComponent} from "./pages/location/location-new/location-new.component";
 import {RuleNewComponent} from "./pages/rule/rule-new/rule-new.component";
+import { RuleCopyComponent } from "./pages/rule/rule-copy/rule-copy.component";
+import { RuleEditComponent } from "./pages/rule/rule-edit/rule-edit.component";
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -36,6 +38,8 @@ const routes: Routes = [
   { path: 'locations/edit/:id', component: LocationNewComponent},
   { path: 'rules', component: RulesComponent},
   { path: 'rules/new', component: RuleNewComponent},
+  { path: 'rules/edit/:id', component: RuleEditComponent},
+  { path: 'rules/copy/:id', component: RuleCopyComponent},
   { path: '**', component: PageNotFoundComponent} // ** detects all other routes, IMPORTANT that its last
 ];
 
