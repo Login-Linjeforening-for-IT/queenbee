@@ -35,7 +35,6 @@ export class EventFormComponent implements OnInit{
   autoControlCats = new FormControl<string | Category>('');
   filteredCats!: Observable<Category[]>;
   autoControlOrgs = new FormControl<string | OrgTableItem>('');
-  chipItems: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry','Blueberry'];
   filteredOrgs!: Observable<OrgTableItem[]>;
 
   constructor(
