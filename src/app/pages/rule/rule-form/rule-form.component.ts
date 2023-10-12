@@ -39,6 +39,10 @@ export class RuleFormComponent {
     });
   }
 
+  getFormValues(): Rule {
+    return this.ruleForm.value;
+  }
+
   onDescriptionNoChange(newVal: { ht: string }) {
     this.ruleForm.get('description_no')?.setValue(newVal.ht);
   }
