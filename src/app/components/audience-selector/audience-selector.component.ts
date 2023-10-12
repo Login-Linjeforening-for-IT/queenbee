@@ -1,5 +1,5 @@
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {Component, ElementRef, Input, ViewChild, inject} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, Output, ViewChild, inject} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material/chips';
@@ -28,6 +28,7 @@ import { AudienceChip } from 'src/app/models/dataInterfaces.model';
 export class AudienceSelectorComponent {
   @Input() title!: string;
   @Input() placeholder!: string;
+  @Output() newAudienceSet = new EventEmitter<{as: number[]}>();
 
   @ViewChild('itemInput') itemInput!: ElementRef<HTMLInputElement>;
 
@@ -57,6 +58,7 @@ export class AudienceSelectorComponent {
 
       this.announcer.announce(`Removed ${item}`);
     }
+    this.onAudeienceSetChange();
   }
 
   /**
@@ -65,12 +67,12 @@ export class AudienceSelectorComponent {
    */
   selected(event: MatAutocompleteSelectedEvent): void {
     this.selectedItems.push(event.option.value);
-    console.log(this.selectedItems) // FOR DEBUGGING ONLY; REMOVE WHEN COMPONENT IS COMPLETE
     this.itemInput.nativeElement.value = '';
     this.itemCtrl.setValue(null);
 
     // Reset the filteredItems Observable to include all items
     this.filteredItems = this.getFilteredItems();
+    this.onAudeienceSetChange();
   }
 
   /**
@@ -111,5 +113,12 @@ export class AudienceSelectorComponent {
     this.audienceService.fetchAudiences().subscribe((a: AudienceChip[]) => {
       this.chipItems = a;
     });
+  }
+
+  private onAudeienceSetChange() {
+    const numberArray: number[] = [];
+    this.selectedItems.map(item => numberArray.push(item.id));
+
+    this.newAudienceSet.emit({as: numberArray});
   }
 }

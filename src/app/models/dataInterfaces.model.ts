@@ -150,7 +150,7 @@ export interface FullEvent {
   rule: RuleData;
   location: LocationData;
   organizations: OrganizationData[];
-  audiences: AudienceData[];
+  audiences: number[];
 }
 
 

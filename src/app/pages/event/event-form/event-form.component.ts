@@ -100,6 +100,10 @@ export class EventFormComponent implements OnInit{
     this.eventForm.get('image_small')?.setValue(newVal.val);
   }
 
+  onAudienceSetChange(newVal: {as: number[]}) {
+    this.eventForm.get('audience')?.setValue(newVal.as);
+  }
+
   displayCategoryFn(category: Category): string {
     if(category) {
       return category.name_en || category.name_no
@@ -142,6 +146,7 @@ export class EventFormComponent implements OnInit{
       link_stream: '',
       category: ['', Validators.required],
       organization: ['', Validators.required],
+      audience: []
     });
 
     // Subscribe to value changes for a specific form control
