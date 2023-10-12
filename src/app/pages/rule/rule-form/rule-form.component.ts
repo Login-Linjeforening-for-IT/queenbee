@@ -28,9 +28,22 @@ export class RuleFormComponent {
   private initForm() {
     this.ruleForm = this.fb.group({
       name_no: ['', Validators.required],
-      name_en: '',
+      name_en: ['', Validators.required],
       description_no: '',
       description_en: '',
     })
+
+    // Subscribe to value changes for a specific form control
+    this.ruleForm?.valueChanges.subscribe((value) => {
+      console.log('ruleform value changed:', value);
+    });
+  }
+
+  onDescriptionNoChange(newVal: { ht: string }) {
+    this.ruleForm.get('description_no')?.setValue(newVal.ht);
+  }
+
+  onDescriptionEnChange(newVal: { ht: string }) {
+      this.ruleForm.get('description_en')?.setValue(newVal.ht);
   }
 }
