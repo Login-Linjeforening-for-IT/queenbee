@@ -176,7 +176,7 @@ export class EventFormComponent implements OnInit{
 
     this.autoControlOrgs.valueChanges.subscribe(value => {
       if (value && typeof value === 'object') {
-        this.eventForm.get('organization')?.setValue(value.shortname);
+        this.eventForm.get('organization')?.setValue(value.id);
       } else {
         this.eventForm.get('organization')?.setValue(value);
       }

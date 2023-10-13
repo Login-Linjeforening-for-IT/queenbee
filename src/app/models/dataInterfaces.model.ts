@@ -285,7 +285,7 @@ export interface OrgShort {
 }
 
 export interface OrgTableItem {
-  shortname: string;
+  id: string;
   name: string;
   link_homepage: string;
   logo: string;

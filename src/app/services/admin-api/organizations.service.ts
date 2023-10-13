@@ -28,16 +28,18 @@ export class OrganizationService {
           for (const shortname in resData) {
             const orgShort: OrgShort = resData[shortname]
             
-            const org: OrgTableItem = {
-              shortname: orgShort.shortname,
-              name: orgShort.name_en || orgShort.name_no, // Set name to name_en if it exists, else set to name_no
-              link_homepage: orgShort.link_homepage,
-              logo: orgShort.logo,
-              updated_at: convertFromRFC3339(orgShort.updated_at),
-              is_deleted: orgShort.is_deleted,
-            };
-
-            orgArray.push(org);
+            if(orgShort && !orgShort.is_deleted) {
+              const org: OrgTableItem = {
+                id: orgShort.shortname,
+                name: orgShort.name_en || orgShort.name_no, // Set name to name_en if it exists, else set to name_no
+                link_homepage: orgShort.link_homepage,
+                logo: orgShort.logo,
+                updated_at: convertFromRFC3339(orgShort.updated_at),
+                is_deleted: orgShort.is_deleted,
+              };
+  
+              orgArray.push(org);
+            }
           }
           return orgArray;
         })
@@ -61,5 +63,14 @@ export class OrganizationService {
           throw new Error('Failed to create event');
         })
       );
+  }
+
+  deleteOrg(shortname: string) {
+    this.http.delete<Organization>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.ORGANIZATIONS_PATH}${shortname}`)
+    .subscribe({
+      error: error => {
+        throw new Error('Failed to delete organization', error)
+      }
+    });
   }
 }

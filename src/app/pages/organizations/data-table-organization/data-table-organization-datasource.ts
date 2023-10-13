@@ -22,7 +22,7 @@ export class DataTableOrganizationDataSource extends BaseDataSource<OrgTableItem
   }
 
   override getItemId(item: OrgTableItem): string {
-    return item.shortname;
+    return item.id;
   }
   
   /**
@@ -36,7 +36,7 @@ export class DataTableOrganizationDataSource extends BaseDataSource<OrgTableItem
     return data.sort((a, b) => {
       const isAsc = this.sort?.direction === 'asc';
       switch (this.sort?.active) {
-        case 'shortname': return compare(a.shortname, b.shortname, isAsc);
+        case 'shortname': return compare(a.id, b.id, isAsc);
         case 'name': return compare(a.name, b.name, isAsc);
         case 'link_homepage': return compare(a.link_homepage, b.link_homepage, isAsc);
         case 'updated_at': return compare(a.updated_at, b.updated_at, isAsc);

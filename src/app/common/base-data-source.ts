@@ -88,7 +88,7 @@ export abstract class BaseDataSource<T> extends DataSource<T> {
    * deleteItem removes elements with a given id from the data.
    * @param id Assumed unique id of element
    */
-  deleteItem(id: number): void {
+  deleteItem(id: any): void {
     const currentItems = this.data.value;
     const filteredItems = currentItems.filter(item => this.getItemId(item) !== id);
     this.data.next(filteredItems);

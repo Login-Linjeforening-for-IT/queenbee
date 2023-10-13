@@ -20,7 +20,7 @@ export class DotMenuComponent {
   @Input() row: any;
   @Input() path!: string;
   @Input() disableCopy!: boolean; 
-  @Output() delete = new EventEmitter<number>();
+  @Output() delete = new EventEmitter<any>();
 
   onDelete(): void {
     this.delete.emit(this.row.id);
