@@ -11,6 +11,25 @@ export class RulesService {
 
   constructor(private http: HttpClient) { }
 
+  /**
+   * The 'fetchRule' function is used to fetch a rule by a given ID.
+   * @param ruleID number, ID to fetch
+   * @returns Rule
+   */
+  fetchRule(ruleID: number): Observable<Rule> {
+    return this.http
+      .get<Rule>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.RULES_PATH}${ruleID}`)
+      .pipe(
+        map(rule => {
+          if (rule) {
+            return rule;
+          } else {
+            throw new Error('Rule not found');
+          }
+        })
+      );
+  }
+
   fetchRules(): Observable<RulesTableItem[]> {
     return this.http
       .get<{ [id: string]: RulesTableItem }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.RULES_PATH}`)

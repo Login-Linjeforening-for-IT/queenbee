@@ -23,6 +23,11 @@ export class RuleFormComponent {
 
   ngOnInit() {
     this.initForm();
+
+    // If a rule is inputed into this component: populate input fields with data
+    if(this.rule) {
+      this.updateFormFields();
+    }
   }
 
   private initForm() {
@@ -49,5 +54,16 @@ export class RuleFormComponent {
 
   onDescriptionEnChange(newVal: { ht: string }) {
       this.ruleForm.get('description_en')?.setValue(newVal.ht);
+  }
+
+  private updateFormFields() {
+    if(this.rule) {
+      this.ruleForm.patchValue({
+        name_no: this.rule.name_no || '',
+        name_en: this.rule.name_en || '',
+        description_no: this.rule.description_no || '',
+        description_en: this.rule.description_en || '',
+      })
+    }
   }
 }

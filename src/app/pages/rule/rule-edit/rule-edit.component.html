@@ -1,1 +1,13 @@
-<p>rule-edit works!</p>
+<div>
+    <h1>Edit Rule</h1>
+    
+    <ng-container  *ngIf="rule">
+        <p class="weak-text">Last updated: {{timeUpdated}}</p>
+        <app-rule-form [rule]="rule"></app-rule-form>
+    </ng-container>
+    
+    <button class="submit-btn" type="submit" (click)="updateRule()" mat-raised-button color="primary">
+      <span class="material-symbols-sharp">save</span>Update
+    </button>
+</div>
+  
