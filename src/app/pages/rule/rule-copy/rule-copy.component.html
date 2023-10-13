@@ -1,1 +1,8 @@
-<p>rule-copy works!</p>
+<h1>Copy Rule</h1>
+<ng-container  *ngIf="rule">
+    <app-alert [alertMsg]="'Your are copying an rule, make sure to update both descriptions! Rule names are intenionally cleared.'"></app-alert>
+    <app-rule-form [rule]="rule"></app-rule-form>
+    <button class="submit-btn" type="submit" (click)="submitRule()" mat-raised-button color="primary">
+        <span class="material-symbols-sharp">save</span>Create
+    </button>
+</ng-container>
