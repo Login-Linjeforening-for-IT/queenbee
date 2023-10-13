@@ -223,3 +223,11 @@ main {
   margin-right: 1rem;
   margin-bottom: 5rem;
 }
+
+/* ====================== SNACKBAR =========================== */
+.mat-mdc-snack-bar-container {
+  &.custom-snackbar {
+    --mdc-snackbar-container-color: #4CAF50;
+    --mdc-snackbar-supporting-text-color: var(--color-info-light);
+  }
+}

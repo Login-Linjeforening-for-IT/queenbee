@@ -68,6 +68,7 @@ import { AudienceSelectorComponent } from './components/audience-selector/audien
 import { MatIconModule } from '@angular/material/icon';
 import { RuleEditComponent } from './pages/rule/rule-edit/rule-edit.component';
 import { RuleCopyComponent } from './pages/rule/rule-copy/rule-copy.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -138,7 +139,8 @@ import { RuleCopyComponent } from './pages/rule/rule-copy/rule-copy.component';
         MatDialogModule,
         MatAutocompleteModule,
         ImageCropperModule,
-        MatIconModule
+        MatIconModule,
+        MatSnackBarModule
     ],
   providers: [],
   bootstrap: [AppComponent]
