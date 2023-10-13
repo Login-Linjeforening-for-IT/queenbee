@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {ActivatedRoute} from "@angular/router";
-import { OrganizationConstants } from '../pages.constants';
+import { OrganizationConstants } from '../../pages.constants';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { OrganizationService } from 'src/app/services/admin-api/organizations.service';
 
 @Component({
-  selector: 'app-organization',
-  templateUrl: './organization.component.html'
+  selector: 'app-org-form',
+  templateUrl: './org-form.component.html'
 })
-export class OrganizationComponent {
+export class OrgFormComponent {
   org_types = OrganizationConstants.ORG_TYPES
 
   organizationForm!: FormGroup;

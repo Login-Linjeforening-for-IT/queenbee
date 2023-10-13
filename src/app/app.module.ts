@@ -28,7 +28,6 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {MatMenuModule} from "@angular/material/menu";
 import { OrganizationsComponent } from './pages/organizations/organizations.component';
 import { DataTableOrganizationComponent } from "./pages/organizations/data-table-organization/data-table-organization.component";
-import { OrganizationComponent } from './pages/organization/organization.component';
 import { DataTableAddressComponent } from './pages/locations/data-table-address/data-table-address.component';
 import { DataTableJobadsComponent } from './pages/jobads/data-table-jobads/data-table-jobads.component';
 import { MarkdownTextfieldComponent } from './components/markdown-textfield/markdown-textfield.component';
@@ -69,6 +68,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { RuleEditComponent } from './pages/rule/rule-edit/rule-edit.component';
 import { RuleCopyComponent } from './pages/rule/rule-copy/rule-copy.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { OrgFormComponent } from './pages/organization/org-form/org-form.component';
+import { OrgNewComponent } from './pages/organization/org-new/org-new.component';
+import { OrgEditComponent } from './pages/organization/org-edit/org-edit.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +82,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     DatetimeComponent,
     OrganizationsComponent,
     DataTableOrganizationComponent,
-    OrganizationComponent,
     DataTableJobadsComponent,
     DataTableAddressComponent,
     DataTableMazemapComponent,
@@ -111,6 +112,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     AudienceSelectorComponent,
     RuleEditComponent,
     RuleCopyComponent,
+    OrgFormComponent,
+    OrgNewComponent,
+    OrgEditComponent,
   ],
     imports: [
         BrowserModule,
