@@ -7,6 +7,10 @@ import { Rule, RulesTableItem } from 'src/app/models/dataInterfaces.model';
 @Injectable({
   providedIn: 'root'
 })
+
+/**
+ * This service is used to ineract with the Rule objects in the database through respective endpoints in the Admin API.
+ */
 export class RulesService {
 
   constructor(private http: HttpClient) { }
@@ -30,6 +34,10 @@ export class RulesService {
       );
   }
 
+  /**
+   * The 'fetchRules' is used to fetch all rules. Return in a format tailored for tables.
+   * @returns array of RulesTableItem
+   */
   fetchRules(): Observable<RulesTableItem[]> {
     return this.http
       .get<{ [id: string]: RulesTableItem }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.RULES_PATH}`)
@@ -68,6 +76,25 @@ export class RulesService {
             return newRule;
           }
           throw new Error('Failed to create rule')
+        })
+      )
+  }
+
+  /**
+   * The 'patchRule' function is used to patch a rule. The ID must be a part of parameter rule.
+   * @param rule updated Rule object
+   * @returns Rule
+   */
+  patchRule(rule: Rule) {
+    return this.http
+      .patch<Rule>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.RULES_PATH}`, rule)
+      .pipe(
+        map(resData => {
+          if(resData) {
+            const newRule: Rule = resData;
+            return newRule;
+          }
+          throw new Error('Failed to patch rule')
         })
       )
   }

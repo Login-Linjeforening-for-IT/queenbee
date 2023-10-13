@@ -1,17 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Rule } from 'src/app/models/dataInterfaces.model';
 import { RulesService } from 'src/app/services/admin-api/rules.service';
 import { convertFromRFC3339 } from 'src/app/utils/time';
+import { RuleFormComponent } from '../rule-form/rule-form.component';
+import { scrollToTop } from 'src/app/utils/core';
+import { ErrorComponent } from 'src/app/components/dialog/error/error.component';
 
 @Component({
   selector: 'app-rule-edit',
   templateUrl: './rule-edit.component.html',
   styleUrls: ['./rule-edit.component.css']
 })
+
+/**
+ * The 'RuleEditComponent' is used for editing rule objects.
+ */
 export class RuleEditComponent {
-  
+  @ViewChild(RuleFormComponent) ruleFormComponent!: RuleFormComponent;
+  eventFormValues!: Rule;
+
   ruleID!: number;
   rule!: Rule;
   timeUpdated!: string;
@@ -34,11 +43,30 @@ export class RuleEditComponent {
     this.ruleService.fetchRule(this.ruleID).subscribe((ru: Rule) => {
       this.timeUpdated = convertFromRFC3339(ru.updated_at);
       this.rule = ru;
-      console.log("Hello there", this.rule)
     })
   }
 
   updateRule() {
+    const formValues = this.ruleFormComponent.getFormValues();
+    formValues.id = this.ruleID;
 
+    this.ruleService.patchRule(formValues).subscribe({
+      next: () => {
+        console.log("Rule updated successfully");
+        // here you could navigate to another page, or show a success message, etc.
+      },
+      error: (error) => {
+        scrollToTop();
+        console.log("Erroring")
+        this.dialog.open(ErrorComponent, {
+          data: {
+            title: "Error: " + error.status + " " + error.statusText,
+            details: error.error.error,
+            autoFocus: false
+          },
+        });
+
+      }
+    });
   }
 }
