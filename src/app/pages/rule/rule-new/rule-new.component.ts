@@ -5,6 +5,9 @@ import { RulesService } from 'src/app/services/admin-api/rules.service';
 import { MatDialog } from '@angular/material/dialog';
 import { scrollToTop } from 'src/app/utils/core';
 import { ErrorComponent } from 'src/app/components/dialog/error/error.component';
+import { Router } from '@angular/router';
+import { SnackbarService } from 'src/app/services/snackbar.service';
+import { BeehiveAPI } from 'src/app/config/constants';
 
 @Component({
   selector: 'app-rule-new',
@@ -16,7 +19,9 @@ export class RuleNewComponent {
 
   constructor(
     private ruleService: RulesService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router,
+    private snackbarService: SnackbarService
   ) {}
 
   submitRule() {
@@ -24,8 +29,11 @@ export class RuleNewComponent {
 
     this.ruleService.createRule(formValues).subscribe({
       next: () => {
-        console.log("Rule created successfully");
-        // here you could navigate to another page, or show a success message, etc.
+        this.router.navigate([BeehiveAPI.RULES_PATH]).then((navigated: boolean) => {
+          if(navigated) {
+            this.snackbarService.openSnackbar("Successfully created rule", "OK", 2.5)
+          }
+        });
       },
       error: (error) => {
         scrollToTop();
