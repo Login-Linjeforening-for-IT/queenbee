@@ -8,6 +8,7 @@ import { Organization } from 'src/app/models/dataInterfaces.model';
 })
 export class OrgFormComponent {
   @Input() org!: Organization;
+  @Input() disableShortnameInput!: boolean;
   orgForm!: FormGroup;
 
   constructor(private fb: FormBuilder) {}
@@ -22,7 +23,16 @@ export class OrgFormComponent {
   }
 
   getFormValues(): Organization {
-    return this.orgForm.value;
+    // Create a separate variable to store the shortname value
+    const shortnameValue = this.orgForm.get('shortname')!.value;
+    
+    // Get the other form values
+    const formValues = this.orgForm.value;
+
+    // Add the shortname value to the form values
+    formValues.shortname = shortnameValue;
+
+    return formValues;
   }
 
   onDescriptionNoChange(newVal: { ht: string }) {
@@ -38,28 +48,44 @@ export class OrgFormComponent {
   }
 
   private initForm() {
-    this.orgForm = this.fb.group({
-      shortname: '',
-      name_no: ['', Validators.required],
-      name_en: ['', Validators.required],
-      description_no: '',
-      description_en: '',
-      link_homepage: '',
-      link_linkedin: '',
-      link_facebook: '',
-      link_instagram: '',
-      logo: ''
-    })
+    if(this.disableShortnameInput) {
+      this.orgForm = this.fb.group({
+        shortname: [{value: '', disabled: true}], // Disable to communicate that it cannot be edited
+        name_no: ['', Validators.required],
+        name_en: ['', Validators.required],
+        description_no: '',
+        description_en: '',
+        link_homepage: '',
+        link_linkedin: '',
+        link_facebook: '',
+        link_instagram: '',
+        logo: ''
+      })
+    } else {
+      this.orgForm = this.fb.group({
+        shortname: [{value: '', disabled: false}],
+        name_no: ['', Validators.required],
+        name_en: ['', Validators.required],
+        description_no: '',
+        description_en: '',
+        link_homepage: '',
+        link_linkedin: '',
+        link_facebook: '',
+        link_instagram: '',
+        logo: ''
+      })
+    }
 
     // Subscribe to value changes for a specific form control
     this.orgForm?.valueChanges.subscribe((value) => {
-      console.log('ruleform value changed:', value);
+      console.log('orgform value changed:', value);
     });
   }
 
   private updateFormFields() {
     if(this.org) {
       this.orgForm.patchValue({
+        shortname: this.org.shortname || '',
         name_no: this.org.name_no || '',
         name_en: this.org.name_en || '',
         description_no: this.org.description_no || '',

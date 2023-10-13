@@ -15,6 +15,20 @@ export class OrganizationService {
 
   constructor(private http: HttpClient) { }
 
+  fetchOrg(shortname: string): Observable<Organization> {
+    return this.http
+      .get<Organization>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.ORGANIZATIONS_PATH}${shortname}`)
+      .pipe(
+        map(org => {
+          if (org) {
+            return org;
+          } else {
+            throw new Error('Organization not found');
+          }
+        })
+      );
+  }
+
   /**
    * Returns all organizations
    * @returns Organization array
@@ -63,6 +77,20 @@ export class OrganizationService {
           throw new Error('Failed to create event');
         })
       );
+  }
+
+  patchOrg(org: Organization) {
+    return this.http
+      .patch<Organization>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.ORGANIZATIONS_PATH}`, org)
+      .pipe(
+        map(resData => {
+          if(resData) {
+            const newOrg: Organization = resData;
+            return newOrg;
+          }
+          throw new Error('Failed to patch organization')
+        })
+      )
   }
 
   deleteOrg(shortname: string) {

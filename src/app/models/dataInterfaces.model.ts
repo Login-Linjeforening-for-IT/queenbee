@@ -304,6 +304,9 @@ export interface Organization {
   link_instagram: string;
   link_linkedin: string;
   logo: string;
+  updated_at: string;
+  created_at: string;
+  deleted_at: string;
 }
 
 export interface RulesTableItem {
