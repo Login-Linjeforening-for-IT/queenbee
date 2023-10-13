@@ -105,6 +105,6 @@ export class RulesService {
       error: error => {
         throw new Error('Failed to delete rule', error)
       }
-  });
+    });
   }
 }
