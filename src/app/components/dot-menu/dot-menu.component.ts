@@ -19,6 +19,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class DotMenuComponent {
   @Input() row: any;
   @Input() path!: string;
+  @Input() disableCopy!: boolean; 
   @Output() delete = new EventEmitter<number>();
 
   onDelete(): void {
