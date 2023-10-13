@@ -1,80 +1,70 @@
-import { Component } from '@angular/core';
-import { OrganizationConstants } from '../../pages.constants';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { OrganizationService } from 'src/app/services/admin-api/organizations.service';
+import { Component, Input } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Organization } from 'src/app/models/dataInterfaces.model';
 
 @Component({
   selector: 'app-org-form',
   templateUrl: './org-form.component.html'
 })
 export class OrgFormComponent {
-  org_types = OrganizationConstants.ORG_TYPES
+  @Input() org!: Organization;
+  orgForm!: FormGroup;
 
-  organizationForm!: FormGroup;
-  pathElements!: string[];
-  title!: string;
-  submit!: string;
-
-  constructor(
-    private fb: FormBuilder,
-    private route: ActivatedRoute,
-    private organizationService: OrganizationService
-  ) {}
-
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
-    this.route.url.subscribe(segments => {
-      this.pathElements = segments.map(segment => segment.path);
-      console.log('Path elements:', this.pathElements);
-    });
+    this.initForm();
 
-    switch (this.pathElements[1]) {
-      case 'new':
-        this.title = 'Create New Organization';
-        this.submit = 'Create Organization';
-        break;
-      case 'edit':
-        this.title = 'Edit Organization';
-        this.submit = 'Update Organization';
-        break;
-      default:
-        this.title = 'title';
-        this.submit = 'submit';
+    // If a rule is inputed into this component: populate input fields with data
+    if(this.org) {
+      this.updateFormFields();
     }
+  }
 
-    this.organizationForm = this.fb.group({
-      shortname: '',
-      name_no: '',
-      name_en: '',
-      description_no: '',
-      description_en: '',
-      //organization_type: '',
-      url_homepage: '',
-      url_linkedin: '',
-      url_facebook: '',
-      url_instagram: '',
-      logo: ''
-    })
-
-    this.organizationForm.valueChanges.subscribe(console.log)
+  getFormValues(): Organization {
+    return this.orgForm.value;
   }
 
   onDescriptionNoChange(newVal: { ht: string }) {
-    this.organizationForm.get('description_no')!.patchValue(newVal.ht);
+    this.orgForm.get('description_no')!.setValue(newVal.ht);
   }
 
   onDescriptionEnChange(newVal: { ht: string }) {
-    this.organizationForm.get('description_en')!.patchValue(newVal.ht);
+    this.orgForm.get('description_en')!.setValue(newVal.ht);
   }
 
-  submitEvent() {
-    if(this.pathElements[1] === 'new') {
-      console.log("clicked org")
-      this.organizationService.createOrganization(this.organizationForm.value).subscribe(
-        response => console.log(response),
-        error => console.error(error)
-      );
+  private initForm() {
+    this.orgForm = this.fb.group({
+      name_no: ['', Validators.required],
+      name_en: ['', Validators.required],
+      description_no: '',
+      description_en: '',
+      link_homepage: '',
+      link_linkedin: '',
+      link_facebook: '',
+      link_instagram: '',
+      logo: ''
+    })
+
+    // Subscribe to value changes for a specific form control
+    this.orgForm?.valueChanges.subscribe((value) => {
+      console.log('ruleform value changed:', value);
+    });
+  }
+
+  private updateFormFields() {
+    if(this.org) {
+      this.orgForm.patchValue({
+        name_no: this.org.name_no || '',
+        name_en: this.org.name_en || '',
+        description_no: this.org.description_no || '',
+        description_en: this.org.description_en || '',
+        link_homepage: this.org.link_homepage || '',
+        link_linkedin: this.org.link_linkedin || '',
+        link_facebook: this.org.link_facebook || '',
+        link_instagram: this.org.link_instagram || '',
+        logo: this.org.logo || ''
+      })
     }
   }
 }
