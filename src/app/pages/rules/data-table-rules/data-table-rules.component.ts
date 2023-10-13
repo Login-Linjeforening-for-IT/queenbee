@@ -7,6 +7,7 @@ import { TableConstants } from '../../pages.constants';
 import { MatDialog } from '@angular/material/dialog';
 import { RulesTableItem } from 'src/app/models/dataInterfaces.model';
 import { RulesService } from 'src/app/services/admin-api/rules.service';
+import { ConfirmComponent } from 'src/app/components/dialog/confirm/confirm.component';
 
 @Component({
   selector: 'app-data-table-rules',
@@ -48,10 +49,25 @@ export class DataTableRulesComponent implements AfterViewInit {
     this.table.dataSource = this.dataSource;
   }
 
+  /**
+   * This function handles deletion of rules. Will prompt user to confirm deletion.
+   * @param id id of rule to delete
+   */
   onDelete(id: number): void {
-    if(confirm("Are you sure to delete the event with id: " + id)) {
-      this.dataSource.deleteItem(id);
-      this.dataSource.refresh();
-    }
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      data: {
+        details: "Do you want to delete the rule with ID " + id + "?"
+      }
+    })
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.rulesService.deleteRule(id);
+        
+        // Removing from table (client side).
+        this.dataSource.deleteItem(id);
+        this.dataSource.refresh();
+      }
+    })    
   }
 }

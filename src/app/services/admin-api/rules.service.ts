@@ -47,7 +47,7 @@ export class RulesService {
             // Return the response data
             const rulesArray: RulesTableItem[] = [];
             for (const id in resData) {
-              if (resData.hasOwnProperty(id)) {
+              if (resData.hasOwnProperty(id) && !resData[id].is_deleted) {
                 const rule: RulesTableItem = resData[id];
                 rulesArray.push(rule);
               }
@@ -97,5 +97,14 @@ export class RulesService {
           throw new Error('Failed to patch rule')
         })
       )
+  }
+
+  deleteRule(ruleID: number) {
+    this.http.delete<Rule>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.RULES_PATH}${ruleID}`)
+    .subscribe({
+      error: error => {
+        throw new Error('Failed to delete rule', error)
+      }
+  });
   }
 }
