@@ -33,8 +33,13 @@ export class OrgFormComponent {
     this.orgForm.get('description_en')!.setValue(newVal.ht);
   }
 
+  onImageLogoChange(newVal: {val: string}) {
+    this.orgForm.get('logo')?.setValue(newVal.val);
+  }
+
   private initForm() {
     this.orgForm = this.fb.group({
+      shortname: '',
       name_no: ['', Validators.required],
       name_en: ['', Validators.required],
       description_no: '',

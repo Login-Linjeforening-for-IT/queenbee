@@ -49,7 +49,7 @@ export class OrganizationService {
    * @param org Organization object
    * @returns 
    */
-  createOrganization(org: Organization): Observable<Organization> {
+  createOrg(org: Organization): Observable<Organization> {
     return this.http
       .post<Organization>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.ORGANIZATIONS_PATH}`, org)
       .pipe(
