@@ -11,8 +11,7 @@ import { AudienceChip } from 'src/app/models/dataInterfaces.model';
 
 @Component({
   selector: 'app-audience-selector',
-  templateUrl: './audience-selector.component.html',
-  styleUrls: ['./audience-selector.component.css']
+  templateUrl: './audience-selector.component.html'
 })
 
 /**

@@ -8,8 +8,7 @@ import { scrollToTop } from 'src/app/utils/core';
 
 @Component({
   selector: 'app-event-new',
-  templateUrl: './event-new.component.html',
-  styleUrls: ['./event-new.component.css']
+  templateUrl: './event-new.component.html'
 })
 export class EventNewComponent {
   @ViewChild(EventFormComponent) eventFormComponent!: EventFormComponent;
