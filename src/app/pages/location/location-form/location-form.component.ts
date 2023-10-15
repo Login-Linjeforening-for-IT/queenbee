@@ -17,7 +17,9 @@ import { Location } from 'src/app/models/dataInterfaces.model';
  */
 export class LocationFormComponent {
   @Input() loc!: Location;
+  @Input() disableRadioBtn!: boolean;
   locationForm!: FormGroup;
+  edit_type!: string;
 
   constructor(
     private fb: FormBuilder
@@ -46,20 +48,37 @@ export class LocationFormComponent {
   }
 
   private initForm() {
-    this.locationForm = this.fb.group({
-      id: -1,
-      name_no: ['', Validators.required],
-      name_en: '',
-      type: 'none',
-      mazemap_campus_id: 0,
-      mazemap_poi_id: 0,
-      address_street: '',
-      address_postcode: 0,
-      city_name: '',
-      coordinate_lat: 0,
-      coordinate_long: 0,
-      url: ''
-    });
+    if(this.disableRadioBtn) {
+      this.locationForm = this.fb.group({
+        id: -1,
+        name_no: ['', Validators.required],
+        name_en: '',
+        type: {value: 'none', disabled: true},
+        mazemap_campus_id: 0,
+        mazemap_poi_id: 0,
+        address_street: '',
+        address_postcode: 0,
+        city_name: '',
+        coordinate_lat: 0,
+        coordinate_long: 0,
+        url: ''
+      });
+    } else {
+      this.locationForm = this.fb.group({
+        id: -1,
+        name_no: ['', Validators.required],
+        name_en: '',
+        type: {value: 'none', disabled: false},
+        mazemap_campus_id: 0,
+        mazemap_poi_id: 0,
+        address_street: '',
+        address_postcode: 0,
+        city_name: '',
+        coordinate_lat: 0,
+        coordinate_long: 0,
+        url: ''
+      });
+    }
 
     this.locationForm.valueChanges.subscribe(x => {
       console.log(x)

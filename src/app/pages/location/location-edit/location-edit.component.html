@@ -2,7 +2,7 @@
 
 <ng-container *ngIf="loc">
     <p class="weak-text">Last updated: {{timeUpdated}}</p>
-    <app-location-form [loc]="loc"></app-location-form>
+    <app-location-form [loc]="loc" [disableRadioBtn]="true"></app-location-form>
 </ng-container>
 
 <button class="submit-btn" (click)="updateLoc()" type="submit" mat-raised-button color="primary">
