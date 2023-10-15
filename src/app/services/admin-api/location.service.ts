@@ -107,7 +107,7 @@ export class LocationService {
    * @param id number
    */
   deleteLoc(id: number) {
-    this.http.delete<Location>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.ORGANIZATIONS_PATH}${id}`)
+    this.http.delete<Location>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}${id}`)
     .subscribe({
       error: error => {
         throw new Error('Failed to delete location', error)
