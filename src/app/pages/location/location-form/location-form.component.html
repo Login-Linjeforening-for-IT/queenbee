@@ -19,21 +19,22 @@
       </mat-form-field>
 
       <label id="example-radio-group-label">Select location type:</label>
-      <p class="weak-text" *ngIf="locationForm.value.type === 'Address' || locationForm.value.type === 'Mazemap' || locationForm.value.type === 'Coordinate'">
-        (Changing type will clear location type data.)
+      <p class="weak-text" *ngIf="locationForm.value.type === 'address' || locationForm.value.type === 'mazemap' || locationForm.value.type === 'coords'">
+        (Changing type will clear the location-type data below.)
       </p>
       <mat-radio-group
         aria-labelledby="example-radio-group-label"
-        class="example-radio-group"
         formControlName="type"
         (ngModelChange)="onTypeChange()">
-        <mat-radio-button class="example-radio-button" *ngFor="let t of types" [value]="t">
-          {{t}}
-        </mat-radio-button>
+        <!-- Hardcoded radio button value types. Acceptable because they are unlikely to be changed, and if so easy to refactor -->
+        <mat-radio-button [value]="'none'">None</mat-radio-button>
+        <mat-radio-button [value]="'address'">Address</mat-radio-button>
+        <mat-radio-button [value]="'mazemap'">MazeMap</mat-radio-button>
+        <mat-radio-button [value]="'coords'">Coordinates</mat-radio-button>
       </mat-radio-group>
     </div>
 
-    <div class="block map-block" *ngIf="locationForm.value.type == 'Mazemap'">
+    <div class="block map-block" *ngIf="locationForm.value.type == 'mazemap'">
       <h2>MazeMap</h2>
 
       <div class="map-input">
@@ -53,7 +54,7 @@
       </div>
     </div>
 
-    <div class="block" *ngIf="locationForm.value.type == 'Address'">
+    <div class="block" *ngIf="locationForm.value.type == 'address'">
       <h2>Address</h2>
       <mat-form-field class="row">
         <input matInput formControlName="address_street">
@@ -71,7 +72,7 @@
       </mat-form-field>
     </div>
 
-    <div class="block map-block" *ngIf="locationForm.value.type == 'Coordinate'">
+    <div class="block map-block" *ngIf="locationForm.value.type == 'coords'">
       <h2>Coordinate</h2>
 
       <div class="map-input">

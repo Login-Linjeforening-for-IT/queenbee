@@ -45,4 +45,18 @@ export class LocationService {
         })
       );
   }
+
+  createLocation(loc: Location): Observable<Location> {
+    return this.http
+      .post<Location>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}`, loc)
+      .pipe(
+        map(resData => {
+          if (resData) {
+            const newLoc: Location = resData;
+            return newLoc;
+          }
+          throw new Error('Failed to create event');
+        })
+      );
+  } 
 }

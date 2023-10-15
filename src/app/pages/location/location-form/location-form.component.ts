@@ -6,7 +6,6 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
   templateUrl: './location-form.component.html',
   styleUrls: ['./location-form.component.css']
 })
-
 /**
  * The 'LocationFormComponent' is the form used to manipulate all locations.
  *
@@ -17,8 +16,6 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
  */
 export class LocationFormComponent {
   locationForm!: FormGroup;
-
-  types: string[] = ['Default', 'Mazemap', 'Address', 'Coordinate'];
 
   constructor(
     private fb: FormBuilder
@@ -32,18 +29,22 @@ export class LocationFormComponent {
     this.clearTypes();
   }
 
+  getFormValues() {
+    return this.locationForm.value;
+  }
+
   private initForm() {
     this.locationForm = this.fb.group({
       name_no: ['', Validators.required],
       name_en: '',
-      type: 'Mazemap',
-      mazemap_campus_id: '',
-      mazemap_poi_id: '',
+      type: 'none',
+      mazemap_campus_id: 0,
+      mazemap_poi_id: 0,
       address_street: '',
-      address_postcode: '',
+      address_postcode: 0,
       city_name: '',
-      coordinate_lat: '',
-      coordinate_long: '',
+      coordinate_lat: 0,
+      coordinate_long: 0,
       url: ''
     });
 
@@ -54,13 +55,13 @@ export class LocationFormComponent {
 
   private clearTypes() {
     this.locationForm.patchValue({
-      mazemap_campus_id: '',
-      mazemap_poi_id: '',
+      mazemap_campus_id: 0,
+      mazemap_poi_id: 0,
       address_street: '',
-      address_postcode: '',
+      address_postcode: 0,
       city_name: '',
-      coordinate_lat: '',
-      coordinate_long: '',
+      coordinate_lat: 0,
+      coordinate_long: 0,
       url: ''
     });
   }
