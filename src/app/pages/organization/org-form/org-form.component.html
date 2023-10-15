@@ -1,6 +1,8 @@
 <form [formGroup]="orgForm" class="form">
     <div class="block">
         <h2>General Information</h2>
+        
+        <p *ngIf="disableShortnameInput" class="weak-text">(Shortname cannot be changed, because it's a PK.)</p>
         <mat-form-field class="row">
             <input matInput formControlName="shortname" required>
             <mat-label>Shortname</mat-label>
