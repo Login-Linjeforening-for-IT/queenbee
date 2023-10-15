@@ -16,7 +16,6 @@ import { ErrorComponent } from 'src/app/components/dialog/error/error.component'
 })
 export class OrgEditComponent {
   @ViewChild(OrgFormComponent) orgFormComponent!: OrgFormComponent;
-  orgFormValues!: Organization;
 
   shortname!: string;
   org!: Organization;
