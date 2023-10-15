@@ -13,6 +13,44 @@ export class LocationService {
   constructor(private http: HttpClient) { }
 
   /**
+   * The 'fetchLocation' function is used to fetch a location by a given ID.
+   * @param locID number, ID to fetch
+   * @returns Location
+   */
+  fetchLocation(locID: number): Observable<Location> {
+    return this.http
+      .get<Location>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}${locID}`)
+      .pipe(
+        map(loc => {
+          if (loc) {
+            return loc;
+          } else {
+            throw new Error('Location not found');
+          }
+        })
+      );
+  }
+
+  /**
+   * The 'patchLoc' function is used to patch a location.
+   * @param loc Location to update to
+   * @returns Location
+   */
+  patchLoc(loc: Location) {
+    return this.http
+      .patch<Location>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}`, loc)
+      .pipe(
+        map(resData => {
+          if(resData) {
+            const newLoc: Location = resData;
+            return newLoc;
+          }
+          throw new Error('Failed to patch location')
+        })
+      )
+  }
+
+  /**
    * Returns all organizations
    * @returns Organization array
    */
@@ -46,6 +84,10 @@ export class LocationService {
       );
   }
 
+  /**
+   * The 'createLocation' functions creates a new location.
+   * @param loc Location
+   */
   createLocation(loc: Location): Observable<Location> {
     return this.http
       .post<Location>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}`, loc)
@@ -58,5 +100,18 @@ export class LocationService {
           throw new Error('Failed to create event');
         })
       );
-  } 
+  }
+
+  /**
+   * The 'deleteLoc' function deletes the location by the given id.
+   * @param id number
+   */
+  deleteLoc(id: number) {
+    this.http.delete<Location>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.ORGANIZATIONS_PATH}${id}`)
+    .subscribe({
+      error: error => {
+        throw new Error('Failed to delete location', error)
+      }
+    });
+  }
 }

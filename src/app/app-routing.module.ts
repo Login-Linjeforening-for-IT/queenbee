@@ -19,6 +19,7 @@ import { RuleCopyComponent } from "./pages/rule/rule-copy/rule-copy.component";
 import { RuleEditComponent } from "./pages/rule/rule-edit/rule-edit.component";
 import { OrgNewComponent } from "./pages/organization/org-new/org-new.component";
 import { OrgEditComponent } from "./pages/organization/org-edit/org-edit.component";
+import { LocationEditComponent } from "./pages/location/location-edit/location-edit.component";
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -36,7 +37,7 @@ const routes: Routes = [
   { path: 'organizations/edit/:id', component: OrgEditComponent, pathMatch: 'full'},
   { path: 'locations', component: LocationsComponent, pathMatch: 'full'},
   { path: 'locations/new', component: LocationNewComponent, pathMatch: 'full'},
-  { path: 'locations/edit/:id', component: LocationNewComponent, pathMatch: 'full'},
+  { path: 'locations/edit/:id', component: LocationEditComponent, pathMatch: 'full'},
   { path: 'rules', component: RulesComponent, pathMatch: 'full'},
   { path: 'rules/new', component: RuleNewComponent, pathMatch: 'full'},
   { path: 'rules/edit/:id', component: RuleEditComponent, pathMatch: 'full'},

@@ -71,6 +71,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { OrgFormComponent } from './pages/organization/org-form/org-form.component';
 import { OrgNewComponent } from './pages/organization/org-new/org-new.component';
 import { OrgEditComponent } from './pages/organization/org-edit/org-edit.component';
+import { LocationEditComponent } from './pages/location/location-edit/location-edit.component';
 
 @NgModule({
   declarations: [
@@ -115,6 +116,7 @@ import { OrgEditComponent } from './pages/organization/org-edit/org-edit.compone
     OrgFormComponent,
     OrgNewComponent,
     OrgEditComponent,
+    LocationEditComponent,
   ],
     imports: [
         BrowserModule,
