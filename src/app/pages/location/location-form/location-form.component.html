@@ -45,7 +45,7 @@
       </mat-radio-group>
     </div>
 
-    <div class="block map-block" *ngIf="locationForm.value.type === 'mazemap' || this.loc.type === 'mazemap'">
+    <div class="block map-block" *ngIf="locationForm.value.type === 'mazemap' || this.loc?.type === 'mazemap'">
       <h2>MazeMap</h2>
 
       <div class="map-input">
@@ -65,7 +65,7 @@
       </div>
     </div>
 
-    <div class="block" *ngIf="locationForm.value.type === 'address' || this.loc.type === 'address'">
+    <div class="block" *ngIf="locationForm.value.type === 'address' || this.loc?.type === 'address'">
       <h2>Address</h2>
       <mat-form-field class="row">
         <input matInput formControlName="address_street">
@@ -83,7 +83,7 @@
       </mat-form-field>
     </div>
 
-    <div class="block map-block" *ngIf="locationForm.value.type === 'coords' || this.loc.type === 'coords'">
+    <div class="block map-block" *ngIf="locationForm.value.type === 'coords' || this.loc?.type === 'coords'">
       <h2>Coordinate</h2>
 
       <div class="map-input">
