@@ -41,8 +41,9 @@ export class EventService {
         map(resData => {
           const eventsArray: EventTableItem[] = [];
           for (const id in resData) {
-            if (resData.hasOwnProperty(id)) {
-              const eventShort: EventShort = resData[id];
+            const eventShort: EventShort = resData[id];
+
+            if (eventShort && !eventShort.is_deleted) {
               const event: EventTableItem = {
                 id: eventShort.id,
                 visible: eventShort.visible,
@@ -134,5 +135,18 @@ export class EventService {
           throw new Error('Failed to patch event');
         })
       );
+  }
+
+  /**
+   * The 'deleteEvent' function deletes the event given by the id.
+   * @param id number
+   */
+  deleteEvent(id: number) {
+    this.http.delete<FullEvent>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}${id}`)
+    .subscribe({
+      error: error => {
+        throw new Error('Failed to delete event', error)
+      }
+    });
   }
 }

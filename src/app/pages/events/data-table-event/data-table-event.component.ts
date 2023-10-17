@@ -64,6 +64,7 @@ export class DataTableEventComponent implements OnInit, AfterViewInit {
     this.scrollToTop.emit();
 
     const dialogRef = this.dialog.open(ConfirmComponent, {
+      
       data: {
         details: 'This will permanently delete the event with id: ' + id,
       },
@@ -71,6 +72,8 @@ export class DataTableEventComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        this.eventsService.deleteEvent(id);
+
         this.dataSource.deleteItem(id);
         this.dataSource.refresh();
       }
