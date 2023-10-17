@@ -7,6 +7,7 @@ import { AudienceService } from 'src/app/services/admin-api/audience.service';
 import { CategoryService } from 'src/app/services/admin-api/category.service';
 import { LocationService } from 'src/app/services/admin-api/location.service';
 import { OrganizationService } from 'src/app/services/admin-api/organizations.service';
+import { RulesService } from 'src/app/services/admin-api/rules.service';
 import { convertToRFC3339, isDatetimeUnset } from 'src/app/utils/time';
 
 @Component({
@@ -28,6 +29,7 @@ export class EventFormComponent implements OnInit{
   categories: Category[] = [];
   organizations: OrgTableItem[] = [];
   locations: DropDownItem[] = [];
+  rules: DropDownItem[] = [];
 
   fetchedEvent$!: Observable<FullEvent>;
 
@@ -40,12 +42,15 @@ export class EventFormComponent implements OnInit{
   filteredOrgs!: Observable<OrgTableItem[]>;
   autoControlLocs = new FormControl<string | DropDownItem>('');
   filteredLocs!: Observable<DropDownItem[]>;
+  autoControlRules = new FormControl<string | DropDownItem>('');
+  filteredRules!: Observable<DropDownItem[]>;
 
   constructor(
     private fb: FormBuilder,
     private categoryService: CategoryService,
     private orgService: OrganizationService,
     private locService: LocationService,
+    private ruleService: RulesService
   ) {}
 
   ngOnInit() {
@@ -54,6 +59,7 @@ export class EventFormComponent implements OnInit{
     this.fetchCategories();
     this.fetchOrganizations();
     this.fetchLocations();
+    this.fetchRules();
 
     if (this.fe.event) {
       this.updateFormFields();
@@ -130,6 +136,13 @@ export class EventFormComponent implements OnInit{
     return ''
   }
 
+  displayRuleFn(rule: DropDownItem): string {
+    if(rule) {
+      return rule.name
+    }
+    return ''
+  }
+
   /**
    * Initialize the form, alongside corresponding validators
    */
@@ -158,7 +171,8 @@ export class EventFormComponent implements OnInit{
       link_stream: '',
       category: ['', Validators.required],
       organization: ['', Validators.required],
-      location: ['', Validators.required],
+      location: [''],
+      rule: [''],
       audience: []
     });
 
@@ -196,6 +210,14 @@ export class EventFormComponent implements OnInit{
       })
     );
 
+    this.filteredRules = this.autoControlRules.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const viewValue = typeof value === 'string' ? value : value?.name;
+        return viewValue ? this._filterRules(viewValue as string) : this.rules.slice();
+      })
+    );
+
     this.autoControlOrgs.valueChanges.subscribe(value => {
       if (value && typeof value === 'object') {
         this.eventForm.get('organization')?.setValue(value.id);
@@ -217,6 +239,14 @@ export class EventFormComponent implements OnInit{
         this.eventForm.get('location')?.setValue(value.id);
       } else {
         this.eventForm.get('location')?.setValue(value);
+      }
+    });
+
+    this.autoControlRules.valueChanges.subscribe(value => {
+      if (value && typeof value === 'object') {
+        this.eventForm.get('rule')?.setValue(value.id);
+      } else {
+        this.eventForm.get('rule')?.setValue(value);
       }
     });
   }
@@ -280,6 +310,13 @@ export class EventFormComponent implements OnInit{
     });
   }
 
+  private fetchRules() {
+    this.ruleService.fetchDropDown().subscribe((r: DropDownItem[]) => {
+      console.log(r)
+      this.rules = r;
+    });
+  }
+
   // Function for filtering category dropdown
   private _filterCategories(value: string): Category[] {
     const filterValue = value.toLowerCase();
@@ -303,6 +340,14 @@ export class EventFormComponent implements OnInit{
     return this.locations.filter(loc =>
       loc.name.toLowerCase().includes(filterValue) ||
       loc.details.toLowerCase().includes(filterValue)
+    );
+  }
+
+  // Function for filtering rule dropdown
+  private _filterRules(value: string): DropDownItem[] {
+    const filterValue = value.toLowerCase();
+    return this.rules.filter(rule =>
+      rule.name.toLowerCase().includes(filterValue)
     );
   }
 }

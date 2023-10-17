@@ -143,10 +143,30 @@
               </div>
             </mat-option>
           </mat-autocomplete>
+        </mat-form-field>
+      </div>
 
-          <mat-error *ngIf="eventForm.controls['location'].hasError('required')">
-            This field is <strong>required</strong>
-          </mat-error>
+      <!-- Drop Down menu with Autocomplete capabitities for rules -->
+      <div *ngIf="rules.length > 0">
+        <mat-form-field class="dd">
+          <mat-label>Rule</mat-label>
+          <input
+            type="text"
+            matInput
+            [formControl]="autoControlRules"
+            [matAutocomplete]="autoRule"
+            />
+            
+          <mat-autocomplete autoActiveFirstOption #autoRule="matAutocomplete" [displayWith]="displayRuleFn">
+            <mat-option
+              *ngFor="let r of filteredRules | async"
+              [value]="r"
+            >
+              <div class="dropdown-item">
+                <span>{{ r.name }}</span>
+              </div>
+            </mat-option>
+          </mat-autocomplete>
         </mat-form-field>
       </div>
 

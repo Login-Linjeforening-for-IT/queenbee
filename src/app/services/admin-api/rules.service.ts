@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { BeehiveAPI } from 'src/app/config/constants';
-import { Rule, RulesTableItem } from 'src/app/models/dataInterfaces.model';
+import { DropDownItem, Rule, RulesTableItem } from 'src/app/models/dataInterfaces.model';
 
 @Injectable({
   providedIn: 'root'
@@ -57,6 +57,36 @@ export class RulesService {
             // Return an empty array if resData is falsy
             return [];
           }
+        })
+      );
+  }
+
+  /**
+   * The function 'fetchDropDown' returns an array of Rule objects tailored for dropdown menu.
+   * @returns Observable<DropDownItem[]>
+   */
+  fetchDropDown(): Observable<DropDownItem[]> {
+    return this.http
+      .get<{ [id: number]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.RULES_PATH}`)
+      .pipe(
+        map(resData => {
+          const ruleArray: DropDownItem[] = [];
+          
+          for (const i in resData) {
+            const resObj: Rule = resData[i]
+            
+            if(!resObj.is_deleted) { // Ignore soft-deleted objects
+              const ddItem: DropDownItem = {
+                id: resObj.id,
+                name: resObj.name_en || resObj.name_no, // Set name to name_en if it exists, else set to name_no
+                details: '',
+              }
+  
+              ruleArray.push(ddItem);
+            }   
+          };
+        
+          return ruleArray;
         })
       );
   }
