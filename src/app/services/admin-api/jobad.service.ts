@@ -44,25 +44,40 @@ export class JobadService {
           for (const shortname in resData) {
             const jobShort: JobadShort = resData[shortname]
             
-            const job: JobadTableItem = {
-              id: jobShort.id,
-              title: jobShort.title_en || jobShort.title_no, 
-              position_title: jobShort.position_title_en || jobShort.position_title_no,
-              job_type: jobShort.job_type,
-              time_publish: convertFromRFC3339(jobShort.time_publish),
-              application_deadline: convertFromRFC3339(jobShort.application_deadline),
-              application_url: jobShort.application_url,
-              updated_at: convertFromRFC3339(jobShort.updated_at),
-              visible: jobShort.visible,
-              deleted_at: jobShort.deleted_at,
-              is_deleted: jobShort.is_deleted,
-              company_name: jobShort.name_en || jobShort.name_no 
-            };
-
-            jobArray.push(job);
+            if(jobShort && !jobShort.is_deleted) {
+              const job: JobadTableItem = {
+                id: jobShort.id,
+                title: jobShort.title_en || jobShort.title_no, 
+                position_title: jobShort.position_title_en || jobShort.position_title_no,
+                job_type: jobShort.job_type,
+                time_publish: convertFromRFC3339(jobShort.time_publish),
+                application_deadline: convertFromRFC3339(jobShort.application_deadline),
+                application_url: jobShort.application_url,
+                updated_at: convertFromRFC3339(jobShort.updated_at),
+                visible: jobShort.visible,
+                deleted_at: jobShort.deleted_at,
+                is_deleted: jobShort.is_deleted,
+                company_name: jobShort.name_en || jobShort.name_no 
+              };
+  
+              jobArray.push(job);
+            }
           }
           return jobArray;
         })
       );
+  }
+
+  /**
+   * The 'deleteJobad' function deletes the jobad given by the id.
+   * @param id number
+   */
+  deleteJobad(id: number) {
+    this.http.delete<JobadDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}${id}`)
+    .subscribe({
+      error: error => {
+        throw new Error('Failed to delete job ad', error)
+      }
+    });
   }
 }
