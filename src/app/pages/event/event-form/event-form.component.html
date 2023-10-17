@@ -121,6 +121,36 @@
         </mat-form-field>
       </div>
 
+      <!-- Drop Down menu with Autocomplete capabitities for locations -->
+      <div *ngIf="locations.length > 0">
+        <mat-form-field class="dd">
+          <mat-label>Location</mat-label>
+          <input
+            type="text"
+            matInput
+            [formControl]="autoControlLocs"
+            [matAutocomplete]="autoLoc"
+            />
+            
+          <mat-autocomplete autoActiveFirstOption #autoLoc="matAutocomplete" [displayWith]="displayLocationFn">
+            <mat-option
+              *ngFor="let l of filteredLocs | async"
+              [value]="l"
+            >
+              <div class="dropdown-item">
+                <span>{{ l.name }}</span> | 
+                <small>{{ l.type }}</small> 
+                <small>{{ l.details }}</small>
+              </div>
+            </mat-option>
+          </mat-autocomplete>
+
+          <mat-error *ngIf="eventForm.controls['location'].hasError('required')">
+            This field is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
       <app-audience-selector 
         [title]="'Audiences'" 
         [placeholder]="'Select audience'"

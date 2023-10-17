@@ -38,6 +38,8 @@ export class EventFormComponent implements OnInit{
   filteredCats!: Observable<Category[]>;
   autoControlOrgs = new FormControl<string | OrgTableItem>('');
   filteredOrgs!: Observable<OrgTableItem[]>;
+  autoControlLocs = new FormControl<string | LocationDropDown>('');
+  filteredLocs!: Observable<LocationDropDown[]>;
 
   constructor(
     private fb: FormBuilder,
@@ -121,6 +123,13 @@ export class EventFormComponent implements OnInit{
     return ''
   }
 
+  displayLocationFn(location: LocationDropDown): string {
+    if(location) {
+      return location.name
+    }
+    return ''
+  }
+
   /**
    * Initialize the form, alongside corresponding validators
    */
@@ -149,6 +158,7 @@ export class EventFormComponent implements OnInit{
       link_stream: '',
       category: ['', Validators.required],
       organization: ['', Validators.required],
+      location: ['', Validators.required],
       audience: []
     });
 
@@ -178,6 +188,14 @@ export class EventFormComponent implements OnInit{
       })
     );
 
+    this.filteredLocs = this.autoControlLocs.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const viewValue = typeof value === 'string' ? value : value?.name;
+        return viewValue ? this._filterLocations(viewValue as string) : this.locations.slice();
+      })
+    );
+
     this.autoControlOrgs.valueChanges.subscribe(value => {
       if (value && typeof value === 'object') {
         this.eventForm.get('organization')?.setValue(value.id);
@@ -191,6 +209,14 @@ export class EventFormComponent implements OnInit{
         this.eventForm.get('category')?.setValue(value.id);
       } else {
         this.eventForm.get('category')?.setValue(value);
+      }
+    });
+
+    this.autoControlLocs.valueChanges.subscribe(value => {
+      if (value && typeof value === 'object') {
+        this.eventForm.get('location')?.setValue(value.id);
+      } else {
+        this.eventForm.get('location')?.setValue(value);
       }
     });
   }
@@ -268,6 +294,16 @@ export class EventFormComponent implements OnInit{
     const filterValue = value.toLowerCase();
     return this.organizations.filter(organization =>
       organization.name.toLowerCase().includes(filterValue)
+    );
+  }
+
+  // Function for filtering location dropdown
+  private _filterLocations(value: string): LocationDropDown[] {
+    const filterValue = value.toLowerCase();
+    return this.locations.filter(loc =>
+      loc.name.toLowerCase().includes(filterValue) ||
+      loc.type.toLowerCase().includes(filterValue) ||
+      loc.details.toLowerCase().includes(filterValue)
     );
   }
 }
