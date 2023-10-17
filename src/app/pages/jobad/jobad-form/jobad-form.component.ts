@@ -3,6 +3,7 @@ import { JobadConstants } from '../../pages.constants';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { JobadDetail } from 'src/app/models/dataInterfaces.model';
+import { convertToRFC3339 } from 'src/app/utils/time';
 
 @Component({
   selector: 'app-jobad-form',
@@ -44,12 +45,12 @@ export class JobadFormComponent {
     this.formValues.emit({fv: this.jobAdForm.value});
   }
 
-  onPublishChange(newVal: {dt: string}) {
-    this.jobAdForm.value.time_publish = newVal.dt;
+  onPublishChange(newVal: {dt: string} | null) {
+    newVal && this.jobAdForm.get('time_publish')?.setValue(convertToRFC3339(newVal.dt));
   }
 
-  onDeadlineChange(newVal: {dt: string}) {
-    this.jobAdForm.value.time_deadline = newVal.dt;
+  onDeadlineChange(newVal: {dt: string} | null) {
+    newVal && this.jobAdForm.get('time_deadline')?.setValue(convertToRFC3339(newVal.dt));
   }
 
   onDescriptionNoChange(newVal: { ht: string }) {

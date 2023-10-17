@@ -32,7 +32,7 @@ export class DatetimeComponent {
   @Input() isTimeRequired!: boolean;
   @Input() isDateRequired!: boolean;
   @Input() timeDisableable!: boolean;
-  @Output() newDatetime = new EventEmitter<{dt: string}>();
+  @Output() newDatetime = new EventEmitter<{dt: string} | null>();
 
   isTimeDisabled = false;
   minDate = new Date();
@@ -67,14 +67,20 @@ export class DatetimeComponent {
 
   // onValueChange emits value changes when it is called. It must be called whenever the user enters new data.
   onValueChange() {
-    const hour = this.timeForm.value.time.toString().slice(0,2);
-    const min = this.timeForm.value.time.toString().slice(3,5);
+    const hour = this.timeForm.value.time.toString().slice(0, 2);
+    const min = this.timeForm.value.time.toString().slice(3, 5);
 
     const datetime = new Date(this.timeForm.value.date);
     datetime.setHours(hour);
     datetime.setMinutes(min);
 
-    this.newDatetime.emit({dt: this.formatDate(datetime)})
+    if (!isNaN(datetime.getTime())) {
+      // Valid datetime
+      this.newDatetime.emit({ dt: this.formatDate(datetime) });
+    } else {
+      // Invalid datetime, emit null
+      this.newDatetime.emit(null);
+    }
   }
 
   // Triggered when the slide toggle is clicked. Function is used to reset the time value and to trigger the emit

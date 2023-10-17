@@ -75,24 +75,26 @@ export class EventFormComponent implements OnInit{
   }
 
   // The following functions is used to update various variables
-  onTimeStartChange(newVal: {dt: string}) {
-    this.eventForm.get('time_start')?.setValue(convertToRFC3339(newVal.dt));
+  onTimeStartChange(newVal: {dt: string} | null) {
+    newVal && this.eventForm.get('time_start')?.setValue(convertToRFC3339(newVal.dt));
+    this.updateTimeType();
   }
 
-  onTimeEndChange(newVal: {dt: string}) {
-      this.eventForm.get('time_end')?.setValue(convertToRFC3339(newVal.dt));
+  onTimeEndChange(newVal: {dt: string} | null) {
+    newVal && this.eventForm.get('time_end')?.setValue(convertToRFC3339(newVal.dt));
+    this.updateTimeType();
   }
 
-  onTimePublishChange(newVal: {dt: string}) {
-    this.eventForm.get('time_publish')?.setValue(convertToRFC3339(newVal.dt));
-}
-
-  onSignupReleaseChange(newVal: { dt: string }) {
-      this.eventForm.get('time_signup_release')?.setValue(convertToRFC3339(newVal.dt));
+  onTimePublishChange(newVal: {dt: string} | null) {
+    newVal && this.eventForm.get('time_publish')?.setValue(convertToRFC3339(newVal.dt));
   }
 
-  onSignupDeadlineChange(newVal: { dt: string }) {
-      this.eventForm.get('time_signup_deadline')?.setValue(convertToRFC3339(newVal.dt));
+  onSignupReleaseChange(newVal: { dt: string } | null) {
+    newVal && this.eventForm.get('time_signup_release')?.setValue(convertToRFC3339(newVal.dt));
+  }
+
+  onSignupDeadlineChange(newVal: { dt: string } | null) {
+    newVal && this.eventForm.get('time_signup_deadline')?.setValue(convertToRFC3339(newVal.dt));
   }
 
   onDescriptionNoChange(newVal: { ht: string }) {
@@ -154,8 +156,9 @@ export class EventFormComponent implements OnInit{
       description_en: '',
       info_no: '',
       info_en: '',
-      time_start: '',
-      time_end: '',
+      time_type: '',
+      time_start: null,
+      time_end: null,
       time_publish: '',
       time_signup_release: '',
       time_signup_deadline: '',
@@ -349,5 +352,13 @@ export class EventFormComponent implements OnInit{
     return this.rules.filter(rule =>
       rule.name.toLowerCase().includes(filterValue)
     );
+  }
+
+  private updateTimeType() {
+    console.log("Working...", this.eventForm.get('time_start'))
+    
+    if(this.eventForm.get('time_start')?.value) {
+      console.log('hit!!')
+    }
   }
 }
