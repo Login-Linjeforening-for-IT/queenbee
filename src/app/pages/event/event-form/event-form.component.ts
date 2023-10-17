@@ -275,7 +275,7 @@ export class EventFormComponent implements OnInit{
   }
 
   private fetchLocations() {
-    this.locService.fetchLocationsDropDown().subscribe((l: DropDownItem[]) => {
+    this.locService.fetchDropDown().subscribe((l: DropDownItem[]) => {
       this.locations = l;
     });
   }

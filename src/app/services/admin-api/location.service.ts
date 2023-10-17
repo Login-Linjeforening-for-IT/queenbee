@@ -88,7 +88,7 @@ export class LocationService {
    * The function 'fetchLocationsDropDown' returns an array of Location objects tailored for dropdown menu.
    * @returns Observable<LocationDropDown[]>
    */
-  fetchLocationsDropDown(): Observable<DropDownItem[]> {
+  fetchDropDown(): Observable<DropDownItem[]> {
     return this.http
       .get<{ [id: number]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}`)
       .pipe(
