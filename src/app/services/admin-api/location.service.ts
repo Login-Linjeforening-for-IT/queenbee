@@ -85,8 +85,8 @@ export class LocationService {
   }
 
   /**
-   * The function 'fetchLocationsDropDown' returns an array of Location objects tailored for dropdown menu.
-   * @returns Observable<LocationDropDown[]>
+   * The function 'fetchDropDown' returns an array of Location objects tailored for dropdown menu.
+   * @returns Observable<DropDownItem[]>
    */
   fetchDropDown(): Observable<DropDownItem[]> {
     return this.http
