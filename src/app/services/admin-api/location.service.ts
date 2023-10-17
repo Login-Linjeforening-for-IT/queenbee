@@ -114,7 +114,7 @@ export class LocationService {
                 loc.type = 'MAZE';
                 loc.details = resObj.mazemap_poi_id.toString();
                 break;
-              case 'address':
+              case 'coords':
                 loc.type = 'COORDS';
                 loc.details = resObj.coordinate_lat.toFixed(4).toString() + ', ' + resObj.coordinate_long.toFixed(4).toString();
                 break;
