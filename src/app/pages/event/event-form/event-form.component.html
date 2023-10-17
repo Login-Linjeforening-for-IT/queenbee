@@ -44,17 +44,19 @@
       
      
       <app-datetime 
-        (newDatetime)=onTimeStartChange($event) 
+        (newDatetime)=onTimeStartChange($event)
+        (timeToggeled)="onTimeStartToggle($event)" 
         [dateLabel]="'Start Date'" 
         [timeLabel]="'Start Time'"
         [isDateRequired]="true"
         [isTimeRequired]="true" 
-        [timeDisableable]="true" 
+        [timeDisableable]="true"
         [value]="eventForm.get('time_start')?.value">
       </app-datetime>
 
       <app-datetime 
-        (newDatetime)=onTimeEndChange($event) 
+        (newDatetime)=onTimeEndChange($event)
+        (timeToggeled)="onTimeEndToggle($event)" 
         [dateLabel]="'End Date'" 
         [timeLabel]="'End Time'"
         [isDateRequired]="true"

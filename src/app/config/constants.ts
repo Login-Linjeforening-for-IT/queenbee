@@ -10,7 +10,9 @@ export const BeehiveAPI = {
     LOCATIONS_PATH: '/locations/',
 
     SECRET: 'secret', // Cosmic secret, quite strong password
+}
 
+export const TIME = {
     TIME_UNSET: '0001-01-01T00:00:00Z',
     TIME_UNSET_START: '00:00:01',
     TIME_UNSET_END: '23:59:59'

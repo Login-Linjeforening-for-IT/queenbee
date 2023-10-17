@@ -33,8 +33,8 @@ export class DatetimeComponent {
   @Input() isDateRequired!: boolean;
   @Input() timeDisableable!: boolean;
   @Output() newDatetime = new EventEmitter<{dt: string} | null>();
+  @Output() timeToggeled = new EventEmitter<{td: boolean}>();
 
-  isTimeDisabled = false;
   minDate = new Date();
 
   timeForm!: FormGroup;  // FormGroup where the actual form values from the html is stored.
@@ -61,35 +61,23 @@ export class DatetimeComponent {
     // Set date and time value
     this.timeForm = this.fb.group({
       date: inputDate? inputDate : "",
-      time: inputTime? inputTime : ""
+      time: inputTime? inputTime : "",
+      isTimeDisabled: false
+    })
+
+    // Toggle button needs special treatment...
+    this.timeForm.get('isTimeDisabled')?.valueChanges.subscribe(() => {
+      this.onValueChange();
     })
   }
 
-  // onValueChange emits value changes when it is called. It must be called whenever the user enters new data.
   onValueChange() {
-    const hour = this.timeForm.value.time.toString().slice(0, 2);
-    const min = this.timeForm.value.time.toString().slice(3, 5);
-
-    const datetime = new Date(this.timeForm.value.date);
-    datetime.setHours(hour);
-    datetime.setMinutes(min);
-
-    if (!isNaN(datetime.getTime())) {
-      // Valid datetime
-      this.newDatetime.emit({ dt: this.formatDate(datetime) });
-    } else {
-      // Invalid datetime, emit null
-      this.newDatetime.emit(null);
+    if(this.timeForm.get('isTimeDisabled')?.value) {
+      this.clearTime();
     }
-  }
 
-  // Triggered when the slide toggle is clicked. Function is used to reset the time value and to trigger the emit
-  // function onValueChange().
-  onTimeToggle() {
-    if (this.isTimeDisabled) {
-      this.timeForm.get('time')?.setValue('');
-      this.onValueChange();
-    }
+    this.emitDatetime();
+    this.emitDisabledTimeStatus();
   }
 
   // formatDate formats the date to string on the format YYYY-MM-DD HH:mm:ss
@@ -110,7 +98,33 @@ export class DatetimeComponent {
   }
 
   // Helper function for formatDate
-  padTo2Digits(num: number) {
+  private padTo2Digits(num: number) {
     return num.toString().padStart(2, '0');
+  }
+
+  private clearTime() {
+    this.timeForm.get('time')?.setValue('');
+  }
+
+  private emitDatetime() {
+    const hour = this.timeForm.value.time.toString().slice(0, 2);
+    const min = this.timeForm.value.time.toString().slice(3, 5);
+
+    const datetime = new Date(this.timeForm.value.date);
+    datetime.setHours(hour);
+    datetime.setMinutes(min);
+
+    if (!isNaN(datetime.getTime())) {
+      // Valid datetime
+      this.newDatetime.emit({ dt: this.formatDate(datetime) });
+    } else {
+      // Invalid datetime, emit null
+      this.newDatetime.emit(null);
+    }
+  }
+
+  private emitDisabledTimeStatus() {
+    this.timeToggeled.emit({td: this.timeForm.get('isTimeDisabled')?.value})
+    console.log("Change: ", this.timeForm.value)
   }
 }

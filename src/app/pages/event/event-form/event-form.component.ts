@@ -2,13 +2,14 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 import { NoDecimalValidator } from 'src/app/common/validators';
+import { TIME, TIME_TYPE } from 'src/app/config/constants';
 import { Audience, AudienceChip, Category, FullEvent, DropDownItem, OrgTableItem } from 'src/app/models/dataInterfaces.model';
 import { AudienceService } from 'src/app/services/admin-api/audience.service';
 import { CategoryService } from 'src/app/services/admin-api/category.service';
 import { LocationService } from 'src/app/services/admin-api/location.service';
 import { OrganizationService } from 'src/app/services/admin-api/organizations.service';
 import { RulesService } from 'src/app/services/admin-api/rules.service';
-import { convertToRFC3339, isDatetimeUnset } from 'src/app/utils/time';
+import { convertToRFC3339, getTime, isDatetimeUnset } from 'src/app/utils/time';
 
 @Component({
   selector: 'app-event-form',
@@ -30,6 +31,9 @@ export class EventFormComponent implements OnInit{
   organizations: OrgTableItem[] = [];
   locations: DropDownItem[] = [];
   rules: DropDownItem[] = [];
+
+  isStartTimeDisabled!: boolean;
+  isEndTimeDisabled!: boolean;
 
   fetchedEvent$!: Observable<FullEvent>;
 
@@ -80,8 +84,18 @@ export class EventFormComponent implements OnInit{
     this.updateTimeType();
   }
 
+  onTimeStartToggle(newVal: {td: boolean}) {
+    this.isStartTimeDisabled = newVal.td;
+    this.updateTimeType();
+  }
+
   onTimeEndChange(newVal: {dt: string} | null) {
     newVal && this.eventForm.get('time_end')?.setValue(convertToRFC3339(newVal.dt));
+    this.updateTimeType();
+  }
+
+  onTimeEndToggle(newVal: {td: boolean}) {
+    this.isEndTimeDisabled = newVal.td;
     this.updateTimeType();
   }
 
@@ -98,11 +112,11 @@ export class EventFormComponent implements OnInit{
   }
 
   onDescriptionNoChange(newVal: { ht: string }) {
-      this.eventForm.get('description_no')?.setValue(newVal.ht);
+    this.eventForm.get('description_no')?.setValue(newVal.ht);
   }
 
   onDescriptionEnChange(newVal: { ht: string }) {
-      this.eventForm.get('description_en')?.setValue(newVal.ht);
+    this.eventForm.get('description_en')?.setValue(newVal.ht);
   }
 
   onImageBannerChange(newVal: {val: string}) {
@@ -315,7 +329,6 @@ export class EventFormComponent implements OnInit{
 
   private fetchRules() {
     this.ruleService.fetchDropDown().subscribe((r: DropDownItem[]) => {
-      console.log(r)
       this.rules = r;
     });
   }
@@ -355,10 +368,19 @@ export class EventFormComponent implements OnInit{
   }
 
   private updateTimeType() {
-    console.log("Working...", this.eventForm.get('time_start'))
-    
-    if(this.eventForm.get('time_start')?.value) {
-      console.log('hit!!')
+    const start = this.eventForm.get('time_start')?.value;
+    const end = this.eventForm.get('time_end')?.value;
+
+    console.log('start: ', this.isStartTimeDisabled, ' end: ', this.isEndTimeDisabled)
+
+    if(start && end) {
+      if(this.isStartTimeDisabled && this.isEndTimeDisabled) {
+        this.eventForm.get('time_type')?.setValue(TIME_TYPE.WHOLE_DAY);
+      } else if(this.isEndTimeDisabled) {
+        this.eventForm.get('time_type')?.setValue(TIME_TYPE.NO_END);
+      } else {
+        this.eventForm.get('time_type')?.setValue(TIME_TYPE.DEFAULT);
+      }
     }
   }
 }
