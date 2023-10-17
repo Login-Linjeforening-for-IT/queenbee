@@ -70,7 +70,7 @@
         [value]="eventForm.get('time_publish')?.value">
       </app-datetime>
     
-
+      <!-- Drop Down menu with Autocomplete capabitities for categories -->
       <div *ngIf="categories.length > 0">
         <mat-form-field class="dd">
           <mat-label>Category</mat-label>
@@ -86,6 +86,14 @@
               *ngFor="let o of filteredCats | async"
               [value]="o"
             >
+              <div 
+                [style.width.px]="16" 
+                [style.height.px]="16" 
+                [style.border-radius]="'50%'" 
+                [style.display]="'inline-block'" 
+                [style.margin-right.px]="6" 
+                [style.background-color]="'#' + o.color">
+              </div>
               {{ o.name_en || o.name_no }}
             </mat-option>
           </mat-autocomplete>
@@ -96,6 +104,7 @@
         </mat-form-field>
       </div>
 
+      <!-- Drop Down menu with Autocomplete capabitities for organizations -->
       <div *ngIf="organizations.length > 0">
         <mat-form-field class="dd">
           <mat-label>Organization</mat-label>
