@@ -231,3 +231,13 @@ main {
     --mdc-snackbar-supporting-text-color: var(--color-info-light);
   }
 }
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  white-space: nowrap; /* Prevents '-' characters in filenames from screwing up the list */
+}
+
+.dropdown-item * {
+  margin: 0.2rem;
+}
