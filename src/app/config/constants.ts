@@ -11,5 +11,15 @@ export const BeehiveAPI = {
 
     SECRET: 'secret', // Cosmic secret, quite strong password
 
-    TIME_UNSET: '0001-01-01T00:00:00Z'
+    TIME_UNSET: '0001-01-01T00:00:00Z',
+    TIME_UNSET_START: '00:00:01',
+    TIME_UNSET_END: '23:59:59'
 }
+
+export const TIME_TYPE = {
+    DEFAULT: 'default',
+    NO_END: 'no_end',
+    WHOLE_DAY: 'whole_day',
+    TO_BE_DETERMINED: 'tbd'
+  } as const;
+  
