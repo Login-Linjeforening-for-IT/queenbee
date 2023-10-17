@@ -243,6 +243,13 @@ export interface Location {
   deleted_at: string;
 }
 
+export interface LocationDropDown {
+  id: number;
+  name: string;
+  details: string;
+  type: string;
+}
+
 export interface Category {
   id: number;
   color: string;
