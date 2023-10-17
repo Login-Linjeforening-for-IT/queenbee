@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { BeehiveAPI } from 'src/app/config/constants';
-import { Location, LocationTableItem } from 'src/app/models/dataInterfaces.model';
+import { Location, LocationDropDown, LocationTableItem } from 'src/app/models/dataInterfaces.model';
 import { convertFromRFC3339 } from 'src/app/utils/time';
 
 @Injectable({
@@ -51,8 +51,8 @@ export class LocationService {
   }
 
   /**
-   * Returns all organizations
-   * @returns Organization array
+   * Returns all locations
+   * @returns Location array
    */
   fetchLocations(type: string): Observable<LocationTableItem[]> {
     return this.http
@@ -79,6 +79,55 @@ export class LocationService {
 
             locArray.push(loc);
           }
+          return locArray;
+        })
+      );
+  }
+
+  /**
+   * The function 'fetchLocationsDropDown' returns an array of Location objects tailored for dropdown menu.
+   * @returns Observable<LocationDropDown[]>
+   */
+  fetchLocationsDropDown(): Observable<LocationDropDown[]> {
+    return this.http
+      .get<{ [id: number]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}`)
+      .pipe(
+        map(resData => {
+          const locArray: LocationDropDown[] = [];
+          
+          for (const i in resData) {
+            const resObj: Location = resData[i]
+            
+            const loc: LocationDropDown = {
+              id: resObj.id,
+              name: resObj.name_en || resObj.name_no, // Set name to name_en if it exists, else set to name_no
+              type: '',
+              details: '',
+            }
+
+            switch (resObj.type) {
+              case 'address':
+                loc.type = 'ADDRESS';
+                loc.details = resObj.address_street;
+                break;
+              case 'mazemap':
+                loc.type = 'MAZE';
+                loc.details = resObj.mazemap_poi_id.toString();
+                break;
+              case 'address':
+                loc.type = 'COORDS';
+                loc.details = resObj.coordinate_lat.toFixed(4).toString() + ', ' + resObj.coordinate_long.toFixed(4).toString();
+                break;
+            
+              default:
+                loc.type = 'NONE';
+                loc.details = '';
+                break;
+            }
+
+            locArray.push(loc);   
+          };
+        
           return locArray;
         })
       );

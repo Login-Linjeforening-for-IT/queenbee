@@ -2,9 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 import { NoDecimalValidator } from 'src/app/common/validators';
-import { Audience, AudienceChip, Category, FullEvent, OrgTableItem } from 'src/app/models/dataInterfaces.model';
+import { Audience, AudienceChip, Category, FullEvent, LocationDropDown, OrgTableItem } from 'src/app/models/dataInterfaces.model';
 import { AudienceService } from 'src/app/services/admin-api/audience.service';
 import { CategoryService } from 'src/app/services/admin-api/category.service';
+import { LocationService } from 'src/app/services/admin-api/location.service';
 import { OrganizationService } from 'src/app/services/admin-api/organizations.service';
 import { convertToRFC3339, isDatetimeUnset } from 'src/app/utils/time';
 
@@ -26,6 +27,7 @@ export class EventFormComponent implements OnInit{
 
   categories: Category[] = [];
   organizations: OrgTableItem[] = [];
+  locations: LocationDropDown[] = [];
 
   fetchedEvent$!: Observable<FullEvent>;
 
@@ -41,6 +43,7 @@ export class EventFormComponent implements OnInit{
     private fb: FormBuilder,
     private categoryService: CategoryService,
     private orgService: OrganizationService,
+    private locService: LocationService,
   ) {}
 
   ngOnInit() {
@@ -48,6 +51,7 @@ export class EventFormComponent implements OnInit{
     this.initDropdownControls();
     this.fetchCategories();
     this.fetchOrganizations();
+    this.fetchLocations();
 
     if (this.fe.event) {
       this.updateFormFields();
@@ -241,6 +245,12 @@ export class EventFormComponent implements OnInit{
   private fetchOrganizations() {
     this.orgService.fetchOrganizations().subscribe((o: OrgTableItem[]) => {
       this.organizations = o;
+    });
+  }
+
+  private fetchLocations() {
+    this.locService.fetchLocationsDropDown().subscribe((l: LocationDropDown[]) => {
+      this.locations = l;
     });
   }
 
