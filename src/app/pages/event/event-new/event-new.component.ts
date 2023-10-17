@@ -5,6 +5,9 @@ import { FullEvent } from 'src/app/models/dataInterfaces.model';
 import { EventService } from 'src/app/services/admin-api/event.service';
 import { EventFormComponent } from '../event-form/event-form.component';
 import { scrollToTop } from 'src/app/utils/core';
+import { Router } from '@angular/router';
+import { SnackbarService } from 'src/app/services/snackbar.service';
+import { BeehiveAPI } from 'src/app/config/constants';
 
 @Component({
   selector: 'app-event-new',
@@ -16,16 +19,21 @@ export class EventNewComponent {
 
   constructor(
     private eventService: EventService,
-    private dialog: MatDialog
+    private router: Router,
+    private dialog: MatDialog,
+    private snackbarService: SnackbarService
   ) {}
 
-  submitEvent() {
+  submitEvent() { 
     const formValues = this.eventFormComponent.getFormValues();
 
     this.eventService.createEvent(formValues).subscribe({
       next: () => {
-        console.log("Event created successfully");
-        // here you could navigate to another page, or show a success message, etc.
+        this.router.navigate([BeehiveAPI.EVENTS_PATH]).then((navigated: boolean) => {
+          if(navigated) {
+            this.snackbarService.openSnackbar("Successfully created event", "OK", 2.5)
+          }
+        });
       },
       error: (error) => {
         scrollToTop();
