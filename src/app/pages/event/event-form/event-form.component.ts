@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 import { NoDecimalValidator } from 'src/app/common/validators';
-import { Audience, AudienceChip, Category, FullEvent, LocationDropDown, OrgTableItem } from 'src/app/models/dataInterfaces.model';
+import { Audience, AudienceChip, Category, FullEvent, DropDownItem, OrgTableItem } from 'src/app/models/dataInterfaces.model';
 import { AudienceService } from 'src/app/services/admin-api/audience.service';
 import { CategoryService } from 'src/app/services/admin-api/category.service';
 import { LocationService } from 'src/app/services/admin-api/location.service';
@@ -27,7 +27,7 @@ export class EventFormComponent implements OnInit{
 
   categories: Category[] = [];
   organizations: OrgTableItem[] = [];
-  locations: LocationDropDown[] = [];
+  locations: DropDownItem[] = [];
 
   fetchedEvent$!: Observable<FullEvent>;
 
@@ -38,8 +38,8 @@ export class EventFormComponent implements OnInit{
   filteredCats!: Observable<Category[]>;
   autoControlOrgs = new FormControl<string | OrgTableItem>('');
   filteredOrgs!: Observable<OrgTableItem[]>;
-  autoControlLocs = new FormControl<string | LocationDropDown>('');
-  filteredLocs!: Observable<LocationDropDown[]>;
+  autoControlLocs = new FormControl<string | DropDownItem>('');
+  filteredLocs!: Observable<DropDownItem[]>;
 
   constructor(
     private fb: FormBuilder,
@@ -123,7 +123,7 @@ export class EventFormComponent implements OnInit{
     return ''
   }
 
-  displayLocationFn(location: LocationDropDown): string {
+  displayLocationFn(location: DropDownItem): string {
     if(location) {
       return location.name
     }
@@ -275,7 +275,7 @@ export class EventFormComponent implements OnInit{
   }
 
   private fetchLocations() {
-    this.locService.fetchLocationsDropDown().subscribe((l: LocationDropDown[]) => {
+    this.locService.fetchLocationsDropDown().subscribe((l: DropDownItem[]) => {
       this.locations = l;
     });
   }
@@ -298,11 +298,10 @@ export class EventFormComponent implements OnInit{
   }
 
   // Function for filtering location dropdown
-  private _filterLocations(value: string): LocationDropDown[] {
+  private _filterLocations(value: string): DropDownItem[] {
     const filterValue = value.toLowerCase();
     return this.locations.filter(loc =>
       loc.name.toLowerCase().includes(filterValue) ||
-      loc.type.toLowerCase().includes(filterValue) ||
       loc.details.toLowerCase().includes(filterValue)
     );
   }

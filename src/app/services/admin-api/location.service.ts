@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { BeehiveAPI } from 'src/app/config/constants';
-import { Location, LocationDropDown, LocationTableItem } from 'src/app/models/dataInterfaces.model';
+import { Location, DropDownItem, LocationTableItem } from 'src/app/models/dataInterfaces.model';
 import { convertFromRFC3339 } from 'src/app/utils/time';
 
 @Injectable({
@@ -88,40 +88,35 @@ export class LocationService {
    * The function 'fetchLocationsDropDown' returns an array of Location objects tailored for dropdown menu.
    * @returns Observable<LocationDropDown[]>
    */
-  fetchLocationsDropDown(): Observable<LocationDropDown[]> {
+  fetchLocationsDropDown(): Observable<DropDownItem[]> {
     return this.http
       .get<{ [id: number]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}`)
       .pipe(
         map(resData => {
-          const locArray: LocationDropDown[] = [];
+          const locArray: DropDownItem[] = [];
           
           for (const i in resData) {
             const resObj: Location = resData[i]
             
-            const loc: LocationDropDown = {
+            const loc: DropDownItem = {
               id: resObj.id,
               name: resObj.name_en || resObj.name_no, // Set name to name_en if it exists, else set to name_no
-              type: '',
               details: '',
             }
 
             switch (resObj.type) {
               case 'address':
-                loc.type = 'ADDRESS';
-                loc.details = resObj.address_street;
+                loc.details = 'ADDRESS ' + resObj.address_street;
                 break;
               case 'mazemap':
-                loc.type = 'MAZE';
-                loc.details = resObj.mazemap_poi_id.toString();
+                loc.details = 'MAZE ' + resObj.mazemap_poi_id.toString();
                 break;
               case 'coords':
-                loc.type = 'COORDS';
-                loc.details = resObj.coordinate_lat.toFixed(4).toString() + ', ' + resObj.coordinate_long.toFixed(4).toString();
+                loc.details = 'COORDS ' + resObj.coordinate_lat.toFixed(4).toString() + ', ' + resObj.coordinate_long.toFixed(4).toString();
                 break;
             
               default:
-                loc.type = 'NONE';
-                loc.details = '';
+                loc.details = 'NONE';
                 break;
             }
 
