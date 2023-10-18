@@ -12,8 +12,7 @@ import { ErrorComponent } from 'src/app/components/dialog/error/error.component'
 
 @Component({
   selector: 'app-location-edit',
-  templateUrl: './location-edit.component.html',
-  styleUrls: ['./location-edit.component.css']
+  templateUrl: './location-edit.component.html'
 })
 export class LocationEditComponent {
   @ViewChild(LocationFormComponent) locFormComponent!: LocationFormComponent;
