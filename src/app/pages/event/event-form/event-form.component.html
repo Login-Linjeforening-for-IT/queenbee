@@ -20,8 +20,8 @@
             <mat-label>Informational NOR</mat-label>
             <mat-hint align="end">{{eventForm.get('info_no')?.value?.length || 0}} / 180</mat-hint>
           </mat-form-field>
-          
-          <app-markdown-textfield 
+
+          <app-markdown-textfield
             class="row" (newHtmlText)="onDescriptionNoChange($event)" [placeholder]="'Description NOR'" [value]="eventForm.get('description_no')?.value"></app-markdown-textfield>
         </mat-tab>
 
@@ -41,42 +41,42 @@
           <app-markdown-textfield class="row" (newHtmlText)=onDescriptionEnChange($event) [placeholder]="'Description ENG'" [value]="eventForm.get('description_en')?.value"></app-markdown-textfield>
         </mat-tab>
       </mat-tab-group>
-      
-     
-      <app-datetime 
+
+
+      <app-datetime
         (newDatetime)=onTimeStartChange($event)
-        (timeToggeled)="onTimeStartToggle($event)" 
-        [dateLabel]="'Start Date'" 
+        (timeToggeled)="onTimeStartToggle($event)"
+        [dateLabel]="'Start Date'"
         [timeLabel]="'Start Time'"
         [isDateRequired]="true"
-        [isTimeRequired]="true" 
+        [isTimeRequired]="true"
         [timeDisableable]="true"
         [value]="eventForm.get('time_start')?.value">
       </app-datetime>
 
-      <app-datetime 
+      <app-datetime
         (newDatetime)=onTimeEndChange($event)
-        (timeToggeled)="onTimeEndToggle($event)" 
-        [dateLabel]="'End Date'" 
+        (timeToggeled)="onTimeEndToggle($event)"
+        [dateLabel]="'End Date'"
         [timeLabel]="'End Time'"
         [isDateRequired]="true"
-        [isTimeRequired]="true"  
-        [timeDisableable]="true" 
+        [isTimeRequired]="true"
+        [timeDisableable]="true"
         [value]="eventForm.get('time_end')?.value">
       </app-datetime>
 
-      <app-datetime 
-        (newDatetime)=onTimePublishChange($event) 
-        [dateLabel]="'Publish Date'" 
+      <app-datetime
+        (newDatetime)=onTimePublishChange($event)
+        [dateLabel]="'Publish Date'"
         [timeLabel]="'Publish Time'"
         [value]="eventForm.get('time_publish')?.value">
       </app-datetime>
-    
-      <!-- Drop Down menu with Autocomplete capabitities for categories -->
-      <div *ngIf="categories.length > 0">
-        <mat-form-field class="dd">
+
+      <!-- Drop Down menu with Autocomplete capabilities for categories -->
+      <div>
+        <mat-form-field class="dd" *ngIf="categories.length > 0; else elseCatBlock">
           <mat-label>Category</mat-label>
-          
+
           <input
             type="text"
             matInput
@@ -88,12 +88,12 @@
               *ngFor="let o of filteredCats | async"
               [value]="o"
             >
-              <div 
-                [style.width.px]="16" 
-                [style.height.px]="16" 
-                [style.border-radius]="'50%'" 
-                [style.display]="'inline-block'" 
-                [style.margin-right.px]="6" 
+              <div
+                [style.width.px]="16"
+                [style.height.px]="16"
+                [style.border-radius]="'50%'"
+                [style.display]="'inline-block'"
+                [style.margin-right.px]="6"
                 [style.background-color]="'#' + o.color">
               </div>
               {{ o.name_en || o.name_no }}
@@ -104,11 +104,12 @@
             This field is <strong>required</strong>
           </mat-error>
         </mat-form-field>
+        <ng-template #elseCatBlock>Could not fetch categories input!</ng-template>
       </div>
 
-      <!-- Drop Down menu with Autocomplete capabitities for organizations -->
-      <div *ngIf="organizations.length > 0">
-        <mat-form-field class="dd">
+      <!-- Drop Down menu with Autocomplete capabilities for organizations -->
+      <div>
+        <mat-form-field class="dd" *ngIf="organizations.length > 0; else elseOrgBlock">
           <mat-label>Organization</mat-label>
           <input
             type="text"
@@ -116,7 +117,7 @@
             [formControl]="autoControlOrgs"
             [matAutocomplete]="autoOrg"
             />
-            
+
           <mat-autocomplete autoActiveFirstOption #autoOrg="matAutocomplete" [displayWith]="displayOrganizationFn">
             <mat-option
               *ngFor="let o of filteredOrgs | async"
@@ -130,11 +131,12 @@
             This field is <strong>required</strong>
           </mat-error>
         </mat-form-field>
+        <ng-template #elseOrgBlock>Could not fetch organizations input!</ng-template>
       </div>
 
-      <!-- Drop Down menu with Autocomplete capabitities for locations -->
-      <div *ngIf="locations.length > 0">
-        <mat-form-field class="dd">
+      <!-- Drop Down menu with Autocomplete capabilities for locations -->
+      <div>
+        <mat-form-field class="dd" *ngIf="locations.length > 0; else elseLocBlock">
           <mat-label>Location</mat-label>
           <input
             type="text"
@@ -142,24 +144,25 @@
             [formControl]="autoControlLocs"
             [matAutocomplete]="autoLoc"
             />
-            
+
           <mat-autocomplete autoActiveFirstOption #autoLoc="matAutocomplete" [displayWith]="displayLocationFn">
             <mat-option
               *ngFor="let l of filteredLocs | async"
               [value]="l"
             >
               <div class="dropdown-item">
-                <span>{{ l.name }}</span> | 
+                <span>{{ l.name }}</span> |
                 <small>{{ l.details }}</small>
               </div>
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
+        <ng-template #elseLocBlock>Could not fetch locations input!</ng-template>
       </div>
 
-      <!-- Drop Down menu with Autocomplete capabitities for rules -->
-      <div *ngIf="rules.length > 0">
-        <mat-form-field class="dd">
+      <!-- Drop Down menu with Autocomplete capabilities for rules -->
+      <div>
+        <mat-form-field class="dd" *ngIf="rules.length > 0; else elseRuleBlock">
           <mat-label>Rule</mat-label>
           <input
             type="text"
@@ -167,7 +170,7 @@
             [formControl]="autoControlRules"
             [matAutocomplete]="autoRule"
             />
-            
+
           <mat-autocomplete autoActiveFirstOption #autoRule="matAutocomplete" [displayWith]="displayRuleFn">
             <mat-option
               *ngFor="let r of filteredRules | async"
@@ -179,10 +182,11 @@
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
+        <ng-template #elseRuleBlock>Could not fetch rules input!</ng-template>
       </div>
 
-      <app-audience-selector 
-        [title]="'Audiences'" 
+      <app-audience-selector
+        [title]="'Audiences'"
         [placeholder]="'Select audience'"
         (newAudienceSet)="onAudienceSetChange($event)">
       </app-audience-selector>
@@ -196,20 +200,20 @@
       </mat-form-field>
 
       <app-datetime
-        (newDatetime)=onSignupReleaseChange($event) 
-        [dateLabel]="'Release Date'" 
-        [timeLabel]="'Release Time'" 
+        (newDatetime)=onSignupReleaseChange($event)
+        [dateLabel]="'Release Date'"
+        [timeLabel]="'Release Time'"
         [value]="eventForm.get('time_signup_release')?.value">
       </app-datetime>
 
-      <app-datetime 
-        (newDatetime)=onSignupDeadlineChange($event) 
-        [dateLabel]="'Deadline Date'" 
-        [timeLabel]="'Deadline Time'" 
-        [timeDisableable]="true" 
+      <app-datetime
+        (newDatetime)=onSignupDeadlineChange($event)
+        [dateLabel]="'Deadline Date'"
+        [timeLabel]="'Deadline Time'"
+        [timeDisableable]="true"
         [value]="eventForm.get('time_signup_deadline')?.value">
       </app-datetime>
-    
+
       <mat-form-field>
         <input matInput type="number" min="0" step="1" formControlName="capacity" placeholder="Enter number">
         <mat-label>Capacity</mat-label>
@@ -225,13 +229,13 @@
 
     <div class="block">
       <h2>Image Links</h2>
-      
-      <app-image-selector 
+
+      <app-image-selector
         [title]="'Image Banner'"
         (valEmitter)="onImageBannerChange($event)"
       ></app-image-selector>
-      
-      <app-image-selector 
+
+      <app-image-selector
         [title]="'Image Small'"
         (valEmitter)="onImageSmallChange($event)"
       ></app-image-selector>
