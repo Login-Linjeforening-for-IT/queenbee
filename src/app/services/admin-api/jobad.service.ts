@@ -19,7 +19,7 @@ export class JobadService {
    */
   fetchJobad(jobadID: number): Observable<JobadDetail> {
     return this.http
-      .get<JobadDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}/${jobadID}`)
+      .get<JobadDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}${jobadID}`)
       .pipe(
         map(resData => {
           if (resData) {

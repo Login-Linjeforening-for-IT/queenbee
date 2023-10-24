@@ -114,17 +114,18 @@ export class JobadFormComponent {
         description_short_en: this.jobad.description_short_en || '',
         description_long_no: this.jobad.description_long_no || '',
         description_long_en: this.jobad.description_long_en || '',
+        organization: this.jobad.organization || '',
         time_publish: this.jobad.time_publish || '',
         application_deadline: this.jobad.application_deadline || '',
-        /*application_url: this.jobad.application_url || '',
+        application_url: this.jobad.application_url || '',
         application_email: this.jobad.application_email || '',
         contact_email: this.jobad.contact_email || '',
         contact_phone: this.jobad.contact_phone || '',
         image_small: this.jobad.image_small || '',
         image_banner: this.jobad.image_banner || '',
         remote: this.jobad.remote || false,
-        type: this.jobad.type || '',
-        priority: this.jobad.priority || 0*/
+        job_type: this.jobad.type || '',
+        priority: this.jobad.priority || 0
       });
     } else {
       // Reset the form fields when the event is undefined
