@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { JobadConstants } from '../../pages.constants';
-import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { JobadDetail } from 'src/app/models/dataInterfaces.model';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {JobadDetail, OrgTableItem } from 'src/app/models/dataInterfaces.model';
 import { convertToRFC3339 } from 'src/app/utils/time';
+import {map, Observable, startWith} from "rxjs";
+import {OrganizationService} from "../../../services/admin-api/organizations.service";
 
 @Component({
   selector: 'app-jobad-form',
@@ -20,7 +21,6 @@ import { convertToRFC3339 } from 'src/app/utils/time';
  */
 export class JobadFormComponent {
   @Input() jobad!: JobadDetail;
-  @Output() formValues = new EventEmitter<{fv: JobadDetail}>();
 
   types = JobadConstants.TYPES
   priorities = JobadConstants.PRIORITIES
@@ -28,21 +28,27 @@ export class JobadFormComponent {
   jobAdForm!: FormGroup;
   pathElements!: string[];
 
+  organizations: OrgTableItem[] = [];
+  autoControlOrgs = new FormControl<string | OrgTableItem>('');
+  filteredOrgs!: Observable<OrgTableItem[]>;
+
   constructor(
     private fb: FormBuilder,
-    private route: ActivatedRoute
+    private orgService: OrganizationService
   ) {}
 
   ngOnInit() {
     this.initForm();
+    this.initDropdownControls();
+    this.fetchOrganizations();
 
     if (this.jobad) {
       this.updateFormFields();
     }
   }
 
-  onEmit() {
-    this.formValues.emit({fv: this.jobAdForm.value});
+  getFormValues(): JobadDetail {
+    return this.jobAdForm.value;
   }
 
   onPublishChange(newVal: {dt: string} | null) {
@@ -50,7 +56,7 @@ export class JobadFormComponent {
   }
 
   onDeadlineChange(newVal: {dt: string} | null) {
-    newVal && this.jobAdForm.get('time_deadline')?.setValue(convertToRFC3339(newVal.dt));
+    newVal && this.jobAdForm.get('application_deadline')?.setValue(convertToRFC3339(newVal.dt));
   }
 
   onDescriptionNoChange(newVal: { ht: string }) {
@@ -59,6 +65,13 @@ export class JobadFormComponent {
 
   onDescriptionEnChange(newVal: { ht: string }) {
     this.jobAdForm.get('description_long_en')!.patchValue(newVal.ht);
+  }
+
+  displayOrganizationFn(organization: OrgTableItem): string {
+    if(organization) {
+      return organization.name
+    }
+    return ''
   }
 
   private initForm() {
@@ -71,6 +84,7 @@ export class JobadFormComponent {
       description_short_en: '',
       description_long_no: '',
       description_long_en: '',
+      organization: '',
       time_publish: '',
       application_deadline: '',
       application_url: '',
@@ -80,9 +94,13 @@ export class JobadFormComponent {
       image_small: '',
       image_banner: '',
       remote: '',
-      type: '',
+      job_type: '',
       priority: ''
     })
+
+    this.jobAdForm?.valueChanges.subscribe((value) => {
+      console.log('jobadform value changed:', value);
+    });
   }
 
   private updateFormFields() {
@@ -112,5 +130,40 @@ export class JobadFormComponent {
       // Reset the form fields when the event is undefined
       this.initForm();
     }
+  }
+
+  /**
+   * Initialized needed logic for the autocompleting dropdown menues.
+   */
+  private initDropdownControls() {
+    this.filteredOrgs = this.autoControlOrgs.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const viewValue = typeof value === 'string' ? value : value?.name;
+        return viewValue ? this._filterOrganizations(viewValue as string) : this.organizations.slice();
+      })
+    );
+
+    this.autoControlOrgs.valueChanges.subscribe(value => {
+      if (value && typeof value === 'object') {
+        this.jobAdForm.get('organization')?.setValue(value.id);
+      } else {
+        this.jobAdForm.get('organization')?.setValue(value);
+      }
+    });
+  }
+
+  private fetchOrganizations() {
+    this.orgService.fetchOrganizations().subscribe((o: OrgTableItem[]) => {
+      this.organizations = o;
+    });
+  }
+
+  // Function for filtering organization dropdown
+  private _filterOrganizations(value: string): OrgTableItem[] {
+    const filterValue = value.toLowerCase();
+    return this.organizations.filter(organization =>
+      organization.name.toLowerCase().includes(filterValue)
+    );
   }
 }

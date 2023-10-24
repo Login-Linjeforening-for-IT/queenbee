@@ -42,7 +42,34 @@
                 <app-markdown-textfield (newHtmlText)=onDescriptionEnChange($event) [placeholder]="'Long Description ENG'" class="row"></app-markdown-textfield>
             </mat-tab>
         </mat-tab-group>
-        
+
+          <!-- Drop Down menu with Autocomplete capabilities for organizations -->
+          <div>
+            <mat-form-field class="dd" *ngIf="organizations.length > 0; else elseOrgBlock">
+              <mat-label>Organization</mat-label>
+              <input
+                type="text"
+                matInput
+                [formControl]="autoControlOrgs"
+                [matAutocomplete]="autoOrg"
+              />
+
+              <mat-autocomplete autoActiveFirstOption #autoOrg="matAutocomplete" [displayWith]="displayOrganizationFn">
+                <mat-option
+                  *ngFor="let o of filteredOrgs | async"
+                  [value]="o"
+                >
+                  {{ o.name }}
+                </mat-option>
+              </mat-autocomplete>
+
+              <mat-error *ngIf="jobAdForm.controls['organization'].hasError('required')">
+                This field is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <ng-template #elseOrgBlock>Could not fetch organizations input!</ng-template>
+          </div>
+
         <!-- THIS WILL PROBABLY BE REPLACE BY A TOGGLE SOMEHOW-->
         <mat-form-field class="dd">
             <mat-label>Remote Posibility</mat-label>
@@ -54,12 +81,14 @@
 
         <mat-form-field class="dd">
             <mat-label>Type</mat-label>
-            <mat-select formControlName="type" required>
-              <mat-option *ngFor="let t of types" [value]="t.value">
-                {{t.viewValue}}
-              </mat-option>
+            <mat-select formControlName="job_type" required>
+              <!-- Hardcoded option value types. Acceptable for now because they are unlikely to be changed, and if so easy to refactor -->
+              <mat-option [value]="'full'">Full Time</mat-option>
+              <mat-option [value]="'part'">Part Time</mat-option>
+              <mat-option [value]="'summer'">Summer</mat-option>
+              <mat-option [value]="'verv'">Verv</mat-option>
             </mat-select>
-        </mat-form-field> 
+        </mat-form-field>
 
         <mat-form-field class="dd">
             <mat-label>Priority</mat-label>
@@ -68,7 +97,7 @@
                 {{p.viewValue}}
               </mat-option>
             </mat-select>
-        </mat-form-field> 
+        </mat-form-field>
 
         <app-datetime (newDatetime)=onPublishChange($event) [dateLabel]="'Publish Date'" [timeLabel]="'Publish Time'"></app-datetime>
     </div>
