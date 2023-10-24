@@ -176,7 +176,8 @@ export interface JobadDetail {
   image_banner: string,
   remote: boolean,
   type: string,
-  priority: number
+  priority: number,
+  visible: boolean
 }
 
 export interface JobadShort {

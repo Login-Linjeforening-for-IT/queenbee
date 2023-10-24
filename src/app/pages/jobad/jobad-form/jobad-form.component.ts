@@ -95,7 +95,8 @@ export class JobadFormComponent {
       image_banner: '',
       remote: '',
       job_type: '',
-      priority: ''
+      priority: '',
+      visible: true
     })
 
     this.jobAdForm?.valueChanges.subscribe((value) => {
@@ -125,7 +126,8 @@ export class JobadFormComponent {
         image_banner: this.jobad.image_banner || '',
         remote: this.jobad.remote || false,
         job_type: this.jobad.type || '',
-        priority: this.jobad.priority || 0
+        priority: this.jobad.priority || 0,
+        visible: true
       });
     } else {
       // Reset the form fields when the event is undefined
