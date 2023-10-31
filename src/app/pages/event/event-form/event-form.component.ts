@@ -11,6 +11,12 @@ import { OrganizationService } from 'src/app/services/admin-api/organizations.se
 import { RulesService } from 'src/app/services/admin-api/rules.service';
 import { convertToRFC3339, getTime, isDatetimeUnset } from 'src/app/utils/time';
 
+export interface TimeTypeSelect {
+  type: string;
+  name: string;
+  show: boolean;
+}
+
 @Component({
   selector: 'app-event-form',
   templateUrl: './event-form.component.html'
@@ -34,6 +40,7 @@ export class EventFormComponent implements OnInit{
 
   isStartTimeDisabled!: boolean;
   isEndTimeDisabled!: boolean;
+  time_types: TimeTypeSelect[] = [];
 
   fetchedEvent$!: Observable<FullEvent>;
 
@@ -60,6 +67,7 @@ export class EventFormComponent implements OnInit{
   ngOnInit() {
     this.initForm();
     this.initDropdownControls();
+    this.initTimeTypeSelect();
     this.fetchCategories();
     this.fetchOrganizations();
     this.fetchLocations();
@@ -382,5 +390,9 @@ export class EventFormComponent implements OnInit{
         this.eventForm.get('time_type')?.setValue(TIME_TYPE.DEFAULT);
       }
     }
+  }
+
+  private initTimeTypeSelect() {
+    this.time_types.push({type: TIME_TYPE.DEFAULT, name: "Default", show: true})
   }
 }

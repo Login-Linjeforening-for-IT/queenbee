@@ -65,6 +65,15 @@
         [value]="eventForm.get('time_end')?.value">
       </app-datetime>
 
+      <mat-form-field>
+        <mat-label>Time Type</mat-label>
+        <mat-select name="time_type">
+          <mat-option *ngFor="let type of time_types" [value]="type.type">
+            {{type.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
       <app-datetime
         (newDatetime)=onTimePublishChange($event)
         [dateLabel]="'Publish Date'"
