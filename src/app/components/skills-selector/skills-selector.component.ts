@@ -1,9 +1,6 @@
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {Component, inject, Input} from '@angular/core';
-import {MatChipEditedEvent, MatChipInputEvent, MatChipsModule} from '@angular/material/chips';
-import {MatIconModule} from '@angular/material/icon';
-import {NgFor} from '@angular/common';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatChipEditedEvent, MatChipInputEvent} from '@angular/material/chips';
 import {LiveAnnouncer} from '@angular/cdk/a11y';
 
 @Component({
