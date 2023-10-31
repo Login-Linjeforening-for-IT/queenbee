@@ -22,13 +22,14 @@ import { InputSelectorComponent } from 'src/app/components/input-selector/input-
  */
 export class JobadFormComponent {
   @Input() jobad!: JobadDetail;
+  @Input() skills: string[] = [];
+  @Input() cities: string[] = [];
 
   types = JobadConstants.TYPES
   priorities = JobadConstants.PRIORITIES
 
   jobAdForm!: FormGroup;
 
-  skills!: string[];
   @ViewChild('skillSelector') skillSelector!: InputSelectorComponent;
   @ViewChild('citySelector') citySelector!: InputSelectorComponent;
 
@@ -44,6 +45,7 @@ export class JobadFormComponent {
   ) {}
 
   ngOnInit() {
+    console.log(this.cities, this.skills)
     this.initForm();
     this.fetchOrganizations();
     this.initDropdownControls();

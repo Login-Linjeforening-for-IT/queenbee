@@ -11,6 +11,8 @@ import { convertFromRFC3339 } from 'src/app/utils/time';
 export class JobadEditComponent {
   jobadID!: number;
   jobad!: JobadDetail;
+  skills!: string[];
+  cities!: string[];
   timeUpdated!: string;
 
   constructor(
@@ -30,7 +32,8 @@ export class JobadEditComponent {
     this.jobadService.fetchJobad(this.jobadID).subscribe((j: JobadDetail) => {
       this.timeUpdated = convertFromRFC3339(j.updated_at);
       this.jobad = j;
-      console.log(j)
+      this.skills = j.skills;
+      this.cities = j.cities;
     })
   }
 

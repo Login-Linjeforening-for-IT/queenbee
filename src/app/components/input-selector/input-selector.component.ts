@@ -10,12 +10,30 @@ import {LiveAnnouncer} from '@angular/cdk/a11y';
 export class InputSelectorComponent {
   @Input() label!: string;
   @Input() inputPlaceholder!: string;
+  @Input() values!: string[];
 
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   chips: string[] = [];
 
   announcer = inject(LiveAnnouncer);
+
+  constructor() {
+    this.updateChips();
+  }
+
+  ngOnChanges() {
+    this.updateChips();
+  }
+
+  updateChips() {
+    console.log("Valus: ", this.values)
+    if (this.values && this.values.length > 0) {
+      this.chips = [...this.values];
+    } else {
+      this.chips = [];
+    }
+  }
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();

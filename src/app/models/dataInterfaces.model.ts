@@ -177,7 +177,9 @@ export interface JobadDetail {
   remote: boolean,
   type: string,
   priority: number,
-  visible: boolean
+  visible: boolean,
+  skills: string[],
+  cities: string[]
 }
 
 export interface JobadShort {
