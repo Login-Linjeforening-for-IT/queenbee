@@ -55,9 +55,17 @@ export class JobadFormComponent {
   }
 
   getFormValues(): JobadDetail {
-    console.log(this.skillSelector.getChips())
-    console.log(this.citySelector.getChips())
+    this.skillSelector.getChips()
+    this.citySelector.getChips()
     return this.jobAdForm.value;
+  }
+
+  getCities(): string[] {
+    return this.citySelector.getChips();
+  }
+
+  getSkills(): string[] {
+    return this.skillSelector.getChips();
   }
 
   onPublishChange(newVal: {dt: string} | null) {

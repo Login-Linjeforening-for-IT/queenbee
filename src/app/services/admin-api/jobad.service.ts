@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, forkJoin, map, mergeMap } from 'rxjs';
 import { BeehiveAPI } from 'src/app/config/constants';
 import { JobadDetail, JobadShort, JobadTableItem } from 'src/app/models/dataInterfaces.model';
 import { convertFromRFC3339 } from 'src/app/utils/time';
@@ -73,18 +73,29 @@ export class JobadService {
    * @param ad JobadDetail
    * @returns JobadDetail, if successful POST
    */
-  createJobad(ad: JobadDetail) {
+  createJobad(ad: JobadDetail, skills: string[], cities: string[]) {
     return this.http
       .post<JobadDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}`, ad)
       .pipe(
-        map(resData => {
-          if(resData) {
+        mergeMap((resData: JobadDetail) => {
+          if (resData) {
             const newAd: JobadDetail = resData;
-            return newAd;
+            
+            // Send requests for skills and cities
+            const skillRequests: Observable<any>[] = skills.map(skill => {
+              return this.sendSkillRequest(newAd.id, skill);
+            });
+
+            const cityRequests: Observable<any>[] = cities.map(city => {
+              return this.sendCityRequest(newAd.id, city);
+            });
+
+            // Use forkJoin to wait for all skill requests to complete
+            return forkJoin([...skillRequests, ...cityRequests]).pipe(map(() => newAd));
           }
-          throw new Error('Failed to create jobad')
+          throw new Error('Failed to create jobad');
         })
-      )
+      );
   }
 
   /**
@@ -98,5 +109,19 @@ export class JobadService {
         throw new Error('Failed to delete job ad', error)
       }
     });
+  }
+
+  private sendSkillRequest(jobAdId: number, skill: string): Observable<any> {
+    const enpointURL = `${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}${BeehiveAPI.SKILLS_PATH}`;
+    const requestBody = { id: jobAdId, skill: skill };
+
+    return this.http.post(enpointURL, requestBody);
+  }
+
+  private sendCityRequest(jobAdId: number, city: string): Observable<any> {
+    const enpointURL = `${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}${BeehiveAPI.CITIES_PATH}`;
+    const requestBody = { id: jobAdId, city: city };
+
+    return this.http.post(enpointURL, requestBody);
   }
 }

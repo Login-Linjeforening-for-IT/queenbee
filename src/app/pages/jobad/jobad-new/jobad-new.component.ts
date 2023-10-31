@@ -27,8 +27,10 @@ export class JobadNewComponent {
 
   submitAd() {
     const formValues = this.jobadFormComponent.getFormValues();
+    const skills = this.jobadFormComponent.getSkills();
+    const cities = this.jobadFormComponent.getCities();
 
-    this.jobadService.createJobad(formValues).subscribe({
+    this.jobadService.createJobad(formValues, skills, cities).subscribe({
       next: () => {
         this.router.navigate([BeehiveAPI.JOBADS_PATH]).then((navigated: boolean) => {
           if(navigated) {

@@ -8,6 +8,8 @@ export const BeehiveAPI = {
     ORGANIZATIONS_PATH: '/organizations/',
     RULES_PATH: '/rules/',
     LOCATIONS_PATH: '/locations/',
+    SKILLS_PATH: 'skills',
+    CITIES_PATH: 'cities',
 
     SECRET: 'secret', // Cosmic secret, quite strong password
 }
