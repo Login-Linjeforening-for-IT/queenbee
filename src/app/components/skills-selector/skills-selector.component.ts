@@ -64,7 +64,6 @@ export class SkillsSelectorComponent {
     let found = false;
 
     this.chips.map(chip => {
-      console.log(chip, chip, value)
       if (value.toLowerCase() === chip.toLowerCase()) {
         found = true;
       }
