@@ -4,10 +4,10 @@ import {MatChipEditedEvent, MatChipInputEvent} from '@angular/material/chips';
 import {LiveAnnouncer} from '@angular/cdk/a11y';
 
 @Component({
-  selector: 'app-skills-selector',
-  templateUrl: './skills-selector.component.html'
+  selector: 'app-input-selector',
+  templateUrl: './input-selector.component.html'
 })
-export class SkillsSelectorComponent {
+export class InputSelectorComponent {
   @Input() label!: string;
   @Input() inputPlaceholder!: string;
 

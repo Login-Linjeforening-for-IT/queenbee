@@ -1,10 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { JobadConstants } from '../../pages.constants';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {JobadDetail, OrgTableItem } from 'src/app/models/dataInterfaces.model';
 import { convertToRFC3339 } from 'src/app/utils/time';
 import {map, Observable, startWith} from "rxjs";
 import {OrganizationService} from "../../../services/admin-api/organizations.service";
+import { InputSelectorComponent } from 'src/app/components/input-selector/input-selector.component';
 
 @Component({
   selector: 'app-jobad-form',
@@ -26,6 +27,11 @@ export class JobadFormComponent {
   priorities = JobadConstants.PRIORITIES
 
   jobAdForm!: FormGroup;
+
+  skills!: string[];
+  @ViewChild('skillSelector') skillSelector!: InputSelectorComponent;
+  @ViewChild('citySelector') citySelector!: InputSelectorComponent;
+
   pathElements!: string[];
 
   organizations: OrgTableItem[] = [];
@@ -40,7 +46,7 @@ export class JobadFormComponent {
   ngOnInit() {
     this.initForm();
     this.initDropdownControls();
-    this.fetchOrganizations();
+    
 
     if (this.jobad) {
       this.updateFormFields();
@@ -48,6 +54,8 @@ export class JobadFormComponent {
   }
 
   getFormValues(): JobadDetail {
+    console.log(this.skillSelector.getChips())
+    console.log(this.citySelector.getChips())
     return this.jobAdForm.value;
   }
 

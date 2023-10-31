@@ -2,10 +2,6 @@
     <div class="form">
         <hr>
         <div class="block">
-          <app-skills-selector
-            [label]="'Skills'"
-            [inputPlaceholder]="'Enter skill'"
-          ></app-skills-selector>
         <h2>General Information</h2>
         <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" class="block">
             <mat-tab label="🇳🇴 NOR">
@@ -104,6 +100,18 @@
         </mat-form-field>
 
         <app-datetime (newDatetime)=onPublishChange($event) [dateLabel]="'Publish Date'" [timeLabel]="'Publish Time'"></app-datetime>
+    
+        <app-input-selector
+            #skillSelector
+            [label]="'Skills'"
+            [inputPlaceholder]="'Enter skill'"
+          ></app-input-selector>
+
+        <app-input-selector
+          #citySelector
+          [label]="'Cities'"
+          [inputPlaceholder]="'Enter city'"
+        ></app-input-selector>
     </div>
 
     <div class="block">
