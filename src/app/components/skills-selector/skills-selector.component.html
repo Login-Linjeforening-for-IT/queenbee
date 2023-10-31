@@ -1,13 +1,13 @@
 <mat-form-field class="example-chip-list">
   <mat-label>{{label}}</mat-label>
   <mat-chip-grid #chipGrid aria-label="Enter fruits">
-    <mat-chip-row *ngFor="let obj of chips"
-                  (removed)="remove(obj)"
+    <mat-chip-row *ngFor="let chip of chips"
+                  (removed)="remove(chip)"
                   [editable]="true"
-                  (edited)="edit(obj, $event)"
-                  [aria-description]="'press enter to edit ' + obj.name">
-      {{obj.name}}
-      <button matChipRemove [attr.aria-label]="'remove ' + obj.name">
+                  (edited)="edit(chip, $event)"
+                  [aria-description]="'press enter to edit ' + chip">
+      {{chip}}
+      <button matChipRemove [attr.aria-label]="'remove ' + chip">
         <mat-icon>cancel</mat-icon>
       </button>
     </mat-chip-row>

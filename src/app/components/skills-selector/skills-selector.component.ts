@@ -8,8 +8,7 @@ import {LiveAnnouncer} from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-skills-selector',
-  templateUrl: './skills-selector.component.html',
-  styleUrls: ['./skills-selector.component.css']
+  templateUrl: './skills-selector.component.html'
 })
 export class SkillsSelectorComponent {
   @Input() label!: string;
@@ -17,59 +16,59 @@ export class SkillsSelectorComponent {
 
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
-  chips: any[] = [];
+  chips: string[] = [];
 
   announcer = inject(LiveAnnouncer);
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
-    // Add our obj
+    // Add our chip
     if (value && !this.inChips(value)) {
       //const uppercasedValue = value[0].toUpperCase() + value.slice(1);
-      this.chips.push({name: value[0].toUpperCase() + value.slice(1)});
+      this.chips.push(value[0].toUpperCase() + value.slice(1));
     }
 
     // Clear the input value
     event.chipInput!.clear();
   }
 
-  remove(fruit: any): void {
-    const index = this.chips.indexOf(fruit);
+  remove(chip: string): void {
+    const index = this.chips.indexOf(chip);
 
     if (index >= 0) {
       this.chips.splice(index, 1);
 
-      this.announcer.announce(`Removed ${fruit}`);
+      this.announcer.announce(`Removed ${chip}`);
     }
   }
 
-  edit(obj: any, event: MatChipEditedEvent) {
+  edit(chip: string, event: MatChipEditedEvent) {
     const value = event.value.trim();
 
-    // Remove obj if it no longer has a name
+    // Remove chip if it no longer has a name
     if (!value) {
-      this.remove(obj);
+      this.remove(chip);
       return;
     }
 
-    // Edit existing obj
-    const index = this.chips.indexOf(obj);
+    // Edit existing chip
+    const index = this.chips.indexOf(chip);
     if (index >= 0) {
-      this.chips[index].name = value;
+      this.chips[index] = value;
     }
   }
 
-  getChips(): any {
+  getChips(): string[] {
     return this.chips;
   }
 
-  private inChips(value: any): boolean {
+  private inChips(value: string): boolean {
     let found = false;
 
     this.chips.map(chip => {
-      console.log(chip, chip.name, value)
-      if (value.toLowerCase() === chip.name.toLowerCase()) {
+      console.log(chip, chip, value)
+      if (value.toLowerCase() === chip.toLowerCase()) {
         found = true;
       }
     })
