@@ -1,1 +1,21 @@
-<p>skills-selector works!</p>
+<mat-form-field class="example-chip-list">
+  <mat-label>{{label}}</mat-label>
+  <mat-chip-grid #chipGrid aria-label="Enter fruits">
+    <mat-chip-row *ngFor="let obj of chips"
+                  (removed)="remove(obj)"
+                  [editable]="true"
+                  (edited)="edit(obj, $event)"
+                  [aria-description]="'press enter to edit ' + obj.name">
+      {{obj.name}}
+      <button matChipRemove [attr.aria-label]="'remove ' + obj.name">
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip-row>
+    <input [placeholder]="inputPlaceholder"
+           [matChipInputFor]="chipGrid"
+           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+           [matChipInputAddOnBlur]="addOnBlur"
+           (matChipInputTokenEnd)="add($event)"/>
+  </mat-chip-grid>
+</mat-form-field>
+
