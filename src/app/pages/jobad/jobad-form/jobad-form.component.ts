@@ -45,6 +45,7 @@ export class JobadFormComponent {
 
   ngOnInit() {
     this.initForm();
+    this.fetchOrganizations();
     this.initDropdownControls();
     
 
