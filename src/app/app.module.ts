@@ -72,6 +72,7 @@ import { OrgFormComponent } from './pages/organization/org-form/org-form.compone
 import { OrgNewComponent } from './pages/organization/org-new/org-new.component';
 import { OrgEditComponent } from './pages/organization/org-edit/org-edit.component';
 import { LocationEditComponent } from './pages/location/location-edit/location-edit.component';
+import { SkillsSelectorComponent } from './components/skills-selector/skills-selector.component';
 
 @NgModule({
   declarations: [
@@ -117,6 +118,7 @@ import { LocationEditComponent } from './pages/location/location-edit/location-e
     OrgNewComponent,
     OrgEditComponent,
     LocationEditComponent,
+    SkillsSelectorComponent,
   ],
     imports: [
         BrowserModule,
