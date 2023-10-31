@@ -1,6 +1,6 @@
 export const BeehiveAPI = {
     BASE_URL: 'http://localhost:8080/api',
-    
+
     EVENTS_PATH: '/events/',
     JOBADS_PATH: '/jobs/',
     CATEGORIES_PATH: '/categories/',
@@ -24,4 +24,10 @@ export const TIME_TYPE = {
     WHOLE_DAY: 'whole_day',
     TO_BE_DETERMINED: 'tbd'
   } as const;
-  
+
+export const JOB_TYPE = {
+  FULL_TIME: 'full',
+  PART_TIME: 'part',
+  SUMMER: 'summer',
+  VERV: 'verv'
+} as const;

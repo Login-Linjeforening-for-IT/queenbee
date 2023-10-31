@@ -164,10 +164,11 @@ export interface JobadDetail {
   description_short_en: string,
   description_long_no: string,
   description_long_en: string,
+  organization: string,
   time_publish: string,
   application_deadline: string,
   updated_at: string,
-  /*application_url: string,
+  application_url: string,
   application_email: string,
   contact_email: string,
   contact_phone: string,
@@ -175,7 +176,8 @@ export interface JobadDetail {
   image_banner: string,
   remote: boolean,
   type: string,
-  priority: number*/
+  priority: number,
+  visible: boolean
 }
 
 export interface JobadShort {

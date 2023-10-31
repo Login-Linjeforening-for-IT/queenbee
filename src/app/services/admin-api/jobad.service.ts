@@ -19,7 +19,7 @@ export class JobadService {
    */
   fetchJobad(jobadID: number): Observable<JobadDetail> {
     return this.http
-      .get<JobadDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}/${jobadID}`)
+      .get<JobadDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}${jobadID}`)
       .pipe(
         map(resData => {
           if (resData) {
@@ -43,11 +43,11 @@ export class JobadService {
           const jobArray: JobadTableItem[] = [];
           for (const shortname in resData) {
             const jobShort: JobadShort = resData[shortname]
-            
+
             if(jobShort && !jobShort.is_deleted) {
               const job: JobadTableItem = {
                 id: jobShort.id,
-                title: jobShort.title_en || jobShort.title_no, 
+                title: jobShort.title_en || jobShort.title_no,
                 position_title: jobShort.position_title_en || jobShort.position_title_no,
                 job_type: jobShort.job_type,
                 time_publish: convertFromRFC3339(jobShort.time_publish),
@@ -57,15 +57,34 @@ export class JobadService {
                 visible: jobShort.visible,
                 deleted_at: jobShort.deleted_at,
                 is_deleted: jobShort.is_deleted,
-                company_name: jobShort.name_en || jobShort.name_no 
+                company_name: jobShort.name_en || jobShort.name_no
               };
-  
+
               jobArray.push(job);
             }
           }
           return jobArray;
         })
       );
+  }
+
+  /**
+   * The 'createJobad' function is used to create new job ads by sending them in json format to the Admin API.
+   * @param ad JobadDetail
+   * @returns JobadDetail, if successful POST
+   */
+  createJobad(ad: JobadDetail) {
+    return this.http
+      .post<JobadDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}`, ad)
+      .pipe(
+        map(resData => {
+          if(resData) {
+            const newAd: JobadDetail = resData;
+            return newAd;
+          }
+          throw new Error('Failed to create jobad')
+        })
+      )
   }
 
   /**
