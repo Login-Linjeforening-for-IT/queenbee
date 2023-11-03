@@ -55,13 +55,14 @@
 
           <!-- Drop Down menu with Autocomplete capabilities for organizations -->
           <div>
-            <mat-form-field class="dd" *ngIf="organizations.length > 0; else elseOrgBlock">
+            <mat-form-field class="row-narrow" *ngIf="organizations.length > 0; else elseOrgBlock">
               <mat-label>Organization</mat-label>
               <input
                 type="text"
                 matInput
                 [formControl]="autoControlOrgs"
                 [matAutocomplete]="autoOrg"
+                required
               />
 
               <mat-autocomplete autoActiveFirstOption #autoOrg="matAutocomplete" [displayWith]="displayOrganizationFn">
@@ -73,18 +74,22 @@
                 </mat-option>
               </mat-autocomplete>
 
-              <mat-error *ngIf="jobAdForm.controls['organization'].hasError('required')">
+              <mat-error *ngIf="autoControlOrgs.hasError('required')">
                 This field is <strong>required</strong>
               </mat-error>
             </mat-form-field>
             <ng-template #elseOrgBlock>Could not fetch organizations input!</ng-template>
           </div>
 
-        <mat-form-field class="dd">
+        <mat-form-field class="row-narrow">
             <mat-label>Type</mat-label>
             <mat-select formControlName="job_type" required>
               <mat-option *ngFor="let o of JOB_TYPES" [value]="o.id">{{o.name}}</mat-option>
             </mat-select>
+
+            <mat-error *ngIf="autoControlOrgs.hasError('required')">
+              This field is <strong>required</strong>
+            </mat-error>
         </mat-form-field>
 
         <app-datetime 
@@ -95,6 +100,7 @@
         </app-datetime>
     
         <app-input-selector
+          class="row-narrow"
           #skillSelector
           [values]="skills"
           [label]="'Skills'"
@@ -102,6 +108,7 @@
         </app-input-selector>
 
         <app-input-selector
+          class="row-narrow"
           #citySelector
           [values]="cities"
           [label]="'Cities'"
@@ -117,7 +124,7 @@
 
     <div class="block">
         <h2>Application</h2>
-        <mat-form-field class="row">
+        <mat-form-field class="row-narrow">
             <input matInput formControlName="application_url">
             <mat-label>Application URL</mat-label>
         </mat-form-field>
@@ -132,7 +139,7 @@
 
     <div class="block">
         <h2>Image</h2>
-        <mat-form-field class="row">
+        <mat-form-field class="row-narrow">
             <input matInput formControlName="banner_image">
             <mat-label>Banner Image</mat-label>
         </mat-form-field>
