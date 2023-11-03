@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, forkJoin, map, mergeMap } from 'rxjs';
+import { Observable, forkJoin, map, mergeMap, switchMap } from 'rxjs';
 import { BeehiveAPI } from 'src/app/config/constants';
 import { JobadDetail, JobadShort, JobadTableItem } from 'src/app/models/dataInterfaces.model';
 import { convertFromRFC3339 } from 'src/app/utils/time';
@@ -104,39 +104,9 @@ export class JobadService {
       .subscribe({
         next: ((updatedAd: JobadDetail) => {
           // Handle skills
-          this.getOldSkills(ad.id).subscribe({
-            next: ((oldSkills: string[]) => {
-              const removedSkills = this.getRemovedElements(oldSkills, skills);
-              const addedSkills = this.getAddedElements(oldSkills, skills);
-
-              const skillRequests: Observable<any>[] = addedSkills.map(skill => {
-                return this.createSkillRequest(ad.id, skill);
-              })
-            })
-          })
+          this.handleSkillChanges(ad.id, skills);
         })
       })
-      /*.pipe(
-        this.getOldSkills(ad.id).subscribe({
-          next: ((oldSkills: string[]) => {}),
-          error: (e) => console.log(e)
-        }
-          
-          () => {
-            const removedSkills = this.getRemovedElements(oldSkills, skills);
-            const addedSkills = this.getAddedElements(oldSkills, skills);
-    
-            const skillRequests: Observable<any>[] = addedSkills.map(skill => {
-              return this.createSkillRequest(adID, skill);
-            });
-    
-          },
-          (error) => {
-            // Handle errors here
-            console.error('Error getting skills:', error);
-          }
-        );
-      )*/
   }
 
   /**
@@ -159,9 +129,32 @@ export class JobadService {
     return this.http.post(enpointURL, requestBody);
   }
 
-  private createCityRequest(jobAdId: number, city: string): Observable<any> {
+  private createCityRequest(cityID: number, city: string): Observable<any> {
     const enpointURL = `${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}${BeehiveAPI.CITIES_PATH}`;
-    const requestBody = { id: jobAdId, city: city };
+    const requestBody = { id: cityID, city: city };
+
+    return this.http.post(enpointURL, requestBody);
+  }
+
+  private deleteSkill(jobAdId: number, skill: string): Observable<any> {
+    const enpointURL = `${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}${BeehiveAPI.SKILLS_PATH}`;
+    
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: {
+        id: jobAdId,
+        skill: skill,
+      },
+    };
+
+    return this.http.delete(enpointURL, options);
+  }
+
+  private deleteCity(cityID: number, city: string): Observable<any> {
+    const enpointURL = `${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}${BeehiveAPI.CITIES_PATH}`;
+    const requestBody = { id: cityID, city: city };
 
     return this.http.post(enpointURL, requestBody);
   }
@@ -215,5 +208,27 @@ export class JobadService {
     }
   
     return result;
+  }
+
+  private handleSkillChanges(id: number, skills: string[]) {
+    this.getOldSkills(id).pipe(
+      switchMap((oldSkills: string[]) => {
+        const removedSkills = this.getRemovedElements(oldSkills, skills);
+        const addedSkills = this.getAddedElements(oldSkills, skills);
+  
+        const addSkillReq: Observable<any>[] = addedSkills.map(skill => {
+          return this.createSkillRequest(id, skill);
+        });
+  
+        const deleteSkillReq: Observable<any>[] = removedSkills.map(skill => {
+          return this.deleteSkill(id, skill);
+        });
+  
+        return forkJoin([...addSkillReq, ...deleteSkillReq]);
+      })
+    ).subscribe({
+      next: () => {console.log('Skills updated successfully');},
+      error: (error) => {console.error('Error updating skills:', error);}
+    });
   }
 }
