@@ -5,6 +5,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { JobadService } from 'src/app/services/admin-api/jobad.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { convertFromRFC3339 } from 'src/app/utils/time';
+import { scrollToTop } from 'src/app/utils/core';
+import { ErrorComponent } from 'src/app/components/dialog/error/error.component';
+import { BeehiveAPI } from 'src/app/config/constants';
 
 @Component({
   selector: 'app-jobad-copy',
@@ -37,6 +41,13 @@ export class JobadCopyComponent {
     // Fetch the jobad
     this.jobadService.fetchJobad(this.jobadID).subscribe((j: JobadDetail) => {
       this.timeUpdated = convertFromRFC3339(j.updated_at);
+
+      j.title_no = '';
+      j.title_en = '';
+      j.position_title_no = '';
+      j.position_title_en = '';
+
+
       this.jobad = j;
       this.skills = j.skills;
       this.cities = j.cities;
@@ -45,12 +56,29 @@ export class JobadCopyComponent {
 
   createJobad() {
     const formValues = this.jobadFormComponent.getFormValues();
-    console.log(formValues)
+    const skills = this.jobadFormComponent.getSkills();
+    const cities = this.jobadFormComponent.getCities();
 
-    this.jobadService.patchJobad(formValues, this.jobadFormComponent.getSkills(), this.jobadFormComponent.getCities());
+    this.jobadService.createJobad(formValues, skills, cities).subscribe({
+      next: () => {
+        this.router.navigate([BeehiveAPI.JOBADS_PATH]).then((navigated: boolean) => {
+          if(navigated) {
+            this.snackbarService.openSnackbar("Successfully created jobad", "OK", 2.5)
+          }
+        });
+      },
+      error: (error) => {
+        scrollToTop();
+        console.log("Erroring")
+        this.dialog.open(ErrorComponent, {
+          data: {
+            title: "Error: " + error.status + " " + error.statusText,
+            details: error.error.error,
+            autoFocus: false
+          },
+        });
+
+      }
+    });
   }
 }
-function convertFromRFC3339(updated_at: string): string {
-  throw new Error('Function not implemented.');
-}
-
