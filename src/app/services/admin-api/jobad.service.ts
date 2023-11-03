@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, forkJoin, map, mergeMap, switchMap } from 'rxjs';
+import { Observable, catchError, forkJoin, map, mergeMap, of, switchMap } from 'rxjs';
 import { BeehiveAPI } from 'src/app/config/constants';
 import { JobadDetail, JobadShort, JobadTableItem } from 'src/app/models/dataInterfaces.model';
 import { convertFromRFC3339 } from 'src/app/utils/time';
@@ -98,17 +98,6 @@ export class JobadService {
       );
   }
 
-  patchJobad(ad: JobadDetail, skills: string[], cities: string[]) {
-    this.http
-      .patch<JobadDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}`, ad)
-      .subscribe({
-        next: ((updatedAd: JobadDetail) => {
-          this.handleSkillChanges(ad.id, skills);
-          this.handleCityChanges(ad.id, cities);
-        })
-      })
-  }
-
   /**
    * The 'deleteJobad' function deletes the jobad given by the id.
    * @param id number
@@ -120,6 +109,15 @@ export class JobadService {
         throw new Error('Failed to delete job ad', error)
       }
     });
+  }
+
+  patchJobad(ad: JobadDetail, skills: string[], cities: string[]) {
+    const patchReq = this.http.patch<JobadDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}`, ad);
+    const postSkillsReq = this.handleSkillChanges(ad.id, skills);
+    const postCitiesReq = this.handleCityChanges(ad.id, cities);
+    forkJoin([postSkillsReq, postCitiesReq]);
+
+    return forkJoin(patchReq);//forkJoin([patchReq, postSkillsReq, postCitiesReq]);
   }
 
   private createSkillRequest(jobAdId: number, skill: string): Observable<any> {
@@ -242,11 +240,11 @@ export class JobadService {
         const removedSkills = this.getRemovedElements(oldSkills, skills);
         const addedSkills = this.getAddedElements(oldSkills, skills);
   
-        const addSkillReq: Observable<any>[] = addedSkills.map(skill => {
+        const addSkillReq = addedSkills.map(skill => {
           return this.createSkillRequest(id, skill);
         });
   
-        const deleteSkillReq: Observable<any>[] = removedSkills.map(skill => {
+        const deleteSkillReq = removedSkills.map(skill => {
           return this.deleteSkill(id, skill);
         });
   
@@ -264,11 +262,11 @@ export class JobadService {
         const removedCities = this.getRemovedElements(oldCities, cities);
         const addedCities = this.getAddedElements(oldCities, cities);
   
-        const addCityReq: Observable<any>[] = addedCities.map(city => {
+        const addCityReq = addedCities.map(city => {
           return this.createCityRequest(id, city);
         });
   
-        const deleteCityReq: Observable<any>[] = removedCities.map(city => {
+        const deleteCityReq = removedCities.map(city => {
           return this.deleteCity(id, city);
         });
   

@@ -6,6 +6,9 @@ import { convertFromRFC3339 } from 'src/app/utils/time';
 import { JobadFormComponent } from '../jobad-form/jobad-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { BeehiveAPI } from 'src/app/config/constants';
+import { scrollToTop } from 'src/app/utils/core';
+import { ErrorComponent } from 'src/app/components/dialog/error/error.component';
 
 @Component({
   selector: 'app-jobad-edit',
@@ -46,8 +49,28 @@ export class JobadEditComponent {
 
   updateJobad() {
     const formValues = this.jobadFormComponent.getFormValues();
-    console.log(formValues)
 
-    this.jobadService.patchJobad(formValues, this.jobadFormComponent.getSkills(), this.jobadFormComponent.getCities());
+    this.jobadService.patchJobad(formValues, this.jobadFormComponent.getSkills(), this.jobadFormComponent.getCities()).subscribe({
+      next: () => {
+        console.log("inside next")
+        this.router.navigate([BeehiveAPI.JOBADS_PATH]).then((navigated: boolean) => {
+          if(navigated) {
+            this.snackbarService.openSnackbar("Successfully updated jobad", "OK", 2.5)
+          }
+        });
+      },
+      error: (error) => {
+        scrollToTop();
+        console.log("Erroring", error)
+        this.dialog.open(ErrorComponent, {
+          data: {
+            title: "Error: " + error.status + " " + error.statusText,
+            details: error,
+            autoFocus: false
+          },
+        });
+
+      }
+    });
   }
 }
