@@ -115,9 +115,10 @@ export class JobadService {
     const patchReq = this.http.patch<JobadDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}`, ad);
     const postSkillsReq = this.handleSkillChanges(ad.id, skills);
     const postCitiesReq = this.handleCityChanges(ad.id, cities);
+    
+    // Not good solution
     forkJoin([postSkillsReq, postCitiesReq]);
-
-    return forkJoin(patchReq);//forkJoin([patchReq, postSkillsReq, postCitiesReq]);
+    return forkJoin(patchReq);
   }
 
   private createSkillRequest(jobAdId: number, skill: string): Observable<any> {
