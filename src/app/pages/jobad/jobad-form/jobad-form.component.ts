@@ -31,7 +31,6 @@ export class JobadFormComponent {
   @Input() cities: string[] = [];
 
   types = JobadConstants.TYPES
-  priorities = JobadConstants.PRIORITIES
 
   jobAdForm!: FormGroup;
 
@@ -122,7 +121,7 @@ export class JobadFormComponent {
       application_url: '',
       banner_image: '',
       job_type: '',
-      priority: '',
+      highlight: false,
       visible: true
     })
 
@@ -149,7 +148,7 @@ export class JobadFormComponent {
         application_url: this.jobad.application_url || '',
         banner_image: this.jobad.banner_image || '',
         job_type: this.jobad.job_type || '',
-        priority: this.jobad.priority || 0,
+        highlight: this.jobad.highlight || false,
         visible: true
       });
     } else {

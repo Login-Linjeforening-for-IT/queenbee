@@ -171,7 +171,7 @@ export interface JobadDetail {
   application_url: string,
   banner_image: string,
   job_type: string,
-  priority: number,
+  highlight: boolean,
   visible: boolean,
   skills: string[],
   cities: string[]

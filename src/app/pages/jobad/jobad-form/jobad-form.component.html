@@ -87,15 +87,6 @@
             </mat-select>
         </mat-form-field>
 
-        <mat-form-field class="dd">
-            <mat-label>Priority</mat-label>
-            <mat-select formControlName="priority" required>
-              <mat-option *ngFor="let p of priorities" [value]="p.value">
-                {{p.viewValue}}
-              </mat-option>
-            </mat-select>
-        </mat-form-field>
-
         <app-datetime 
           (newDatetime)=onPublishChange($event)
           [value]="jobAdForm.value.time_publish" 
@@ -116,6 +107,12 @@
           [label]="'Cities'"
           [inputPlaceholder]="'Enter city'">
         </app-input-selector>
+
+        <mat-slide-toggle 
+          style="margin-left: 1rem;"
+          formControlName="highlight">
+          Highlight Ad
+        </mat-slide-toggle>
     </div>
 
     <div class="block">
