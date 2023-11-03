@@ -103,8 +103,8 @@ export class JobadService {
       .patch<JobadDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}`, ad)
       .subscribe({
         next: ((updatedAd: JobadDetail) => {
-          // Handle skills
           this.handleSkillChanges(ad.id, skills);
+          this.handleCityChanges(ad.id, cities);
         })
       })
   }
@@ -154,9 +154,18 @@ export class JobadService {
 
   private deleteCity(cityID: number, city: string): Observable<any> {
     const enpointURL = `${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}${BeehiveAPI.CITIES_PATH}`;
-    const requestBody = { id: cityID, city: city };
 
-    return this.http.post(enpointURL, requestBody);
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: {
+        id: cityID,
+        city: city,
+      },
+    };
+
+    return this.http.delete(enpointURL, options);
   }
 
   /**
@@ -172,6 +181,23 @@ export class JobadService {
             return resData.skills;
           }
           throw new Error('No event found with id ' + jobAdId);
+        })
+      );
+  }
+
+  /**
+   * Used to retrieve all the current cities applied to an jobad. Used for comparing old (DB) vs new (form) cities applied to an ad.
+   * @param cityID id of city in question
+   * @returns array of cities applied to an ad in DB
+   */
+  private getOldCities(cityID: number): Observable<string[]> {
+    return this.http.get<JobadDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}${cityID}`)
+      .pipe(
+        map((resData: JobadDetail) => {
+          if (resData) {
+            return resData.cities;
+          }
+          throw new Error('No event found with id ' + cityID);
         })
       );
   }
@@ -229,6 +255,28 @@ export class JobadService {
     ).subscribe({
       next: () => {console.log('Skills updated successfully');},
       error: (error) => {console.error('Error updating skills:', error);}
+    });
+  }
+
+  private handleCityChanges(id: number, cities: string[]) {
+    this.getOldCities(id).pipe(
+      switchMap((oldCities: string[]) => {
+        const removedCities = this.getRemovedElements(oldCities, cities);
+        const addedCities = this.getAddedElements(oldCities, cities);
+  
+        const addCityReq: Observable<any>[] = addedCities.map(city => {
+          return this.createCityRequest(id, city);
+        });
+  
+        const deleteCityReq: Observable<any>[] = removedCities.map(city => {
+          return this.deleteCity(id, city);
+        });
+  
+        return forkJoin([...addCityReq, ...deleteCityReq]);
+      })
+    ).subscribe({
+      next: () => {console.log('Cities updated successfully');},
+      error: (error) => {console.error('Error updating cities:', error);}
     });
   }
 }
