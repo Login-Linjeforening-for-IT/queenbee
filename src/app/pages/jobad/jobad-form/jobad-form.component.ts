@@ -7,6 +7,11 @@ import {map, Observable, startWith} from "rxjs";
 import {OrganizationService} from "../../../services/admin-api/organizations.service";
 import { InputSelectorComponent } from 'src/app/components/input-selector/input-selector.component';
 
+interface Option {
+  id: string;
+  name: string;
+}
+
 @Component({
   selector: 'app-jobad-form',
   templateUrl: './jobad-form.component.html'
@@ -39,6 +44,13 @@ export class JobadFormComponent {
   autoControlOrgs = new FormControl<string | OrgTableItem>('');
   filteredOrgs!: Observable<OrgTableItem[]>;
 
+  JOB_TYPES: Option[] = [
+    {"id": "full", "name":"Full Time"},
+    {"id": "part", "name":"Part Time"},
+    {"id": "summer", "name":"Summer"},
+    {"id": "verv", "name":"Verv"},
+  ];
+
   constructor(
     private fb: FormBuilder,
     private orgService: OrganizationService
@@ -49,7 +61,6 @@ export class JobadFormComponent {
     this.initForm();
     this.fetchOrganizations();
     this.initDropdownControls();
-    
 
     if (this.jobad) {
       this.updateFormFields();
@@ -79,7 +90,7 @@ export class JobadFormComponent {
   }
 
   onDescriptionNoChange(newVal: { ht: string }) {
-    this.jobAdForm.get('description_long_no')!.patchValue(newVal.ht);
+    this.autoControlOrgs.setValue(this.jobad.organization);
   }
 
   onDescriptionEnChange(newVal: { ht: string }) {
@@ -87,10 +98,11 @@ export class JobadFormComponent {
   }
 
   displayOrganizationFn(organization: OrgTableItem): string {
-    if(organization) {
-      return organization.name
-    }
-    return ''
+    return organization ? organization.name : '';
+  }
+
+  compareJobTypeFn(option: string, value: string): boolean {
+    return option === value;
   }
 
   private initForm() {
@@ -108,12 +120,7 @@ export class JobadFormComponent {
       time_publish: '',
       application_deadline: '',
       application_url: '',
-      application_email: '',
-      contact_email: '',
-      contact_phone: '',
-      image_small: '',
-      image_banner: '',
-      remote: '',
+      banner_image: '',
       job_type: '',
       priority: '',
       visible: true
@@ -140,13 +147,8 @@ export class JobadFormComponent {
         time_publish: this.jobad.time_publish || '',
         application_deadline: this.jobad.application_deadline || '',
         application_url: this.jobad.application_url || '',
-        application_email: this.jobad.application_email || '',
-        contact_email: this.jobad.contact_email || '',
-        contact_phone: this.jobad.contact_phone || '',
-        image_small: this.jobad.image_small || '',
-        image_banner: this.jobad.image_banner || '',
-        remote: this.jobad.remote || false,
-        job_type: this.jobad.type || '',
+        banner_image: this.jobad.banner_image || '',
+        job_type: this.jobad.job_type || '',
         priority: this.jobad.priority || 0,
         visible: true
       });
@@ -180,6 +182,14 @@ export class JobadFormComponent {
   private fetchOrganizations() {
     this.orgService.fetchOrganizations().subscribe((o: OrgTableItem[]) => {
       this.organizations = o;
+
+      const organizationId = this.jobAdForm.value.organization;
+      if (organizationId) {
+        const matchingOrg = this.organizations.find(val => val.id === organizationId);
+        if (matchingOrg) {
+          this.autoControlOrgs.setValue(matchingOrg);
+        }
+      }
     });
   }
 

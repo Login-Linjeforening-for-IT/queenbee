@@ -20,7 +20,12 @@
                     <mat-label>Short Description NOR</mat-label>
                 </mat-form-field>
 
-                <app-markdown-textfield (newHtmlText)=onDescriptionNoChange($event) [placeholder]="'Long Description NOR'" class="row"></app-markdown-textfield>
+                <app-markdown-textfield 
+                  (newHtmlText)=onDescriptionNoChange($event) 
+                  [value]="jobAdForm.value.description_long_no"
+                  [placeholder]="'Long Description NOR'" 
+                  class="row">
+                </app-markdown-textfield>
             </mat-tab>
 
             <mat-tab label="🇺🇸 ENG">
@@ -39,7 +44,12 @@
                     <mat-label>Short Description ENG</mat-label>
                 </mat-form-field>
 
-                <app-markdown-textfield (newHtmlText)=onDescriptionEnChange($event) [placeholder]="'Long Description ENG'" class="row"></app-markdown-textfield>
+                <app-markdown-textfield 
+                  (newHtmlText)=onDescriptionEnChange($event) 
+                  [value]="jobAdForm.value.description_long_en"
+                  [placeholder]="'Long Description ENG'" 
+                  class="row">
+                </app-markdown-textfield>
             </mat-tab>
         </mat-tab-group>
 
@@ -70,23 +80,10 @@
             <ng-template #elseOrgBlock>Could not fetch organizations input!</ng-template>
           </div>
 
-        <!-- THIS WILL PROBABLY BE REPLACE BY A TOGGLE SOMEHOW-->
-        <mat-form-field class="dd">
-            <mat-label>Remote Posibility</mat-label>
-            <mat-select required>
-              <mat-option value="true">Yes</mat-option>
-              <mat-option value="false">No</mat-option>¨
-            </mat-select>
-        </mat-form-field>
-
         <mat-form-field class="dd">
             <mat-label>Type</mat-label>
             <mat-select formControlName="job_type" required>
-              <!-- Hardcoded option value types. Acceptable for now because they are unlikely to be changed, and if so easy to refactor -->
-              <mat-option [value]="'full'">Full Time</mat-option>
-              <mat-option [value]="'part'">Part Time</mat-option>
-              <mat-option [value]="'summer'">Summer</mat-option>
-              <mat-option [value]="'verv'">Verv</mat-option>
+              <mat-option *ngFor="let o of JOB_TYPES" [value]="o.id">{{o.name}}</mat-option>
             </mat-select>
         </mat-form-field>
 
@@ -99,21 +96,26 @@
             </mat-select>
         </mat-form-field>
 
-        <app-datetime (newDatetime)=onPublishChange($event) [dateLabel]="'Publish Date'" [timeLabel]="'Publish Time'"></app-datetime>
+        <app-datetime 
+          (newDatetime)=onPublishChange($event)
+          [value]="jobAdForm.value.time_publish" 
+          [dateLabel]="'Publish Date'" 
+          [timeLabel]="'Publish Time'">
+        </app-datetime>
     
         <app-input-selector
-            #skillSelector
-            [values]="skills"
-            [label]="'Skills'"
-            [inputPlaceholder]="'Enter skill'"
-          ></app-input-selector>
+          #skillSelector
+          [values]="skills"
+          [label]="'Skills'"
+          [inputPlaceholder]="'Enter skill'">
+        </app-input-selector>
 
         <app-input-selector
           #citySelector
           [values]="cities"
           [label]="'Cities'"
-          [inputPlaceholder]="'Enter city'"
-        ></app-input-selector>
+          [inputPlaceholder]="'Enter city'">
+        </app-input-selector>
     </div>
 
     <div class="block">
@@ -122,34 +124,20 @@
             <input matInput formControlName="application_url">
             <mat-label>Application URL</mat-label>
         </mat-form-field>
-        <mat-form-field class="row">
-            <input matInput formControlName="application_email">
-            <mat-label>Application Email</mat-label>
-        </mat-form-field>
-        <app-datetime (newDatetime)=onDeadlineChange($event) [dateLabel]="'Deadline Date'" [timeLabel]="'Deadline Time'"></app-datetime>
-    </div>
-
-    <div class="block">
-        <h2>Contact</h2>
-        <mat-form-field class="row">
-            <input matInput formControlName="contact_phone">
-            <mat-label>Contact Phone</mat-label>
-        </mat-form-field>
-        <mat-form-field class="row">
-            <input matInput formControlName="contact_email">
-            <mat-label>Contact Email</mat-label>
-        </mat-form-field>
+        
+        <app-datetime 
+          (newDatetime)=onDeadlineChange($event) 
+          [value]="jobAdForm.value.application_deadline" 
+          [dateLabel]="'Deadline Date'" 
+          [timeLabel]="'Deadline Time'">
+        </app-datetime>
     </div>
 
     <div class="block">
         <h2>Image</h2>
         <mat-form-field class="row">
-            <input matInput formControlName="image_small">
-            <mat-label>Image Small</mat-label>
-        </mat-form-field>
-        <mat-form-field class="row">
-            <input matInput formControlName="image_large">
-            <mat-label>Image Large</mat-label>
+            <input matInput formControlName="banner_image">
+            <mat-label>Banner Image</mat-label>
         </mat-form-field>
     </div>
 </div>
