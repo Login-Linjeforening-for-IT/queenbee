@@ -57,8 +57,8 @@ export class JobadFormComponent {
   }
 
   getFormValues(): JobadDetail {
-    this.skillSelector.getChips()
-    this.citySelector.getChips()
+    this.skillSelector.getChips();
+    this.citySelector.getChips();
     return this.jobAdForm.value;
   }
 
@@ -95,6 +95,7 @@ export class JobadFormComponent {
 
   private initForm() {
     this.jobAdForm = this.fb.group({
+      id: 0,
       title_no: '',
       title_en: '',
       position_title_no: '',
@@ -126,6 +127,7 @@ export class JobadFormComponent {
   private updateFormFields() {
     if(this.jobad) {
       this.jobAdForm.patchValue({
+        id: this.jobad.id,
         title_no: this.jobad.title_no || '',
         title_en: this.jobad.title_en || '',
         position_title_no: this.jobad.position_title_no || '',

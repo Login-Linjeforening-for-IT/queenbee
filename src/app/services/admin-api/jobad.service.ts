@@ -83,11 +83,11 @@ export class JobadService {
             
             // Send requests for skills and cities
             const skillRequests: Observable<any>[] = skills.map(skill => {
-              return this.sendSkillRequest(newAd.id, skill);
+              return this.createSkillRequest(newAd.id, skill);
             });
 
             const cityRequests: Observable<any>[] = cities.map(city => {
-              return this.sendCityRequest(newAd.id, city);
+              return this.createCityRequest(newAd.id, city);
             });
 
             // Use forkJoin to wait for all skill requests to complete
@@ -96,6 +96,47 @@ export class JobadService {
           throw new Error('Failed to create jobad');
         })
       );
+  }
+
+  patchJobad(ad: JobadDetail, skills: string[], cities: string[]) {
+    this.http
+      .patch<JobadDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}`, ad)
+      .subscribe({
+        next: ((updatedAd: JobadDetail) => {
+          // Handle skills
+          this.getOldSkills(ad.id).subscribe({
+            next: ((oldSkills: string[]) => {
+              const removedSkills = this.getRemovedElements(oldSkills, skills);
+              const addedSkills = this.getAddedElements(oldSkills, skills);
+
+              const skillRequests: Observable<any>[] = addedSkills.map(skill => {
+                return this.createSkillRequest(ad.id, skill);
+              })
+            })
+          })
+        })
+      })
+      /*.pipe(
+        this.getOldSkills(ad.id).subscribe({
+          next: ((oldSkills: string[]) => {}),
+          error: (e) => console.log(e)
+        }
+          
+          () => {
+            const removedSkills = this.getRemovedElements(oldSkills, skills);
+            const addedSkills = this.getAddedElements(oldSkills, skills);
+    
+            const skillRequests: Observable<any>[] = addedSkills.map(skill => {
+              return this.createSkillRequest(adID, skill);
+            });
+    
+          },
+          (error) => {
+            // Handle errors here
+            console.error('Error getting skills:', error);
+          }
+        );
+      )*/
   }
 
   /**
@@ -111,17 +152,68 @@ export class JobadService {
     });
   }
 
-  private sendSkillRequest(jobAdId: number, skill: string): Observable<any> {
+  private createSkillRequest(jobAdId: number, skill: string): Observable<any> {
     const enpointURL = `${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}${BeehiveAPI.SKILLS_PATH}`;
     const requestBody = { id: jobAdId, skill: skill };
 
     return this.http.post(enpointURL, requestBody);
   }
 
-  private sendCityRequest(jobAdId: number, city: string): Observable<any> {
+  private createCityRequest(jobAdId: number, city: string): Observable<any> {
     const enpointURL = `${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}${BeehiveAPI.CITIES_PATH}`;
     const requestBody = { id: jobAdId, city: city };
 
     return this.http.post(enpointURL, requestBody);
+  }
+
+  /**
+   * Used to retrieve all the current skills applied to an jobad. Used for comparing old (DB) vs new (form) skills applied to an ad.
+   * @param jobAdId id of jobad in question
+   * @returns array of skills applied to an ad in DB
+   */
+  private getOldSkills(jobAdId: number): Observable<string[]> {
+    return this.http.get<JobadDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}${jobAdId}`)
+      .pipe(
+        map((resData: JobadDetail) => {
+          if (resData) {
+            return resData.skills;
+          }
+          throw new Error('No event found with id ' + jobAdId);
+        })
+      );
+  }
+
+  private getRemovedElements(oldValues: string[], newValues: string[]): string[] {
+    // Convert the array to a set for faster lookup
+    const set = new Set(newValues);
+    
+    // Create an empty array to store the removed elements
+    const result: string[] = [];
+  
+    // Iterate through the new values and check if each element is in the set
+    for (const element of oldValues) {
+      if (!set.has(element)) {
+        result.push(element);
+      }
+    }
+  
+    return result;
+  }
+
+  private getAddedElements(oldValues: string[], newValues: string[]): string[] {
+    // Convert the array to a set for faster lookup
+    const set = new Set(oldValues);
+    
+    // Create an empty array to store the removed elements
+    const result: string[] = [];
+  
+    // Iterate through the new values and check if each element is in the set
+    for (const element of newValues) {
+      if (!set.has(element)) {
+        result.push(element);
+      }
+    }
+  
+    return result;
   }
 }
