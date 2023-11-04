@@ -1,5 +1,5 @@
 <form *ngIf="chipItems">
-    <mat-form-field class="example-chip-list">
+    <mat-form-field style="width: 100%;">
       <mat-label>{{title}}</mat-label>
       <mat-chip-grid #chipGrid aria-label="Item selection">
         <mat-chip-row *ngFor="let item of selectedItems" (removed)="remove(item)">
