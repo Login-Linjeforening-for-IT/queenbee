@@ -68,8 +68,10 @@ export class DatetimeComponent {
     this.timeForm = this.fb.group({
       date: inputDate? inputDate : "",
       time: inputTime? inputTime : "",
-      isTimeDisabled: false
+      isTimeDisabled: false,
     })
+  
+    this.onValueChange(); // Emits the set time
 
     // Toggle button needs special treatment...
     this.timeForm.get('isTimeDisabled')?.valueChanges.subscribe(() => {
@@ -131,7 +133,6 @@ export class DatetimeComponent {
 
   private emitDisabledTimeStatus() {
     this.timeToggeled.emit({td: this.timeForm.get('isTimeDisabled')?.value})
-    console.log("Change: ", this.timeForm.value)
   }
 
   // Formats Date to a string on format HH:mm
