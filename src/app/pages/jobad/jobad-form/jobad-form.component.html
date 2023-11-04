@@ -22,7 +22,7 @@
 
                 <app-markdown-textfield 
                   (newHtmlText)=onDescriptionNoChange($event) 
-                  [value]="jobAdForm.value.description_long_no"
+                  [value]="jobAdForm.get('description_long_no')?.value"
                   [placeholder]="'Long Description NOR'" 
                   class="row">
                 </app-markdown-textfield>
@@ -46,7 +46,7 @@
 
                 <app-markdown-textfield 
                   (newHtmlText)=onDescriptionEnChange($event) 
-                  [value]="jobAdForm.value.description_long_en"
+                  [value]="jobAdForm.get('description_long_en')?.value"
                   [placeholder]="'Long Description ENG'" 
                   class="row">
                 </app-markdown-textfield>
@@ -94,7 +94,7 @@
 
         <app-datetime 
           (newDatetime)=onPublishChange($event)
-          [value]="jobAdForm.value.time_publish" 
+          [value]="jobAdForm.get('time_publish')?.value" 
           [dateLabel]="'Publish Date'" 
           [timeLabel]="'Publish Time'">
         </app-datetime>
@@ -131,8 +131,9 @@
         
         <app-datetime 
           (newDatetime)=onDeadlineChange($event) 
-          [value]="jobAdForm.value.application_deadline" 
-          [dateLabel]="'Deadline Date'" 
+          [minDate]="jobAdForm.get('time_publish')?.value"
+          [value]="jobAdForm.get('application_deadline')?.value" 
+          [dateLabel]="'Deadline Date'"
           [timeLabel]="'Deadline Time'">
         </app-datetime>
     </div>
