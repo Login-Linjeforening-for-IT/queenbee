@@ -178,7 +178,7 @@ export class EventFormComponent implements OnInit{
       description_en: '',
       info_no: '',
       info_en: '',
-      time_type: '',
+      time_type: ['', Validators.required],
       time_start: null,
       time_end: null,
       time_publish: '',

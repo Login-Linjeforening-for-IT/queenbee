@@ -65,13 +65,16 @@
         [value]="eventForm.get('time_end')?.value">
       </app-datetime>
 
-      <mat-form-field class="dd">
+      <mat-form-field class="row-narrow">
         <mat-label>Time Type</mat-label>
-        <mat-select name="time_type">
+        <mat-select formControlName="time_type" required>
           <mat-option *ngFor="let type of time_types" [value]="type.type">
             {{type.name}}
           </mat-option>
         </mat-select>
+        <mat-error *ngIf="eventForm.controls['time_type'].hasError('required')">
+          This field is <strong>required</strong>
+        </mat-error>
       </mat-form-field>
 
       <app-datetime
@@ -84,10 +87,11 @@
 
       <!-- Drop Down menu with Autocomplete capabilities for categories -->
       <div>
-        <mat-form-field class="dd" *ngIf="categories.length > 0; else elseCatBlock">
+        <mat-form-field class="row-narrow" *ngIf="categories.length > 0; else elseCatBlock">
           <mat-label>Category</mat-label>
 
           <input
+            required
             type="text"
             matInput
             [formControl]="autoControlCats"
@@ -119,9 +123,10 @@
 
       <!-- Drop Down menu with Autocomplete capabilities for organizations -->
       <div>
-        <mat-form-field class="dd" *ngIf="organizations.length > 0; else elseOrgBlock">
+        <mat-form-field class="row-narrow" *ngIf="organizations.length > 0; else elseOrgBlock">
           <mat-label>Organization</mat-label>
           <input
+            required
             type="text"
             matInput
             [formControl]="autoControlOrgs"
@@ -146,7 +151,7 @@
 
       <!-- Drop Down menu with Autocomplete capabilities for locations -->
       <div>
-        <mat-form-field class="dd" *ngIf="locations.length > 0; else elseLocBlock">
+        <mat-form-field class="row-narrow" *ngIf="locations.length > 0; else elseLocBlock">
           <mat-label>Location</mat-label>
           <input
             type="text"
@@ -172,7 +177,7 @@
 
       <!-- Drop Down menu with Autocomplete capabilities for rules -->
       <div>
-        <mat-form-field class="dd" *ngIf="rules.length > 0; else elseRuleBlock">
+        <mat-form-field class="row-narrow" *ngIf="rules.length > 0; else elseRuleBlock">
           <mat-label>Rule</mat-label>
           <input
             type="text"
@@ -204,7 +209,7 @@
 
     <div class="block">
       <h2>Signup</h2>
-      <mat-form-field class="row">
+      <mat-form-field class="row-narrow">
         <input matInput formControlName="link_signup">
         <mat-label>Signup Link</mat-label>
       </mat-form-field>
@@ -224,7 +229,7 @@
         [value]="eventForm.get('time_signup_deadline')?.value">
       </app-datetime>
 
-      <mat-form-field>
+      <mat-form-field class="row-narrow">
         <input matInput type="number" min="0" step="1" formControlName="capacity" placeholder="Enter number">
         <mat-label>Capacity</mat-label>
         <mat-error *ngIf="eventForm.controls['capacity'].hasError('min')">
@@ -253,17 +258,17 @@
 
     <div class="block">
       <h2>Social Links</h2>
-      <mat-form-field class="row">
+      <mat-form-field class="row-narrow">
         <input matInput formControlName="link_facebook">
         <mat-label>Facebook Link</mat-label>
       </mat-form-field>
 
-      <mat-form-field class="row">
+      <mat-form-field class="row-narrow">
         <input matInput formControlName="link_discord">
         <mat-label>Discord Link</mat-label>
       </mat-form-field>
 
-      <mat-form-field class="row">
+      <mat-form-field class="row-narrow">
         <input matInput formControlName="link_stream">
         <mat-label>Stream Link</mat-label>
       </mat-form-field>
