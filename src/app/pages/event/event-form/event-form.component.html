@@ -51,6 +51,7 @@
         [isDateRequired]="true"
         [isTimeRequired]="true"
         [timeDisableable]="true"
+        [maxDate]="eventForm.get('time_end')?.value"
         [value]="eventForm.get('time_start')?.value">
       </app-datetime>
 
@@ -62,6 +63,7 @@
         [isDateRequired]="true"
         [isTimeRequired]="true"
         [timeDisableable]="true"
+        [minDate]="eventForm.get('time_start')?.value"
         [value]="eventForm.get('time_end')?.value">
       </app-datetime>
 
@@ -83,6 +85,7 @@
         (newDatetime)=onTimePublishChange($event)
         [dateLabel]="'Publish Date'"
         [timeLabel]="'Publish Time'"
+        [maxDate]="eventForm.get('time_start')?.value"
         [value]="eventForm.get('time_publish')?.value"
         [prefillWithTimeNow]="true">
       </app-datetime>
@@ -221,6 +224,7 @@
         (newDatetime)=onSignupReleaseChange($event)
         [dateLabel]="'Release Date'"
         [timeLabel]="'Release Time'"
+        [maxDate]="eventForm.get('time_signup_deadline')?.value"
         [value]="eventForm.get('time_signup_release')?.value">
       </app-datetime>
 
@@ -229,6 +233,7 @@
         [dateLabel]="'Deadline Date'"
         [timeLabel]="'Deadline Time'"
         [timeDisableable]="true"
+        [minDate]="eventForm.get('time_signup_release')?.value"
         [value]="eventForm.get('time_signup_deadline')?.value">
       </app-datetime>
 

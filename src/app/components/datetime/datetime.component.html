@@ -5,6 +5,8 @@
             (dateChange)="onValueChange()"
             [matDatepicker]="date" min="{{this.minDate | date:'yyyy-MM-dd'}}"
             formControlName="date"
+            [min]="minDate"
+            [max]="maxDate"
             [required]="isDateRequired">
     <mat-datepicker-toggle [for]="date" matSuffix></mat-datepicker-toggle>
     <mat-datepicker #date></mat-datepicker>

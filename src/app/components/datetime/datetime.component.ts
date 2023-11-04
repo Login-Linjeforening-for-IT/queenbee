@@ -33,10 +33,10 @@ export class DatetimeComponent {
   @Input() isDateRequired!: boolean;
   @Input() timeDisableable!: boolean;
   @Input() prefillWithTimeNow!: boolean;
+  @Input() minDate!: Date;
+  @Input() maxDate!: Date;
   @Output() newDatetime = new EventEmitter<{dt: string} | null>();
   @Output() timeToggeled = new EventEmitter<{td: boolean}>();
-
-  minDate = new Date();
 
   timeForm!: FormGroup;  // FormGroup where the actual form values from the html is stored.
 
@@ -44,34 +44,10 @@ export class DatetimeComponent {
 
   // Initialize the form group
   ngOnInit() {
-    let inputDate;
-    let inputTime;
-
-    // Convert optional inputted value to correct format
-    if (this.value) {
-      const datetime = new Date(this.value);
-
-      // ISO format is 'yyyy-mm-dd'
-      inputDate = datetime.toISOString().slice(0,10);
-      // Time format is 'hh:mm'
-      inputTime = this.getTime(datetime);
-    } else if(this.prefillWithTimeNow) {
-      const datetimeNow  = new Date();
-
-      // ISO format is 'yyyy-mm-dd'
-      inputDate = datetimeNow.toISOString().slice(0,10);
-      // Time format is 'hh:mm'
-      inputTime = this.getTime(datetimeNow);
-    }
-
-    // Set date and time value
-    this.timeForm = this.fb.group({
-      date: inputDate? inputDate : "",
-      time: inputTime? inputTime : "",
-      isTimeDisabled: false,
-    })
-  
+    this.initForm();
     this.onValueChange(); // Emits the set time
+    this.setDateConstraints(); // Sets minDate and maxDate
+    
 
     // Toggle button needs special treatment...
     this.timeForm.get('isTimeDisabled')?.valueChanges.subscribe(() => {
@@ -139,5 +115,46 @@ export class DatetimeComponent {
   private getTime(datetime: Date): string {
     return this.padTo2Digits(datetime.getUTCHours()) + ':' +
            this.padTo2Digits(datetime.getUTCMinutes());
+  }
+
+  private initForm() {
+    let inputDate;
+    let inputTime;
+
+    // Convert optional inputted value to correct format
+    if (this.value) {
+      const datetime = new Date(this.value);
+
+      // ISO format is 'yyyy-mm-dd'
+      inputDate = datetime.toISOString().slice(0,10);
+      // Time format is 'hh:mm'
+      inputTime = this.getTime(datetime);
+    } else if(this.prefillWithTimeNow) {
+      const datetimeNow  = new Date();
+
+      // ISO format is 'yyyy-mm-dd'
+      inputDate = datetimeNow.toISOString().slice(0,10);
+      // Time format is 'hh:mm'
+      inputTime = this.getTime(datetimeNow);
+    }
+
+    // Set date and time value
+    this.timeForm = this.fb.group({
+      date: inputDate? inputDate : "",
+      time: inputTime? inputTime : "",
+      isTimeDisabled: false,
+    })
+  }
+
+  private setDateConstraints() {
+    if(this.minDate) {
+      this.minDate = new Date(this.minDate);
+    } else {
+      this.minDate = new Date();
+    }
+
+    if(this.maxDate) {
+      this.maxDate = new Date(this.maxDate);
+    }
   }
 }
