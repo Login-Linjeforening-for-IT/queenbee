@@ -32,6 +32,7 @@ export class DatetimeComponent {
   @Input() isTimeRequired!: boolean;
   @Input() isDateRequired!: boolean;
   @Input() timeDisableable!: boolean;
+  @Input() prefillWithTimeNow!: boolean;
   @Output() newDatetime = new EventEmitter<{dt: string} | null>();
   @Output() timeToggeled = new EventEmitter<{td: boolean}>();
 
@@ -52,10 +53,15 @@ export class DatetimeComponent {
 
       // ISO format is 'yyyy-mm-dd'
       inputDate = datetime.toISOString().slice(0,10);
-
       // Time format is 'hh:mm'
-      inputTime = this.padTo2Digits(datetime.getUTCHours()) + ':' +
-                  this.padTo2Digits(datetime.getUTCMinutes());
+      inputTime = this.getTime(datetime);
+    } else if(this.prefillWithTimeNow) {
+      const datetimeNow  = new Date();
+
+      // ISO format is 'yyyy-mm-dd'
+      inputDate = datetimeNow.toISOString().slice(0,10);
+      // Time format is 'hh:mm'
+      inputTime = this.getTime(datetimeNow);
     }
 
     // Set date and time value
@@ -126,5 +132,11 @@ export class DatetimeComponent {
   private emitDisabledTimeStatus() {
     this.timeToggeled.emit({td: this.timeForm.get('isTimeDisabled')?.value})
     console.log("Change: ", this.timeForm.value)
+  }
+
+  // Formats Date to a string on format HH:mm
+  private getTime(datetime: Date): string {
+    return this.padTo2Digits(datetime.getUTCHours()) + ':' +
+           this.padTo2Digits(datetime.getUTCMinutes());
   }
 }

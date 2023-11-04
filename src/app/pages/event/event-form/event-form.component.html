@@ -65,7 +65,7 @@
         [value]="eventForm.get('time_end')?.value">
       </app-datetime>
 
-      <mat-form-field>
+      <mat-form-field class="dd">
         <mat-label>Time Type</mat-label>
         <mat-select name="time_type">
           <mat-option *ngFor="let type of time_types" [value]="type.type">
@@ -78,7 +78,8 @@
         (newDatetime)=onTimePublishChange($event)
         [dateLabel]="'Publish Date'"
         [timeLabel]="'Publish Time'"
-        [value]="eventForm.get('time_publish')?.value">
+        [value]="eventForm.get('time_publish')?.value"
+        [prefillWithTimeNow]="true">
       </app-datetime>
 
       <!-- Drop Down menu with Autocomplete capabilities for categories -->
