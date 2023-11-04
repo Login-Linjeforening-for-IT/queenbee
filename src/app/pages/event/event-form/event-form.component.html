@@ -68,12 +68,14 @@
       <mat-form-field class="row-narrow">
         <mat-label>Time Type</mat-label>
         <mat-select formControlName="time_type" required>
-          <mat-option *ngFor="let type of time_types" [value]="type.type">
-            {{type.name}}
-          </mat-option>
+          <ng-container *ngFor="let type of time_types">
+            <mat-option *ngIf="type.show" [value]="type.type">
+              {{type.name}}
+            </mat-option>
+          </ng-container>
         </mat-select>
         <mat-error *ngIf="eventForm.controls['time_type'].hasError('required')">
-          This field is <strong>required</strong>
+          This field is <strong>required</strong>. Available options is based on start and end time.
         </mat-error>
       </mat-form-field>
 

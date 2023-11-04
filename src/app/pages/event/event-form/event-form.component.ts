@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 import { NoDecimalValidator } from 'src/app/common/validators';
@@ -38,8 +38,8 @@ export class EventFormComponent implements OnInit{
   locations: DropDownItem[] = [];
   rules: DropDownItem[] = [];
 
-  isStartTimeDisabled!: boolean;
-  isEndTimeDisabled!: boolean;
+  isStartTimeDisabled: boolean = false;
+  isEndTimeDisabled: boolean = false;
   time_types: TimeTypeSelect[] = [];
 
   fetchedEvent$!: Observable<FullEvent>;
@@ -61,7 +61,8 @@ export class EventFormComponent implements OnInit{
     private categoryService: CategoryService,
     private orgService: OrganizationService,
     private locService: LocationService,
-    private ruleService: RulesService
+    private ruleService: RulesService,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -104,6 +105,7 @@ export class EventFormComponent implements OnInit{
 
   onTimeEndToggle(newVal: {td: boolean}) {
     this.isEndTimeDisabled = newVal.td;
+    console.log(this.isEndTimeDisabled)
     this.updateTimeType();
   }
 
@@ -178,7 +180,7 @@ export class EventFormComponent implements OnInit{
       description_en: '',
       info_no: '',
       info_en: '',
-      time_type: ['', Validators.required],
+      time_type: [TIME_TYPE.TO_BE_DETERMINED, Validators.required],
       time_start: null,
       time_end: null,
       time_publish: '',
@@ -292,6 +294,7 @@ export class EventFormComponent implements OnInit{
         //info_en: this.fe.event.information_en || '',
         time_start: !isDatetimeUnset(this.fe.event.time_start) ? this.fe.event.time_start : '',
         time_end: !isDatetimeUnset(this.fe.event.time_end) ? this.fe.event.time_end : '',
+        time_type: this.fe.event.time_type || TIME_TYPE.TO_BE_DETERMINED,
         time_publish: !isDatetimeUnset(this.fe.event.time_publish) ? this.fe.event.time_publish : '',
         time_signup_release: !isDatetimeUnset(this.fe.event.time_signup_release) ? this.fe.event.time_signup_release : '',
         time_signup_deadline: !isDatetimeUnset(this.fe.event.time_signup_deadline) ? this.fe.event.time_signup_deadline : '',
@@ -381,18 +384,39 @@ export class EventFormComponent implements OnInit{
 
     console.log('start: ', this.isStartTimeDisabled, ' end: ', this.isEndTimeDisabled)
 
-    if(start && end) {
-      if(this.isStartTimeDisabled && this.isEndTimeDisabled) {
-        this.eventForm.get('time_type')?.setValue(TIME_TYPE.WHOLE_DAY);
-      } else if(this.isEndTimeDisabled) {
-        this.eventForm.get('time_type')?.setValue(TIME_TYPE.NO_END);
-      } else {
-        this.eventForm.get('time_type')?.setValue(TIME_TYPE.DEFAULT);
-      }
+    
+    if (this.isStartTimeDisabled && this.isEndTimeDisabled) {
+      this.setShowProperty(TIME_TYPE.NO_END, false);
+      this.setShowProperty(TIME_TYPE.WHOLE_DAY, true);
+      this.setShowProperty(TIME_TYPE.DEFAULT, false);
+    } else if (this.isStartTimeDisabled) {
+      this.setShowProperty(TIME_TYPE.NO_END, false);
+      this.setShowProperty(TIME_TYPE.WHOLE_DAY, false);
+      this.setShowProperty(TIME_TYPE.DEFAULT, false);
+    } else if (this.isEndTimeDisabled) {
+      this.setShowProperty(TIME_TYPE.NO_END, true);
+      this.setShowProperty(TIME_TYPE.WHOLE_DAY, false);
+      this.setShowProperty(TIME_TYPE.DEFAULT, false);
+    } else {
+      this.setShowProperty(TIME_TYPE.NO_END, false);
+      this.setShowProperty(TIME_TYPE.WHOLE_DAY, false);
+      this.setShowProperty(TIME_TYPE.DEFAULT, true);
+    }
+  }
+
+  private setShowProperty(type: string, show: boolean) {
+    const option = this.time_types.find((tt) => tt.type === type);
+    if (option) {
+      option.show = show;
+      this.cd.detectChanges(); // Trigger change detection
     }
   }
 
   private initTimeTypeSelect() {
-    this.time_types.push({type: TIME_TYPE.DEFAULT, name: "Default", show: true})
+    this.time_types.push(
+      {type: TIME_TYPE.DEFAULT, name: "Default", show: true},
+      {type: TIME_TYPE.WHOLE_DAY, name: "Whole Day", show: true},
+      {type: TIME_TYPE.NO_END, name: "No End", show: true},
+      {type: TIME_TYPE.TO_BE_DETERMINED, name: "To Be Determined", show: true})
   }
 }
