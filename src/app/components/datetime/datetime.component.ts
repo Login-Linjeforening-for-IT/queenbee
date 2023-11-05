@@ -112,9 +112,19 @@ export class DatetimeComponent {
   }
 
   // Formats Date to a string on format HH:mm
-  private getTime(datetime: Date): string {
-    return this.padTo2Digits(datetime.getUTCHours()) + ':' +
-           this.padTo2Digits(datetime.getUTCMinutes());
+  private getTime(dt: Date): string {
+    const hour = dt.getHours().toString().padStart(2, '0'); // Padding with '0'
+    const minute = dt.getMinutes().toString().padStart(2, '0'); // Padding with '0'
+
+    return `${hour}:${minute}`;
+  }
+
+  private getDate(dt: Date): string {
+    const year = dt.getFullYear();
+    const month = (dt.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 to the month since it is zero-based, and padding with '0'
+    const day = dt.getDate().toString().padStart(2, '0'); // Padding with '0'
+
+    return `${year}-${month}-${day}`;
   }
 
   private initForm() {
@@ -131,11 +141,12 @@ export class DatetimeComponent {
       inputTime = this.getTime(datetime);
     } else if(this.prefillWithTimeNow) {
       const datetimeNow  = new Date();
+      console.log("Datetime Now: ", datetimeNow)
 
-      // ISO format is 'yyyy-mm-dd'
-      inputDate = datetimeNow.toISOString().slice(0,10);
+      inputDate = this.getDate(datetimeNow);
       // Time format is 'hh:mm'
       inputTime = this.getTime(datetimeNow);
+      console.log({inputDate, inputTime})
     }
 
     // Set date and time value
