@@ -71,6 +71,7 @@ interface EventData {
   location: number;
   parent: number;
   rule: number;
+  organization: string;
   updated_at: string;
   created_at: string;
   deleted_at: string;

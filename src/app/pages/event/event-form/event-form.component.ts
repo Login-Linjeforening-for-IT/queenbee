@@ -76,7 +76,7 @@ export class EventFormComponent implements OnInit{
 
     if (this.fe.event) {
       this.updateFormFields();
-    }
+    }    
   }
 
   /**
@@ -196,10 +196,10 @@ export class EventFormComponent implements OnInit{
       digital: false,
       canceled: false,
       link_stream: '',
-      category: ['', Validators.required],
+      category: [0, Validators.required],
       organization: ['', Validators.required],
-      location: [''],
-      rule: [''],
+      location: [0],
+      rule: [0],
       audience: []
     });
 
@@ -283,7 +283,7 @@ export class EventFormComponent implements OnInit{
    */
   private updateFormFields() {
     if (this.fe) {
-      console.log(this.fe.event)
+      console.log("FE: ", this.fe)
 
       this.eventForm.patchValue({
         name_no: this.fe.event.name_no || '',
@@ -308,12 +308,11 @@ export class EventFormComponent implements OnInit{
         digital: this.fe.event.digital || false,
         canceled: this.fe.event.canceled || false,
         link_stream: this.fe.event.link_stream || '',
-        category: this.fe.event.category || '',
-        //organization: this.fe.event.organizations || '',
+        category: this.fe.event.category || 0,
+        organization: this.fe.organizations[0]?.shortname || '',
+        rule: this.fe.rule?.id || 0,
+        location: this.fe.location?.id || 0
       });
-
-      //this.autoControlCats.setValue(this.fe.event.category);
-      //this.autoControlOrgs.setValue(this.fe.event.organizations[0]);
     } else {
       // Reset the form fields when the event is undefined
       this.initForm();
@@ -323,24 +322,56 @@ export class EventFormComponent implements OnInit{
   private fetchCategories() {
     this.categoryService.fetchCategories().subscribe((c: Category[]) => {
       this.categories = c;
+
+      const categoryID = this.eventForm.get('category')?.value;
+      if (categoryID) {
+        const matchingCat = this.categories.find(val => val.id === categoryID);
+        if (matchingCat) {
+          this.autoControlCats.setValue(matchingCat);
+        }
+      }
     });
   }
 
   private fetchOrganizations() {
     this.orgService.fetchOrganizations().subscribe((o: OrgTableItem[]) => {
       this.organizations = o;
+
+      const orgID = this.eventForm.get('organization')?.value;
+      if (orgID) {
+        const matchingOrg = this.organizations.find(val => val.id === orgID);
+        if (matchingOrg) {
+          this.autoControlOrgs.setValue(matchingOrg);
+        }
+      }
     });
   }
 
   private fetchLocations() {
     this.locService.fetchDropDown().subscribe((l: DropDownItem[]) => {
       this.locations = l;
+      
+      const locID = this.eventForm.get('location')?.value;
+      if (locID) {
+        const matchingLoc = this.locations.find(val => val.id === locID);
+        if(matchingLoc) {
+          this.autoControlLocs.setValue(matchingLoc);
+        }
+      }
     });
   }
 
   private fetchRules() {
     this.ruleService.fetchDropDown().subscribe((r: DropDownItem[]) => {
       this.rules = r;
+
+      const ruleID = this.eventForm.get('rule')?.value;
+      if (ruleID) {
+        const matchingRule = this.rules.find(val => val.id === ruleID);
+        if (matchingRule) {
+          this.autoControlRules.setValue(matchingRule);
+        }
+      }
     });
   }
 
