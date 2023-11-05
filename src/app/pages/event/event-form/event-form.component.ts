@@ -43,8 +43,6 @@ export class EventFormComponent implements OnInit{
   time_types: TimeTypeSelect[] = [];
   isStartTimeDisabled: boolean = false;
   isEndTimeDisabled: boolean = false;
-  checkToggleStartTime!: boolean;
-  checkToggleEndTime!: boolean;
 
   // Variables used by autocomplete
   autoControlCats = new FormControl<string | Category>('');
@@ -90,23 +88,10 @@ export class EventFormComponent implements OnInit{
   // The following functions is used to update various variables
   onTimeStartChange(newVal: {dt: string} | null) {
     newVal && this.eventForm.get('time_start')?.setValue(convertToRFC3339(newVal.dt));
-    this.updateTimeType();
-  }
-
-  onTimeStartToggle(newVal: {td: boolean}) {
-    this.isStartTimeDisabled = newVal.td;
-    this.updateTimeType();
   }
 
   onTimeEndChange(newVal: {dt: string} | null) {
     newVal && this.eventForm.get('time_end')?.setValue(convertToRFC3339(newVal.dt));
-    this.updateTimeType();
-  }
-
-  onTimeEndToggle(newVal: {td: boolean}) {
-    this.isEndTimeDisabled = newVal.td;
-    console.log(this.isEndTimeDisabled)
-    this.updateTimeType();
   }
 
   onTimePublishChange(newVal: {dt: string} | null) {
@@ -205,7 +190,12 @@ export class EventFormComponent implements OnInit{
 
     // Subscribe to value changes for a specific form control
     this.eventForm?.valueChanges.subscribe((value) => {
-      console.log('eventName value changed:', value);
+      //console.log('eventName value changed:', value);
+    });
+
+    // Subscribe to value changes for time_start form control
+    this.eventForm.get('time_type')?.valueChanges.subscribe((value) => {
+      this.updateTimeRequirements();
     });
   }
 
@@ -283,8 +273,6 @@ export class EventFormComponent implements OnInit{
    */
   private updateFormFields() {
     if (this.fe) {
-      console.log("FE: ", this.fe)
-
       this.eventForm.patchValue({
         name_no: this.fe.event.name_no || '',
         name_en: this.fe.event.name_en || '',
@@ -409,37 +397,23 @@ export class EventFormComponent implements OnInit{
     );
   }
 
-  private updateTimeType() {
-    const start = this.eventForm.get('time_start')?.value;
-    const end = this.eventForm.get('time_end')?.value;
-
-    console.log('start: ', this.isStartTimeDisabled, ' end: ', this.isEndTimeDisabled)
-
-    
-    if (this.isStartTimeDisabled && this.isEndTimeDisabled) {
-      this.setShowProperty(TIME_TYPE.NO_END, false);
-      this.setShowProperty(TIME_TYPE.WHOLE_DAY, true);
-      this.setShowProperty(TIME_TYPE.DEFAULT, false);
-    } else if (this.isStartTimeDisabled) {
-      this.setShowProperty(TIME_TYPE.NO_END, false);
-      this.setShowProperty(TIME_TYPE.WHOLE_DAY, false);
-      this.setShowProperty(TIME_TYPE.DEFAULT, false);
-    } else if (this.isEndTimeDisabled) {
-      this.setShowProperty(TIME_TYPE.NO_END, true);
-      this.setShowProperty(TIME_TYPE.WHOLE_DAY, false);
-      this.setShowProperty(TIME_TYPE.DEFAULT, false);
-    } else {
-      this.setShowProperty(TIME_TYPE.NO_END, false);
-      this.setShowProperty(TIME_TYPE.WHOLE_DAY, false);
-      this.setShowProperty(TIME_TYPE.DEFAULT, true);
-    }
-  }
-
-  private setShowProperty(type: string, show: boolean) {
-    const option = this.time_types.find((tt) => tt.type === type);
-    if (option) {
-      option.show = show;
-      this.cd.detectChanges(); // Trigger change detection
+  private updateTimeRequirements() {
+    switch(this.eventForm.get('time_type')?.value) {
+      case TIME_TYPE.TO_BE_DETERMINED:
+        this.isStartTimeDisabled = true;
+        this.isEndTimeDisabled = true;
+        break;
+      case TIME_TYPE.WHOLE_DAY:
+        this.isStartTimeDisabled = true;
+        this.isEndTimeDisabled = true;
+        break;
+      case TIME_TYPE.NO_END:
+        this.isStartTimeDisabled = false;
+        this.isEndTimeDisabled = true;
+        break;
+      default:
+        this.isStartTimeDisabled = false;
+        this.isEndTimeDisabled = false;
     }
   }
 

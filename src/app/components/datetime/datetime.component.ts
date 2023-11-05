@@ -31,38 +31,33 @@ export class DatetimeComponent {
   @Input() value!: string;
   @Input() isTimeRequired!: boolean;
   @Input() isDateRequired!: boolean;
-  @Input() timeDisableable!: boolean;
-  @Input() isTimeDisabled!: boolean;
+  @Input() disableTime!: boolean;
   @Input() prefillWithTimeNow!: boolean;
   @Input() minDate!: Date;
   @Input() maxDate!: Date;
   @Output() newDatetime = new EventEmitter<{dt: string} | null>();
-  @Output() timeToggeled = new EventEmitter<{td: boolean}>();
 
   timeForm!: FormGroup;  // FormGroup where the actual form values from the html is stored.
 
-  constructor(private fb: FormBuilder) {}
-
-  // Initialize the form group
-  ngOnInit() {
+  constructor(private fb: FormBuilder) {
     this.initForm();
-    this.onValueChange(); // Emits the set time
-    this.setDateConstraints(); // Sets minDate and maxDate
-    
-
-    // Toggle button needs special treatment...
-    this.timeForm.get('disableTime')?.valueChanges.subscribe(() => {
-      this.onValueChange();
-    })
   }
 
-  onValueChange() {
-    if(this.timeForm.get('disableTime')?.value) {
-      this.clearTime();
+  ngOnInit() {
+    this.setDateConstraints(); // Sets minDate and maxDate
+
+    if(this.value) {
+      this.updateForm();
     }
+  }
+
+  ngOnChanges() {
+    if(this.timeForm.get('isTimeDisabled')) {
+      this.timeForm.get('isTimeDisabled')?.patchValue(this.disableTime);
+      this.clearTime();
+    } 
 
     this.emitDatetime();
-    this.emitDisabledTimeStatus();
   }
 
   // formatDate formats the date to string on the format YYYY-MM-DD HH:mm:ss
@@ -108,10 +103,6 @@ export class DatetimeComponent {
     }
   }
 
-  private emitDisabledTimeStatus() {
-    this.timeToggeled.emit({td: this.timeForm.get('disableTime')?.value})
-  }
-
   // Formats Date to a string on format HH:mm
   private getTime(dt: Date): string {
     const hour = dt.getHours().toString().padStart(2, '0'); // Padding with '0'
@@ -129,33 +120,58 @@ export class DatetimeComponent {
   }
 
   private initForm() {
-    let inputDate;
-    let inputTime;
+    this.timeForm = this.fb.group({
+      date: '',
+      time: '',
+      isTimeDisabled: false
+    })
+  }
 
-    // Convert optional inputted value to correct format
+  private updateForm() {
+    if(this.timeForm) {
+      let inputDate;
+      let inputTime;
+
+    // Convert optional inputted value to correct format+
     if (this.value) {
-      const datetime = new Date(this.value);
+      console.log(this.value); // Assuming this.value is a string in ISO format
+      const dateParts = this.value.split('T')[0].split('-').map(Number);
+      const timeParts = this.value.split('T')[1].split('.')[0].split(':').map(Number);
+
+      const datetime = new Date(
+        dateParts[0],  // Year
+        dateParts[1] - 1,  // Month (subtract 1 since months are 0-indexed)
+        dateParts[2],  // Day
+        timeParts[0],  // Hours
+        timeParts[1],  // Minutes
+        timeParts[2]   // Seconds
+      );
+
+      console.log(datetime);
 
       // ISO format is 'yyyy-mm-dd'
       inputDate = datetime.toISOString().slice(0,10);
       // Time format is 'hh:mm'
-      inputTime = this.getTime(datetime);
+      if(!this.disableTime) {
+        inputTime = this.getTime(datetime);
+      } else {
+        inputTime = '';
+      }
     } else if(this.prefillWithTimeNow) {
       const datetimeNow  = new Date();
-      console.log("Datetime Now: ", datetimeNow)
 
       inputDate = this.getDate(datetimeNow);
       // Time format is 'hh:mm'
       inputTime = this.getTime(datetimeNow);
-      console.log({inputDate, inputTime})
     }
 
     // Set date and time value
-    this.timeForm = this.fb.group({
+    this.timeForm.patchValue({
       date: inputDate? inputDate : "",
       time: inputTime? inputTime : "",
-      disableTime: this.isTimeDisabled,
+      isTimeDisabled: this.disableTime
     })
+    }
   }
 
   private setDateConstraints() {

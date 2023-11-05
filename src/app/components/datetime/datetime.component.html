@@ -1,8 +1,7 @@
-<form [formGroup]="timeForm" (change)="onValueChange()">
+<form [formGroup]="timeForm">
   <mat-form-field class="input">
     <mat-label>{{dateLabel}}</mat-label>
     <input matInput
-            (dateChange)="onValueChange()"
             [matDatepicker]="date" min="{{this.minDate | date:'yyyy-MM-dd'}}"
             formControlName="date"
             [min]="minDate"
@@ -18,17 +17,15 @@
     </mat-error>
   </mat-form-field>
 
-  <mat-form-field class="input" [class.disabled]="timeForm.get('disableTime')?.value">
+  <mat-form-field class="input" [class.disabled]="timeForm.get('isTimeDisabled')?.value">
     <mat-label>{{timeLabel}}</mat-label>
     <input matInput
             type="time"
-            [attr.disabled]="timeForm.get('disableTime')?.value ? 'disabled' : null"
+            [readonly]="timeForm.get('isTimeDisabled')?.value ? 'readonly' : null"
             formControlName="time"
-            [required]="isTimeRequired && !timeForm.get('disableTime')?.value">
+            [required]="isTimeRequired && !timeForm.get('isTimeDisabled')?.value">
     <mat-error *ngIf="timeForm.controls['date'].hasError('required')">
       Field is <strong>required</strong>
     </mat-error>         
   </mat-form-field>
-  
-  <mat-slide-toggle *ngIf="timeDisableable" formControlName="disableTime" (click)="onValueChange()">No time</mat-slide-toggle>
 </form>

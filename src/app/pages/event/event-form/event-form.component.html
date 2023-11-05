@@ -45,11 +45,9 @@
       <mat-form-field class="row-narrow">
         <mat-label>Time Type</mat-label>
         <mat-select formControlName="time_type" required>
-          <ng-container *ngFor="let type of time_types">
-            <mat-option *ngIf="type.show" [value]="type.type">
-              {{type.name}}
-            </mat-option>
-          </ng-container>
+          <mat-option *ngFor="let type of time_types" [value]="type.type">
+            {{type.name}}
+          </mat-option>
         </mat-select>
         <mat-error *ngIf="eventForm.controls['time_type'].hasError('required')">
           This field is <strong>required</strong>. Available options is based on start and end time.
@@ -58,25 +56,22 @@
 
       <app-datetime
         (newDatetime)=onTimeStartChange($event)
-        (timeToggeled)="onTimeStartToggle($event)"
         [dateLabel]="'Start Date'"
         [timeLabel]="'Start Time'"
         [isDateRequired]="true"
         [isTimeRequired]="true"
-        [timeDisableable]="true"
+        [disableTime]="isStartTimeDisabled"
         [maxDate]="eventForm.get('time_end')?.value"
         [value]="eventForm.get('time_start')?.value">
       </app-datetime>
 
       <app-datetime
         (newDatetime)=onTimeEndChange($event)
-        (timeToggeled)="onTimeEndToggle($event)"
         [dateLabel]="'End Date'"
         [timeLabel]="'End Time'"
         [isDateRequired]="true"
         [isTimeRequired]="true"
-        [timeDisableable]="true"
-        [isTimeDisabled]="true"
+        [disableTime]="isEndTimeDisabled"
         [minDate]="eventForm.get('time_start')?.value"
         [value]="eventForm.get('time_end')?.value">
       </app-datetime>
@@ -232,7 +227,6 @@
         (newDatetime)=onSignupDeadlineChange($event)
         [dateLabel]="'Deadline Date'"
         [timeLabel]="'Deadline Time'"
-        [timeDisableable]="true"
         [minDate]="eventForm.get('time_signup_release')?.value"
         [value]="eventForm.get('time_signup_deadline')?.value">
       </app-datetime>
