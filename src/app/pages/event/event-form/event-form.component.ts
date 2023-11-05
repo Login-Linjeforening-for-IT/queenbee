@@ -32,19 +32,19 @@ export interface TimeTypeSelect {
  */
 export class EventFormComponent implements OnInit{
   @Input() fe!: FullEvent;
+  fetchedEvent$!: Observable<FullEvent>;
+  eventForm!: FormGroup;
 
   categories: Category[] = [];
   organizations: OrgTableItem[] = [];
   locations: DropDownItem[] = [];
   rules: DropDownItem[] = [];
 
+  time_types: TimeTypeSelect[] = [];
   isStartTimeDisabled: boolean = false;
   isEndTimeDisabled: boolean = false;
-  time_types: TimeTypeSelect[] = [];
-
-  fetchedEvent$!: Observable<FullEvent>;
-
-  eventForm!: FormGroup;
+  checkToggleStartTime!: boolean;
+  checkToggleEndTime!: boolean;
 
   // Variables used by autocomplete
   autoControlCats = new FormControl<string | Category>('');

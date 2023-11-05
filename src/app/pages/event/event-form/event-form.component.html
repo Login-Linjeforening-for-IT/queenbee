@@ -42,6 +42,19 @@
         </mat-tab>
       </mat-tab-group>
 
+      <mat-form-field class="row-narrow">
+        <mat-label>Time Type</mat-label>
+        <mat-select formControlName="time_type" required>
+          <ng-container *ngFor="let type of time_types">
+            <mat-option *ngIf="type.show" [value]="type.type">
+              {{type.name}}
+            </mat-option>
+          </ng-container>
+        </mat-select>
+        <mat-error *ngIf="eventForm.controls['time_type'].hasError('required')">
+          This field is <strong>required</strong>. Available options is based on start and end time.
+        </mat-error>
+      </mat-form-field>
 
       <app-datetime
         (newDatetime)=onTimeStartChange($event)
@@ -63,31 +76,9 @@
         [isDateRequired]="true"
         [isTimeRequired]="true"
         [timeDisableable]="true"
+        [isTimeDisabled]="true"
         [minDate]="eventForm.get('time_start')?.value"
         [value]="eventForm.get('time_end')?.value">
-      </app-datetime>
-
-      <mat-form-field class="row-narrow">
-        <mat-label>Time Type</mat-label>
-        <mat-select formControlName="time_type" required>
-          <ng-container *ngFor="let type of time_types">
-            <mat-option *ngIf="type.show" [value]="type.type">
-              {{type.name}}
-            </mat-option>
-          </ng-container>
-        </mat-select>
-        <mat-error *ngIf="eventForm.controls['time_type'].hasError('required')">
-          This field is <strong>required</strong>. Available options is based on start and end time.
-        </mat-error>
-      </mat-form-field>
-
-      <app-datetime
-        (newDatetime)=onTimePublishChange($event)
-        [dateLabel]="'Publish Date'"
-        [timeLabel]="'Publish Time'"
-        [maxDate]="eventForm.get('time_start')?.value"
-        [value]="eventForm.get('time_publish')?.value"
-        [prefillWithTimeNow]="true">
       </app-datetime>
 
       <!-- Drop Down menu with Autocomplete capabilities for categories -->
@@ -211,6 +202,15 @@
         [placeholder]="'Select audience'"
         (newAudienceSet)="onAudienceSetChange($event)">
       </app-audience-selector>
+
+      <app-datetime
+        (newDatetime)=onTimePublishChange($event)
+        [dateLabel]="'Publish Date'"
+        [timeLabel]="'Publish Time'"
+        [maxDate]="eventForm.get('time_start')?.value"
+        [value]="eventForm.get('time_publish')?.value"
+        [prefillWithTimeNow]="true">
+      </app-datetime>
     </div>
 
     <div class="block">

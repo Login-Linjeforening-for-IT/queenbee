@@ -32,6 +32,7 @@ export class DatetimeComponent {
   @Input() isTimeRequired!: boolean;
   @Input() isDateRequired!: boolean;
   @Input() timeDisableable!: boolean;
+  @Input() isTimeDisabled!: boolean;
   @Input() prefillWithTimeNow!: boolean;
   @Input() minDate!: Date;
   @Input() maxDate!: Date;
@@ -50,13 +51,13 @@ export class DatetimeComponent {
     
 
     // Toggle button needs special treatment...
-    this.timeForm.get('isTimeDisabled')?.valueChanges.subscribe(() => {
+    this.timeForm.get('disableTime')?.valueChanges.subscribe(() => {
       this.onValueChange();
     })
   }
 
   onValueChange() {
-    if(this.timeForm.get('isTimeDisabled')?.value) {
+    if(this.timeForm.get('disableTime')?.value) {
       this.clearTime();
     }
 
@@ -108,7 +109,7 @@ export class DatetimeComponent {
   }
 
   private emitDisabledTimeStatus() {
-    this.timeToggeled.emit({td: this.timeForm.get('isTimeDisabled')?.value})
+    this.timeToggeled.emit({td: this.timeForm.get('disableTime')?.value})
   }
 
   // Formats Date to a string on format HH:mm
@@ -153,7 +154,7 @@ export class DatetimeComponent {
     this.timeForm = this.fb.group({
       date: inputDate? inputDate : "",
       time: inputTime? inputTime : "",
-      isTimeDisabled: false,
+      disableTime: this.isTimeDisabled,
     })
   }
 

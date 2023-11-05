@@ -18,17 +18,17 @@
     </mat-error>
   </mat-form-field>
 
-  <mat-form-field class="input" [class.disabled]="timeForm.get('isTimeDisabled')?.value">
+  <mat-form-field class="input" [class.disabled]="timeForm.get('disableTime')?.value">
     <mat-label>{{timeLabel}}</mat-label>
     <input matInput
             type="time"
-            [attr.disabled]="timeForm.get('isTimeDisabled')?.value ? 'disabled' : null"
+            [attr.disabled]="timeForm.get('disableTime')?.value ? 'disabled' : null"
             formControlName="time"
-            [required]="isTimeRequired && !timeForm.get('isTimeDisabled')?.value">
+            [required]="isTimeRequired && !timeForm.get('disableTime')?.value">
     <mat-error *ngIf="timeForm.controls['date'].hasError('required')">
       Field is <strong>required</strong>
     </mat-error>         
   </mat-form-field>
   
-  <mat-slide-toggle *ngIf="timeDisableable" formControlName="isTimeDisabled" (click)="onValueChange()">No time</mat-slide-toggle>
+  <mat-slide-toggle *ngIf="timeDisableable" formControlName="disableTime" (click)="onValueChange()">No time</mat-slide-toggle>
 </form>
