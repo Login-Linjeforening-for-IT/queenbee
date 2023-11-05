@@ -16,9 +16,9 @@
           </mat-form-field>
 
           <mat-form-field class="row">
-            <input matInput formControlName="info_no" maxlength="180">
+            <input matInput formControlName="informational_no" maxlength="180">
             <mat-label>Informational NOR</mat-label>
-            <mat-hint align="end">{{eventForm.get('info_no')?.value?.length || 0}} / 180</mat-hint>
+            <mat-hint align="end">{{eventForm.get('informational_no')?.value?.length || 0}} / 180</mat-hint>
           </mat-form-field>
 
           <app-markdown-textfield
@@ -33,9 +33,9 @@
           </mat-form-field>
 
           <mat-form-field class="row">
-            <input matInput formControlName="info_en" maxlength="180">
+            <input matInput formControlName="informational_en" maxlength="180">
             <mat-label>Informational ENG</mat-label>
-            <mat-hint align="end">{{eventForm.get('info_en')?.value?.length || 0}} / 180</mat-hint>
+            <mat-hint align="end">{{eventForm.get('informational_en')?.value?.length || 0}} / 180</mat-hint>
           </mat-form-field>
 
           <app-markdown-textfield class="row" (newHtmlText)=onDescriptionEnChange($event) [placeholder]="'Description ENG'" [value]="eventForm.get('description_en')?.value"></app-markdown-textfield>
