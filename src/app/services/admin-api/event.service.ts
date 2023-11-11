@@ -87,13 +87,6 @@ export class EventService {
 
     console.log(event.audiences)
 
-    // Set potentially null fields to an empty string
-    /*event.image_small = event.image_small || "NONE";
-    event.image_banner = event.image_banner || "NONE";
-    event.link_facebook = event.link_facebook || "NONE";
-    event.link_discord = event.link_discord || "NONE";
-    event.link_signup = event.link_signup || "NONE";*/
-
     return this.http
       .post<FullEvent>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`, event, httpOptions)
       .pipe(
@@ -118,13 +111,6 @@ export class EventService {
         'Content-Type':  'application/json'
       })
     };
-
-    // Set potentially null fields to an empty string
-    /*event.image_small = event.image_small || "NONE";
-    event.image_banner = event.image_banner || "NONE";
-    event.link_facebook = event.link_facebook || "NONE";
-    event.link_discord = event.link_discord || "NONE";
-    event.link_signup = event.link_signup || "NONE";*/
 
     return this.http
       .patch<FullEvent>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`, event, httpOptions)
