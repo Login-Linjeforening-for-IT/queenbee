@@ -134,7 +134,7 @@ interface OrganizationData {
   is_deleted: boolean;
 }
 
-interface AudienceData {
+export interface Audience {
   id: number;
   name_no: string;
   name_en: string;
@@ -261,13 +261,13 @@ export interface Rule {
   time_updated: string;
 }
 
-export interface Audience {
+/*export interface Audience {
   id: number;
   name_no: string;
   name_en: string;
   description_no: string;
   description_en: string;
-}
+}*/
 
 export interface AudienceChip {
   id: number;

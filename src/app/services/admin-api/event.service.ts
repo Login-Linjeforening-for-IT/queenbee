@@ -85,6 +85,8 @@ export class EventService {
       })
     };
 
+    console.log(event.audiences)
+
     // Set potentially null fields to an empty string
     /*event.image_small = event.image_small || "NONE";
     event.image_banner = event.image_banner || "NONE";
@@ -148,5 +150,12 @@ export class EventService {
         throw new Error('Failed to delete event', error)
       }
     });
+  }
+
+  private createAudience(eventId: number, orgId: string) {
+    const endpointURL = `${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}${BeehiveAPI.SKILLS_PATH}`;
+    const reqBody = {event: eventId, organization: orgId};
+
+    return this.http.post(endpointURL, reqBody);
   }
 }

@@ -1,9 +1,10 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 import { NoDecimalValidator } from 'src/app/common/validators';
+import { AudienceSelectorComponent } from 'src/app/components/audience-selector/audience-selector.component';
 import { TIME, TIME_TYPE } from 'src/app/config/constants';
-import { Audience, AudienceChip, Category, FullEvent, DropDownItem, OrgTableItem } from 'src/app/models/dataInterfaces.model';
+import { AudienceChip, Category, FullEvent, DropDownItem, OrgTableItem } from 'src/app/models/dataInterfaces.model';
 import { AudienceService } from 'src/app/services/admin-api/audience.service';
 import { CategoryService } from 'src/app/services/admin-api/category.service';
 import { LocationService } from 'src/app/services/admin-api/location.service';
@@ -32,6 +33,9 @@ export interface TimeTypeSelect {
  */
 export class EventFormComponent implements OnInit{
   @Input() fe!: FullEvent;
+
+  @ViewChild('audienceSelector') audienceSelector!: AudienceSelectorComponent;
+
   fetchedEvent$!: Observable<FullEvent>;
   eventForm!: FormGroup;
 
@@ -82,6 +86,7 @@ export class EventFormComponent implements OnInit{
    * @returns The whole form
    */
   getFormValues(): FullEvent {
+    console.log("Sending form values: ", this.eventForm.value)
     return this.eventForm.value;
   }
 
@@ -190,7 +195,7 @@ export class EventFormComponent implements OnInit{
 
     // Subscribe to value changes for a specific form control
     this.eventForm?.valueChanges.subscribe((value) => {
-      //console.log('eventName value changed:', value);
+      console.log('eventName value changed:', value);
     });
 
     // Subscribe to value changes for time_start form control

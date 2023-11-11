@@ -85,6 +85,10 @@ export class AudienceSelectorComponent {
     );
   }
 
+  getChips(): AudienceChip[] {
+    return this.selectedItems;
+  }
+
   /**
    * Filters based on keyword and already selected items.
    * @param value search keyword

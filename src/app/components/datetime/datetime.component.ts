@@ -43,12 +43,35 @@ export class DatetimeComponent {
     this.initForm();
   }
 
+  // Initialize the form group
   ngOnInit() {
     this.setDateConstraints(); // Sets minDate and maxDate
 
-    if(this.value) {
-      this.updateForm();
+    let inputDate;
+    let inputTime;
+
+    // Convert optional inputted value to correct format
+    if (this.value) {
+      const datetime = new Date(this.value);
+
+      // ISO format is 'yyyy-mm-dd'
+      inputDate = datetime.toISOString().slice(0,10);
+
+      // Time format is 'hh:mm'
+      inputTime = this.padTo2Digits(datetime.getUTCHours()) + ':' +
+                  this.padTo2Digits(datetime.getUTCMinutes());
     }
+
+    // Set date and time value
+    this.timeForm = this.fb.group({
+      date: inputDate? inputDate : "",
+      time: inputTime? inputTime : ""
+    })
+
+    this.timeForm.valueChanges.subscribe(() => {
+      console.log("Changes!");
+      this.onValueChange();
+    })
   }
 
   ngOnChanges() {
@@ -56,9 +79,20 @@ export class DatetimeComponent {
       this.timeForm.get('isTimeDisabled')?.patchValue(this.disableTime);
       this.clearTime();
     } 
-
-    this.emitDatetime();
   }
+
+  // onValueChange emits value changes when it is called. It must be called whenever the user enters new data.
+  onValueChange() {
+    const hour = this.timeForm.value.time.toString().slice(0,2);
+    const min = this.timeForm.value.time.toString().slice(3,5);
+
+    const datetime = new Date(this.timeForm.value.date);
+    datetime.setHours(hour);
+    datetime.setMinutes(min);
+
+    this.newDatetime.emit({dt: this.formatDate(datetime)})
+  }
+
 
   // formatDate formats the date to string on the format YYYY-MM-DD HH:mm:ss
   formatDate(date: Date) {
@@ -77,6 +111,7 @@ export class DatetimeComponent {
     );
   }
 
+
   // Helper function for formatDate
   private padTo2Digits(num: number) {
     return num.toString().padStart(2, '0');
@@ -84,39 +119,6 @@ export class DatetimeComponent {
 
   private clearTime() {
     this.timeForm.get('time')?.setValue('');
-  }
-
-  private emitDatetime() {
-    const hour = this.timeForm.value.time.toString().slice(0, 2);
-    const min = this.timeForm.value.time.toString().slice(3, 5);
-
-    const datetime = new Date(this.timeForm.value.date);
-    datetime.setHours(hour);
-    datetime.setMinutes(min);
-
-    if (!isNaN(datetime.getTime())) {
-      // Valid datetime
-      this.newDatetime.emit({ dt: this.formatDate(datetime) });
-    } else {
-      // Invalid datetime, emit null
-      this.newDatetime.emit(null);
-    }
-  }
-
-  // Formats Date to a string on format HH:mm
-  private getTime(dt: Date): string {
-    const hour = dt.getHours().toString().padStart(2, '0'); // Padding with '0'
-    const minute = dt.getMinutes().toString().padStart(2, '0'); // Padding with '0'
-
-    return `${hour}:${minute}`;
-  }
-
-  private getDate(dt: Date): string {
-    const year = dt.getFullYear();
-    const month = (dt.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 to the month since it is zero-based, and padding with '0'
-    const day = dt.getDate().toString().padStart(2, '0'); // Padding with '0'
-
-    return `${year}-${month}-${day}`;
   }
 
   private initForm() {
@@ -127,53 +129,9 @@ export class DatetimeComponent {
     })
   }
 
-  private updateForm() {
-    if(this.timeForm) {
-      let inputDate;
-      let inputTime;
-
-    // Convert optional inputted value to correct format+
-    if (this.value) {
-      console.log(this.value); // Assuming this.value is a string in ISO format
-      const dateParts = this.value.split('T')[0].split('-').map(Number);
-      const timeParts = this.value.split('T')[1].split('.')[0].split(':').map(Number);
-
-      const datetime = new Date(
-        dateParts[0],  // Year
-        dateParts[1] - 1,  // Month (subtract 1 since months are 0-indexed)
-        dateParts[2],  // Day
-        timeParts[0],  // Hours
-        timeParts[1],  // Minutes
-        timeParts[2]   // Seconds
-      );
-
-      console.log(datetime);
-
-      // ISO format is 'yyyy-mm-dd'
-      inputDate = datetime.toISOString().slice(0,10);
-      // Time format is 'hh:mm'
-      if(!this.disableTime) {
-        inputTime = this.getTime(datetime);
-      } else {
-        inputTime = '';
-      }
-    } else if(this.prefillWithTimeNow) {
-      const datetimeNow  = new Date();
-
-      inputDate = this.getDate(datetimeNow);
-      // Time format is 'hh:mm'
-      inputTime = this.getTime(datetimeNow);
-    }
-
-    // Set date and time value
-    this.timeForm.patchValue({
-      date: inputDate? inputDate : "",
-      time: inputTime? inputTime : "",
-      isTimeDisabled: this.disableTime
-    })
-    }
-  }
-
+  /**
+   * Used to min/max date on datepicker.
+   */
   private setDateConstraints() {
     if(this.minDate) {
       this.minDate = new Date(this.minDate);
