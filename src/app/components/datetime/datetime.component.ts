@@ -75,10 +75,10 @@ export class DatetimeComponent {
   }
 
   ngOnChanges() {
-    if(this.timeForm.get('isTimeDisabled')) {
-      this.timeForm.get('isTimeDisabled')?.patchValue(this.disableTime);
+    if(this.disableTime) {
+      console.log("Triggered D:")
       this.clearTime();
-    } 
+    }
   }
 
   // onValueChange emits value changes when it is called. It must be called whenever the user enters new data.
@@ -124,8 +124,7 @@ export class DatetimeComponent {
   private initForm() {
     this.timeForm = this.fb.group({
       date: '',
-      time: '',
-      isTimeDisabled: false
+      time: ''
     })
   }
 
