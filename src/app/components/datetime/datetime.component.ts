@@ -69,14 +69,12 @@ export class DatetimeComponent {
     })
 
     this.timeForm.valueChanges.subscribe(() => {
-      console.log("Changes!");
       this.onValueChange();
     })
   }
 
   ngOnChanges() {
     if(this.disableTime) {
-      console.log("Triggered D:")
       this.clearTime();
     }
   }
