@@ -4,7 +4,7 @@ import { Observable, map, startWith } from 'rxjs';
 import { NoDecimalValidator } from 'src/app/common/validators';
 import { AudienceSelectorComponent } from 'src/app/components/audience-selector/audience-selector.component';
 import { TIME, TIME_TYPE } from 'src/app/config/constants';
-import { AudienceChip, Category, FullEvent, DropDownItem, OrgTableItem } from 'src/app/models/dataInterfaces.model';
+import { AudienceChip, Category, FullEvent, DropDownItem, OrgTableItem, EventData } from 'src/app/models/dataInterfaces.model';
 import { AudienceService } from 'src/app/services/admin-api/audience.service';
 import { CategoryService } from 'src/app/services/admin-api/category.service';
 import { LocationService } from 'src/app/services/admin-api/location.service';
@@ -85,7 +85,7 @@ export class EventFormComponent implements OnInit{
    * Simply returns the value of the form
    * @returns The whole form
    */
-  getFormValues(): FullEvent {
+  getFormValues(): EventData {
     console.log("Sending form values: ", this.eventForm.value)
     return this.eventForm.value;
   }

@@ -81,7 +81,7 @@ export class EventEditComponent {
         console.log("User confirmed");
 
         const formValues = this.eventFormComponent.getFormValues();
-        formValues.event.canceled = true;
+        formValues.canceled = true;
 
         this.eventService.patchEvent(formValues).subscribe({
           next: () => {

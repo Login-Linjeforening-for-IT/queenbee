@@ -41,7 +41,7 @@ export interface EventTableItem {
   organizers: string[];
 }
 
-interface EventData {
+export interface EventData {
   id: number;
   visible: boolean;
   name_no: string;
@@ -71,6 +71,7 @@ interface EventData {
   location: number;
   parent: number;
   rule: number;
+  audience: number[];
   organization: string;
   updated_at: string;
   created_at: string;

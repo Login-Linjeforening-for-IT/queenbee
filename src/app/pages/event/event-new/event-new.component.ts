@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorComponent } from 'src/app/components/dialog/error/error.component';
-import { FullEvent } from 'src/app/models/dataInterfaces.model';
+import { EventData, FullEvent } from 'src/app/models/dataInterfaces.model';
 import { EventService } from 'src/app/services/admin-api/event.service';
 import { EventFormComponent } from '../event-form/event-form.component';
 import { scrollToTop } from 'src/app/utils/core';
@@ -15,7 +15,7 @@ import { BeehiveAPI } from 'src/app/config/constants';
 })
 export class EventNewComponent {
   @ViewChild(EventFormComponent) eventFormComponent!: EventFormComponent;
-  eventFormValues!: FullEvent;
+  eventFormValues!: EventData;
 
   constructor(
     private eventService: EventService,

@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map, retry } from 'rxjs';
 import { BeehiveAPI } from 'src/app/config/constants';
-import { EventTableItem, EventShort, FullEvent } from 'src/app/models/dataInterfaces.model';
+import { EventTableItem, EventShort, FullEvent, EventData } from 'src/app/models/dataInterfaces.model';
 import { convertFromRFC3339 } from 'src/app/utils/time';
 
 @Injectable({
@@ -78,21 +78,22 @@ export class EventService {
    * @param event EventDetail object
    * @returns observable
    */
-  createEvent(event: FullEvent) {
+  createEvent(event: EventData) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json'
       })
     };
 
-    console.log(event.audiences)
+    console.log("Creating: ", event)
+    console.log("Audience: ", event.audience)
 
     return this.http
-      .post<FullEvent>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`, event, httpOptions)
+      .post<EventData>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`, event, httpOptions)
       .pipe(
         map(resData => {
           if (resData) {
-            const newEvent: FullEvent = resData;
+            const newEvent: EventData = resData;
             return newEvent;
           }
           throw new Error('Failed to create event');
@@ -105,7 +106,7 @@ export class EventService {
    * @param event EventDetail object
    * @returns observable
    */
-  patchEvent(event: FullEvent) {
+  patchEvent(event: EventData) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json'
@@ -113,11 +114,11 @@ export class EventService {
     };
 
     return this.http
-      .patch<FullEvent>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`, event, httpOptions)
+      .patch<EventData>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`, event, httpOptions)
       .pipe(
         map(resData => {
           if (resData) {
-            const newEvent: FullEvent = resData;
+            const newEvent: EventData = resData;
             return newEvent;
           }
           throw new Error('Failed to patch event');
