@@ -63,7 +63,7 @@ import { ImageCropperModule } from './components/image-cropper/image-cropper.mod
 import { CropComponent } from './components/dialog/crop/crop.component';
 import { RuleNewComponent } from './pages/rule/rule-new/rule-new.component';
 import { RuleFormComponent } from './pages/rule/rule-form/rule-form.component';
-import { AudienceSelectorComponent } from './components/audience-selector/audience-selector.component';
+import { AudienceSelectorComponent } from './components/chip-selectors/audience-selector/audience-selector.component';
 import { MatIconModule } from '@angular/material/icon';
 import { RuleEditComponent } from './pages/rule/rule-edit/rule-edit.component';
 import { RuleCopyComponent } from './pages/rule/rule-copy/rule-copy.component';
@@ -72,7 +72,8 @@ import { OrgFormComponent } from './pages/organization/org-form/org-form.compone
 import { OrgNewComponent } from './pages/organization/org-new/org-new.component';
 import { OrgEditComponent } from './pages/organization/org-edit/org-edit.component';
 import { LocationEditComponent } from './pages/location/location-edit/location-edit.component';
-import { InputSelectorComponent } from './components/input-selector/input-selector.component';
+import { InputSelectorComponent } from './components/chip-selectors/input-selector/input-selector.component';
+import { BaseChipSelectorComponent } from './components/chip-selectors/base-chip-selector/base-chip-selector.component';
 
 @NgModule({
   declarations: [
@@ -118,7 +119,7 @@ import { InputSelectorComponent } from './components/input-selector/input-select
     OrgNewComponent,
     OrgEditComponent,
     LocationEditComponent,
-    InputSelectorComponent,
+    InputSelectorComponent
   ],
     imports: [
         BrowserModule,

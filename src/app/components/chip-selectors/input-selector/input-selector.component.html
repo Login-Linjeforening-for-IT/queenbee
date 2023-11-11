@@ -3,15 +3,13 @@
   <mat-chip-grid #chipGrid aria-label="Enter fruits">
     <mat-chip-row *ngFor="let chip of chips"
                   (removed)="remove(chip)"
-                  [editable]="true"
-                  (edited)="edit(chip, $event)"
                   [aria-description]="'press enter to edit ' + chip">
       {{chip}}
       <button matChipRemove [attr.aria-label]="'remove ' + chip">
         <mat-icon>cancel</mat-icon>
       </button>
     </mat-chip-row>
-    <input [placeholder]="inputPlaceholder"
+    <input [placeholder]="placeholder"
            [matChipInputFor]="chipGrid"
            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
            [matChipInputAddOnBlur]="addOnBlur"

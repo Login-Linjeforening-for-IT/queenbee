@@ -5,7 +5,7 @@ import {JobadDetail, OrgTableItem } from 'src/app/models/dataInterfaces.model';
 import { convertToRFC3339 } from 'src/app/utils/time';
 import {map, Observable, startWith} from "rxjs";
 import {OrganizationService} from "../../../services/admin-api/organizations.service";
-import { InputSelectorComponent } from 'src/app/components/input-selector/input-selector.component';
+import { InputSelectorComponent } from 'src/app/components/chip-selectors/input-selector/input-selector.component';
 
 interface Option {
   id: string;
