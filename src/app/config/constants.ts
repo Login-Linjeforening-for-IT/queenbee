@@ -12,6 +12,7 @@ export const BeehiveAPI = {
     CITIES_PATH: 'cities',
 
     SECRET: 'secret', // Cosmic secret, quite strong password
+    AUDIENCES_PATH_2: 'audiences',
 }
 
 export const TIME = {
