@@ -194,6 +194,7 @@
       <app-audience-selector
         #audienceSelector
         class="row-narrow"
+        [values]="eventForm.get('audience')?.value"
         [label]="'Audiences'"
         [placeholder]="'Select audience'"
         (newChipSet)="onAudienceSetChange($event)">

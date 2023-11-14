@@ -141,9 +141,6 @@ export interface Audience {
   name_en: string;
   description_no: string;
   description_en: string;
-  updated_at: string;
-  created_at: string;
-  deleted_at: string;
 }
 
 export interface FullEvent {
@@ -152,7 +149,7 @@ export interface FullEvent {
   rule: RuleData;
   location: LocationData;
   organizations: OrganizationData[];
-  audiences: number[];
+  audiences: Audience[];
 }
 
 
@@ -271,7 +268,7 @@ export interface Rule {
 }*/
 
 export interface AudienceChip {
-  id: number;
+  id: any;
   name: string;
 }
 

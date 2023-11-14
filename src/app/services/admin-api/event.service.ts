@@ -26,7 +26,10 @@ export class EventService {
       .pipe(
         map(resData => {
           if (resData) {
+            console.log("ResData: ", resData)
+            console.log("Audience from service (resData): ", resData.audiences)
             const event: FullEvent = resData;
+            console.log("Audience from service: ", event.audiences)
             return event;
           }
           throw new Error('No event found with id ' + eventId);

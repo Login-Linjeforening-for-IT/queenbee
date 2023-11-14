@@ -9,7 +9,7 @@
           </button>
         </mat-chip-row>
       </mat-chip-grid>
-      <input 
+      <input
         [placeholder]=placeholder
         #itemInput
         [formControl]="itemCtrl"
@@ -25,6 +25,6 @@
             </mat-option>
           </ng-container>
         <mat-option disabled *ngIf="!(filteredItems | async)?.length">No results found</mat-option>
-      </mat-autocomplete>        
+      </mat-autocomplete>
     </mat-form-field>
   </form>

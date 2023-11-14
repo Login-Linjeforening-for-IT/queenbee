@@ -4,7 +4,7 @@ import { Observable, map, startWith } from 'rxjs';
 import { NoDecimalValidator } from 'src/app/common/validators';
 import { AudienceSelectorComponent } from 'src/app/components/chip-selectors/audience-selector/audience-selector.component';
 import { TIME, TIME_TYPE } from 'src/app/config/constants';
-import { AudienceChip, Category, FullEvent, DropDownItem, OrgTableItem, EventData } from 'src/app/models/dataInterfaces.model';
+import { Category, FullEvent, DropDownItem, OrgTableItem, EventData } from 'src/app/models/dataInterfaces.model';
 import { AudienceService } from 'src/app/services/admin-api/audience.service';
 import { CategoryService } from 'src/app/services/admin-api/category.service';
 import { LocationService } from 'src/app/services/admin-api/location.service';
@@ -333,7 +333,8 @@ export class EventFormComponent implements OnInit{
         category: this.fe.event.category || 0,
         organization: this.fe.organizations[0]?.shortname || '',
         rule: this.fe.rule?.id || 0,
-        location: this.fe.location?.id || 0
+        location: this.fe.location?.id || 0,
+        audience: this.fe.audiences || []
       });
     } else {
       // Reset the form fields when the event is undefined
