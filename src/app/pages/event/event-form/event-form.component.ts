@@ -10,7 +10,7 @@ import { CategoryService } from 'src/app/services/admin-api/category.service';
 import { LocationService } from 'src/app/services/admin-api/location.service';
 import { OrganizationService } from 'src/app/services/admin-api/organizations.service';
 import { RulesService } from 'src/app/services/admin-api/rules.service';
-import { convertToRFC3339, getTime, isDatetimeUnset } from 'src/app/utils/time';
+import {convertDateToRFC3339, convertToRFC3339, getTime, isDatetimeUnset} from 'src/app/utils/time';
 
 export interface TimeTypeSelect {
   type: string;
@@ -78,7 +78,7 @@ export class EventFormComponent implements OnInit{
 
     if (this.fe.event) {
       this.updateFormFields();
-    }    
+    }
   }
 
   /**
@@ -163,6 +163,8 @@ export class EventFormComponent implements OnInit{
    * Initialize the form, alongside corresponding validators
    */
   private initForm() {
+    const datetimeNow = convertDateToRFC3339(new Date());
+
     this.eventForm = this.fb.group({
       name_no: ['', Validators.required],
       name_en: '',
@@ -173,7 +175,7 @@ export class EventFormComponent implements OnInit{
       time_type: [TIME_TYPE.TO_BE_DETERMINED, Validators.required],
       time_start: null,
       time_end: null,
-      time_publish: '',
+      time_publish: datetimeNow,
       time_signup_release: '',
       time_signup_deadline: '',
       link_signup: '',
@@ -343,7 +345,7 @@ export class EventFormComponent implements OnInit{
   private fetchLocations() {
     this.locService.fetchDropDown().subscribe((l: DropDownItem[]) => {
       this.locations = l;
-      
+
       const locID = this.eventForm.get('location')?.value;
       if (locID) {
         const matchingLoc = this.locations.find(val => val.id === locID);
