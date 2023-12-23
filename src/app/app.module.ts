@@ -28,7 +28,6 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {MatMenuModule} from "@angular/material/menu";
 import { OrganizationsComponent } from './pages/organizations/organizations.component';
 import { DataTableOrganizationComponent } from "./pages/organizations/data-table-organization/data-table-organization.component";
-import { OrganizationComponent } from './pages/organization/organization.component';
 import { DataTableAddressComponent } from './pages/locations/data-table-address/data-table-address.component';
 import { DataTableJobadsComponent } from './pages/jobads/data-table-jobads/data-table-jobads.component';
 import { MarkdownTextfieldComponent } from './components/markdown-textfield/markdown-textfield.component';
@@ -64,8 +63,17 @@ import { ImageCropperModule } from './components/image-cropper/image-cropper.mod
 import { CropComponent } from './components/dialog/crop/crop.component';
 import { RuleNewComponent } from './pages/rule/rule-new/rule-new.component';
 import { RuleFormComponent } from './pages/rule/rule-form/rule-form.component';
-import { ChipSelectorComponent } from './components/chip-selector/chip-selector.component';
+import { AudienceSelectorComponent } from './components/chip-selectors/audience-selector/audience-selector.component';
 import { MatIconModule } from '@angular/material/icon';
+import { RuleEditComponent } from './pages/rule/rule-edit/rule-edit.component';
+import { RuleCopyComponent } from './pages/rule/rule-copy/rule-copy.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { OrgFormComponent } from './pages/organization/org-form/org-form.component';
+import { OrgNewComponent } from './pages/organization/org-new/org-new.component';
+import { OrgEditComponent } from './pages/organization/org-edit/org-edit.component';
+import { LocationEditComponent } from './pages/location/location-edit/location-edit.component';
+import { InputSelectorComponent } from './components/chip-selectors/input-selector/input-selector.component';
+import { BaseChipSelectorComponent } from './components/chip-selectors/base-chip-selector/base-chip-selector.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +85,6 @@ import { MatIconModule } from '@angular/material/icon';
     DatetimeComponent,
     OrganizationsComponent,
     DataTableOrganizationComponent,
-    OrganizationComponent,
     DataTableJobadsComponent,
     DataTableAddressComponent,
     DataTableMazemapComponent,
@@ -105,7 +112,14 @@ import { MatIconModule } from '@angular/material/icon';
     CropComponent,
     RuleNewComponent,
     RuleFormComponent,
-    ChipSelectorComponent,
+    AudienceSelectorComponent,
+    RuleEditComponent,
+    RuleCopyComponent,
+    OrgFormComponent,
+    OrgNewComponent,
+    OrgEditComponent,
+    LocationEditComponent,
+    InputSelectorComponent
   ],
     imports: [
         BrowserModule,
@@ -134,7 +148,8 @@ import { MatIconModule } from '@angular/material/icon';
         MatDialogModule,
         MatAutocompleteModule,
         ImageCropperModule,
-        MatIconModule
+        MatIconModule,
+        MatSnackBarModule
     ],
   providers: [],
   bootstrap: [AppComponent]

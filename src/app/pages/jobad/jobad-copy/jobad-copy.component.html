@@ -1,1 +1,13 @@
-<p>jobad-copy works!</p>
+<h1>Copy Job Ad</h1>
+<ng-container *ngIf="jobad">
+    <app-alert [alertMsg]="'Your are copying an job ad, make sure to update necessary information! Some input fields have intenionally been cleared.'"></app-alert>
+    <app-jobad-form 
+        [jobad]="jobad"
+        [skills]="skills"
+        [cities]="cities">
+    </app-jobad-form>
+</ng-container>
+
+<button class="submit-btn" type="submit" (click)="createJobad()" mat-raised-button color="primary">
+    <span class="material-symbols-sharp">save</span>Create
+</button>

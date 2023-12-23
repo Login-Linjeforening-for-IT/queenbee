@@ -31,18 +31,22 @@ export class DatetimeComponent {
   @Input() value!: string;
   @Input() isTimeRequired!: boolean;
   @Input() isDateRequired!: boolean;
-  @Input() timeDisableable!: boolean;
-  @Output() newDatetime = new EventEmitter<{dt: string}>();
-
-  isTimeDisabled = false;
-  minDate = new Date();
+  @Input() disableTime!: boolean;
+  @Input() prefillWithTimeNow!: boolean;
+  @Input() minDate!: Date;
+  @Input() maxDate!: Date;
+  @Output() newDatetime = new EventEmitter<{dt: string} | null>();
 
   timeForm!: FormGroup;  // FormGroup where the actual form values from the html is stored.
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) {
+    this.initForm();
+  }
 
   // Initialize the form group
   ngOnInit() {
+    this.setDateConstraints(); // Sets minDate and maxDate
+
     let inputDate;
     let inputTime;
 
@@ -63,6 +67,16 @@ export class DatetimeComponent {
       date: inputDate? inputDate : "",
       time: inputTime? inputTime : ""
     })
+
+    this.timeForm.valueChanges.subscribe(() => {
+      this.onValueChange();
+    })
+  }
+
+  ngOnChanges() {
+    if(this.disableTime) {
+      this.clearTime();
+    }
   }
 
   // onValueChange emits value changes when it is called. It must be called whenever the user enters new data.
@@ -77,14 +91,6 @@ export class DatetimeComponent {
     this.newDatetime.emit({dt: this.formatDate(datetime)})
   }
 
-  // Triggered when the slide toggle is clicked. Function is used to reset the time value and to trigger the emit
-  // function onValueChange().
-  onTimeToggle() {
-    if (this.isTimeDisabled) {
-      this.timeForm.get('time')?.setValue('');
-      this.onValueChange();
-    }
-  }
 
   // formatDate formats the date to string on the format YYYY-MM-DD HH:mm:ss
   formatDate(date: Date) {
@@ -103,8 +109,35 @@ export class DatetimeComponent {
     );
   }
 
+
   // Helper function for formatDate
-  padTo2Digits(num: number) {
+  private padTo2Digits(num: number) {
     return num.toString().padStart(2, '0');
+  }
+
+  private clearTime() {
+    this.timeForm.get('time')?.setValue('');
+  }
+
+  private initForm() {
+    this.timeForm = this.fb.group({
+      date: '',
+      time: ''
+    })
+  }
+
+  /**
+   * Used to min/max date on datepicker.
+   */
+  private setDateConstraints() {
+    if(this.minDate) {
+      this.minDate = new Date(this.minDate);
+    } else {
+      this.minDate = new Date();
+    }
+
+    if(this.maxDate) {
+      this.maxDate = new Date(this.maxDate);
+    }
   }
 }

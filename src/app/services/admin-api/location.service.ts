@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { BeehiveAPI } from 'src/app/config/constants';
-import { Location, LocationTableItem } from 'src/app/models/dataInterfaces.model';
+import { Location, DropDownItem, LocationTableItem } from 'src/app/models/dataInterfaces.model';
 import { convertFromRFC3339 } from 'src/app/utils/time';
 
 @Injectable({
@@ -13,8 +13,46 @@ export class LocationService {
   constructor(private http: HttpClient) { }
 
   /**
-   * Returns all organizations
-   * @returns Organization array
+   * The 'fetchLocation' function is used to fetch a location by a given ID.
+   * @param locID number, ID to fetch
+   * @returns Location
+   */
+  fetchLocation(locID: number): Observable<Location> {
+    return this.http
+      .get<Location>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}${locID}`)
+      .pipe(
+        map(loc => {
+          if (loc) {
+            return loc;
+          } else {
+            throw new Error('Location not found');
+          }
+        })
+      );
+  }
+
+  /**
+   * The 'patchLoc' function is used to patch a location.
+   * @param loc Location to update to
+   * @returns Location
+   */
+  patchLoc(loc: Location) {
+    return this.http
+      .patch<Location>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}`, loc)
+      .pipe(
+        map(resData => {
+          if(resData) {
+            const newLoc: Location = resData;
+            return newLoc;
+          }
+          throw new Error('Failed to patch location')
+        })
+      )
+  }
+
+  /**
+   * Returns all locations
+   * @returns Location array
    */
   fetchLocations(type: string): Observable<LocationTableItem[]> {
     return this.http
@@ -44,5 +82,80 @@ export class LocationService {
           return locArray;
         })
       );
+  }
+
+  /**
+   * The function 'fetchDropDown' returns an array of Location objects tailored for dropdown menu.
+   * @returns Observable<DropDownItem[]>
+   */
+  fetchDropDown(): Observable<DropDownItem[]> {
+    return this.http
+      .get<{ [id: number]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}`)
+      .pipe(
+        map(resData => {
+          const locArray: DropDownItem[] = [];
+          
+          for (const i in resData) {
+            const resObj: Location = resData[i]
+            
+            const loc: DropDownItem = {
+              id: resObj.id,
+              name: resObj.name_en || resObj.name_no, // Set name to name_en if it exists, else set to name_no
+              details: '',
+            }
+
+            switch (resObj.type) {
+              case 'address':
+                loc.details = 'ADDRESS ' + resObj.address_street;
+                break;
+              case 'mazemap':
+                loc.details = 'MAZE ' + resObj.mazemap_poi_id.toString();
+                break;
+              case 'coords':
+                loc.details = 'COORDS ' + resObj.coordinate_lat.toFixed(4).toString() + ', ' + resObj.coordinate_long.toFixed(4).toString();
+                break;
+            
+              default:
+                loc.details = 'NONE';
+                break;
+            }
+
+            locArray.push(loc);   
+          };
+        
+          return locArray;
+        })
+      );
+  }
+
+  /**
+   * The 'createLocation' functions creates a new location.
+   * @param loc Location
+   */
+  createLocation(loc: Location): Observable<Location> {
+    return this.http
+      .post<Location>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}`, loc)
+      .pipe(
+        map(resData => {
+          if (resData) {
+            const newLoc: Location = resData;
+            return newLoc;
+          }
+          throw new Error('Failed to create event');
+        })
+      );
+  }
+
+  /**
+   * The 'deleteLoc' function deletes the location by the given id.
+   * @param id number
+   */
+  deleteLoc(id: number) {
+    this.http.delete<Location>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}${id}`)
+    .subscribe({
+      error: error => {
+        throw new Error('Failed to delete location', error)
+      }
+    });
   }
 }

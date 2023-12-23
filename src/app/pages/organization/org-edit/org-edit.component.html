@@ -1,0 +1,12 @@
+<div>
+    <h1>Edit Organization</h1>
+    
+    <ng-container  *ngIf="org">
+        <p class="weak-text">Last updated: {{timeUpdated}}</p>
+        <app-org-form [disableShortnameInput]=true [org]="org"></app-org-form>
+    </ng-container>
+    
+    <button class="submit-btn" type="submit" (click)="updateOrg()" mat-raised-button color="primary">
+      <span class="material-symbols-sharp">save</span>Update
+    </button>
+</div>

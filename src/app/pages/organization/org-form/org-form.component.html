@@ -1,0 +1,61 @@
+<form [formGroup]="orgForm" class="form">
+    <div class="block">
+        <h2>General Information</h2>
+        
+        <p *ngIf="disableShortnameInput" class="weak-text">(Shortname cannot be changed, because it's a PK.)</p>
+        <mat-form-field class="row">
+            <input matInput formControlName="shortname" required>
+            <mat-label>Shortname</mat-label>
+        </mat-form-field>
+
+        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" class="block">
+            <mat-tab label="🇳🇴 NOR">
+            <mat-form-field class="row">
+                <input matInput formControlName="name_no" required>
+                <mat-label>Name NOR</mat-label>
+            </mat-form-field>
+
+            <app-markdown-textfield (newHtmlText)=onDescriptionNoChange($event) [placeholder]="'Description NOR'" class="row"></app-markdown-textfield>
+            </mat-tab>
+            <mat-tab label="🇺🇸 ENG">
+            <mat-form-field class="row">
+                <input matInput formControlName="name_en" required>
+                <mat-label>Name ENG</mat-label>
+            </mat-form-field>
+
+            <app-markdown-textfield (newHtmlText)=onDescriptionEnChange($event) [placeholder]="'Description ENG'" class="row"></app-markdown-textfield>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+  
+    <div class="block">
+        <h2>Social Links</h2>
+        <mat-form-field class="row">
+            <input matInput formControlName="link_homepage">
+            <mat-label>Link Homepage</mat-label>
+        </mat-form-field>
+
+        <mat-form-field class="row">
+            <input matInput formControlName="link_linkedin">
+            <mat-label>Link Linkedin</mat-label>
+        </mat-form-field>
+
+        <mat-form-field class="row">
+            <input matInput formControlName="link_facebook">
+            <mat-label>Link Facebook</mat-label>
+        </mat-form-field>
+
+        <mat-form-field class="row">
+            <input matInput formControlName="link_instagram">
+            <mat-label>Link Instagram</mat-label>
+        </mat-form-field>
+    </div>
+
+    <div class="block">
+        <h2>Image Link</h2>
+        <app-image-selector 
+            [title]="'Organization Logo'"
+            (valEmitter)="onImageLogoChange($event)"
+      ></app-image-selector>
+    </div>
+  </form>

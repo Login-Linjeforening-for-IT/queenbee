@@ -3,16 +3,16 @@
  */
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, map, retry } from 'rxjs';
+import {Observable, catchError, map, retry, mergeMap, forkJoin} from 'rxjs';
 import { BeehiveAPI } from 'src/app/config/constants';
-import { EventTableItem, EventShort, FullEvent } from 'src/app/models/dataInterfaces.model';
+import { EventTableItem, EventShort, FullEvent, EventData } from 'src/app/models/dataInterfaces.model';
 import { convertFromRFC3339 } from 'src/app/utils/time';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventService {
-  
+
   constructor(private http: HttpClient) {}
 
   /**
@@ -41,8 +41,9 @@ export class EventService {
         map(resData => {
           const eventsArray: EventTableItem[] = [];
           for (const id in resData) {
-            if (resData.hasOwnProperty(id)) {
-              const eventShort: EventShort = resData[id];
+            const eventShort: EventShort = resData[id];
+
+            if (eventShort && !eventShort.is_deleted) {
               const event: EventTableItem = {
                 id: eventShort.id,
                 visible: eventShort.visible,
@@ -62,7 +63,7 @@ export class EventService {
                 audiences: eventShort.audiences,
                 organizers: eventShort.organizers,
               };
-  
+
               eventsArray.push(event);
             }
           }
@@ -70,34 +71,35 @@ export class EventService {
         })
       );
   }
-  
+
 
   /**
    * Sends a POST request to the API with event
    * @param event EventDetail object
    * @returns observable
    */
-  createEvent(event: FullEvent) {
+  createEvent(event: EventData) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json'
       })
     };
 
-    // Set potentially null fields to an empty string
-    /*event.image_small = event.image_small || "NONE";
-    event.image_banner = event.image_banner || "NONE";
-    event.link_facebook = event.link_facebook || "NONE";
-    event.link_discord = event.link_discord || "NONE";
-    event.link_signup = event.link_signup || "NONE";*/
+    console.log("Creating: ", event)
+    console.log("Audience: ", event.audience)
 
     return this.http
-      .post<FullEvent>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`, event, httpOptions)
+      .post<EventData>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`, event, httpOptions)
       .pipe(
-        map(resData => {
+        mergeMap(resData => {
           if (resData) {
-            const newEvent: FullEvent = resData;
-            return newEvent;
+            const newEvent: EventData = resData;
+
+            const audienceRequests: Observable<any>[] = event.audience.map(audience => {
+              return this.createAudience(newEvent.id, audience)
+            })
+
+            return forkJoin([...audienceRequests]).pipe(map(() => newEvent));
           }
           throw new Error('Failed to create event');
         })
@@ -109,30 +111,50 @@ export class EventService {
    * @param event EventDetail object
    * @returns observable
    */
-  patchEvent(event: FullEvent) {
+  patchEvent(event: EventData) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json'
       })
     };
 
-    // Set potentially null fields to an empty string
-    /*event.image_small = event.image_small || "NONE";
-    event.image_banner = event.image_banner || "NONE";
-    event.link_facebook = event.link_facebook || "NONE";
-    event.link_discord = event.link_discord || "NONE";
-    event.link_signup = event.link_signup || "NONE";*/
-
     return this.http
-      .patch<FullEvent>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`, event, httpOptions)
+      .patch<EventData>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`, event, httpOptions)
       .pipe(
         map(resData => {
           if (resData) {
-            const newEvent: FullEvent = resData;
+            const newEvent: EventData = resData;
             return newEvent;
           }
           throw new Error('Failed to patch event');
         })
       );
+  }
+
+  /**
+   * The 'deleteEvent' function deletes the event given by the id.
+   * @param id number
+   */
+  deleteEvent(id: number) {
+    this.http.delete<FullEvent>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}${id}`)
+    .subscribe({
+      error: error => {
+        throw new Error('Failed to delete event', error)
+      }
+    });
+  }
+
+  private createOrganization(eventId: number, orgId: string) {
+    const endpointURL = `${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}${BeehiveAPI.SKILLS_PATH}`;
+    const reqBody = {event: eventId, organization: orgId};
+
+    return this.http.post(endpointURL, reqBody);
+  }
+
+  private createAudience(eventId: number, audienceId: number) {
+    const endpointURL = `${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}${BeehiveAPI.AUDIENCES_PATH_2}`;
+    const reqBody = {event: eventId, audience: audienceId};
+
+    return this.http.post(endpointURL, reqBody);
   }
 }

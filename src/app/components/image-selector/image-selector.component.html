@@ -10,7 +10,7 @@
               [matAutocomplete]="auto">
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
           <mat-option *ngFor="let img of filteredOptions | async" [value]="img.name">
-            <div class="file-item">
+            <div class="dropdown-item">
               <img alt="" [src]="'https://cdn.login.no/' + img.filepath" height="25">
               <span>{{img.name}}</span> |
               <small>{{img.size}}</small>

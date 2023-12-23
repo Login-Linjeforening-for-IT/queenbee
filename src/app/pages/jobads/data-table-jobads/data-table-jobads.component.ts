@@ -7,6 +7,7 @@ import { TableConstants } from '../../pages.constants';
 import { JobadService } from 'src/app/services/admin-api/jobad.service';
 import { MatDialog } from '@angular/material/dialog';
 import { JobadTableItem } from 'src/app/models/dataInterfaces.model';
+import { ConfirmComponent } from 'src/app/components/dialog/confirm/confirm.component';
 
 @Component({
   selector: 'app-data-table-jobads',
@@ -37,6 +38,7 @@ export class DataTableJobadsComponent implements AfterViewInit {
     'visible',
     'updated_at',
   ];
+  scrollToTop: any;
 
   constructor(private jobadService: JobadService, private cdr: ChangeDetectorRef, private dialog: MatDialog) {
     this.dataSource = new DataTableJobadsDataSource(jobadService);
@@ -57,10 +59,21 @@ export class DataTableJobadsComponent implements AfterViewInit {
   }
 
   onDelete(id: number): void {
-    if(confirm("Are you sure to delete the event with id: " + id)) {
-      this.dataSource.deleteItem(id);
-      this.dataSource.refresh();
-    }
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      
+      data: {
+        details: 'This will delete the job ad with id: ' + id,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.jobadService.deleteJobad(id);
+
+        this.dataSource.deleteItem(id);
+        this.dataSource.refresh();
+      }
+    });
   }
 
   formatDatetime(dt: string): string {

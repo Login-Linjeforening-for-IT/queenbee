@@ -1,8 +1,16 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { JobadConstants } from '../../pages.constants';
-import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { JobadDetail } from 'src/app/models/dataInterfaces.model';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {JobadDetail, OrgTableItem } from 'src/app/models/dataInterfaces.model';
+import { convertToRFC3339 } from 'src/app/utils/time';
+import {map, Observable, startWith} from "rxjs";
+import {OrganizationService} from "../../../services/admin-api/organizations.service";
+import { InputSelectorComponent } from 'src/app/components/chip-selectors/input-selector/input-selector.component';
+
+interface Option {
+  id: string;
+  name: string;
+}
 
 @Component({
   selector: 'app-jobad-form',
@@ -19,49 +27,86 @@ import { JobadDetail } from 'src/app/models/dataInterfaces.model';
  */
 export class JobadFormComponent {
   @Input() jobad!: JobadDetail;
-  @Output() formValues = new EventEmitter<{fv: JobadDetail}>();
+  @Input() skills: string[] = [];
+  @Input() cities: string[] = [];
 
   types = JobadConstants.TYPES
-  priorities = JobadConstants.PRIORITIES
 
   jobAdForm!: FormGroup;
+
+  @ViewChild('skillSelector') skillSelector!: InputSelectorComponent;
+  @ViewChild('citySelector') citySelector!: InputSelectorComponent;
+
   pathElements!: string[];
+
+  organizations: OrgTableItem[] = [];
+  autoControlOrgs = new FormControl<string | OrgTableItem>('');
+  filteredOrgs!: Observable<OrgTableItem[]>;
+
+  JOB_TYPES: Option[] = [
+    {"id": "full", "name":"Full Time"},
+    {"id": "part", "name":"Part Time"},
+    {"id": "summer", "name":"Summer"},
+    {"id": "verv", "name":"Verv"},
+  ];
 
   constructor(
     private fb: FormBuilder,
-    private route: ActivatedRoute
+    private orgService: OrganizationService
   ) {}
 
   ngOnInit() {
+    console.log(this.cities, this.skills)
     this.initForm();
+    this.fetchOrganizations();
+    this.initDropdownControls();
 
     if (this.jobad) {
       this.updateFormFields();
     }
   }
 
-  onEmit() {
-    this.formValues.emit({fv: this.jobAdForm.value});
+  getFormValues(): JobadDetail {
+    this.skillSelector.getChips();
+    this.citySelector.getChips();
+    return this.jobAdForm.value;
   }
 
-  onPublishChange(newVal: {dt: string}) {
-    this.jobAdForm.value.time_publish = newVal.dt;
+  getCities(): string[] {
+    return this.citySelector.getChips();
   }
 
-  onDeadlineChange(newVal: {dt: string}) {
-    this.jobAdForm.value.time_deadline = newVal.dt;
+  getSkills(): string[] {
+    return this.skillSelector.getChips();
+  }
+
+  onPublishChange(newVal: {dt: string} | null) {
+    newVal && this.jobAdForm.get('time_publish')?.setValue(convertToRFC3339(newVal.dt));
+  }
+
+  onDeadlineChange(newVal: {dt: string} | null) {
+    newVal && this.jobAdForm.get('application_deadline')?.setValue(convertToRFC3339(newVal.dt));
   }
 
   onDescriptionNoChange(newVal: { ht: string }) {
-    this.jobAdForm.get('description_long_no')!.patchValue(newVal.ht);
+    this.autoControlOrgs.setValue(this.jobad.organization);
   }
 
   onDescriptionEnChange(newVal: { ht: string }) {
     this.jobAdForm.get('description_long_en')!.patchValue(newVal.ht);
   }
 
+  displayOrganizationFn(organization: OrgTableItem): string {
+    return organization ? organization.name : '';
+  }
+
+  compareJobTypeFn(option: string, value: string): boolean {
+    return option === value;
+  }
+
   private initForm() {
     this.jobAdForm = this.fb.group({
+      id: 0,
       title_no: '',
       title_en: '',
       position_title_no: '',
@@ -70,23 +115,25 @@ export class JobadFormComponent {
       description_short_en: '',
       description_long_no: '',
       description_long_en: '',
+      organization: '',
       time_publish: '',
       application_deadline: '',
       application_url: '',
-      application_email: '',
-      contact_email: '',
-      contact_phone: '',
-      image_small: '',
-      image_banner: '',
-      remote: '',
-      type: '',
-      priority: ''
+      banner_image: '',
+      job_type: '',
+      highlight: false,
+      visible: true
     })
+
+    this.jobAdForm?.valueChanges.subscribe((value) => {
+      console.log('jobadform value changed:', value);
+    });
   }
 
   private updateFormFields() {
     if(this.jobad) {
       this.jobAdForm.patchValue({
+        id: this.jobad.id,
         title_no: this.jobad.title_no || '',
         title_en: this.jobad.title_en || '',
         position_title_no: this.jobad.position_title_no || '',
@@ -95,21 +142,61 @@ export class JobadFormComponent {
         description_short_en: this.jobad.description_short_en || '',
         description_long_no: this.jobad.description_long_no || '',
         description_long_en: this.jobad.description_long_en || '',
+        organization: this.jobad.organization || '',
         time_publish: this.jobad.time_publish || '',
         application_deadline: this.jobad.application_deadline || '',
-        /*application_url: this.jobad.application_url || '',
-        application_email: this.jobad.application_email || '',
-        contact_email: this.jobad.contact_email || '',
-        contact_phone: this.jobad.contact_phone || '',
-        image_small: this.jobad.image_small || '',
-        image_banner: this.jobad.image_banner || '',
-        remote: this.jobad.remote || false,
-        type: this.jobad.type || '',
-        priority: this.jobad.priority || 0*/
+        application_url: this.jobad.application_url || '',
+        banner_image: this.jobad.banner_image || '',
+        job_type: this.jobad.job_type || '',
+        highlight: this.jobad.highlight || false,
+        visible: true
       });
     } else {
       // Reset the form fields when the event is undefined
       this.initForm();
     }
+  }
+
+  /**
+   * Initialized needed logic for the autocompleting dropdown menues.
+   */
+  private initDropdownControls() {
+    this.filteredOrgs = this.autoControlOrgs.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const viewValue = typeof value === 'string' ? value : value?.name;
+        return viewValue ? this._filterOrganizations(viewValue as string) : this.organizations.slice();
+      })
+    );
+
+    this.autoControlOrgs.valueChanges.subscribe(value => {
+      if (value && typeof value === 'object') {
+        this.jobAdForm.get('organization')?.setValue(value.id);
+      } else {
+        this.jobAdForm.get('organization')?.setValue(value);
+      }
+    });
+  }
+
+  private fetchOrganizations() {
+    this.orgService.fetchOrganizations().subscribe((o: OrgTableItem[]) => {
+      this.organizations = o;
+
+      const organizationId = this.jobAdForm.value.organization;
+      if (organizationId) {
+        const matchingOrg = this.organizations.find(val => val.id === organizationId);
+        if (matchingOrg) {
+          this.autoControlOrgs.setValue(matchingOrg);
+        }
+      }
+    });
+  }
+
+  // Function for filtering organization dropdown
+  private _filterOrganizations(value: string): OrgTableItem[] {
+    const filterValue = value.toLowerCase();
+    return this.organizations.filter(organization =>
+      organization.name.toLowerCase().includes(filterValue)
+    );
   }
 }

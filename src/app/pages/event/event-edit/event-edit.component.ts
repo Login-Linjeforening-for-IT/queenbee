@@ -11,8 +11,7 @@ import { ErrorComponent } from 'src/app/components/dialog/error/error.component'
 
 @Component({
   selector: 'app-event-edit',
-  templateUrl: './event-edit.component.html',
-  styleUrls: ['./event-edit.component.css']
+  templateUrl: './event-edit.component.html'
 })
 export class EventEditComponent {
   @ViewChild(EventFormComponent) eventFormComponent!: EventFormComponent;
@@ -82,7 +81,7 @@ export class EventEditComponent {
         console.log("User confirmed");
 
         const formValues = this.eventFormComponent.getFormValues();
-        formValues.event.canceled = true;
+        formValues.canceled = true;
 
         this.eventService.patchEvent(formValues).subscribe({
           next: () => {

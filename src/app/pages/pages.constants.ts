@@ -13,12 +13,6 @@ export const TableConstants = {
 }
 
 export const JobadConstants = {
-    TITLE_NEW: "Create New Job Ad",
-    SUBMIT_NEW: "Create Job Ad",
-
-    TITLE_EDIT: "Edit Job Ad",
-    SUBMIT_EDIT: "Update Job Ad",
-
     TYPES: [
         {value:'full-time',viewValue:'Full Time'},
         {value:'part-time',viewValue:'Part Time'},
@@ -51,21 +45,6 @@ export const OrganizationConstants = {
 
 export const OrganizationsConstants = {
     TITLE: "Organizations"
-}
-
-export const LocationConstants = {
-    TITLE_NEW: "Create New Location",
-    SUBMIT_NEW: "Create Location",
-
-    TITLE_EDIT: "Edit Location",
-    SUBMIT_EDIT: "Update Location",
-
-    LOC_TYPES: [
-        {value:'none',viewValue:'None'},
-        {value:'address',viewValue:'Address'},
-        {value:'coords',viewValue:'Coordinates'},
-        {value:'mazemap',viewValue:'MazeMap'},
-    ] as DropDownMenu[],
 }
 
 export const LocationsConstants = {

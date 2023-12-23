@@ -16,9 +16,9 @@
           </mat-form-field>
 
           <mat-form-field class="row">
-            <input matInput formControlName="info_no" maxlength="180">
+            <input matInput formControlName="informational_no" maxlength="180">
             <mat-label>Informational NOR</mat-label>
-            <mat-hint align="end">{{eventForm.get('info_no')?.value?.length || 0}} / 180</mat-hint>
+            <mat-hint align="end">{{eventForm.get('informational_no')?.value?.length || 0}} / 180</mat-hint>
           </mat-form-field>
 
           <app-markdown-textfield
@@ -33,15 +33,26 @@
           </mat-form-field>
 
           <mat-form-field class="row">
-            <input matInput formControlName="info_en" maxlength="180">
+            <input matInput formControlName="informational_en" maxlength="180">
             <mat-label>Informational ENG</mat-label>
-            <mat-hint align="end">{{eventForm.get('info_en')?.value?.length || 0}} / 180</mat-hint>
+            <mat-hint align="end">{{eventForm.get('informational_en')?.value?.length || 0}} / 180</mat-hint>
           </mat-form-field>
 
           <app-markdown-textfield class="row" (newHtmlText)=onDescriptionEnChange($event) [placeholder]="'Description ENG'" [value]="eventForm.get('description_en')?.value"></app-markdown-textfield>
         </mat-tab>
       </mat-tab-group>
 
+      <mat-form-field class="row-narrow">
+        <mat-label>Time Type</mat-label>
+        <mat-select formControlName="time_type" required>
+          <mat-option *ngFor="let type of time_types" [value]="type.type">
+            {{type.name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="eventForm.controls['time_type'].hasError('required')">
+          This field is <strong>required</strong>. Available options is based on start and end time.
+        </mat-error>
+      </mat-form-field>
 
       <app-datetime
         (newDatetime)=onTimeStartChange($event)
@@ -49,7 +60,8 @@
         [timeLabel]="'Start Time'"
         [isDateRequired]="true"
         [isTimeRequired]="true"
-        [timeDisableable]="true"
+        [disableTime]="isStartTimeDisabled"
+        [maxDate]="eventForm.get('time_end')?.value"
         [value]="eventForm.get('time_start')?.value">
       </app-datetime>
 
@@ -59,23 +71,18 @@
         [timeLabel]="'End Time'"
         [isDateRequired]="true"
         [isTimeRequired]="true"
-        [timeDisableable]="true"
+        [disableTime]="isEndTimeDisabled"
+        [minDate]="eventForm.get('time_start')?.value"
         [value]="eventForm.get('time_end')?.value">
       </app-datetime>
 
-      <app-datetime
-        (newDatetime)=onTimePublishChange($event)
-        [dateLabel]="'Publish Date'"
-        [timeLabel]="'Publish Time'"
-        [value]="eventForm.get('time_publish')?.value">
-      </app-datetime>
-
-
-      <div *ngIf="categories.length > 0">
-        <mat-form-field class="dd">
+      <!-- Drop Down menu with Autocomplete capabilities for categories -->
+      <div>
+        <mat-form-field class="row-narrow" *ngIf="categories.length > 0; else elseCatBlock">
           <mat-label>Category</mat-label>
 
           <input
+            required
             type="text"
             matInput
             [formControl]="autoControlCats"
@@ -86,6 +93,14 @@
               *ngFor="let o of filteredCats | async"
               [value]="o"
             >
+              <div
+                [style.width.px]="16"
+                [style.height.px]="16"
+                [style.border-radius]="'50%'"
+                [style.display]="'inline-block'"
+                [style.margin-right.px]="6"
+                [style.background-color]="'#' + o.color">
+              </div>
               {{ o.name_en || o.name_no }}
             </mat-option>
           </mat-autocomplete>
@@ -94,12 +109,15 @@
             This field is <strong>required</strong>
           </mat-error>
         </mat-form-field>
+        <ng-template #elseCatBlock>Could not fetch categories input!</ng-template>
       </div>
 
-      <div *ngIf="organizations.length > 0">
-        <mat-form-field class="dd">
+      <!-- Drop Down menu with Autocomplete capabilities for organizations -->
+      <div>
+        <mat-form-field class="row-narrow" *ngIf="organizations.length > 0; else elseOrgBlock">
           <mat-label>Organization</mat-label>
           <input
+            required
             type="text"
             matInput
             [formControl]="autoControlOrgs"
@@ -119,14 +137,81 @@
             This field is <strong>required</strong>
           </mat-error>
         </mat-form-field>
+        <ng-template #elseOrgBlock>Could not fetch organizations input!</ng-template>
       </div>
 
-      <app-chip-selector title="Audiences" placeholder="Select audience"></app-chip-selector>
+      <!-- Drop Down menu with Autocomplete capabilities for locations -->
+      <div>
+        <mat-form-field class="row-narrow" *ngIf="locations.length > 0; else elseLocBlock">
+          <mat-label>Location</mat-label>
+          <input
+            type="text"
+            matInput
+            [formControl]="autoControlLocs"
+            [matAutocomplete]="autoLoc"
+            />
+
+          <mat-autocomplete autoActiveFirstOption #autoLoc="matAutocomplete" [displayWith]="displayLocationFn">
+            <mat-option
+              *ngFor="let l of filteredLocs | async"
+              [value]="l"
+            >
+              <div class="dropdown-item">
+                <span>{{ l.name }}</span> |
+                <small>{{ l.details }}</small>
+              </div>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <ng-template #elseLocBlock>Could not fetch locations input!</ng-template>
+      </div>
+
+      <!-- Drop Down menu with Autocomplete capabilities for rules -->
+      <div>
+        <mat-form-field class="row-narrow" *ngIf="rules.length > 0; else elseRuleBlock">
+          <mat-label>Rule</mat-label>
+          <input
+            type="text"
+            matInput
+            [formControl]="autoControlRules"
+            [matAutocomplete]="autoRule"
+            />
+
+          <mat-autocomplete autoActiveFirstOption #autoRule="matAutocomplete" [displayWith]="displayRuleFn">
+            <mat-option
+              *ngFor="let r of filteredRules | async"
+              [value]="r"
+            >
+              <div class="dropdown-item">
+                <span>{{ r.name }}</span>
+              </div>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <ng-template #elseRuleBlock>Could not fetch rules input!</ng-template>
+      </div>
+
+      <app-audience-selector
+        #audienceSelector
+        class="row-narrow"
+        [label]="'Audiences'"
+        [placeholder]="'Select audience'"
+        (newChipSet)="onAudienceSetChange($event)">
+      </app-audience-selector>
+
+      <app-datetime
+        (newDatetime)=onTimePublishChange($event)
+        [dateLabel]="'Publish Date'"
+        [timeLabel]="'Publish Time'"
+        [maxDate]="eventForm.get('time_start')?.value"
+        [value]="eventForm.get('time_publish')?.value"
+        [prefillWithTimeNow]="true">
+      </app-datetime>
     </div>
 
     <div class="block">
       <h2>Signup</h2>
-      <mat-form-field class="row">
+      <mat-form-field class="row-narrow">
         <input matInput formControlName="link_signup">
         <mat-label>Signup Link</mat-label>
       </mat-form-field>
@@ -135,6 +220,7 @@
         (newDatetime)=onSignupReleaseChange($event)
         [dateLabel]="'Release Date'"
         [timeLabel]="'Release Time'"
+        [maxDate]="eventForm.get('time_signup_deadline')?.value"
         [value]="eventForm.get('time_signup_release')?.value">
       </app-datetime>
 
@@ -142,11 +228,11 @@
         (newDatetime)=onSignupDeadlineChange($event)
         [dateLabel]="'Deadline Date'"
         [timeLabel]="'Deadline Time'"
-        [timeDisableable]="true"
+        [minDate]="eventForm.get('time_signup_release')?.value"
         [value]="eventForm.get('time_signup_deadline')?.value">
       </app-datetime>
 
-      <mat-form-field>
+      <mat-form-field class="row-narrow">
         <input matInput type="number" min="0" step="1" formControlName="capacity" placeholder="Enter number">
         <mat-label>Capacity</mat-label>
         <mat-error *ngIf="eventForm.controls['capacity'].hasError('min')">
@@ -175,17 +261,17 @@
 
     <div class="block">
       <h2>Social Links</h2>
-      <mat-form-field class="row">
+      <mat-form-field class="row-narrow">
         <input matInput formControlName="link_facebook">
         <mat-label>Facebook Link</mat-label>
       </mat-form-field>
 
-      <mat-form-field class="row">
+      <mat-form-field class="row-narrow">
         <input matInput formControlName="link_discord">
         <mat-label>Discord Link</mat-label>
       </mat-form-field>
 
-      <mat-form-field class="row">
+      <mat-form-field class="row-narrow">
         <input matInput formControlName="link_stream">
         <mat-label>Stream Link</mat-label>
       </mat-form-field>

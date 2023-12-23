@@ -7,7 +7,7 @@ Visit out [Redmine page](https://redmine.login.no/projects/tekkom/wiki/02_-_Data
 
 # General Angular Information
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.1.
+This project has been updated to [Angular CLI](https://github.com/angular/angular-cli) version 16.0.2.
 
 ## Development server
 ### Angular frontend

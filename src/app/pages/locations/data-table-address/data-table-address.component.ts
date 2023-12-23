@@ -7,6 +7,7 @@ import { TableConstants } from '../../pages.constants';
 import { LocationService } from 'src/app/services/admin-api/location.service';
 import { MatDialog } from '@angular/material/dialog';
 import { LocationTableItem } from 'src/app/models/dataInterfaces.model';
+import { ConfirmComponent } from 'src/app/components/dialog/confirm/confirm.component';
 
 @Component({
   selector: 'app-data-table-address',
@@ -35,8 +36,8 @@ export class DataTableAddressComponent implements AfterViewInit {
     'updated_at'
   ];
 
-  constructor(private locationService: LocationService, private cdr: ChangeDetectorRef, private dialog: MatDialog) {
-    this.dataSource = new DataTableAddressDataSource(locationService);
+  constructor(private locService: LocationService, private cdr: ChangeDetectorRef, private dialog: MatDialog) {
+    this.dataSource = new DataTableAddressDataSource(locService);
   }
 
   ngOnInit() {
@@ -53,9 +54,20 @@ export class DataTableAddressComponent implements AfterViewInit {
   }
 
   onDelete(id: number): void {
-    if(confirm("Are you sure to delete the event with id: " + id)) {
-      this.dataSource.deleteItem(id);
-      this.dataSource.refresh();
-    }
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      data: {
+        details: "Do you want to delete the location with ID " + id + "?"
+      }
+    })
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.locService.deleteLoc(id);
+        
+        // Removing from table (client side).
+        this.dataSource.deleteItem(id);
+        this.dataSource.refresh();
+      }
+    })
   }
 }

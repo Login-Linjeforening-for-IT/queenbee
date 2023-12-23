@@ -20,7 +20,12 @@
                     <mat-label>Short Description NOR</mat-label>
                 </mat-form-field>
 
-                <app-markdown-textfield (newHtmlText)=onDescriptionNoChange($event) [placeholder]="'Long Description NOR'" class="row"></app-markdown-textfield>
+                <app-markdown-textfield 
+                  (newHtmlText)=onDescriptionNoChange($event) 
+                  [value]="jobAdForm.get('description_long_no')?.value"
+                  [placeholder]="'Long Description NOR'" 
+                  class="row">
+                </app-markdown-textfield>
             </mat-tab>
 
             <mat-tab label="🇺🇸 ENG">
@@ -39,74 +44,105 @@
                     <mat-label>Short Description ENG</mat-label>
                 </mat-form-field>
 
-                <app-markdown-textfield (newHtmlText)=onDescriptionEnChange($event) [placeholder]="'Long Description ENG'" class="row"></app-markdown-textfield>
+                <app-markdown-textfield 
+                  (newHtmlText)=onDescriptionEnChange($event) 
+                  [value]="jobAdForm.get('description_long_en')?.value"
+                  [placeholder]="'Long Description ENG'" 
+                  class="row">
+                </app-markdown-textfield>
             </mat-tab>
         </mat-tab-group>
-        
-        <!-- THIS WILL PROBABLY BE REPLACE BY A TOGGLE SOMEHOW-->
-        <mat-form-field class="dd">
-            <mat-label>Remote Posibility</mat-label>
-            <mat-select required>
-              <mat-option value="true">Yes</mat-option>
-              <mat-option value="false">No</mat-option>¨
+
+          <!-- Drop Down menu with Autocomplete capabilities for organizations -->
+          <div>
+            <mat-form-field class="row-narrow" *ngIf="organizations.length > 0; else elseOrgBlock">
+              <mat-label>Organization</mat-label>
+              <input
+                type="text"
+                matInput
+                [formControl]="autoControlOrgs"
+                [matAutocomplete]="autoOrg"
+                required
+              />
+
+              <mat-autocomplete autoActiveFirstOption #autoOrg="matAutocomplete" [displayWith]="displayOrganizationFn">
+                <mat-option
+                  *ngFor="let o of filteredOrgs | async"
+                  [value]="o"
+                >
+                  {{ o.name }}
+                </mat-option>
+              </mat-autocomplete>
+
+              <mat-error *ngIf="autoControlOrgs.hasError('required')">
+                This field is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <ng-template #elseOrgBlock>Could not fetch organizations input!</ng-template>
+          </div>
+
+        <mat-form-field class="row-narrow">
+            <mat-label>Type</mat-label>
+            <mat-select formControlName="job_type" required>
+              <mat-option *ngFor="let o of JOB_TYPES" [value]="o.id">{{o.name}}</mat-option>
             </mat-select>
+
+            <mat-error *ngIf="autoControlOrgs.hasError('required')">
+              This field is <strong>required</strong>
+            </mat-error>
         </mat-form-field>
 
-        <mat-form-field class="dd">
-            <mat-label>Type</mat-label>
-            <mat-select formControlName="type" required>
-              <mat-option *ngFor="let t of types" [value]="t.value">
-                {{t.viewValue}}
-              </mat-option>
-            </mat-select>
-        </mat-form-field> 
+        <app-datetime 
+          (newDatetime)=onPublishChange($event)
+          [value]="jobAdForm.get('time_publish')?.value" 
+          [dateLabel]="'Publish Date'" 
+          [timeLabel]="'Publish Time'">
+        </app-datetime>
+    
+        <app-input-selector
+          class="row-narrow"
+          #skillSelector
+          [values]="skills"
+          [label]="'Skills'"
+          [placeholder]="'Enter skill'">
+        </app-input-selector>
 
-        <mat-form-field class="dd">
-            <mat-label>Priority</mat-label>
-            <mat-select formControlName="priority" required>
-              <mat-option *ngFor="let p of priorities" [value]="p.value">
-                {{p.viewValue}}
-              </mat-option>
-            </mat-select>
-        </mat-form-field> 
+        <app-input-selector
+          class="row-narrow"
+          #citySelector
+          [values]="cities"
+          [label]="'Cities'"
+          [placeholder]="'Enter city'">
+        </app-input-selector>
 
-        <app-datetime (newDatetime)=onPublishChange($event) [dateLabel]="'Publish Date'" [timeLabel]="'Publish Time'"></app-datetime>
+        <mat-slide-toggle 
+          style="margin-left: 1rem;"
+          formControlName="highlight">
+          Highlight Ad
+        </mat-slide-toggle>
     </div>
 
     <div class="block">
         <h2>Application</h2>
-        <mat-form-field class="row">
+        <mat-form-field class="row-narrow">
             <input matInput formControlName="application_url">
             <mat-label>Application URL</mat-label>
         </mat-form-field>
-        <mat-form-field class="row">
-            <input matInput formControlName="application_email">
-            <mat-label>Application Email</mat-label>
-        </mat-form-field>
-        <app-datetime (newDatetime)=onDeadlineChange($event) [dateLabel]="'Deadline Date'" [timeLabel]="'Deadline Time'"></app-datetime>
-    </div>
-
-    <div class="block">
-        <h2>Contact</h2>
-        <mat-form-field class="row">
-            <input matInput formControlName="contact_phone">
-            <mat-label>Contact Phone</mat-label>
-        </mat-form-field>
-        <mat-form-field class="row">
-            <input matInput formControlName="contact_email">
-            <mat-label>Contact Email</mat-label>
-        </mat-form-field>
+        
+        <app-datetime 
+          (newDatetime)=onDeadlineChange($event) 
+          [minDate]="jobAdForm.get('time_publish')?.value"
+          [value]="jobAdForm.get('application_deadline')?.value" 
+          [dateLabel]="'Deadline Date'"
+          [timeLabel]="'Deadline Time'">
+        </app-datetime>
     </div>
 
     <div class="block">
         <h2>Image</h2>
-        <mat-form-field class="row">
-            <input matInput formControlName="image_small">
-            <mat-label>Image Small</mat-label>
-        </mat-form-field>
-        <mat-form-field class="row">
-            <input matInput formControlName="image_large">
-            <mat-label>Image Large</mat-label>
+        <mat-form-field class="row-narrow">
+            <input matInput formControlName="banner_image">
+            <mat-label>Banner Image</mat-label>
         </mat-form-field>
     </div>
 </div>

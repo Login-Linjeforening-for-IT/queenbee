@@ -41,7 +41,7 @@ export interface EventTableItem {
   organizers: string[];
 }
 
-interface EventData {
+export interface EventData {
   id: number;
   visible: boolean;
   name_no: string;
@@ -71,6 +71,8 @@ interface EventData {
   location: number;
   parent: number;
   rule: number;
+  audience: number[];
+  organization: string;
   updated_at: string;
   created_at: string;
   deleted_at: string;
@@ -133,7 +135,7 @@ interface OrganizationData {
   is_deleted: boolean;
 }
 
-interface AudienceData {
+export interface Audience {
   id: number;
   name_no: string;
   name_en: string;
@@ -150,7 +152,7 @@ export interface FullEvent {
   rule: RuleData;
   location: LocationData;
   organizations: OrganizationData[];
-  audiences: AudienceData[];
+  audiences: number[];
 }
 
 
@@ -164,18 +166,17 @@ export interface JobadDetail {
   description_short_en: string,
   description_long_no: string,
   description_long_en: string,
+  organization: string,
   time_publish: string,
   application_deadline: string,
   updated_at: string,
-  /*application_url: string,
-  application_email: string,
-  contact_email: string,
-  contact_phone: string,
-  image_small: string,
-  image_banner: string,
-  remote: boolean,
-  type: string,
-  priority: number*/
+  application_url: string,
+  banner_image: string,
+  job_type: string,
+  highlight: boolean,
+  visible: boolean,
+  skills: string[],
+  cities: string[]
 }
 
 export interface JobadShort {
@@ -261,12 +262,17 @@ export interface Rule {
   time_updated: string;
 }
 
-export interface Audience {
+/*export interface Audience {
   id: number;
   name_no: string;
   name_en: string;
   description_no: string;
   description_en: string;
+}*/
+
+export interface AudienceChip {
+  id: number;
+  name: string;
 }
 
 export interface OrgShort {
@@ -280,7 +286,7 @@ export interface OrgShort {
 }
 
 export interface OrgTableItem {
-  shortname: string;
+  id: string;
   name: string;
   link_homepage: string;
   logo: string;
@@ -299,6 +305,9 @@ export interface Organization {
   link_instagram: string;
   link_linkedin: string;
   logo: string;
+  updated_at: string;
+  created_at: string;
+  deleted_at: string;
 }
 
 export interface RulesTableItem {
@@ -324,4 +333,10 @@ export interface DropDownFileItem {
   name: string;
   size: string;
   filepath: string;
+}
+
+export interface DropDownItem {
+  id: number;
+  name: string;
+  details: string;
 }

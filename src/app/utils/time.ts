@@ -1,4 +1,4 @@
-import { BeehiveAPI } from "../config/constants";
+import { TIME } from "../config/constants";
 
 /**
  * Converts a datetime string on the format 'YYYY-MM-DD HH:MM:ss' to the RFC3339 format.
@@ -29,5 +29,23 @@ export function convertFromRFC3339(dt: string): string {
  * @param dt Datetime on the RFC3339 format
  */
 export function isDatetimeUnset(dt: string): boolean {
-  return dt === BeehiveAPI.TIME_UNSET;
+  return dt === TIME.TIME_UNSET;
+}
+
+export function getTime(rfc3339: string | null) {
+  if(rfc3339) {
+    return rfc3339.slice(11,19);
+  }
+  return null;
+}
+
+export function convertDateToRFC3339(date: Date): string {
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  const seconds = date.getSeconds().toString().padStart(2, '0');
+
+  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`;
 }

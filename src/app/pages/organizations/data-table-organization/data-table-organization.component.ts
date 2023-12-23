@@ -8,6 +8,7 @@ import { OrganizationService } from 'src/app/services/admin-api/organizations.se
 import { MatDialog } from '@angular/material/dialog';
 import { isDatetimeUnset } from 'src/app/utils/time';
 import { OrgTableItem } from 'src/app/models/dataInterfaces.model';
+import { ConfirmComponent } from 'src/app/components/dialog/confirm/confirm.component';
 
 @Component({
   selector: 'app-data-table-organization',
@@ -35,7 +36,11 @@ export class DataTableOrganizationComponent implements AfterViewInit {
     'logo'
   ];
 
-  constructor(private orgService: OrganizationService, private cdr: ChangeDetectorRef, private dialog: MatDialog) {
+  constructor(
+    private orgService: OrganizationService, 
+    private cdr: ChangeDetectorRef, 
+    private dialog: MatDialog) 
+  {
     this.dataSource = new DataTableOrganizationDataSource(orgService);
   }
 
@@ -53,11 +58,22 @@ export class DataTableOrganizationComponent implements AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  onDelete(id: number): void {
-    if(confirm("Are you sure to delete the event with id: " + id)) {
-      this.dataSource.deleteItem(id);
-      this.dataSource.refresh();
-    }
+  onDelete(shortname: string): void {
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      data: {
+        details: "Do you want to delete the organization with ID " + shortname + "?"
+      }
+    })
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.orgService.deleteOrg(shortname);
+        
+        // Removing from table (client side).
+        this.dataSource.deleteItem(shortname);
+        this.dataSource.refresh();
+      }
+    })    
   }
 
   // Refreshes the table. Used when you need to force a refresh
