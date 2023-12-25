@@ -74,6 +74,10 @@ import { OrgEditComponent } from './pages/organization/org-edit/org-edit.compone
 import { LocationEditComponent } from './pages/location/location-edit/location-edit.component';
 import { InputSelectorComponent } from './components/chip-selectors/input-selector/input-selector.component';
 import { BaseChipSelectorComponent } from './components/chip-selectors/base-chip-selector/base-chip-selector.component';
+import { TopbarComponent } from './layout/topbar/topbar.component';
+import { NavBtnComponent } from './layout/nav-btn/nav-btn.component';
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatSliderModule} from "@angular/material/slider";
 
 @NgModule({
   declarations: [
@@ -119,7 +123,9 @@ import { BaseChipSelectorComponent } from './components/chip-selectors/base-chip
     OrgNewComponent,
     OrgEditComponent,
     LocationEditComponent,
-    InputSelectorComponent
+    InputSelectorComponent,
+    TopbarComponent,
+    NavBtnComponent
   ],
     imports: [
         BrowserModule,
@@ -144,6 +150,9 @@ import { BaseChipSelectorComponent } from './components/chip-selectors/base-chip
         MatTabsModule,
         MatMenuModule,
         MarkdownModule.forRoot(),
+        MatSidenavModule,
+        MatSliderModule,
+        MatSlideToggleModule,
         PickerComponent,
         MatDialogModule,
         MatAutocompleteModule,

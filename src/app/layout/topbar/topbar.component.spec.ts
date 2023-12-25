@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RuleEditComponent } from './rule-edit.component';
+import { TopbarComponent } from './topbar.component';
 
-describe('RuleEditComponent', () => {
-  let component: RuleEditComponent;
-  let fixture: ComponentFixture<RuleEditComponent>;
+describe('TopbarComponent', () => {
+  let component: TopbarComponent;
+  let fixture: ComponentFixture<TopbarComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [RuleEditComponent]
+      declarations: [TopbarComponent]
     });
-    fixture = TestBed.createComponent(RuleEditComponent);
+    fixture = TestBed.createComponent(TopbarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

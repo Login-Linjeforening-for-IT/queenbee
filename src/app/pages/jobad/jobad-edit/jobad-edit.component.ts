@@ -7,7 +7,6 @@ import { JobadFormComponent } from '../jobad-form/jobad-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { BeehiveAPI } from 'src/app/config/constants';
-import { scrollToTop } from 'src/app/utils/core';
 import { ErrorComponent } from 'src/app/components/dialog/error/error.component';
 
 @Component({
@@ -60,7 +59,6 @@ export class JobadEditComponent {
         });
       },
       error: (error) => {
-        scrollToTop();
         console.log("Erroring", error)
         this.dialog.open(ErrorComponent, {
           data: {

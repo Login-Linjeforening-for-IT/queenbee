@@ -1,40 +1,37 @@
-<div class="navbar">
-  <div class="top">
-    <div class="logo">
-      <img src="./assets/img/queen-bee-logo.png">
-      <h2>ADMIN QUEENBEE</h2>
-    </div>
-  </div>
+<div class="sidebar">
+  <app-nav-btn
+    title="Dashboard"
+    link="/dashboard"
+    symbol="grid_view"
+  ></app-nav-btn>
 
-  <div class="sidebar">
-    <!-- Sidebar menus. Not the cleanest and shortest implementation... -->
-    <a routerLink="/dashboard" routerLinkActive="active">
-      <span class="material-symbols-sharp">grid_view</span>
-      <h3>Dashboard</h3>
-    </a>
-    <a routerLink="/events" routerLinkActive="active">
-      <span class="material-symbols-sharp">festival</span>
-      <h3>Events</h3>
-    </a>
-    <a routerLink="/jobs" routerLinkActive="active">
-      <span class="material-symbols-sharp">work</span>
-      <h3>Job Ads</h3>
-    </a>
-    <a routerLink="/organizations" routerLinkActive="active">
-      <span class="material-symbols-sharp">corporate_fare</span>
-      <h3>Organizations</h3>
-    </a>
-    <a routerLink="/locations" routerLinkActive="active">
-      <span class="material-symbols-sharp">location_on</span>
-      <h3>Locations</h3>
-    </a>
-    <a routerLink="/rules" routerLinkActive="active">
-      <span class="material-symbols-sharp">gavel</span>
-      <h3>Rules</h3>
-    </a>
-    <a routerLink="/logout" routerLinkActive="active">
-      <span class="material-symbols-sharp">logout</span>
-      <h3>Log Out</h3>
-    </a>
-  </div>
+  <app-nav-btn
+    title="Events"
+    link="/events"
+    symbol="festival"
+  ></app-nav-btn>
+
+  <app-nav-btn
+    title="Job Ads"
+    link="/jobs"
+    symbol="work"
+  ></app-nav-btn>
+
+  <app-nav-btn
+    title="Organizations"
+    link="/organizations"
+    symbol="corporate_fare"
+  ></app-nav-btn>
+
+  <app-nav-btn
+    title="Locations"
+    link="/locations"
+    symbol="location_on"
+  ></app-nav-btn>
+
+  <app-nav-btn
+    title="Rules"
+    link="/rules"
+    symbol="gavel"
+  ></app-nav-btn>
 </div>

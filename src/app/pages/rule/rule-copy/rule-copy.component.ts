@@ -2,7 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { Rule } from 'src/app/models/dataInterfaces.model';
 import { RuleFormComponent } from '../rule-form/rule-form.component';
 import { BeehiveAPI } from 'src/app/config/constants';
-import { scrollToTop } from 'src/app/utils/core';
 import { ErrorComponent } from 'src/app/components/dialog/error/error.component';
 import { RulesService } from 'src/app/services/admin-api/rules.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,8 +10,7 @@ import { SnackbarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-rule-copy',
-  templateUrl: './rule-copy.component.html',
-  styleUrls: ['./rule-copy.component.css']
+  templateUrl: './rule-copy.component.html'
 })
 export class RuleCopyComponent {
   @ViewChild(RuleFormComponent) ruleFormComponent!: RuleFormComponent;
@@ -45,7 +43,7 @@ export class RuleCopyComponent {
     })
   }
 
-  
+
     /**
    * Submits a new rule to the server and handles success and error cases.
    */
@@ -66,8 +64,6 @@ export class RuleCopyComponent {
         });
       },
       error: (error) => {
-        // Scroll to the top of the page to ensure error message visibility.
-        scrollToTop();
         // Display an error message dialog with details on the error.
         this.dialog.open(ErrorComponent, {
           data: {

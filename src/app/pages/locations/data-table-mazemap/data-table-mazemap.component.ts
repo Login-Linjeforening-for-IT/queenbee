@@ -8,7 +8,6 @@ import { LocationService } from 'src/app/services/admin-api/location.service';
 import { MatDialog } from '@angular/material/dialog';
 import { LocationTableItem } from 'src/app/models/dataInterfaces.model';
 import { ConfirmComponent } from 'src/app/components/dialog/confirm/confirm.component';
-import { scrollToTop } from 'src/app/utils/core';
 
 @Component({
   selector: 'app-data-table-mazemap',
@@ -48,7 +47,7 @@ export class DataTableMazemapComponent implements AfterViewInit {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.dataSource.filterStr = this.filterInput;
-    
+
     // Use dataSource.data as the table's data source
     this.table.dataSource = this.dataSource;
   }
@@ -63,11 +62,11 @@ export class DataTableMazemapComponent implements AfterViewInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
         this.locService.deleteLoc(id);
-        
+
         // Removing from table (client side).
         this.dataSource.deleteItem(id);
         this.dataSource.refresh();
       }
-    })    
+    })
   }
 }

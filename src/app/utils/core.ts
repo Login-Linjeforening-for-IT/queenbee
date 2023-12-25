@@ -46,10 +46,3 @@ export function byteConverter(bytes: number, precession: number): string {
   }
   return (bytes / 1024).toFixed(precession) + 'KiB'
 }
-
-export function scrollToTop() {
-  window.scrollTo({
-    top: 0,
-    behavior: 'auto',
-  });
-}
