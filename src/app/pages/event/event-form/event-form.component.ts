@@ -20,7 +20,8 @@ export interface TimeTypeSelect {
 
 @Component({
   selector: 'app-event-form',
-  templateUrl: './event-form.component.html'
+  templateUrl: './event-form.component.html',
+  styleUrls: ['./event-form.component.css']
 })
 
 /**

@@ -172,6 +172,11 @@ small {
   margin-bottom: 3rem;
 }
 
+.outline {
+  border: #f57c00 solid 0.1rem;
+  padding: 0.3rem;
+}
+
 .dual-column-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
