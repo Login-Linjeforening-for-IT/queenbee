@@ -164,5 +164,23 @@
                 border-radius: 100%;
             }
         }
+
+        /* Styles for the emojis container */
+        .emoji-container {
+          position: absolute;
+          display: flex;
+          justify-content: center;
+          gap: 1rem;
+          width: 100%;
+          padding-top: 10px; /* Adjust the top padding as needed */
+        }
+
+        /* Additional styles for specific emojis (checkmark and x-mark) */
+        .checkmark {
+          opacity: 75%;
+          justify-content: center;
+          align-content: center;
+          color: green; /* Change the color for the checkmark */
+        }
     }
 }

@@ -11,6 +11,9 @@ import { LocationService } from 'src/app/services/admin-api/location.service';
 import { OrganizationService } from 'src/app/services/admin-api/organizations.service';
 import { RulesService } from 'src/app/services/admin-api/rules.service';
 import {convertDateToRFC3339, convertToRFC3339, getTime, isDatetimeUnset} from 'src/app/utils/time';
+import {CropComponent} from "../../../components/dialog/crop/crop.component";
+import {MatDialog} from "@angular/material/dialog";
+import {ImageManagerComponent} from "../../../components/dialog/image-manager/image-manager.component";
 
 export interface TimeTypeSelect {
   type: string;
@@ -65,7 +68,8 @@ export class EventFormComponent implements OnInit{
     private orgService: OrganizationService,
     private locService: LocationService,
     private ruleService: RulesService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -158,6 +162,10 @@ export class EventFormComponent implements OnInit{
       return rule.name
     }
     return ''
+  }
+
+  imageManager() {
+    this.dialog.open(ImageManagerComponent, {});
   }
 
   /**

@@ -78,6 +78,7 @@ import { TopbarComponent } from './layout/topbar/topbar.component';
 import { NavBtnComponent } from './layout/nav-btn/nav-btn.component';
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatSliderModule} from "@angular/material/slider";
+import { ImageManagerComponent } from './components/dialog/image-manager/image-manager.component';
 
 @NgModule({
   declarations: [
@@ -125,7 +126,8 @@ import {MatSliderModule} from "@angular/material/slider";
     LocationEditComponent,
     InputSelectorComponent,
     TopbarComponent,
-    NavBtnComponent
+    NavBtnComponent,
+    ImageManagerComponent
   ],
     imports: [
         BrowserModule,

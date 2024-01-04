@@ -264,6 +264,9 @@
 
     <div class="block">
       <h2>Image Links</h2>
+      <button (click)="imageManager()" mat-raised-button color="primary">
+        <span class="material-symbols-sharp">upload</span>Manage Images
+      </button>
 
       <app-image-selector
         [title]="'Image Banner'"

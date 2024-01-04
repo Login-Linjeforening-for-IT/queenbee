@@ -1,5 +1,5 @@
 import {
-    Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, Output, 
+    Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, Output,
     SimpleChanges, ChangeDetectorRef, ChangeDetectionStrategy, NgZone, ViewChild
 } from '@angular/core';
 import { DomSanitizer, SafeUrl, SafeStyle } from '@angular/platform-browser';
@@ -80,6 +80,7 @@ export class ImageCropperComponent implements OnChanges {
     @Output() imageLoaded = new EventEmitter<void>();
     @Output() cropperReady = new EventEmitter<void>();
     @Output() loadImageFailed = new EventEmitter<void>();
+    @Output() confirmed = new EventEmitter<void>();
 
     constructor(private sanitizer: DomSanitizer,
                 private cd: ChangeDetectorRef,
@@ -208,6 +209,10 @@ export class ImageCropperComponent implements OnChanges {
 
     flipVertical() {
         this.transformBase64(4);
+    }
+
+    confirm() {
+      this.confirmed.emit();
     }
 
     private transformBase64(exifOrientation: number): void {
