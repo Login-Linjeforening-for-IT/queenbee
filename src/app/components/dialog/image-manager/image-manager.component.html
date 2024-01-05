@@ -37,10 +37,22 @@
             <p *ngIf="!croppedImage">Missing image!</p>
           </div>
         </div>
+
+        <section *ngIf="showCropper" [formGroup]="uploadForm">
+          <p>Upload as:</p>
+          <p><mat-checkbox formControlName="bannerImg">Banner image</mat-checkbox></p>
+          <p><mat-checkbox formControlName="smallImg">Small image</mat-checkbox></p>
+        </section>
       </div>
 
       <div mat-dialog-actions class="upload-btn">
-        <button mat-raised-button color="primary" (click)="onClose()"><span class="material-symbols-sharp">upload</span>Upload Image</button>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="onClose()"
+          [disabled]="isInvalid()">
+          <span class="material-symbols-sharp">upload</span>Upload Image
+        </button>
       </div>
     </mat-tab>
 

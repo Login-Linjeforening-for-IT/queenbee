@@ -3,6 +3,7 @@ import {ImageCropperComponent} from "../../image-cropper/component/image-cropper
 import {MatDialogRef} from "@angular/material/dialog";
 import {ImageCroppedEvent} from "../../image-cropper/interfaces";
 import {CropComponent} from "../crop/crop.component";
+import {FormBuilder} from "@angular/forms";
 
 @Component({
   selector: 'app-image-manager',
@@ -18,7 +19,12 @@ export class ImageManagerComponent {
 
   @ViewChild(ImageCropperComponent) imageCropper!: ImageCropperComponent;
 
-  constructor(private dialogRef: MatDialogRef<CropComponent>){}
+  uploadForm = this._formBuilder.group({
+    bannerImg: true,
+    smallImg: true,
+  });
+
+  constructor(private dialogRef: MatDialogRef<CropComponent>, private _formBuilder: FormBuilder){}
 
   fileChangeEvent(event: any): void {
     // Store the original file when a new file is selected
@@ -81,5 +87,9 @@ export class ImageManagerComponent {
       this.imageCropper.imageFileChanged = this.originalFile; // Reset imageFileChanged property in ImageCropperComponent
       this.showCropper = false; // Hide the cropper again
     }, 1);
+  }
+
+  isInvalid() {
+    return !this.cropped || !(this.uploadForm.get('bannerImg')?.value || this.uploadForm.get('smallImg')?.value);
   }
 }
