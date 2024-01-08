@@ -1,12 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmComponent } from 'src/app/components/dialog/confirm/confirm.component';
 import { FullEvent } from 'src/app/models/dataInterfaces.model';
 import { EventService } from 'src/app/services/admin-api/event.service';
 import { convertFromRFC3339 } from 'src/app/utils/time';
 import { EventFormComponent } from '../event-form/event-form.component';
 import { ErrorComponent } from 'src/app/components/dialog/error/error.component';
+import { SnackbarService } from 'src/app/services/snackbar.service';
+import { BeehiveAPI } from 'src/app/config/constants';
 
 @Component({
   selector: 'app-event-edit',
@@ -23,7 +25,9 @@ export class EventEditComponent {
   constructor(
     private eventService: EventService,
     private route: ActivatedRoute,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router,
+    private snackbarService: SnackbarService
   ) {}
 
   ngOnInit() {
@@ -44,13 +48,15 @@ export class EventEditComponent {
 
   updateEvent() {
     const formValues = this.eventFormComponent.getFormValues();
-    console.log(formValues)
-
+    formValues.id = this.eventID;
 
     this.eventService.patchEvent(formValues).subscribe({
       next: () => {
-        console.log("Event created successfully");
-        // here you could navigate to another page, or show a success message, etc.
+        this.router.navigate([BeehiveAPI.EVENTS_PATH]).then((navigated: boolean) => {
+          if(navigated) {
+            this.snackbarService.openSnackbar("Successfully updated event with ID " + this.eventID, "OK", 2.5)
+          }
+        });
       },
       error: (error) => {
         console.log("Erroring")
