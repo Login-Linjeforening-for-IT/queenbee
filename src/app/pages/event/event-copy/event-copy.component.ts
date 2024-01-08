@@ -4,7 +4,9 @@ import { FullEvent } from 'src/app/models/dataInterfaces.model';
 import { EventService } from 'src/app/services/admin-api/event.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorComponent } from 'src/app/components/dialog/error/error.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SnackbarService } from 'src/app/services/snackbar.service';
+import { BeehiveAPI } from 'src/app/config/constants';
 
 @Component({
   selector: 'app-event-copy',
@@ -19,7 +21,9 @@ export class EventCopyComponent {
   constructor(
     private eventService: EventService,
     private dialog: MatDialog,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router,
+    private snackbarService: SnackbarService
   ) {}
   
   ngOnInit() {
@@ -49,11 +53,13 @@ export class EventCopyComponent {
 
     this.eventService.createEvent(formValues).subscribe({
       next: () => {
-        console.log("Event created successfully");
-        // here you could navigate to another page, or show a success message, etc.
+        this.router.navigate([BeehiveAPI.EVENTS_PATH]).then((navigated: boolean) => {
+          if(navigated) {
+            this.snackbarService.openSnackbar("Successfully created event", "OK", 2.5)
+          }
+        });
       },
       error: (error) => {
-        console.log("Erroring")
         this.dialog.open(ErrorComponent, {
           data: {
             title: "Error: " + error.status + " " + error.statusText,
