@@ -5,15 +5,13 @@ import { Rule } from 'src/app/models/dataInterfaces.model';
 import { RulesService } from 'src/app/services/admin-api/rules.service';
 import { convertFromRFC3339 } from 'src/app/utils/time';
 import { RuleFormComponent } from '../rule-form/rule-form.component';
-import { scrollToTop } from 'src/app/utils/core';
 import { ErrorComponent } from 'src/app/components/dialog/error/error.component';
 import { BeehiveAPI } from 'src/app/config/constants';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-rule-edit',
-  templateUrl: './rule-edit.component.html',
-  styleUrls: ['./rule-edit.component.css']
+  templateUrl: './rule-edit.component.html'
 })
 
 /**
@@ -64,7 +62,6 @@ export class RuleEditComponent {
         });
       },
       error: (error) => {
-        scrollToTop();
         console.log("Erroring")
         this.dialog.open(ErrorComponent, {
           data: {

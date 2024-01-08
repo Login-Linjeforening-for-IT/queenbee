@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { ConfirmComponent } from 'src/app/components/dialog/confirm/confirm.component';
 import { FullEvent } from 'src/app/models/dataInterfaces.model';
 import { EventService } from 'src/app/services/admin-api/event.service';
-import { scrollToTop } from 'src/app/utils/core';
 import { convertFromRFC3339 } from 'src/app/utils/time';
 import { EventFormComponent } from '../event-form/event-form.component';
 import { ErrorComponent } from 'src/app/components/dialog/error/error.component';
@@ -54,7 +53,6 @@ export class EventEditComponent {
         // here you could navigate to another page, or show a success message, etc.
       },
       error: (error) => {
-        scrollToTop();
         console.log("Erroring")
         this.dialog.open(ErrorComponent, {
           data: {
@@ -75,7 +73,6 @@ export class EventEditComponent {
       }
     })
 
-    scrollToTop();
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
         console.log("User confirmed");
@@ -89,7 +86,6 @@ export class EventEditComponent {
             // here you could navigate to another page, or show a success message, etc.
           },
           error: (error) => {
-            scrollToTop();
             console.log("Erroring")
             this.dialog.open(ErrorComponent, {
               data: {

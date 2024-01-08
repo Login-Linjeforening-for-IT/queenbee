@@ -1,0 +1,31 @@
+.wide {
+  width: 40vw;
+  overflow-x: hidden;
+}
+
+/* ============================= TOPBAR ========================= */
+.topbar {
+  width: 100%;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.topbar .left, .topbar .right {
+  flex: 1;
+  display: flex;
+}
+
+.topbar .right {
+  padding-left: 1rem;
+}
+
+.file-input {
+  padding: 0.5rem 0;
+  cursor: pointer;
+}
+
+.image {
+  width: 100%;
+}

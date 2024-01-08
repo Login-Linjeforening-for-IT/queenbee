@@ -14,7 +14,8 @@ interface Option {
 
 @Component({
   selector: 'app-jobad-form',
-  templateUrl: './jobad-form.component.html'
+  templateUrl: './jobad-form.component.html',
+  styleUrls: ['./jobad-form.component.css']
 })
 
 /**

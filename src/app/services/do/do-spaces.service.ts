@@ -60,7 +60,7 @@ export class DoSpacesService {
       Bucket: 'beehive',
       Key: key,
       Body: file,
-      ACL: 'private'
+      ACL: 'public-read'
     };
 
     const uploadObjectPromise = this.s3Client.send(new PutObjectCommand(params));

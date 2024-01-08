@@ -7,7 +7,6 @@ import { OrganizationService } from 'src/app/services/admin-api/organizations.se
 import { OrgFormComponent } from '../org-form/org-form.component';
 import { Organization } from 'src/app/models/dataInterfaces.model';
 import { BeehiveAPI } from 'src/app/config/constants';
-import { scrollToTop } from 'src/app/utils/core';
 import { ErrorComponent } from 'src/app/components/dialog/error/error.component';
 
 @Component({
@@ -58,7 +57,6 @@ export class OrgEditComponent {
         });
       },
       error: (error) => {
-        scrollToTop();
         console.log("Erroring")
         this.dialog.open(ErrorComponent, {
           data: {

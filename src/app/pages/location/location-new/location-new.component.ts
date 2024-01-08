@@ -5,7 +5,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { BeehiveAPI } from 'src/app/config/constants';
-import { scrollToTop } from 'src/app/utils/core';
 import { ErrorComponent } from 'src/app/components/dialog/error/error.component';
 
 @Component({
@@ -25,7 +24,7 @@ export class LocationNewComponent {
 
   submitLoc() {
     const formValues = this.locFormComponent.getFormValues();
-    
+
     this.locService.createLocation(formValues).subscribe({
       next: () => {
         this.router.navigate([BeehiveAPI.LOCATIONS_PATH]).then((navigated: boolean) => {
@@ -35,7 +34,6 @@ export class LocationNewComponent {
         });
       },
       error: (error) => {
-        scrollToTop();
         this.dialog.open(ErrorComponent, {
           data: {
             title: "Error: " + error.status + " " + error.statusText,

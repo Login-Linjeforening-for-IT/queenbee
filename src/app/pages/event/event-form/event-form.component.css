@@ -1,0 +1,72 @@
+.general-grid {
+  display: grid;
+  grid-template: repeat(5, min-content) / repeat(2, 1fr);
+  grid-template-areas:
+    "category timeType"
+    "organization timeStart"
+    "rule timeEnd"
+    "location timePublish"
+    "audience .";
+  column-gap: 3rem;
+}
+
+#selectorCategory {
+  grid-area: category;
+}
+
+#selectorOrganization {
+  grid-area: organization;
+}
+
+#selectorLocation {
+  grid-area: location;
+}
+
+#selectorRule {
+  grid-area: rule;
+}
+
+#selectorAudience {
+  grid-area: audience;
+}
+
+#timeType {
+  grid-area: timeType;
+}
+
+#timeStart {
+  grid-area: timeStart;
+}
+
+#timeEnd {
+  grid-area: timeEnd;
+}
+
+#timePublish {
+  grid-area: timePublish;
+}
+
+.signup-grid {
+  display: grid;
+  grid-template: repeat(2, min-content) / repeat(2, 1fr);
+  grid-template-areas:
+    "link-signup release"
+    "capacity deadline";
+  column-gap: 3rem;
+}
+
+#link-signup {
+  grid-area: link-signup;
+}
+
+#release {
+  grid-area: release;
+}
+
+#deadline {
+  grid-area: deadline;
+}
+
+#capacity {
+  grid-area: capacity;
+}

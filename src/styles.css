@@ -9,7 +9,8 @@
   --color-info-weak-dm: #9e9e9e;
   --color-info-weak-lm: #c2c2c2;
 
-  --color-navbar: #181818;
+  --color-topbar: #110901;
+  --color-navbar: #232323;
   --color-background: #1b1b1b;
 
   --color-black: #000000;
@@ -26,13 +27,38 @@
   box-sizing: border-box;
 }
 
+.menu-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 2rem;
+  padding: 0.2rem;
+  height: 2rem;
+  border: 1px solid #fd8738;
+  border-radius: 0.2rem;
+  background-color: #3b3b3b;
+  color: white;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  transition: background-color 0.3s;
+}
+
+.menu-btn:hover {
+  background-color: #fd8738;
+  color: #3b3b3b;
+}
+
+.square-btn {
+  width: 2rem;
+}
+
 html {
   font-size: 0.94rem;
-  height: 100vh;
 }
 
 body {
   width: 100vw;
+  height: 100vh;
   font-family: poppins, sans-serif;
   font-size: 0.88rem;
   background: var(--color-background);
@@ -43,12 +69,12 @@ body {
 .container {
   width: 100%;
 }
-
+/*
 img {
   display: block;
   width: 100%;
 }
-
+*/
 h1 {
   font-weight: 800;
   font-size: 1.8rem;
@@ -77,6 +103,11 @@ small {
 
 .weak-text {
   color: var(--color-info-weak-dm);
+}
+
+.img-manager-btn {
+  margin-bottom: 1rem;
+  width: fit-content;
 }
 
 /* ======================= MARKDOWN ======================= */
@@ -113,32 +144,6 @@ small {
 /* List Items */
 .beehive-html-styles li {
   margin-bottom: 8px;
-}
-
-/* ========================== SIDEBAR ====================== */
-aside {
-  background-color: var(--color-navbar);
-  position: fixed;
-  float: left;
-  height: 100vh;
-  width: 13vw;
-  padding-left: 0.5rem;
-}
-
-aside * {
-  appearance: none;
-  text-decoration: none;
-  list-style: none;
-} 
-
-/* ========================== MAIN ========================= */
-main {
-  position:static;
-  margin-left: 13vw;
-  padding: 0.5rem 2rem 2rem 2rem;
-  width: 87vw;
-  height: 100vh;
-  display: block;
 }
 
 /* ======================== TABLES ========================= */
@@ -195,6 +200,11 @@ main {
   flex-direction: row;
   width: 100%;
   margin-bottom: 3rem;
+}
+
+.outline {
+  border: #f57c00 solid 0.1rem;
+  padding: 0.3rem;
 }
 
 .dual-column-container {

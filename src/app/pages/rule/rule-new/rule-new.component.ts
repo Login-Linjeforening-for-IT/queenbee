@@ -3,7 +3,6 @@ import { RuleFormComponent } from '../rule-form/rule-form.component';
 import { Rule } from 'src/app/models/dataInterfaces.model';
 import { RulesService } from 'src/app/services/admin-api/rules.service';
 import { MatDialog } from '@angular/material/dialog';
-import { scrollToTop } from 'src/app/utils/core';
 import { ErrorComponent } from 'src/app/components/dialog/error/error.component';
 import { Router } from '@angular/router';
 import { SnackbarService } from 'src/app/services/snackbar.service';
@@ -36,7 +35,6 @@ export class RuleNewComponent {
         });
       },
       error: (error) => {
-        scrollToTop();
         console.log("Erroring")
         this.dialog.open(ErrorComponent, {
           data: {

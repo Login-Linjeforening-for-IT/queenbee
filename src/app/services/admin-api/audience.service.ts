@@ -34,4 +34,25 @@ export class AudienceService {
         })
       );
   }
+
+  /**
+   * Returns all audiences
+   * @returns Audience array
+   */
+  fetchAudiencesWithId(ids: number[]): Observable<AudienceChip[]> {
+    return this.http
+      .get<{ [id: number]: Audience }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.AUDIENCES_PATH}`)
+      .pipe(
+        map(resData => {
+          const audienceArray: AudienceChip[] = [];
+          for (const id in resData) {
+            if (resData.hasOwnProperty(id) && ids.includes(Number(id))) {
+              const aud: AudienceChip = {id: resData[id].id, name: resData[id].name_en};
+              audienceArray.push(aud);
+            }
+          }
+          return audienceArray;
+        })
+      );
+  }
 }

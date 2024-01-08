@@ -11,7 +11,7 @@ import { BaseChipSelectorComponent } from '../base-chip-selector/base-chip-selec
 /**
  * The `AudienceSelectorComponent` is a component used for selecting multiple items from a list of options.
  * It provides a chip-like interface for selecting items.
- * 
+ *
  * @example
  * <app-chip-selector
  *   [title]="'Fruits'"
@@ -22,6 +22,13 @@ export class AudienceSelectorComponent extends BaseChipSelectorComponent {
   constructor(private audienceService: AudienceService) {
     super();
     this.fetchAudience();
+    if(this.values) {
+      this.audienceService.fetchAudiencesWithId(this.values).subscribe((a: AudienceChip[]) => {
+        console.log("Audience with ID: ", a)
+        this.values = a;
+        this.updateChips();
+      });
+    }
   }
 
   /**

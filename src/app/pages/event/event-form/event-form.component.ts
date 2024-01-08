@@ -4,13 +4,16 @@ import { Observable, map, startWith } from 'rxjs';
 import { NoDecimalValidator } from 'src/app/common/validators';
 import { AudienceSelectorComponent } from 'src/app/components/chip-selectors/audience-selector/audience-selector.component';
 import { TIME, TIME_TYPE } from 'src/app/config/constants';
-import { AudienceChip, Category, FullEvent, DropDownItem, OrgTableItem, EventData } from 'src/app/models/dataInterfaces.model';
+import { Category, FullEvent, DropDownItem, OrgTableItem, EventData } from 'src/app/models/dataInterfaces.model';
 import { AudienceService } from 'src/app/services/admin-api/audience.service';
 import { CategoryService } from 'src/app/services/admin-api/category.service';
 import { LocationService } from 'src/app/services/admin-api/location.service';
 import { OrganizationService } from 'src/app/services/admin-api/organizations.service';
 import { RulesService } from 'src/app/services/admin-api/rules.service';
 import {convertDateToRFC3339, convertToRFC3339, getTime, isDatetimeUnset} from 'src/app/utils/time';
+import {CropComponent} from "../../../components/dialog/crop/crop.component";
+import {MatDialog} from "@angular/material/dialog";
+import {ImageManagerComponent} from "../../../components/dialog/image-manager/image-manager.component";
 
 export interface TimeTypeSelect {
   type: string;
@@ -20,7 +23,8 @@ export interface TimeTypeSelect {
 
 @Component({
   selector: 'app-event-form',
-  templateUrl: './event-form.component.html'
+  templateUrl: './event-form.component.html',
+  styleUrls: ['./event-form.component.css']
 })
 
 /**
@@ -64,7 +68,8 @@ export class EventFormComponent implements OnInit{
     private orgService: OrganizationService,
     private locService: LocationService,
     private ruleService: RulesService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -157,6 +162,15 @@ export class EventFormComponent implements OnInit{
       return rule.name
     }
     return ''
+  }
+
+  imageManager() {
+    this.dialog.open(ImageManagerComponent, {
+      data: {
+        title: "Events",
+        path: "/events"
+      }
+    });
   }
 
   /**
@@ -333,7 +347,8 @@ export class EventFormComponent implements OnInit{
         category: this.fe.event.category || 0,
         organization: this.fe.organizations[0]?.shortname || '',
         rule: this.fe.rule?.id || 0,
-        location: this.fe.location?.id || 0
+        location: this.fe.location?.id || 0,
+        audience: this.fe.audiences || []
       });
     } else {
       // Reset the form fields when the event is undefined

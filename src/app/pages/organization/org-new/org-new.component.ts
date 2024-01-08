@@ -6,7 +6,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { BeehiveAPI } from 'src/app/config/constants';
-import { scrollToTop } from 'src/app/utils/core';
 import { ErrorComponent } from 'src/app/components/dialog/error/error.component';
 
 @Component({
@@ -36,7 +35,6 @@ export class OrgNewComponent {
         });
       },
       error: (error) => {
-        scrollToTop();
         console.log("Erroring")
         this.dialog.open(ErrorComponent, {
           data: {

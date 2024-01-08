@@ -1,15 +1,12 @@
-<div class="container">
-  <div *ngIf="false">
-    <p>Yeah motherfucker!!</p>
-  </div>
-
-  <div *ngIf="true">
-    <aside>
-      <app-sidebar></app-sidebar>
-    </aside>
-  </div>
-    <main>
-      <router-outlet></router-outlet>
-    </main>
-
+<div class="grid-container">
+  <app-topbar class="topbar"></app-topbar>
+  <aside class="sidebar">
+    <app-sidebar></app-sidebar>
+  </aside>
+  <main class="main">
+    <router-outlet></router-outlet>
+  </main>
+  <aside class="log">
+    <!-- log -->
+  </aside>
 </div>

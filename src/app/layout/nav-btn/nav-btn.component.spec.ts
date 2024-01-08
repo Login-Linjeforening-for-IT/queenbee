@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RuleNewComponent } from './rule-new.component';
+import { NavBtnComponent } from './nav-btn.component';
 
-describe('RuleNewComponent', () => {
-  let component: RuleNewComponent;
-  let fixture: ComponentFixture<RuleNewComponent>;
+describe('NavBtnComponent', () => {
+  let component: NavBtnComponent;
+  let fixture: ComponentFixture<NavBtnComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [RuleNewComponent]
+      declarations: [NavBtnComponent]
     });
-    fixture = TestBed.createComponent(RuleNewComponent);
+    fixture = TestBed.createComponent(NavBtnComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

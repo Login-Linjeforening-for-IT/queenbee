@@ -1,5 +1,5 @@
 <form [formGroup]="timeForm">
-  <mat-form-field class="input">
+  <mat-form-field class="input input-date">
     <mat-label>{{dateLabel}}</mat-label>
     <input matInput
             [matDatepicker]="date" min="{{this.minDate | date:'yyyy-MM-dd'}}"
@@ -17,7 +17,7 @@
     </mat-error>
   </mat-form-field>
 
-  <mat-form-field class="input" [class.disabled]="disableTime">
+  <mat-form-field class="input input-time" [class.disabled]="disableTime">
     <mat-label>{{timeLabel}}</mat-label>
     <input matInput
             type="time"
@@ -26,6 +26,6 @@
             [required]="isTimeRequired && !disableTime">
     <mat-error *ngIf="timeForm.controls['date'].hasError('required')">
       Field is <strong>required</strong>
-    </mat-error>         
+    </mat-error>
   </mat-form-field>
 </form>

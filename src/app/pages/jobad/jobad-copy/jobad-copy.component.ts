@@ -6,7 +6,6 @@ import { JobadService } from 'src/app/services/admin-api/jobad.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { convertFromRFC3339 } from 'src/app/utils/time';
-import { scrollToTop } from 'src/app/utils/core';
 import { ErrorComponent } from 'src/app/components/dialog/error/error.component';
 import { BeehiveAPI } from 'src/app/config/constants';
 
@@ -68,7 +67,6 @@ export class JobadCopyComponent {
         });
       },
       error: (error) => {
-        scrollToTop();
         console.log("Erroring")
         this.dialog.open(ErrorComponent, {
           data: {

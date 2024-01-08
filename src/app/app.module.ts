@@ -58,7 +58,6 @@ import { DataTableCoordsComponent } from './pages/locations/data-table-coords/da
 import { DataTableRulesDataSource } from './pages/rules/data-table-rules/data-table-rules-datasource';
 import { DataTableRulesComponent } from './pages/rules/data-table-rules/data-table-rules.component';
 import { ImageSelectorComponent } from './components/image-selector/image-selector.component';
-import { SingleFileUploadComponent } from './components/single-file-upload/single-file-upload.component';
 import { ImageCropperModule } from './components/image-cropper/image-cropper.module';
 import { CropComponent } from './components/dialog/crop/crop.component';
 import { RuleNewComponent } from './pages/rule/rule-new/rule-new.component';
@@ -74,6 +73,11 @@ import { OrgEditComponent } from './pages/organization/org-edit/org-edit.compone
 import { LocationEditComponent } from './pages/location/location-edit/location-edit.component';
 import { InputSelectorComponent } from './components/chip-selectors/input-selector/input-selector.component';
 import { BaseChipSelectorComponent } from './components/chip-selectors/base-chip-selector/base-chip-selector.component';
+import { TopbarComponent } from './layout/topbar/topbar.component';
+import { NavBtnComponent } from './layout/nav-btn/nav-btn.component';
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatSliderModule} from "@angular/material/slider";
+import { ImageManagerComponent } from './components/dialog/image-manager/image-manager.component';
 
 @NgModule({
   declarations: [
@@ -108,7 +112,6 @@ import { BaseChipSelectorComponent } from './components/chip-selectors/base-chip
     MapComponent,
     MazemapComponent,
     ImageSelectorComponent,
-    SingleFileUploadComponent,
     CropComponent,
     RuleNewComponent,
     RuleFormComponent,
@@ -119,7 +122,10 @@ import { BaseChipSelectorComponent } from './components/chip-selectors/base-chip
     OrgNewComponent,
     OrgEditComponent,
     LocationEditComponent,
-    InputSelectorComponent
+    InputSelectorComponent,
+    TopbarComponent,
+    NavBtnComponent,
+    ImageManagerComponent
   ],
     imports: [
         BrowserModule,
@@ -144,6 +150,9 @@ import { BaseChipSelectorComponent } from './components/chip-selectors/base-chip
         MatTabsModule,
         MatMenuModule,
         MarkdownModule.forRoot(),
+        MatSidenavModule,
+        MatSliderModule,
+        MatSlideToggleModule,
         PickerComponent,
         MatDialogModule,
         MatAutocompleteModule,

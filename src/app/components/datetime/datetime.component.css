@@ -1,11 +1,16 @@
-div {
-  display: inline-block;
+.disabled {
+  opacity: 30%;
 }
 
-.input {
+form {
+  display: flex;
+}
+
+.input-date {
+  width: 55%;
   margin-right: 1rem;
 }
 
-.disabled {
-  opacity: 30%;
+.input-time {
+  width: 45%;
 }

@@ -16,6 +16,10 @@
          [style.margin-left]="alignImage === 'center' ? marginLeft : null"
          [style.visibility]="imageVisible ? 'visible' : 'hidden'"
     >
+        <!-- Emojis container -->
+        <div class="emoji-container" *ngIf="imageVisible">
+          <button class="menu-btn square-btn checkmark" (click)="confirm()">&#10004;</button> <!-- Checkmark emoji -->
+        </div>
         <div
             (mousedown)="startMove($event, 'move')"
             (touchstart)="startMove($event, 'move')"

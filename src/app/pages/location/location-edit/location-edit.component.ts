@@ -7,7 +7,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { convertFromRFC3339 } from 'src/app/utils/time';
 import { BeehiveAPI } from 'src/app/config/constants';
-import { scrollToTop } from 'src/app/utils/core';
 import { ErrorComponent } from 'src/app/components/dialog/error/error.component';
 
 @Component({
@@ -57,7 +56,6 @@ export class LocationEditComponent {
         });
       },
       error: (error) => {
-        scrollToTop();
         console.log("Erroring")
         this.dialog.open(ErrorComponent, {
           data: {

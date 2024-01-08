@@ -92,12 +92,12 @@ export abstract class BaseChipSelectorComponent {
       return [];
     }
     const filterValue = value.toLowerCase();
-  
+
     // Filter based on filterValue, and remove already selected options
     const unselectedItems = this.chipItems.filter(item =>
       item.name.toLowerCase().includes(filterValue) && !this.chips.includes(item)
     );
-  
+
     return unselectedItems;
   }
 
