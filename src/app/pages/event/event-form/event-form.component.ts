@@ -350,6 +350,8 @@ export class EventFormComponent implements OnInit{
         location: this.fe.location?.id || 0,
         audience: this.fe.audiences || []
       });
+
+      console.log("Is this audience:", this.eventForm.get('audience')?.value);
     } else {
       // Reset the form fields when the event is undefined
       this.initForm();

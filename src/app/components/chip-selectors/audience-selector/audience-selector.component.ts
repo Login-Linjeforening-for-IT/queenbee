@@ -22,13 +22,9 @@ export class AudienceSelectorComponent extends BaseChipSelectorComponent {
   constructor(private audienceService: AudienceService) {
     super();
     this.fetchAudience();
-    if(this.values) {
-      this.audienceService.fetchAudiencesWithId(this.values).subscribe((a: AudienceChip[]) => {
-        console.log("Audience with ID: ", a)
-        this.values = a;
-        this.updateChips();
-      });
-    }
+    setTimeout(() => {
+      this.updateChips();  
+    }, 1)
   }
 
   /**
@@ -38,5 +34,19 @@ export class AudienceSelectorComponent extends BaseChipSelectorComponent {
     this.audienceService.fetchAudiences().subscribe((a: AudienceChip[]) => {
       this.chipItems = a;
     });
+  }
+
+  
+  override updateChips() {
+    if (this.values && this.values.length > 0) {
+      this.chips = this.values.map((element: any) => {
+        return {
+          id: element.id,
+          name: element.name_en
+        }
+      });
+    } else {
+      this.chips = [];
+    }
   }
 }
