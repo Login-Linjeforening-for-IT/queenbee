@@ -1,87 +1,92 @@
 <form [formGroup]="jobAdForm">
     <div class="form">
-        <hr>
-        <div class="block">
-        <h2>General Information</h2>
-        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" class="block">
-            <mat-tab label="🇳🇴 NOR">
-                <mat-form-field class="row">
-                    <input matInput formControlName="title_no" required>
-                    <mat-label>Ad Title NOR</mat-label>
-                </mat-form-field>
+      <hr>
+      <div class="block">
+      <h2>General Information</h2>
+      <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" class="block">
+          <mat-tab label="🇳🇴 NOR">
+            <div class="outline">
+              <mat-form-field class="row">
+                  <input matInput formControlName="title_no" required>
+                  <mat-label>Ad Title NOR</mat-label>
+              </mat-form-field>
 
-                <mat-form-field class="row">
-                    <input matInput formControlName="position_title_no" required>
-                    <mat-label>Position Title NOR</mat-label>
-                </mat-form-field>
+              <mat-form-field class="row">
+                  <input matInput formControlName="position_title_no" required>
+                  <mat-label>Position Title NOR</mat-label>
+              </mat-form-field>
 
-                <mat-form-field class="row">
-                    <input matInput formControlName="description_short_no" required>
-                    <mat-label>Short Description NOR</mat-label>
-                </mat-form-field>
+              <mat-form-field class="row">
+                  <input matInput formControlName="description_short_no" required>
+                  <mat-label>Short Description NOR</mat-label>
+              </mat-form-field>
 
-                <app-markdown-textfield 
-                  (newHtmlText)=onDescriptionNoChange($event) 
-                  [value]="jobAdForm.get('description_long_no')?.value"
-                  [placeholder]="'Long Description NOR'" 
-                  class="row">
-                </app-markdown-textfield>
-            </mat-tab>
+              <app-markdown-textfield 
+                (newHtmlText)=onDescriptionNoChange($event) 
+                [value]="jobAdForm.get('description_long_no')?.value"
+                [placeholder]="'Long Description NOR'" 
+                class="row">
+              </app-markdown-textfield>
+            </div>
+          </mat-tab>
 
-            <mat-tab label="🇺🇸 ENG">
-                <mat-form-field class="row">
-                    <input matInput formControlName="title_en">
-                    <mat-label>Ad Title ENG</mat-label>
-                </mat-form-field>
+          <mat-tab label="🇺🇸 ENG">
+            <div class="outline">
+              <mat-form-field class="row">
+                  <input matInput formControlName="title_en">
+                  <mat-label>Ad Title ENG</mat-label>
+              </mat-form-field>
 
-                <mat-form-field class="row">
-                    <input matInput formControlName="position_title_en">
-                    <mat-label>Position Title ENG</mat-label>
-                </mat-form-field>
+              <mat-form-field class="row">
+                  <input matInput formControlName="position_title_en">
+                  <mat-label>Position Title ENG</mat-label>
+              </mat-form-field>
 
-                <mat-form-field class="row">
-                    <input matInput formControlName="description_short_en">
-                    <mat-label>Short Description ENG</mat-label>
-                </mat-form-field>
+              <mat-form-field class="row">
+                  <input matInput formControlName="description_short_en">
+                  <mat-label>Short Description ENG</mat-label>
+              </mat-form-field>
 
-                <app-markdown-textfield 
-                  (newHtmlText)=onDescriptionEnChange($event) 
-                  [value]="jobAdForm.get('description_long_en')?.value"
-                  [placeholder]="'Long Description ENG'" 
-                  class="row">
-                </app-markdown-textfield>
-            </mat-tab>
-        </mat-tab-group>
+              <app-markdown-textfield 
+                (newHtmlText)=onDescriptionEnChange($event) 
+                [value]="jobAdForm.get('description_long_en')?.value"
+                [placeholder]="'Long Description ENG'" 
+                class="row">
+              </app-markdown-textfield>
+            </div>
+          </mat-tab>
+      </mat-tab-group>
 
-          <!-- Drop Down menu with Autocomplete capabilities for organizations -->
-          <div>
-            <mat-form-field class="row-narrow" *ngIf="organizations.length > 0; else elseOrgBlock">
-              <mat-label>Organization</mat-label>
-              <input
-                type="text"
-                matInput
-                [formControl]="autoControlOrgs"
-                [matAutocomplete]="autoOrg"
-                required
-              />
+      <div class="general-grid">
+        <!-- Drop Down menu with Autocomplete capabilities for organizations -->
+        <div id="selectorOrganization">
+          <mat-form-field class="row" *ngIf="organizations.length > 0; else elseOrgBlock">
+            <mat-label>Organization</mat-label>
+            <input
+              type="text"
+              matInput
+              [formControl]="autoControlOrgs"
+              [matAutocomplete]="autoOrg"
+              required
+            />
 
-              <mat-autocomplete autoActiveFirstOption #autoOrg="matAutocomplete" [displayWith]="displayOrganizationFn">
-                <mat-option
-                  *ngFor="let o of filteredOrgs | async"
-                  [value]="o"
-                >
-                  {{ o.name }}
-                </mat-option>
-              </mat-autocomplete>
+            <mat-autocomplete autoActiveFirstOption #autoOrg="matAutocomplete" [displayWith]="displayOrganizationFn">
+              <mat-option
+                *ngFor="let o of filteredOrgs | async"
+                [value]="o"
+              >
+                {{ o.name }}
+              </mat-option>
+            </mat-autocomplete>
 
-              <mat-error *ngIf="autoControlOrgs.hasError('required')">
-                This field is <strong>required</strong>
-              </mat-error>
-            </mat-form-field>
-            <ng-template #elseOrgBlock>Could not fetch organizations input!</ng-template>
-          </div>
-
-        <mat-form-field class="row-narrow">
+            <mat-error *ngIf="autoControlOrgs.hasError('required')">
+              This field is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+          <ng-template #elseOrgBlock>Could not fetch organizations input!</ng-template>
+        </div>
+        
+        <mat-form-field class="row" id="jobType">
             <mat-label>Type</mat-label>
             <mat-select formControlName="job_type" required>
               <mat-option *ngFor="let o of JOB_TYPES" [value]="o.id">{{o.name}}</mat-option>
@@ -93,6 +98,7 @@
         </mat-form-field>
 
         <app-datetime 
+          id="timePublish"
           (newDatetime)=onPublishChange($event)
           [value]="jobAdForm.get('time_publish')?.value" 
           [dateLabel]="'Publish Date'" 
@@ -100,31 +106,33 @@
         </app-datetime>
     
         <app-input-selector
-          class="row-narrow"
-          #skillSelector
+          class="row"
+          id="skillSelector"
           [values]="skills"
           [label]="'Skills'"
           [placeholder]="'Enter skill'">
         </app-input-selector>
 
         <app-input-selector
-          class="row-narrow"
-          #citySelector
+          class="row"
+          id="citySelector"
           [values]="cities"
           [label]="'Cities'"
           [placeholder]="'Enter city'">
         </app-input-selector>
 
         <mat-slide-toggle 
+          id="highlight"
           style="margin-left: 1rem;"
           formControlName="highlight">
           Highlight Ad
         </mat-slide-toggle>
+      </div>
     </div>
 
     <div class="block">
         <h2>Application</h2>
-        <mat-form-field class="row-narrow">
+        <mat-form-field class="row">
             <input matInput formControlName="application_url">
             <mat-label>Application URL</mat-label>
         </mat-form-field>
@@ -140,7 +148,7 @@
 
     <div class="block">
         <h2>Image</h2>
-        <mat-form-field class="row-narrow">
+        <mat-form-field class="row">
             <input matInput formControlName="banner_image">
             <mat-label>Banner Image</mat-label>
         </mat-form-field>

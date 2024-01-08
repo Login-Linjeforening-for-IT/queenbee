@@ -1,0 +1,33 @@
+.general-grid {
+    display: grid;
+    grid-template: repeat(3, min-content) / repeat(2, 1fr);
+    grid-template-areas: 
+    "organization city"
+    "jobType skill"
+    "timePublish high";
+    column-gap: 3rem;
+}
+
+#selectorOrganization {
+    grid-area: organization;
+}
+
+#jobType {
+    grid-area: jobType
+}
+
+#timePublish {
+    grid-area: timePublish;
+}
+
+#skillSelector {
+    grid-area: skill;
+}
+
+#citySelector {
+    grid-area: city;
+}
+
+#highlight {
+    grid-area: high;
+}
