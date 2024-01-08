@@ -1,11 +1,11 @@
 <div class="box">
     <div class="topbar">
         <div class="left">
-            <button class="menu-btn" (click)="makeBold()" title="Bold"><strong>B</strong></button>
-            <button class="menu-btn" (click)="makeItalic()" title="Italic"><em>I</em></button>
+            <button class="menu-btn square-btn" (click)="makeBold()" title="Bold"><strong>B</strong></button>
+            <button class="menu-btn square-btn" (click)="makeItalic()" title="Italic"><em>I</em></button>
             
             <div #emojiWrapper class="emoji-wrapper">
-                <button class="menu-btn" (click)="toggleEmojiPicker()" title="Emoji">🥰</button>
+                <button class="menu-btn square-btn" (click)="toggleEmojiPicker()" title="Emoji">🥰</button>
                 <emoji-mart
                     *ngIf="showEmojiPicker"
                     class="emoji-mart"
@@ -16,11 +16,10 @@
                     (emojiSelect)="insertEmoji($event)"
                 ></emoji-mart>
             </div>
-
             
             <!-- Add the input fields for rows and columns - DISABLED -->
             <div #tableWrapper class="table-wrapper">
-                <button disabled class="menu-btn" (click)="toggleTableMaker()" title="Table">T</button>
+                <button disabled class="menu-btn square-btn" (click)="toggleTableMaker()" title="Table">T</button>
                 <div class="table-inputs" *ngIf="showTableInputs">
                     <label>Rows:</label>
                     <input type="number" placeholder="Rows" [(ngModel)]="tableRows">
