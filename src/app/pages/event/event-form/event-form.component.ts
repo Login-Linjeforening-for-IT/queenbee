@@ -91,7 +91,6 @@ export class EventFormComponent implements OnInit{
    * @returns The whole form
    */
   getFormValues(): EventData {
-    console.log("Sending form values: ", this.eventForm.value)
     return this.eventForm.value;
   }
 
