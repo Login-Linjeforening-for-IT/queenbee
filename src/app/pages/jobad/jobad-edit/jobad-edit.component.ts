@@ -51,7 +51,6 @@ export class JobadEditComponent {
 
     this.jobadService.patchJobad(formValues, this.jobadFormComponent.getSkills(), this.jobadFormComponent.getCities()).subscribe({
       next: () => {
-        console.log("inside next")
         this.router.navigate([BeehiveAPI.JOBADS_PATH]).then((navigated: boolean) => {
           if(navigated) {
             this.snackbarService.openSnackbar("Successfully updated jobad", "OK", 2.5)
@@ -59,7 +58,6 @@ export class JobadEditComponent {
         });
       },
       error: (error) => {
-        console.log("Erroring", error)
         this.dialog.open(ErrorComponent, {
           data: {
             title: "Error: " + error.status + " " + error.statusText,
