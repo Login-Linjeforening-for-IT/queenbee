@@ -270,11 +270,13 @@
 
       <app-image-selector
         [title]="'Image Banner'"
+        [value]="eventForm.get('image_banner')?.value"
         (valEmitter)="onImageBannerChange($event)"
       ></app-image-selector>
 
       <app-image-selector
         [title]="'Image Small'"
+        [value]="eventForm.get('image_small')?.value"
         (valEmitter)="onImageSmallChange($event)"
       ></app-image-selector>
     </div>
