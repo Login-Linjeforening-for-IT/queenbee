@@ -58,7 +58,6 @@ import { DataTableCoordsComponent } from './pages/locations/data-table-coords/da
 import { DataTableRulesDataSource } from './pages/rules/data-table-rules/data-table-rules-datasource';
 import { DataTableRulesComponent } from './pages/rules/data-table-rules/data-table-rules.component';
 import { ImageSelectorComponent } from './components/image-selector/image-selector.component';
-import { SingleFileUploadComponent } from './components/single-file-upload/single-file-upload.component';
 import { ImageCropperModule } from './components/image-cropper/image-cropper.module';
 import { CropComponent } from './components/dialog/crop/crop.component';
 import { RuleNewComponent } from './pages/rule/rule-new/rule-new.component';
@@ -113,7 +112,6 @@ import { ImageManagerComponent } from './components/dialog/image-manager/image-m
     MapComponent,
     MazemapComponent,
     ImageSelectorComponent,
-    SingleFileUploadComponent,
     CropComponent,
     RuleNewComponent,
     RuleFormComponent,
