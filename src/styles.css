@@ -105,6 +105,11 @@ small {
   color: var(--color-info-weak-dm);
 }
 
+.img-manager-btn {
+  margin-bottom: 1rem;
+  width: fit-content;
+}
+
 /* ======================= MARKDOWN ======================= */
 /* Styles specifically written for the markdown component   */
 

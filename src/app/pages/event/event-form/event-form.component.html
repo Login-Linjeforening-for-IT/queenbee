@@ -264,7 +264,7 @@
 
     <div class="block">
       <h2>Image Links</h2>
-      <button (click)="imageManager()" mat-raised-button color="primary">
+      <button class="img-manager-btn" (click)="imageManager()" mat-raised-button color="primary">
         <span class="material-symbols-sharp">upload</span>Manage Images
       </button>
 
@@ -281,17 +281,17 @@
 
     <div class="block">
       <h2>Social Links</h2>
-      <mat-form-field class="row-narrow">
+      <mat-form-field class="row">
         <input matInput formControlName="link_facebook">
         <mat-label>Facebook Link</mat-label>
       </mat-form-field>
 
-      <mat-form-field class="row-narrow">
+      <mat-form-field class="row">
         <input matInput formControlName="link_discord">
         <mat-label>Discord Link</mat-label>
       </mat-form-field>
 
-      <mat-form-field class="row-narrow">
+      <mat-form-field class="row">
         <input matInput formControlName="link_stream">
         <mat-label>Stream Link</mat-label>
       </mat-form-field>
