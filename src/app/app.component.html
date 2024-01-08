@@ -1,4 +1,4 @@
-<div class="grid-container">
+<div class="grid-container" *ngIf="authenticated">
   <app-topbar class="topbar"></app-topbar>
   <aside class="sidebar">
     <app-sidebar></app-sidebar>
@@ -9,4 +9,7 @@
   <aside class="log">
     <!-- log -->
   </aside>
+</div>
+<div *ngIf="!authenticated">
+  <router-outlet></router-outlet>
 </div>
