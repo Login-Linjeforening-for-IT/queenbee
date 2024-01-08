@@ -23,7 +23,11 @@
             </mat-form-field>
 
             <app-markdown-textfield
-              class="row" (newHtmlText)="onDescriptionNoChange($event)" [placeholder]="'Description NOR'" [value]="eventForm.get('description_no')?.value"></app-markdown-textfield>
+              class="row" 
+              (newHtmlText)="onDescriptionNoChange($event)"
+              [placeholder]="'Description NOR'" 
+              [value]="eventForm.get('description_no')?.value">
+            </app-markdown-textfield>
           </div>
         </mat-tab>
 
@@ -41,7 +45,12 @@
               <mat-hint align="end">{{eventForm.get('informational_en')?.value?.length || 0}} / 180</mat-hint>
             </mat-form-field>
 
-            <app-markdown-textfield class="row" (newHtmlText)=onDescriptionEnChange($event) [placeholder]="'Description ENG'" [value]="eventForm.get('description_en')?.value"></app-markdown-textfield>
+            <app-markdown-textfield 
+              class="row" 
+              (newHtmlText)=onDescriptionEnChange($event) 
+              [placeholder]="'Description ENG'" 
+              [value]="eventForm.get('description_en')?.value">
+            </app-markdown-textfield>
           </div>
         </mat-tab>
       </mat-tab-group>
