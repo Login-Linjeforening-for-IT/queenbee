@@ -165,7 +165,12 @@ export class EventFormComponent implements OnInit{
   }
 
   imageManager() {
-    this.dialog.open(ImageManagerComponent, {});
+    this.dialog.open(ImageManagerComponent, {
+      data: {
+        title: "Events",
+        path: "/events"
+      }
+    });
   }
 
   /**

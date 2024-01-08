@@ -1,6 +1,6 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, Inject, Input, ViewChild} from '@angular/core';
 import {ImageCropperComponent} from "../../image-cropper/component/image-cropper.component";
-import {MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ImageCroppedEvent} from "../../image-cropper/interfaces";
 import {CropComponent} from "../crop/crop.component";
 import {FormBuilder} from "@angular/forms";
@@ -12,6 +12,9 @@ import { DoSpacesService } from 'src/app/services/do/do-spaces.service';
   styleUrls: ['./image-manager.component.css']
 })
 export class ImageManagerComponent {
+  title!: string;
+  path!: string;
+
   originalFile: any = '';
   imageChangedEvent: any = '';
   croppedImage: any = '';
@@ -30,9 +33,15 @@ export class ImageManagerComponent {
   });
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<CropComponent>, 
     private _formBuilder: FormBuilder,
-    private s3Service: DoSpacesService){}
+    private s3Service: DoSpacesService){
+      if(data) {
+        this.title = data.title;
+        this.path = data.path;
+      }
+    }
 
   fileChangeEvent(event: any): void {
     // Store the original file when a new file is selected

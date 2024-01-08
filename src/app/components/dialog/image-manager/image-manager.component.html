@@ -1,5 +1,5 @@
 <div class="container wide">
-  <h1 mat-dialog-title>Image manager</h1>
+  <h1 mat-dialog-title>Image manager - {{title}}</h1>
   <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" class="block">
     <mat-tab label="Upload image">
       <div mat-dialog-content>
@@ -13,6 +13,7 @@
 
         <div>
           <input class="file-input" type="file" (change)="fileChangeEvent($event)" accept=".jpg, .jpeg, .png, .svg"/>
+
           <div *ngIf="!cropped">
             <image-cropper
               [imageChangedEvent]="imageChangedEvent"
