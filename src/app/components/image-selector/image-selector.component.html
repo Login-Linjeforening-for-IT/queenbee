@@ -1,29 +1,19 @@
-<div class="table-container">
-  <div class="table-row">
-    <form class="form-cell" *ngIf="images.length > 0">
-      <mat-form-field class="row">
-        <mat-label>{{title}}</mat-label>
-        <input type="text"
-              placeholder="Pick one"
-              matInput
-              [formControl]="selectedImg"
-              [matAutocomplete]="auto">
-        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-          <mat-option *ngFor="let img of filteredOptions | async" [value]="img.name">
-            <div class="dropdown-item">
-              <img alt="" [src]="'https://cdn.login.no/' + img.filepath" height="25">
-              <span>{{img.name}}</span> |
-              <small>{{img.size}}</small>
-            </div>
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-    </form>
-    <!--
-    <div class="upload-cell">
-      <button (click)="cropImage()" mat-raised-button color="primary">
-        <span class="material-symbols-sharp">upload</span>New Image
-      </button>
-    </div>-->
-  </div>
-</div>
+<form *ngIf="images.length > 0">
+  <mat-form-field class="row">
+    <mat-label>{{title}}</mat-label>
+    <input type="text"
+          placeholder="Pick one"
+          matInput
+          [formControl]="selectedImg"
+          [matAutocomplete]="auto">
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+      <mat-option *ngFor="let img of filteredOptions | async" [value]="img.name">
+        <div class="dropdown-item">
+          <img alt="" [src]="'https://cdn.login.no/' + img.filepath" height="25">
+          <span>{{img.name}}</span> |
+          <small>{{img.size}}</small>
+        </div>
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>

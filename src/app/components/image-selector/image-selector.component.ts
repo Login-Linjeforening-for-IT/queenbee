@@ -9,8 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-image-selector',
-  templateUrl: './image-selector.component.html',
-  styleUrls: ['./image-selector.component.css']
+  templateUrl: './image-selector.component.html'
 })
 
 /**
@@ -55,10 +54,6 @@ export class ImageSelectorComponent {
         this.valEmitter.emit({val: value})
       }
     })
-  }
-
-  cropImage() {
-    this.dialog.open(CropComponent, {});
   }
 
   private _filter(value: string): DropDownFileItem[] {
