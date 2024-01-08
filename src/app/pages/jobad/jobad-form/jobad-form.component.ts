@@ -57,7 +57,6 @@ export class JobadFormComponent {
   ) {}
 
   ngOnInit() {
-    console.log(this.cities, this.skills)
     this.initForm();
     this.fetchOrganizations();
     this.initDropdownControls();
@@ -90,11 +89,11 @@ export class JobadFormComponent {
   }
 
   onDescriptionNoChange(newVal: { ht: string }) {
-    this.autoControlOrgs.setValue(this.jobad.organization);
+    this.jobAdForm.get('description_long_no')?.setValue(newVal.ht);
   }
 
   onDescriptionEnChange(newVal: { ht: string }) {
-    this.jobAdForm.get('description_long_en')!.patchValue(newVal.ht);
+    this.jobAdForm.get('description_long_en')?.setValue(newVal.ht);
   }
 
   displayOrganizationFn(organization: OrgTableItem): string {
