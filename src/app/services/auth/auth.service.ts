@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-    private isAuthenticated = false;
+    private isAuthenticated = true;
 
     constructor() {}
 
