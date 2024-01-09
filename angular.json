@@ -65,10 +65,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "adminTool2:build:production"
+              "buildTarget": "adminTool2:build:production"
             },
             "development": {
-              "browserTarget": "adminTool2:build:development"
+              "buildTarget": "adminTool2:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +76,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "adminTool2:build"
+            "buildTarget": "adminTool2:build"
           }
         },
         "test": {
