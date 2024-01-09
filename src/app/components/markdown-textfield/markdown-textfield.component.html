@@ -3,7 +3,7 @@
         <div class="left">
             <button class="menu-btn square-btn" (click)="makeBold()" title="Bold"><strong>B</strong></button>
             <button class="menu-btn square-btn" (click)="makeItalic()" title="Italic"><em>I</em></button>
-            
+
             <div #emojiWrapper class="emoji-wrapper">
                 <button class="menu-btn square-btn" (click)="toggleEmojiPicker()" title="Emoji">🥰</button>
                 <emoji-mart
@@ -16,7 +16,7 @@
                     (emojiSelect)="insertEmoji($event)"
                 ></emoji-mart>
             </div>
-            
+
             <div #tableWrapper class="table-wrapper">
                 <button class="menu-btn square-btn" (click)="toggleTableMaker()" title="Table">T</button>
                 <div class="table-inputs" *ngIf="showTableInputs">
@@ -33,7 +33,7 @@
                 <div class="table-inputs" *ngIf="showSpeedpresTableInputs">
                     <label>Companies:</label>
                     <input type="number" placeholder="F.ex 10" [(ngModel)]="sp_entries">
-                    
+
                     <label>Start time:</label>
                     <input type="time" [(ngModel)]="sp_starttime">
 
@@ -42,13 +42,13 @@
 
                     <label>Pause (min):</label>
                     <input type="number" placeholder="Pause length" [(ngModel)]="sp_pause">
-                    
+
                     <button (click)="generateSpeedpresTable()" title="Generate Speedpres Table">Generate</button>
                 </div>
             </div>
         </div>
         <div class="right">
-            <p class="title">HTML Preview:</p>
+            <p class="title">Preview:</p>
         </div>
     </div>
     <div class="content">
