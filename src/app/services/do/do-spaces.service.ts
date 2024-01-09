@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PutObjectCommand, S3 } from "@aws-sdk/client-s3";
+import { ObjectCannedACL, PutObjectCommand, S3 } from "@aws-sdk/client-s3";
 import { ListObjectsCommand } from "@aws-sdk/client-s3";
 import { Observable, catchError, from, map, of } from 'rxjs';
 import { CREDENTIALS } from 'src/app/config/env';
@@ -60,7 +60,7 @@ export class DoSpacesService {
       Bucket: 'beehive',
       Key: key,
       Body: file,
-      ACL: 'public-read'
+      ACL: 'public-read' as ObjectCannedACL
     };
 
     const uploadObjectPromise = this.s3Client.send(new PutObjectCommand(params));
