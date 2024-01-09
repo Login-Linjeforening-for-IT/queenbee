@@ -132,7 +132,16 @@ export class MarkdownTextfieldComponent {
 
   generateTable() {
     // Generate the table in markdown using the provided rows and columns
-    const markdownTable = `\n${'|'.padEnd(this.tableColumns, ' |')}|\n${'|'.padEnd(this.tableColumns, '-|')}|`;
+    const normalRow = `\n${'|'.padEnd(this.tableColumns*2+1, ' |')}`;
+    const separatorRow = `\n${'|'.padEnd(this.tableColumns*2+1, '-|')}`
+
+    // Create top row, plus dashed separator row
+    let markdownTable = normalRow + separatorRow;
+
+    // Add the remaining rows
+    for(let i = 0; i < this.tableRows - 1; i++) {
+      markdownTable += normalRow;
+    }
 
     // Append the generated table to the current text
     this.markdown += markdownTable;

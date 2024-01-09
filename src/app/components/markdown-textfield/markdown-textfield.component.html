@@ -19,7 +19,7 @@
             
             <!-- Add the input fields for rows and columns - DISABLED -->
             <div #tableWrapper class="table-wrapper">
-                <button disabled class="menu-btn square-btn" (click)="toggleTableMaker()" title="Table">T</button>
+                <button class="menu-btn square-btn" (click)="toggleTableMaker()" title="Table">T</button>
                 <div class="table-inputs" *ngIf="showTableInputs">
                     <label>Rows:</label>
                     <input type="number" placeholder="Rows" [(ngModel)]="tableRows">
