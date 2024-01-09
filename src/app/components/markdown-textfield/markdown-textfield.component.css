@@ -92,7 +92,8 @@ textarea:hover {
 
 /* Style for the input fields within the table input container */
 .table-inputs input {
-  width: 5rem;
+  width: 6rem;
+  margin-bottom: 0.5rem;
 }
 
 /* Style for the "Generate" button */
