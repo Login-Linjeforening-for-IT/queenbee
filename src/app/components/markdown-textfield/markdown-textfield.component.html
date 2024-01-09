@@ -17,7 +17,6 @@
                 ></emoji-mart>
             </div>
             
-            <!-- Add the input fields for rows and columns - DISABLED -->
             <div #tableWrapper class="table-wrapper">
                 <button class="menu-btn square-btn" (click)="toggleTableMaker()" title="Table">T</button>
                 <div class="table-inputs" *ngIf="showTableInputs">
@@ -26,6 +25,25 @@
                     <label>Cols:</label>
                     <input type="number" placeholder="Columns" [(ngModel)]="tableColumns">
                     <button (click)="generateTable()" title="Generate Table">Generate</button>
+                </div>
+            </div>
+
+            <div #speedpresTableWrapper class="table-wrapper">
+                <button class="menu-btn square-btn" (click)="toggleSpeedpresTableMaker()" title="Speedpres table">SP</button>
+                <div class="table-inputs" *ngIf="showSpeedpresTableInputs">
+                    <label>Companies:</label>
+                    <input type="number" placeholder="F.ex 10" [(ngModel)]="sp_entries">
+                    
+                    <label>Start time:</label>
+                    <input type="time" [(ngModel)]="sp_starttime">
+
+                    <label>Length (min):</label>
+                    <input type="number" placeholder="Pres. length" [(ngModel)]="sp_length">
+
+                    <label>Pause (min):</label>
+                    <input type="number" placeholder="Pause length" [(ngModel)]="sp_pause">
+                    
+                    <button (click)="generateSpeedpresTable()" title="Generate Speedpres Table">Generate</button>
                 </div>
             </div>
         </div>
