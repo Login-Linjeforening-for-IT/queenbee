@@ -35,6 +35,10 @@ export class ImageSelectorComponent {
   constructor(private doService: DoSpacesService, private dialog: MatDialog) {}
 
   ngOnInit() {
+    if(this.value) {
+      this.selectedImg.patchValue(this.value);
+    }
+
     this.filteredOptions = this.selectedImg.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value || '')),

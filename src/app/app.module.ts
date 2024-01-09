@@ -78,6 +78,7 @@ import { NavBtnComponent } from './layout/nav-btn/nav-btn.component';
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatSliderModule} from "@angular/material/slider";
 import { ImageManagerComponent } from './components/dialog/image-manager/image-manager.component';
+import { LoginComponent } from './pages/login/login.component';
 
 @NgModule({
   declarations: [
@@ -125,7 +126,8 @@ import { ImageManagerComponent } from './components/dialog/image-manager/image-m
     InputSelectorComponent,
     TopbarComponent,
     NavBtnComponent,
-    ImageManagerComponent
+    ImageManagerComponent,
+    LoginComponent
   ],
     imports: [
         BrowserModule,

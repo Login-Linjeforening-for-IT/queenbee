@@ -1,1 +1,23 @@
-<p>login works!</p>
+<div class="container">
+    <form [formGroup]="loginForm">
+        <mat-form-field appearance="outline">
+            <input matInput formControlName="username">
+            <mat-label>Username</mat-label>
+            <mat-error *ngIf="loginForm.controls['username'].hasError('required')">
+            This field is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <input matInput type="password" formControlName="password">
+            <mat-label>Password</mat-label>
+            <mat-error *ngIf="loginForm.controls['password'].hasError('required')">
+            This field is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+
+        <button type="submit" (click)="login()" mat-raised-button color="primary">
+            <span class="material-symbols-sharp">login</span>Login
+        </button >
+    </form>
+</div>

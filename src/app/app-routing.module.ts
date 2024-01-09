@@ -20,29 +20,32 @@ import { RuleEditComponent } from "./pages/rule/rule-edit/rule-edit.component";
 import { OrgNewComponent } from "./pages/organization/org-new/org-new.component";
 import { OrgEditComponent } from "./pages/organization/org-edit/org-edit.component";
 import { LocationEditComponent } from "./pages/location/location-edit/location-edit.component";
+import { LoginComponent } from "./pages/login/login.component";
+import { authGuard } from "./services/guard/auth.guard";
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  { path: 'dashboard', component: DashboardComponent},
-  { path: 'events', component: EventsComponent, pathMatch: 'full'},
-  { path: 'events/new', component: EventNewComponent, pathMatch: 'full'},
-  { path: 'events/edit/:id', component: EventEditComponent, pathMatch: 'full'},
-  { path: 'events/copy/:id', component: EventCopyComponent, pathMatch: 'full'},
-  { path: 'jobs', component: JobadsComponent, pathMatch: 'full'},
-  { path: 'jobs/new', component: JobadNewComponent, pathMatch: 'full'},
-  { path: 'jobs/edit/:id', component: JobadEditComponent, pathMatch: 'full'},
-  { path: 'jobs/copy/:id', component: JobadCopyComponent, pathMatch: 'full'},
-  { path: 'organizations', component: OrganizationsComponent},
-  { path: 'organizations/new', component: OrgNewComponent, pathMatch: 'full'},
-  { path: 'organizations/edit/:id', component: OrgEditComponent, pathMatch: 'full'},
-  { path: 'locations', component: LocationsComponent, pathMatch: 'full'},
-  { path: 'locations/new', component: LocationNewComponent, pathMatch: 'full'},
-  { path: 'locations/edit/:id', component: LocationEditComponent, pathMatch: 'full'},
-  { path: 'rules', component: RulesComponent, pathMatch: 'full'},
-  { path: 'rules/new', component: RuleNewComponent, pathMatch: 'full'},
-  { path: 'rules/edit/:id', component: RuleEditComponent, pathMatch: 'full'},
-  { path: 'rules/copy/:id', component: RuleCopyComponent, pathMatch: 'full'},
-  { path: '**', component: PageNotFoundComponent} // ** detects all other routes, IMPORTANT that its last
+  { path: 'login', component: LoginComponent, pathMatch: 'full' },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard]},
+  { path: 'events', component: EventsComponent, pathMatch: 'full', canActivate: [authGuard]},
+  { path: 'events/new', component: EventNewComponent, pathMatch: 'full', canActivate: [authGuard]},
+  { path: 'events/edit/:id', component: EventEditComponent, pathMatch: 'full', canActivate: [authGuard]},
+  { path: 'events/copy/:id', component: EventCopyComponent, pathMatch: 'full', canActivate: [authGuard]},
+  { path: 'jobs', component: JobadsComponent, pathMatch: 'full', canActivate: [authGuard]},
+  { path: 'jobs/new', component: JobadNewComponent, pathMatch: 'full', canActivate: [authGuard]},
+  { path: 'jobs/edit/:id', component: JobadEditComponent, pathMatch: 'full', canActivate: [authGuard]},
+  { path: 'jobs/copy/:id', component: JobadCopyComponent, pathMatch: 'full', canActivate: [authGuard]},
+  { path: 'organizations', component: OrganizationsComponent, canActivate: [authGuard]},
+  { path: 'organizations/new', component: OrgNewComponent, pathMatch: 'full', canActivate: [authGuard]},
+  { path: 'organizations/edit/:id', component: OrgEditComponent, pathMatch: 'full', canActivate: [authGuard]},
+  { path: 'locations', component: LocationsComponent, pathMatch: 'full', canActivate: [authGuard]},
+  { path: 'locations/new', component: LocationNewComponent, pathMatch: 'full', canActivate: [authGuard]},
+  { path: 'locations/edit/:id', component: LocationEditComponent, pathMatch: 'full', canActivate: [authGuard]},
+  { path: 'rules', component: RulesComponent, pathMatch: 'full', canActivate: [authGuard]},
+  { path: 'rules/new', component: RuleNewComponent, pathMatch: 'full', canActivate: [authGuard]},
+  { path: 'rules/edit/:id', component: RuleEditComponent, pathMatch: 'full', canActivate: [authGuard]},
+  { path: 'rules/copy/:id', component: RuleCopyComponent, pathMatch: 'full', canActivate: [authGuard]},
+  { path: '**', component: PageNotFoundComponent, canActivate: [authGuard]} // ** detects all other routes, IMPORTANT that its last
 ];
 
 @NgModule({

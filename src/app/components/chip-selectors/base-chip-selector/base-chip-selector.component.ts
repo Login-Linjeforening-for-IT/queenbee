@@ -31,8 +31,6 @@ export abstract class BaseChipSelectorComponent {
     this.filteredItems = this.getFilteredItems();
   }
 
-  //updateChips() {}
-
   /**
    * Function handles selections from the input field
    * @param event MatAutocompleteSelectedEvent

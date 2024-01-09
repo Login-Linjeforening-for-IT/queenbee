@@ -91,7 +91,6 @@ export class EventFormComponent implements OnInit{
    * @returns The whole form
    */
   getFormValues(): EventData {
-    console.log("Sending form values: ", this.eventForm.value)
     return this.eventForm.value;
   }
 
@@ -214,15 +213,15 @@ export class EventFormComponent implements OnInit{
       informational_no: '',
       informational_en: '',
       time_type: [TIME_TYPE.TO_BE_DETERMINED, Validators.required],
-      time_start: '2023-11-11T01:00:00Z',
-      time_end: '2023-11-11T15:00:00Z',
+      time_start: '2024-11-11T01:00:00Z',
+      time_end: '2024-11-11T15:00:00Z',
       time_publish: datetimeNow,
       time_signup_release: '',
       time_signup_deadline: '',
       link_signup: '',
       capacity: [null, [Validators.min(0), NoDecimalValidator()]],
       full: false,
-      image_small: 'Halloween_104.jpg',
+      image_small: '',
       image_banner: '',
       link_facebook: '',
       link_discord: '',
@@ -350,6 +349,8 @@ export class EventFormComponent implements OnInit{
         location: this.fe.location?.id || 0,
         audience: this.fe.audiences || []
       });
+
+      console.log("Is this audience:", this.eventForm.get('audience')?.value);
     } else {
       // Reset the form fields when the event is undefined
       this.initForm();
