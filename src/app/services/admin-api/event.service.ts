@@ -39,7 +39,7 @@ export class EventService {
 
   fetchEvents(): Observable<EventTableItem[]> {
     return this.http
-      .get<{ [id: string]: EventShort }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`)
+      .get<{ [id: string]: EventShort }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}?limit=1000`)
       .pipe(
         map(resData => {
           const eventsArray: EventTableItem[] = [];

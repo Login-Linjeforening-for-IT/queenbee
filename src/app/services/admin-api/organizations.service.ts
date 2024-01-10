@@ -35,7 +35,7 @@ export class OrganizationService {
    */
   fetchOrganizations(): Observable<OrgTableItem[]> {
     return this.http
-      .get<{ [id: string]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.ORGANIZATIONS_PATH}`)
+      .get<{ [id: string]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.ORGANIZATIONS_PATH}?limit=100000`)
       .pipe(
         map(resData => {
           const orgArray: OrgTableItem[] = [];
