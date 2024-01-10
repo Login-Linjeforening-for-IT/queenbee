@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import {AppRoutingModule, routingComponents} from "./app-routing.module";
@@ -33,7 +33,7 @@ import { DataTableJobadsComponent } from './pages/jobads/data-table-jobads/data-
 import { MarkdownTextfieldComponent } from './components/markdown-textfield/markdown-textfield.component';
 
 // 3rd party libraries
-import { MarkdownModule } from 'ngx-markdown';
+import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { DotMenuComponent } from './components/dot-menu/dot-menu.component';
 import { ErrorComponent } from './components/dialog/error/error.component';
@@ -148,7 +148,15 @@ import { LoginComponent } from './pages/login/login.component';
         FormsModule,
         MatTabsModule,
         MatMenuModule,
-        MarkdownModule.forRoot(),
+        MarkdownModule.forRoot({
+          markedOptions: {
+            provide: MarkedOptions,
+            useValue: {
+              mangle: false,
+              headerIds: false,
+            },
+          },
+        }),
         MatSidenavModule,
         MatSliderModule,
         MatSlideToggleModule,
