@@ -16,7 +16,7 @@
             class="row"
             [placeholder]="'Description NOR'"
             [value]="ruleForm.get('description_no')?.value"
-            (newHtmlText)=onDescriptionNoChange($event)>
+            (newMdText)=onDescriptionNoChange($event)>
           </app-markdown-textfield>
         </div>
       </mat-tab>
@@ -36,7 +36,7 @@
             class="row"
             [placeholder]="'Description ENG'"
             [value]="ruleForm.get('description_en')?.value"
-            (newHtmlText)=onDescriptionEnChange($event)>
+            (newMdText)=onDescriptionEnChange($event)>
           </app-markdown-textfield>
         </div>
       </mat-tab>

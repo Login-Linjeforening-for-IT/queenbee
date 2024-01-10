@@ -13,7 +13,7 @@ import { BehaviorSubject } from 'rxjs';
  *
  * This component includes a text input field for writing in Markdown format,
  * as well as an Emoji Mart for adding emojis to the text. It emits the
- * compiled HTML equivalent of the entered Markdown text.
+ * written markdown text.
  *
  * @example
  * <app-markdown-textfield
@@ -25,7 +25,7 @@ import { BehaviorSubject } from 'rxjs';
 export class MarkdownTextfieldComponent {
   @Input() placeholder!: string;
   @Input() value!: string;
-  @Output() newHtmlText = new EventEmitter<{ht: string}>();
+  @Output() newMdText = new EventEmitter<{md: string}>();
   // Elements viewed in the html
   @ViewChild('textarea', { static: false }) textarea!: ElementRef;
   @ViewChild('mdComponent', { read: ElementRef }) mdComponent!: ElementRef;
@@ -82,9 +82,7 @@ export class MarkdownTextfieldComponent {
     });
 
     this.mutationObserver = new MutationObserver((mutations) => {
-      let newHtml = this.mdComponent.nativeElement.innerHTML;
-      newHtml = newHtml.replace(/\n/g, ''); // Removing "\n" from the string
-      this.newHtmlText.emit({ht: newHtml}) // Emit new html
+      this.newMdText.emit({md: this.markdown}) // Emit new markdown
     });
 
     this.mutationObserver.observe(this.mdComponent.nativeElement, {

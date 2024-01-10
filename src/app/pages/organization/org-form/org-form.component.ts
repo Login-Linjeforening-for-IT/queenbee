@@ -35,12 +35,12 @@ export class OrgFormComponent {
     return formValues;
   }
 
-  onDescriptionNoChange(newVal: { ht: string }) {
-    this.orgForm.get('description_no')!.setValue(newVal.ht);
+  onDescriptionNoChange(newVal: { md: string }) {
+    this.orgForm.get('description_no')!.setValue(newVal.md);
   }
 
-  onDescriptionEnChange(newVal: { ht: string }) {
-    this.orgForm.get('description_en')!.setValue(newVal.ht);
+  onDescriptionEnChange(newVal: { md: string }) {
+    this.orgForm.get('description_en')!.setValue(newVal.md);
   }
 
   onImageLogoChange(newVal: {val: string}) {

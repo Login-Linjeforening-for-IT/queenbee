@@ -48,12 +48,12 @@ export class RuleFormComponent {
     return this.ruleForm.value;
   }
 
-  onDescriptionNoChange(newVal: { ht: string }) {
-    this.ruleForm.get('description_no')?.setValue(newVal.ht);
+  onDescriptionNoChange(newVal: { md: string }) {
+    this.ruleForm.get('description_no')?.setValue(newVal.md);
   }
 
-  onDescriptionEnChange(newVal: { ht: string }) {
-      this.ruleForm.get('description_en')?.setValue(newVal.ht);
+  onDescriptionEnChange(newVal: { md: string }) {
+      this.ruleForm.get('description_en')?.setValue(newVal.md);
   }
 
   private updateFormFields() {

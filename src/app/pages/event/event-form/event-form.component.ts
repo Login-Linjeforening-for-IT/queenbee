@@ -115,12 +115,12 @@ export class EventFormComponent implements OnInit{
     newVal && this.eventForm.get('time_signup_deadline')?.setValue(convertToRFC3339(newVal.dt));
   }
 
-  onDescriptionNoChange(newVal: { ht: string }) {
-    this.eventForm.get('description_no')?.setValue(newVal.ht);
+  onDescriptionNoChange(newVal: { md: string }) {
+    this.eventForm.get('description_no')?.setValue(newVal.md);
   }
 
-  onDescriptionEnChange(newVal: { ht: string }) {
-    this.eventForm.get('description_en')?.setValue(newVal.ht);
+  onDescriptionEnChange(newVal: { md: string }) {
+    this.eventForm.get('description_en')?.setValue(newVal.md);
   }
 
   onImageBannerChange(newVal: {val: string}) {
