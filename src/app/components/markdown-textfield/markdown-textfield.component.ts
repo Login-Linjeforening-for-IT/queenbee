@@ -1,4 +1,4 @@
-import { Renderer2, Component, ElementRef, VERSION, ViewChild, HostListener, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Renderer2, Component, ElementRef, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { BehaviorSubject } from 'rxjs';
 
