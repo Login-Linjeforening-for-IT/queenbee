@@ -1,4 +1,4 @@
-import { Renderer2, Component, ElementRef, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import { Renderer2, Component, ElementRef, ViewChild, Input, Output, EventEmitter, AfterViewInit, OnInit } from '@angular/core';
 import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { BehaviorSubject } from 'rxjs';
 
@@ -28,7 +28,7 @@ import { BehaviorSubject } from 'rxjs';
  *   (newMdText)=onDescriptionEnChange($event)>
  * </app-markdown-textfield>
  */
-export class MarkdownTextfieldComponent {
+export class MarkdownTextfieldComponent implements AfterViewInit, OnInit {
   @Input() placeholder!: string;
   @Input() value!: string;
   @Output() newMdText = new EventEmitter<{md: string}>();
@@ -81,10 +81,12 @@ export class MarkdownTextfieldComponent {
      });
   }
 
+  ngOnInit(): void {
+    this.markdown = this.value; // Sets initial markdown value
+  }
+
   // For listening to and emitting changes in the inputted markdown
   ngAfterViewInit() {
-    this.markdown = this.value; // Sets initial markdown value
-
     this.renderer.listen(this.textarea.nativeElement, 'input', (event: any) => {
       this.markdownChange.next(this.markdown);
     });
