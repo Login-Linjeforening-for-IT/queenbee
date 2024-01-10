@@ -1,4 +1,4 @@
-import { Renderer2, Component, ElementRef, VERSION, ViewChild, HostListener, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Renderer2, Component, ElementRef, ViewChild, Input, Output, EventEmitter, AfterViewInit, OnInit } from '@angular/core';
 import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { BehaviorSubject } from 'rxjs';
 
@@ -11,27 +11,35 @@ import { BehaviorSubject } from 'rxjs';
 /**
  * MarkdownTextfieldComponent: A component providing an interface for editing Markdown text.
  *
- * This component includes a text input field for writing in Markdown format,
- * as well as an Emoji Mart for adding emojis to the text. It emits the
- * compiled HTML equivalent of the entered Markdown text.
+ * This component includes a text input field for writing in Markdown format. It emits the
+ * written markdown text.
+ * 
+ * The editor provide tools for:
+ * - Making text bold
+ * - Making text italic
+ * - Inserting emojis
+ * - Generating normal tables
+ * - Generated tables for speedpresentations (very useful for cyberdays descriptions)
  *
  * @example
  * <app-markdown-textfield
  *   [placeholder]="'Description ENG'"
  *   [value]="eventForm.get('description_en')?.value"
- *   (newHtmlText)=onDescriptionEnChange($event)>
+ *   (newMdText)=onDescriptionEnChange($event)>
  * </app-markdown-textfield>
  */
-export class MarkdownTextfieldComponent {
+export class MarkdownTextfieldComponent implements AfterViewInit, OnInit {
   @Input() placeholder!: string;
   @Input() value!: string;
-  @Output() newHtmlText = new EventEmitter<{ht: string}>();
-  // Elements viewed in the html
+  @Output() newMdText = new EventEmitter<{md: string}>();
+  
   @ViewChild('textarea', { static: false }) textarea!: ElementRef;
   @ViewChild('mdComponent', { read: ElementRef }) mdComponent!: ElementRef;
   @ViewChild('emojiWrapper', { static: false }) emojiMartWrapper!: ElementRef;
   @ViewChild('tableWrapper', { static: false }) tableWrapper!: ElementRef;
   @ViewChild('speedpresTableWrapper', { static: false }) speedpresTableWrapper!: ElementRef;
+
+  markdown: string = ''; // Used for storing all written md
 
   showEmojiPicker: boolean = false;
   totalFrequentLines: number = 2; // Lines in emojiPicker
@@ -41,14 +49,12 @@ export class MarkdownTextfieldComponent {
   tableColumns: number = 2; // Default number of columns
 
   showSpeedpresTableInputs: boolean = false;
-  sp_entries!: number;
-  sp_starttime!: string;
-  sp_length: number = 3;
-  sp_pause: number = 1;
+  sp_entries!: number; // Number of entries (companies) in table
+  sp_starttime!: string; // Starttime of first speedpres
+  sp_length: number = 3; // Length of each speedpres. Usually 3 minutes
+  sp_pause: number = 1; // Pause between each speedpres. Usually 1 minute
 
-  markdown: string = '';
-
-  // For observing changes
+  // For observing changes done by user (and program, on command by user)
   markdownChange: BehaviorSubject<string> = new BehaviorSubject(this.markdown);
   private mutationObserver!: MutationObserver;
 
@@ -60,12 +66,14 @@ export class MarkdownTextfieldComponent {
      }
     });
 
+    // Close the table generator whenever there is a click outside it
     this.renderer.listen('window', 'click',(e:Event)=>{
       if(!this.tableWrapper.nativeElement.contains(e.target)){
           this.showTableInputs = false;
       }
      });
 
+     // Close the speedpres table generator whenever there is a click outside it
      this.renderer.listen('window', 'click',(e:Event)=>{
       if(!this.speedpresTableWrapper.nativeElement.contains(e.target)){
           this.showSpeedpresTableInputs = false;
@@ -73,18 +81,18 @@ export class MarkdownTextfieldComponent {
      });
   }
 
+  ngOnInit(): void {
+    this.markdown = this.value; // Sets initial markdown value
+  }
+
   // For listening to and emitting changes in the inputted markdown
   ngAfterViewInit() {
-    this.markdown = this.value; // Sets initial markdown value
-
     this.renderer.listen(this.textarea.nativeElement, 'input', (event: any) => {
       this.markdownChange.next(this.markdown);
     });
 
     this.mutationObserver = new MutationObserver((mutations) => {
-      let newHtml = this.mdComponent.nativeElement.innerHTML;
-      newHtml = newHtml.replace(/\n/g, ''); // Removing "\n" from the string
-      this.newHtmlText.emit({ht: newHtml}) // Emit new html
+      this.newMdText.emit({md: this.markdown}) // Emit new markdown
     });
 
     this.mutationObserver.observe(this.mdComponent.nativeElement, {
@@ -139,12 +147,10 @@ export class MarkdownTextfieldComponent {
   }
 
   toggleTableMaker() {
-    // Display the input fields for rows and columns on button click
     this.showTableInputs = !this.showTableInputs;
   }
 
   toggleSpeedpresTableMaker() {
-    // Display the input fields for rows and columns on button click
     this.showSpeedpresTableInputs = !this.showSpeedpresTableInputs;
   }
 
@@ -171,9 +177,6 @@ export class MarkdownTextfieldComponent {
   generateSpeedpresTable() {
     let markdownTable = `\n| Time | Company |\n|-|-|`;
 
-    console.log('Initial sp_starttime:', this.sp_starttime);
-    console.log('sp_entries:', this.sp_entries);
-
     // Parse time input to create a Date object for today's date
     const currentTime = this.sp_starttime.split(':');
     const currentDate = new Date();
@@ -182,18 +185,13 @@ export class MarkdownTextfieldComponent {
 
     // Add the remaining rows
     for (let i = 0; i < this.sp_entries; i++) {
-      console.log('Inside loop - sp_starttime:', currentDate);
-
       // Format the time to HH:mm
       const formattedTime = this.formatTime(currentDate.getHours(), currentDate.getMinutes());
       markdownTable += `\n| ${formattedTime} |  |`;
 
       // Calculate the next start time
       currentDate.setMinutes(currentDate.getMinutes() + (this.sp_pause + this.sp_length));
-
-      console.log('Updated sp_starttime:', currentDate); // Logging for debugging
     }
-
 
     // Append the generated table to the current text
     this.markdown += markdownTable;
@@ -203,14 +201,14 @@ export class MarkdownTextfieldComponent {
   }
 
   // Function to format time to HH:mm
-  formatTime(hours: number, minutes: number): string {
+  private formatTime(hours: number, minutes: number): string {
     const formattedHours = this.padZero(hours);
     const formattedMinutes = this.padZero(minutes);
     return `${formattedHours}:${formattedMinutes}`;
   }
 
   // Function to add leading zero if single digit
-  padZero(num: number): string {
+  private padZero(num: number): string {
     return num < 10 ? `0${num}` : `${num}`;
   }
 

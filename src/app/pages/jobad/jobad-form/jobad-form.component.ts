@@ -88,12 +88,12 @@ export class JobadFormComponent {
     newVal && this.jobAdForm.get('application_deadline')?.setValue(convertToRFC3339(newVal.dt));
   }
 
-  onDescriptionNoChange(newVal: { ht: string }) {
-    this.jobAdForm.get('description_long_no')?.setValue(newVal.ht);
+  onDescriptionNoChange(newVal: { md: string }) {
+    this.jobAdForm.get('description_long_no')?.setValue(newVal.md);
   }
 
-  onDescriptionEnChange(newVal: { ht: string }) {
-    this.jobAdForm.get('description_long_en')?.setValue(newVal.ht);
+  onDescriptionEnChange(newVal: { md: string }) {
+    this.jobAdForm.get('description_long_en')?.setValue(newVal.md);
   }
 
   displayOrganizationFn(organization: OrgTableItem): string {

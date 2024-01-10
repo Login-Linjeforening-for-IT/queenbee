@@ -56,7 +56,7 @@ export class LocationService {
    */
   fetchLocations(type: string): Observable<LocationTableItem[]> {
     return this.http
-      .get<{ [id: string]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}?type=${type}`)
+      .get<{ [id: string]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}?type=${type}&limit=10000`)
       .pipe(
         map(resData => {
           const locArray: LocationTableItem[] = [];

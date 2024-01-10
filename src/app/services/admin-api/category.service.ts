@@ -20,7 +20,7 @@ export class CategoryService {
    */
   fetchCategories(): Observable<Category[]> {
     return this.http
-      .get<{ [id: string]: Category }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.CATEGORIES_PATH}`)
+      .get<{ [id: string]: Category }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.CATEGORIES_PATH}?limit=1000`)
       .pipe(
         map(resData => {
           const eventsArray: Category[] = [];

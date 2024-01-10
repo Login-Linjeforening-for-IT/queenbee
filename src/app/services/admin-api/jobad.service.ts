@@ -37,7 +37,7 @@ export class JobadService {
    */
   fetchJobads(): Observable<JobadTableItem[]> {
     return this.http
-      .get<{ [id: string]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}`)
+      .get<{ [id: string]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}?limit=100000`)
       .pipe(
         map(resData => {
           const jobArray: JobadTableItem[] = [];

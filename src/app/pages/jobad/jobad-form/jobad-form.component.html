@@ -22,7 +22,7 @@
               </mat-form-field>
 
               <app-markdown-textfield 
-                (newHtmlText)=onDescriptionNoChange($event) 
+                (newMdText)=onDescriptionNoChange($event) 
                 [value]="jobAdForm.get('description_long_no')?.value"
                 [placeholder]="'Long Description NOR'" 
                 class="row">
@@ -48,7 +48,7 @@
               </mat-form-field>
 
               <app-markdown-textfield 
-                (newHtmlText)=onDescriptionEnChange($event) 
+                (newMdText)=onDescriptionEnChange($event) 
                 [value]="jobAdForm.get('description_long_en')?.value"
                 [placeholder]="'Long Description ENG'" 
                 class="row">

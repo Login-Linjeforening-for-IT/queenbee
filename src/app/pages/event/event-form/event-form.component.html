@@ -24,7 +24,7 @@
 
             <app-markdown-textfield
               class="row" 
-              (newHtmlText)="onDescriptionNoChange($event)"
+              (newMdText)="onDescriptionNoChange($event)"
               [placeholder]="'Description NOR'" 
               [value]="eventForm.get('description_no')?.value">
             </app-markdown-textfield>
@@ -47,7 +47,7 @@
 
             <app-markdown-textfield 
               class="row" 
-              (newHtmlText)=onDescriptionEnChange($event) 
+              (newMdText)=onDescriptionEnChange($event) 
               [placeholder]="'Description ENG'" 
               [value]="eventForm.get('description_en')?.value">
             </app-markdown-textfield>

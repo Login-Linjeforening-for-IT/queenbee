@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import {AppRoutingModule, routingComponents} from "./app-routing.module";
@@ -17,10 +17,10 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {MatChipsModule} from "@angular/material/chips";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {MatDatepicker, MatDatepickerModule} from "@angular/material/datepicker";
+import { MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
-import {MatFormField, MatFormFieldModule} from "@angular/material/form-field";
+import { MatFormFieldModule} from "@angular/material/form-field";
 import {MatRadioModule} from "@angular/material/radio";
 import { DatetimeComponent } from './components/datetime/datetime.component';
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
@@ -33,7 +33,7 @@ import { DataTableJobadsComponent } from './pages/jobads/data-table-jobads/data-
 import { MarkdownTextfieldComponent } from './components/markdown-textfield/markdown-textfield.component';
 
 // 3rd party libraries
-import { MarkdownModule } from 'ngx-markdown';
+import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { DotMenuComponent } from './components/dot-menu/dot-menu.component';
 import { ErrorComponent } from './components/dialog/error/error.component';
@@ -50,12 +50,10 @@ import { EventCopyComponent } from './pages/event/event-copy/event-copy.componen
 import { AlertComponent } from './components/alert/alert.component';
 import { LocationNewComponent } from './pages/location/location-new/location-new.component';
 import { LocationFormComponent } from './pages/location/location-form/location-form.component';
-import {MatRadioButton} from "@angular/material/radio";
 import { MapComponent } from './components/map/map.component';
 import { MazemapComponent } from './components/mazemap/mazemap.component';
 import { DataTableMazemapComponent } from './pages/locations/data-table-mazemap/data-table-mazemap.component';
 import { DataTableCoordsComponent } from './pages/locations/data-table-coords/data-table-coords.component';
-import { DataTableRulesDataSource } from './pages/rules/data-table-rules/data-table-rules-datasource';
 import { DataTableRulesComponent } from './pages/rules/data-table-rules/data-table-rules.component';
 import { ImageSelectorComponent } from './components/image-selector/image-selector.component';
 import { ImageCropperModule } from './components/image-cropper/image-cropper.module';
@@ -72,7 +70,6 @@ import { OrgNewComponent } from './pages/organization/org-new/org-new.component'
 import { OrgEditComponent } from './pages/organization/org-edit/org-edit.component';
 import { LocationEditComponent } from './pages/location/location-edit/location-edit.component';
 import { InputSelectorComponent } from './components/chip-selectors/input-selector/input-selector.component';
-import { BaseChipSelectorComponent } from './components/chip-selectors/base-chip-selector/base-chip-selector.component';
 import { TopbarComponent } from './layout/topbar/topbar.component';
 import { NavBtnComponent } from './layout/nav-btn/nav-btn.component';
 import {MatSidenavModule} from "@angular/material/sidenav";
@@ -151,7 +148,15 @@ import { LoginComponent } from './pages/login/login.component';
         FormsModule,
         MatTabsModule,
         MatMenuModule,
-        MarkdownModule.forRoot(),
+        MarkdownModule.forRoot({
+          markedOptions: {
+            provide: MarkedOptions,
+            useValue: {
+              mangle: false,
+              headerIds: false,
+            },
+          },
+        }),
         MatSidenavModule,
         MatSliderModule,
         MatSlideToggleModule,

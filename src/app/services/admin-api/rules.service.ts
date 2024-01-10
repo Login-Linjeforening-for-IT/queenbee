@@ -40,7 +40,7 @@ export class RulesService {
    */
   fetchRules(): Observable<RulesTableItem[]> {
     return this.http
-      .get<{ [id: string]: RulesTableItem }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.RULES_PATH}`)
+      .get<{ [id: string]: RulesTableItem }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.RULES_PATH}?limit=100000`)
       .pipe(
         map(resData => {
           if (resData) {
