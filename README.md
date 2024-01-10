@@ -1,9 +1,9 @@
 # QueenBee
 
 This is the repo for QueenBee, the admin tool for Beehive. This tool will be used for managing events and job ads that Login display on Beehive.
-In addition, it will be capable of managing other information relevant to the events and job ads, such as locations and organizations.
+In addition, it will be capable of managing other information relevant to the events and job ads, such as locations, rules and organizations.
 
-Visit out [Redmine page](https://redmine.login.no/projects/tekkom/wiki/02_-_Database_design) about our new database to get a rough idea about what data QueenBee must be able to manage.
+Visit [dbdiagram.io](https://dbdiagram.io/d/BeehiveDB-63d03590296d97641d7bdaa1) to see the database design.
 
 # General Angular Information
 
