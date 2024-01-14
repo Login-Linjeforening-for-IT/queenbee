@@ -14,6 +14,7 @@ import { DoSpacesService } from 'src/app/services/do/do-spaces.service';
 export class ImageManagerComponent {
   title!: string;
   path!: string;
+  aspectRatio!: number;
 
   originalFile: any = '';
   imageChangedEvent: any = '';
@@ -40,6 +41,7 @@ export class ImageManagerComponent {
       if(data) {
         this.title = data.title;
         this.path = data.path;
+        this.aspectRatio = data.aspectRatio;
       }
     }
 
