@@ -26,7 +26,7 @@ import { getFullDate, getFullTime } from 'src/app/utils/time';
  *  (newDatetime)=onTimeStartChange($event)>
  * </app-datetime>
  */
-export class DatetimeComponent implements OnInit, OnChanges{
+export class DatetimeComponent implements OnInit, OnChanges, AfterViewInit{
   @Input() dateLabel!: string;
   @Input() timeLabel!: string;
   @Input() value!: string;
