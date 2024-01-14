@@ -2,7 +2,7 @@
  * used to get the user inputs and combine them into a datetime on the format "YYYY-MM-DD HH:mm:ss". The
  * datetime is outputted to the parent component.
  */
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import { getFullDate, getFullTime } from 'src/app/utils/time';
 
@@ -26,7 +26,7 @@ import { getFullDate, getFullTime } from 'src/app/utils/time';
  *  (newDatetime)=onTimeStartChange($event)>
  * </app-datetime>
  */
-export class DatetimeComponent {
+export class DatetimeComponent implements OnInit, OnChanges{
   @Input() dateLabel!: string;
   @Input() timeLabel!: string;
   @Input() value!: string;
@@ -40,46 +40,23 @@ export class DatetimeComponent {
 
   timeForm!: FormGroup;  // FormGroup where the actual form values from the html is stored.
 
-  constructor(private fb: FormBuilder) {
-    this.initForm();
-  }
+  constructor(private fb: FormBuilder) {}
 
   // Initialize the form group
   ngOnInit() {
+    this.initForm();
     this.setDateConstraints(); // Sets minDate and maxDate
-
-    let inputDate;
-    let inputTime;
-
-    // Convert optional inputted value to correct format
-    if (this.value) {
-      const datetime = new Date(this.value);
-
-      // ISO format is 'yyyy-mm-dd'
-      inputDate = datetime.toISOString().slice(0,10);
-
-      // Time format is 'hh:mm'
-      inputTime = this.padTo2Digits(datetime.getUTCHours()) + ':' +
-                  this.padTo2Digits(datetime.getUTCMinutes());
-    }
-
-    // Set date and time value
-    this.timeForm = this.fb.group({
-      date: inputDate? inputDate : "",
-      time: inputTime? inputTime : ""
-    })
 
     this.timeForm.valueChanges.subscribe(() => {
       this.onValueChange();
     })
   }
 
-  ngAfterInit() {
-    // Prefill with current date and time
-    if(this.prefillWithTimeNow) {
-      const d = new Date();
-      this.timeForm.get('date')?.setValue(getFullDate(d));
-      this.timeForm.get('time')?.setValue(getFullTime(d));
+  ngAfterViewInit() {
+    if(this.value) {
+      this.updateFormFields();
+    } else if(this.prefillWithTimeNow) {
+      this.updateFormFieldsToNow();
     }
   }
 
@@ -133,7 +110,7 @@ export class DatetimeComponent {
     this.timeForm = this.fb.group({
       date: '',
       time: ''
-    })
+    });
   }
 
   /**
@@ -149,5 +126,37 @@ export class DatetimeComponent {
     if(this.maxDate) {
       this.maxDate = new Date(this.maxDate);
     }
+  }
+
+  private updateFormFields() {
+    let inputDate;
+    let inputTime;
+
+    // Convert optional inputted value to correct format
+    if (this.value) {
+      const datetime = new Date(this.value);
+
+      // ISO format is 'yyyy-mm-dd'
+      inputDate = datetime.toISOString().slice(0,10);
+
+      // Time format is 'hh:mm'
+      inputTime = this.padTo2Digits(datetime.getUTCHours()) + ':' +
+                  this.padTo2Digits(datetime.getUTCMinutes());
+    }
+
+    // Set date and time value
+    this.timeForm.patchValue({
+      date: inputDate? inputDate : "",
+      time: inputTime? inputTime : ""
+    })
+  }
+
+  private updateFormFieldsToNow() {
+    const d = new Date();
+
+    this.timeForm.patchValue({
+      date: getFullDate(d),
+      time: getFullTime(d)
+    })
   }
 }
