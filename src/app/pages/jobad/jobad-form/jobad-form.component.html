@@ -91,10 +91,6 @@
             <mat-select formControlName="job_type" required>
               <mat-option *ngFor="let o of JOB_TYPES" [value]="o.id">{{o.name}}</mat-option>
             </mat-select>
-
-            <mat-error *ngIf="autoControlOrgs.hasError('required')">
-              This field is <strong>required</strong>
-            </mat-error>
         </mat-form-field>
 
         <app-datetime 
