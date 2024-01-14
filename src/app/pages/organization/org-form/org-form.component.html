@@ -58,8 +58,14 @@
 
     <div class="block">
         <h2>Image Link</h2>
+        <button class="img-manager-btn" (click)="imageManager()" mat-raised-button color="primary">
+            <span class="material-symbols-sharp">upload</span>Organization Images 
+          </button>
+
         <app-image-selector 
             [title]="'Organization Logo'"
+            [value]="orgForm.get('logo')?.value"
+            [path]="'img/organization/'"
             (valEmitter)="onImageLogoChange($event)"
       ></app-image-selector>
     </div>
