@@ -150,6 +150,10 @@
 
     <div class="block">
         <h2>Image</h2>
+        <button class="img-manager-btn" (click)="imageManager()" mat-raised-button color="primary">
+          <span class="material-symbols-sharp">upload</span>Job Ad Images
+        </button>
+
         <mat-form-field class="row">
             <input matInput formControlName="banner_image">
             <mat-label>Banner Image</mat-label>

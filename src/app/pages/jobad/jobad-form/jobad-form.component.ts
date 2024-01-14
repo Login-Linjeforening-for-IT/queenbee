@@ -6,6 +6,8 @@ import { convertToRFC3339 } from 'src/app/utils/time';
 import {map, Observable, startWith} from "rxjs";
 import {OrganizationService} from "../../../services/admin-api/organizations.service";
 import { InputSelectorComponent } from 'src/app/components/chip-selectors/input-selector/input-selector.component';
+import { ImageManagerComponent } from 'src/app/components/dialog/image-manager/image-manager.component';
+import { MatDialog } from '@angular/material/dialog';
 
 interface Option {
   id: string;
@@ -53,7 +55,8 @@ export class JobadFormComponent {
 
   constructor(
     private fb: FormBuilder,
-    private orgService: OrganizationService
+    private orgService: OrganizationService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -102,6 +105,16 @@ export class JobadFormComponent {
 
   compareJobTypeFn(option: string, value: string): boolean {
     return option === value;
+  }
+
+  imageManager() {
+    this.dialog.open(ImageManagerComponent, {
+      data: {
+        title: "Job Ads",
+        path: "/ads",
+        aspectRatio: 3 / 2
+      }
+    });
   }
 
   private initForm() {
