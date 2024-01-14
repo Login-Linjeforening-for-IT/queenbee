@@ -150,11 +150,13 @@
         <button class="img-manager-btn" (click)="imageManager()" mat-raised-button color="primary">
           <span class="material-symbols-sharp">upload</span>Job Ad Images
         </button>
-
-        <mat-form-field class="row">
-            <input matInput formControlName="banner_image">
-            <mat-label>Banner Image</mat-label>
-        </mat-form-field>
+        
+        <app-image-selector
+          [title]="'Banner Image'"
+          [value]="jobAdForm.get('banner_image')?.value"
+          [path]="'img/ads/'"
+          (valEmitter)="onBannerImageChange($event)"
+        ></app-image-selector>
     </div>
 </div>
 </form>

@@ -25,6 +25,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class ImageSelectorComponent {
   @Input() title: string = '';
   @Input() value!: string;
+  @Input() path!: string;
   @Output() valEmitter = new EventEmitter<{val: string}>();
 
   selectedImg = new FormControl('');
@@ -44,7 +45,7 @@ export class ImageSelectorComponent {
       map(value => this._filter(value || '')),
     );
 
-    this.doService.fetchImageList().subscribe(
+    this.doService.fetchImageList(this.path).subscribe(
       (array: DropDownFileItem[]) => {
         this.images = array;
       },

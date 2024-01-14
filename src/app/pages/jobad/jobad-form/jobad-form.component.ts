@@ -107,6 +107,10 @@ export class JobadFormComponent {
     return option === value;
   }
 
+  onBannerImageChange(newVal: {val: string}) {
+    this.jobAdForm.get('banner_image')?.setValue(newVal.val);
+  }
+
   imageManager() {
     this.dialog.open(ImageManagerComponent, {
       data: {

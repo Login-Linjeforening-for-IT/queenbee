@@ -30,10 +30,10 @@ export class DoSpacesService {
     }
   }
 
-  fetchImageList(): Observable<DropDownFileItem[]> {
+  fetchImageList(path: string): Observable<DropDownFileItem[]> {
     const params = {
       Bucket: 'beehive',
-      Prefix: 'img/events/'
+      Prefix: path
     };
 
     const listObjectsPromise = this.s3Client.send(new ListObjectsCommand(params));
@@ -41,7 +41,7 @@ export class DoSpacesService {
     return from(listObjectsPromise).pipe(
       map((response: any) => {
         const images = response.Contents.map((object: any) => {
-          return {name: this.removePrefix(object.Key, "img/events/"), size: byteConverter(object.Size, 2), filepath: object.Key};
+          return {name: this.removePrefix(object.Key, path), size: byteConverter(object.Size, 2), filepath: object.Key};
         });
 
         if(images.length > 0) {
