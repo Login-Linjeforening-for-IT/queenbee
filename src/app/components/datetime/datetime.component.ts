@@ -4,6 +4,7 @@
  */
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
+import { getFullDate, getFullTime } from 'src/app/utils/time';
 
 @Component({
   selector: 'app-datetime',
@@ -71,6 +72,15 @@ export class DatetimeComponent {
     this.timeForm.valueChanges.subscribe(() => {
       this.onValueChange();
     })
+  }
+
+  ngAfterInit() {
+    // Prefill with current date and time
+    if(this.prefillWithTimeNow) {
+      const d = new Date();
+      this.timeForm.get('date')?.setValue(getFullDate(d));
+      this.timeForm.get('time')?.setValue(getFullTime(d));
+    }
   }
 
   ngOnChanges() {
