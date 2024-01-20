@@ -7,7 +7,6 @@ export const authGuard: CanActivateFn = (route, state) => {
 
   const isAuthenticated = authService.isAuthenticatedUser();
   
-  console.log("auth", isAuthenticated)
   if (isAuthenticated) {
     return true; // Allow access if user is authenticated
   } else {
