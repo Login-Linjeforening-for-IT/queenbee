@@ -33,6 +33,7 @@ export class LoginComponent {
         if (!response.ok) {
             this.feedback = 'Login failed. Please check your credentials.';
             console.log("Fetch failed")
+            return
         }
 
         const data = await response.json()
@@ -52,8 +53,8 @@ export class LoginComponent {
         })
 
         // Subscribe to value changes for a specific form control
-        this.loginForm?.valueChanges.subscribe((value) => {
-            console.log('login form value changed:', value);
-        });
+        // this.loginForm?.valueChanges.subscribe((value) => {
+        //     console.log('login form value changed:', value);
+        // });
     }
 }
