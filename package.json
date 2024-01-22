@@ -1,8 +1,8 @@
 {
   "name": "queenbee",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
-    "start": "ng build; ng serve",
+    "start": "ng serve",
     "ng": "ng",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
