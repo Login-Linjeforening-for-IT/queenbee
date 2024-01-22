@@ -33,7 +33,7 @@ import { DataTableJobadsComponent } from './pages/jobads/data-table-jobads/data-
 import { MarkdownTextfieldComponent } from './components/markdown-textfield/markdown-textfield.component';
 
 // 3rd party libraries
-import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
+import { MARKED_OPTIONS, MarkdownModule, MarkedOptions } from 'ngx-markdown';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { DotMenuComponent } from './components/dot-menu/dot-menu.component';
 import { ErrorComponent } from './components/dialog/error/error.component';
@@ -150,7 +150,7 @@ import { LoginComponent } from './pages/login/login.component';
         MatMenuModule,
         MarkdownModule.forRoot({
           markedOptions: {
-            provide: MarkedOptions,
+            provide: MARKED_OPTIONS,
             useValue: {
               mangle: false,
               headerIds: false,
