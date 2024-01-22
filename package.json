@@ -1,5 +1,5 @@
 {
-  "name": "admin-tool2",
+  "name": "queenbee",
   "version": "0.0.0",
   "scripts": {
     "start": "ng build; ng serve",
