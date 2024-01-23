@@ -2,6 +2,7 @@ import { Component } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
 import { AuthService } from 'src/app/services/auth/auth.service'
+import valid from './valid'
 
 const api = 'https://ldap-api.login.no/auth'
 
@@ -37,12 +38,9 @@ export class LoginComponent {
         }
 
         const data = await response.json()
-        let decoded = atob(data.authorized)
-        let match = decoded.match(/[a-zA-Z]/)?.index || 0
-        let valid = Number(decoded.slice(0, match - 1)) - new Date().getTime() < 28800000 ? 1 : 0
-        document.cookie = `token=${decoded}`
+        document.cookie = `token=${data.authorized}; path=/`;
         this.feedback = 'Login failed. Please check your credentials.';
-        this.authService.setAuthenticatedStatus(valid === Number(decoded[match - 1]));
+        this.authService.setAuthenticatedStatus(valid(data.authorized));
         this.router.navigate(['dashboard'])
     }
 
