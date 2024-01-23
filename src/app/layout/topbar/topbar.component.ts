@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-topbar',
@@ -7,9 +6,9 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   styleUrls: ['./topbar.component.css']
 })
 export class TopbarComponent {
-  constructor(private authService: AuthService) {}
+  constructor() {}
 
   logout() {
-    this.authService.setAuthenticatedStatus(false);
+    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
   }
 }

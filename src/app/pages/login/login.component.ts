@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth/auth.service';
+import { Component } from '@angular/core'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { Router } from '@angular/router'
+import { AuthService } from 'src/app/services/auth/auth.service'
+
+const api = 'https://ldap-api.login.no/auth'
 
 @Component({
   selector: 'app-login',
@@ -9,28 +11,46 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  loginForm!: FormGroup;
+    loginForm!: FormGroup;
+    feedback: string = ''
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {}
+    constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {}
 
-  ngOnInit() {
-    this.initForm();
-  }
+    ngOnInit() {
+        this.initForm();
+    }
 
-  login() {
-    this.authService.setAuthenticatedStatus(true);
-    this.router.navigate(['dashboard']);
-  }
+    async login() {
+        const username = this.loginForm.get('username')?.value || 'empty'
+        const password = this.loginForm.get('password')?.value || 'empty'
 
-  private initForm() {
-    this.loginForm = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
-    })
+        const response = await fetch(api, {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({user: username, pass: password})
+        });
 
-    // Subscribe to value changes for a specific form control
-    this.loginForm?.valueChanges.subscribe((value) => {
-      console.log('login form value changed:', value);
-    });
-  }
+        if (!response.ok) {
+            this.feedback = 'Login failed. Please check your credentials.';
+            console.log("Fetch failed")
+            return
+        }
+
+        const data = await response.json()
+        document.cookie = `token=${data.authorized}; path=/`;
+        this.feedback = 'Login failed. Please check your credentials.';
+        this.router.navigate(['dashboard'])
+    }
+
+    private initForm() {
+        this.loginForm = this.fb.group({
+            username: ['', Validators.required],
+            password: ['', Validators.required]
+        })
+
+        // Subscribe to value changes for a specific form control
+        // this.loginForm?.valueChanges.subscribe((value) => {
+        //     console.log('login form value changed:', value);
+        // });
+    }
 }

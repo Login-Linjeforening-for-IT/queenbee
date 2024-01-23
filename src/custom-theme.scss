@@ -6,7 +6,6 @@ of the buttons and so on.
 @use "@angular/material" as mat;
 
 @include mat.core();
-@include mat.legacy-core();
 
 $custom-theme-primary: mat.define-palette(mat.$orange-palette, 700, 800);
 $custom-theme-accent: mat.define-palette(mat.$orange-palette, A200, A100, A400);
@@ -24,4 +23,3 @@ $custom-theme: mat.define-dark-theme((
 ));
 
 @include mat.all-component-themes($custom-theme);
-@include mat.all-legacy-component-themes($custom-theme);

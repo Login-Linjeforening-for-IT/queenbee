@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/admin-tool2",
+            "outputPath": "dist/queenbee",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -32,20 +32,29 @@
             ],
             "scripts": [
               "node_modules/marked/marked.min.js"
-            ]
+            ],
+            "allowedCommonJsDependencies": [
+                "fast-xml-parser",
+                "@aws-crypto/sha1-browser",
+                "@aws-crypto/sha256-browser",
+                "@aws-crypto/crc32",
+                "@aws-crypto/crc32c",
+                "leaflet",
+                "bowser"
+             ]
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "4mb",
+                  "maximumError": "12mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "5kb",
+                  "maximumError": "20kb"
                 }
               ],
               "outputHashing": "all"
