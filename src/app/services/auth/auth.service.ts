@@ -5,19 +5,12 @@ import valid from 'src/app/pages/login/valid';
   providedIn: 'root'
 })
 export class AuthService {
-    private isAuthenticated = true;
-
     constructor() {}
 
     // Method to check authentication status
     isAuthenticatedUser(): boolean {
         const token = getCookie('token');
         return valid(token)
-    }
-
-    // Method to set authentication status
-    setAuthenticatedStatus(status: boolean) {
-        this.isAuthenticated = status;
     }
 }
 

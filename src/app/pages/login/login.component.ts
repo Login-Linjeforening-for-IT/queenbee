@@ -2,7 +2,6 @@ import { Component } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
 import { AuthService } from 'src/app/services/auth/auth.service'
-import valid from './valid'
 
 const api = 'https://ldap-api.login.no/auth'
 
@@ -40,7 +39,6 @@ export class LoginComponent {
         const data = await response.json()
         document.cookie = `token=${data.authorized}; path=/`;
         this.feedback = 'Login failed. Please check your credentials.';
-        this.authService.setAuthenticatedStatus(valid(data.authorized));
         this.router.navigate(['dashboard'])
     }
 
