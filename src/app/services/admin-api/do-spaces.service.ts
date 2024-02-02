@@ -14,56 +14,20 @@ export class DoSpacesService {
   constructor(private http: HttpClient) {}
 
   fetchImageList(path: string): Observable<DropDownFileItem[]> {
-    return this.http
-      .get<DropDownFileItem[]>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.IMAGES_PATH}${path}`)
-
-    /*const params = {
-      Bucket: 'beehive',
-      Prefix: path
-    };
-
-    const listObjectsPromise = this.s3Client.send(new ListObjectsCommand(params));
-
-    return from(listObjectsPromise).pipe(
-      map((response: any) => {
-        const images = response.Contents.map((object: any) => {
-          return {name: this.removePrefix(object.Key, path), size: byteConverter(object.Size, 2), filepath: object.Key};
-        });
-
-        if(images.length > 0) {
-          images[0].name = "Default";
-          images[0].size = "0";
-          images[0].filepath = "";
-        }
-
-        return images;
-      })
-    );*/
+    return this.http.get<DropDownFileItem[]>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.IMAGES_PATH}${path}`)
   }
 
-  uploadImage(file: File, key: string): Observable<boolean> {
-    const params = {
-      Bucket: 'beehive',
-      Key: key,
-      Body: file,
-      ACL: 'public-read' as ObjectCannedACL
-    };
+  uploadImage(file: File, path: string): Observable<boolean> {
+    const formData = new FormData();
+    formData.append('file', file);
 
-    const uploadObjectPromise = this.s3Client.send(new PutObjectCommand(params));
-
-    return from(uploadObjectPromise).pipe(
-      map(() => true), // Return true if the upload is successful
+    return this.http.post(`${BeehiveAPI.BASE_URL}${BeehiveAPI.IMAGES_PATH}${path}`, formData).pipe(
+      map((response: any) => {
+        // Perform additional checks if needed
+        // For example, check the response from the server or make additional API calls
+        return response.success; // Adjust this based on your server's response structure
+      }),
       catchError(() => of(false)) // Return false if there is an error
     );
-  }
-
-  /**
-   * Used to remove a prefix from an url. F.ex xx/xx/file.txt -> file.txt.
-   * @param url a url or path
-   * @param prefix Prefix to remove
-   * @private
-   */
-  private removePrefix(url: string, prefix: string) {
-    return url.replace(new RegExp(`^${prefix}`), "")
   }
 }

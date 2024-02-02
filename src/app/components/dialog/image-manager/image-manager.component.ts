@@ -95,10 +95,8 @@ export class ImageManagerComponent {
 
   onUpload() {
     if (this.imageToUpload) {
-      const key = 'img/events/' + this.imageToUpload.name;
-
       // Assuming you have an s3Service.uploadImage function
-      this.s3Service.uploadImage(this.imageToUpload, key).subscribe(
+      this.s3Service.uploadImage(this.imageToUpload, this.path).subscribe(
         (success) => {
           if (success) {
             // Handle successful upload

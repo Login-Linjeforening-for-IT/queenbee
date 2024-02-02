@@ -115,7 +115,7 @@ export class JobadFormComponent {
     this.dialog.open(ImageManagerComponent, {
       data: {
         title: "Job Ads",
-        path: "/ads",
+        path: "/jobs",
         aspectRatio: 3 / 2
       }
     });

@@ -54,7 +54,7 @@ export class OrgFormComponent {
       data: {
         title: "Organizations",
         path: "/organizations",
-        aspectRatio: 2 / 3
+        aspectRatio: 3 / 2
       }
     });
   }
