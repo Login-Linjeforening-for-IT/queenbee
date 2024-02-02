@@ -1,10 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ObjectCannedACL, PutObjectCommand, S3 } from "@aws-sdk/client-s3";
-import { ListObjectsCommand } from "@aws-sdk/client-s3";
 import { Observable, catchError, from, map, of } from 'rxjs';
-import { CREDENTIALS } from 'src/app/config/env';
 import {DropDownFileItem} from "../../models/dataInterfaces.model";
-import {byteConverter} from "../../utils/core";
+import { BeehiveAPI } from 'src/app/config/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -12,26 +11,13 @@ import {byteConverter} from "../../utils/core";
 export class DoSpacesService {
   s3Client: any;
 
-  constructor() {
-    if (CREDENTIALS.accessKeyId && CREDENTIALS.secretAccessKey) {
-      this.s3Client = new S3({
-        forcePathStyle: false,
-        endpoint: "https://ams3.digitaloceanspaces.com/",
-        region: 'ams3',
-        credentials: {
-          accessKeyId: CREDENTIALS.accessKeyId,
-          secretAccessKey: CREDENTIALS.secretAccessKey
-        },
-      });
-
-      // You can now use the s3Client for S3 operations
-    } else {
-      console.error("SPACES_KEY and SPACES_SECRET environment variables are not defined.");
-    }
-  }
+  constructor(private http: HttpClient) {}
 
   fetchImageList(path: string): Observable<DropDownFileItem[]> {
-    const params = {
+    return this.http
+      .get<DropDownFileItem[]>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.IMAGES_PATH}${path}`)
+
+    /*const params = {
       Bucket: 'beehive',
       Prefix: path
     };
@@ -52,7 +38,7 @@ export class DoSpacesService {
 
         return images;
       })
-    );
+    );*/
   }
 
   uploadImage(file: File, key: string): Observable<boolean> {

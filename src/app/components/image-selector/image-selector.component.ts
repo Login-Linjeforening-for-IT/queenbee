@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DoSpacesService } from 'src/app/services/do/do-spaces.service';
+import { DoSpacesService } from 'src/app/services/admin-api/do-spaces.service';
 import {FormBuilder, FormControl} from "@angular/forms";
 import {Observable, startWith} from "rxjs";
 import {map} from "rxjs/operators";

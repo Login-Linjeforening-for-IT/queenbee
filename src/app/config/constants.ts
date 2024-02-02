@@ -10,6 +10,7 @@ export const BeehiveAPI = {
     LOCATIONS_PATH: '/locations/',
     SKILLS_PATH: 'skills',
     CITIES_PATH: 'cities',
+    IMAGES_PATH: '/images',
 
     SECRET: 'secret', // Cosmic secret, quite strong password
     AUDIENCES_PATH_2: 'audiences',

@@ -3,7 +3,7 @@ import {ImageCropperComponent} from "../../image-cropper/component/image-cropper
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ImageCroppedEvent} from "../../image-cropper/interfaces";
 import {CropComponent} from "../crop/crop.component";
-import { DoSpacesService } from 'src/app/services/do/do-spaces.service';
+import { DoSpacesService } from 'src/app/services/admin-api/do-spaces.service';
 
 @Component({
   selector: 'app-image-manager',
