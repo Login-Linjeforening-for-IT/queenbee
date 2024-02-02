@@ -1,66 +1,48 @@
 <div class="container wide">
   <h1 mat-dialog-title>Image manager - {{title}}</h1>
-  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" class="block">
-    <mat-tab label="Upload image">
-      <div mat-dialog-content>
-        <div class="topbar">
-          <button class="menu-btn square-btn" (click)="rotateLeft()" title="Rotate Left">↩️</button>
-          <button class="menu-btn square-btn" (click)="rotateRight()" title="Rotate Right">↪️</button>
-          <button class="menu-btn square-btn" (click)="flipHorizontal()" title="Flip Horizontally">↔️</button>
-          <button class="menu-btn square-btn" (click)="flipVertical()" title="Flip Vertically">↕️</button>
-          <button class="menu-btn" (click)="reset()" title="Reset">Reset</button>
-        </div>
-
-        <input class="file-input" type="file" (change)="fileChangeEvent($event)" accept=".jpg, .jpeg, .png, .svg"/>
-
-        <div *ngIf="!cropped">
-          <image-cropper
-            [imageChangedEvent]="imageChangedEvent"
-            [maintainAspectRatio]="true"
-            [aspectRatio]="aspectRatio"
-            [cropperMinWidth]="128"
-            [onlyScaleDown]="true"
-            [roundCropper]="false"
-            format="png"
-            outputType="base64"
-            (imageCropped)="imageCropped($event)"
-            (imageLoaded)="imageLoaded()"
-            (cropperReady)="cropperReady()"
-            (confirmed)="cropperConfirm()"
-            (loadImageFailed)="loadImageFailed()"
-            [style.display]="showCropper ? null : 'none'"
-          ></image-cropper>
-        </div>
-
-        <div *ngIf="cropped">
-          <img class="image" [src]="croppedImage" />
-          <p *ngIf="!croppedImage">Missing image!</p>
-        </div>
-        
-        <section *ngIf="showCropper" [formGroup]="uploadForm">
-          <p>Upload as:</p>
-          <p><mat-checkbox formControlName="bannerImg">Banner image</mat-checkbox></p>
-          <p><mat-checkbox formControlName="smallImg">Small image</mat-checkbox></p>
-        </section>
+    <div mat-dialog-content>
+      <div class="topbar">
+        <button class="menu-btn square-btn" (click)="rotateLeft()" title="Rotate Left">↩️</button>
+        <button class="menu-btn square-btn" (click)="rotateRight()" title="Rotate Right">↪️</button>
+        <button class="menu-btn square-btn" (click)="flipHorizontal()" title="Flip Horizontally">↔️</button>
+        <button class="menu-btn square-btn" (click)="flipVertical()" title="Flip Vertically">↕️</button>
+        <button class="menu-btn" (click)="reset()" title="Reset">Reset</button>
       </div>
 
-      <div mat-dialog-actions class="upload-btn">
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="onUpload()"
-          [disabled]="isInvalid()">
-          <span class="material-symbols-sharp">upload</span>Upload Image
-        </button>
+      <input class="file-input" type="file" (change)="fileChangeEvent($event)" accept=".jpg, .jpeg, .png, .svg"/>
+
+      <div *ngIf="!cropped">
+        <image-cropper
+          [imageChangedEvent]="imageChangedEvent"
+          [maintainAspectRatio]="true"
+          [aspectRatio]="aspectRatio"
+          [cropperMinWidth]="128"
+          [onlyScaleDown]="true"
+          [roundCropper]="false"
+          format="png"
+          outputType="base64"
+          (imageCropped)="imageCropped($event)"
+          (imageLoaded)="imageLoaded()"
+          (cropperReady)="cropperReady()"
+          (confirmed)="cropperConfirm()"
+          (loadImageFailed)="loadImageFailed()"
+          [style.display]="showCropper ? null : 'none'"
+        ></image-cropper>
       </div>
-    </mat-tab>
 
-    <mat-tab label="Banner images">
-      <p>Not implemented yet!</p>
-    </mat-tab>
+      <div *ngIf="cropped">
+        <img class="image" [src]="croppedImage" />
+        <p *ngIf="!croppedImage">Missing image!</p>
+      </div>
+    </div>
 
-    <mat-tab label="Small images">
-      <p>Not implemented yet!</p>
-    </mat-tab>
-  </mat-tab-group>
+    <div mat-dialog-actions class="upload-btn">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="onUpload()"
+        [disabled]="isInvalid()">
+        <span class="material-symbols-sharp">upload</span>Upload Image
+      </button>
+    </div>
 </div>

@@ -3,7 +3,6 @@ import {ImageCropperComponent} from "../../image-cropper/component/image-cropper
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ImageCroppedEvent} from "../../image-cropper/interfaces";
 import {CropComponent} from "../crop/crop.component";
-import {FormBuilder} from "@angular/forms";
 import { DoSpacesService } from 'src/app/services/do/do-spaces.service';
 
 @Component({
@@ -28,15 +27,9 @@ export class ImageManagerComponent {
 
   @ViewChild(ImageCropperComponent) imageCropper!: ImageCropperComponent;
 
-  uploadForm = this._formBuilder.group({
-    bannerImg: true,
-    smallImg: true,
-  });
-
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<CropComponent>, 
-    private _formBuilder: FormBuilder,
     private s3Service: DoSpacesService){
       if(data) {
         this.title = data.title;
@@ -161,6 +154,6 @@ export class ImageManagerComponent {
   }
 
   isInvalid() {
-    return !this.cropped || !(this.uploadForm.get('bannerImg')?.value || this.uploadForm.get('smallImg')?.value);
+    return !this.cropped;
   }
 }
