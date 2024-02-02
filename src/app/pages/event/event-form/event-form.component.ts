@@ -163,11 +163,21 @@ export class EventFormComponent implements OnInit{
     return ''
   }
 
-  imageManager() {
+  imageManagerBanner() {
     this.dialog.open(ImageManagerComponent, {
       data: {
-        title: "Events",
-        path: "/events",
+        title: "Banner",
+        path: "/events/banner",
+        aspectRatio: 10 / 4
+      }
+    });
+  }
+
+  imageManagerSmall() {
+    this.dialog.open(ImageManagerComponent, {
+      data: {
+        title: "Small",
+        path: "/events/small",
         aspectRatio: 10 / 4
       }
     });

@@ -273,8 +273,8 @@
 
     <div class="block">
       <h2>Image Links</h2>
-      <button class="img-manager-btn" (click)="imageManager()" mat-raised-button color="primary">
-        <span class="material-symbols-sharp">upload</span>Event Images
+      <button class="img-manager-btn" (click)="imageManagerBanner()" mat-raised-button color="primary">
+        <span class="material-symbols-sharp">upload</span>Banner Images
       </button>
 
       <app-image-selector
@@ -283,6 +283,10 @@
         [path]="'/events/banner'"
         (valEmitter)="onImageBannerChange($event)"
       ></app-image-selector>
+
+      <button class="img-manager-btn" (click)="imageManagerSmall()" mat-raised-button color="primary">
+        <span class="material-symbols-sharp">upload</span>Small Images
+      </button>
 
       <app-image-selector
         [title]="'Image Small'"
