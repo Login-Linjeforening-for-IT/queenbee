@@ -6,20 +6,30 @@
       <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" class="block">
           <mat-tab label="🇳🇴 NOR">
             <div class="outline">
-              <mat-form-field class="row">
-                  <input matInput formControlName="title_no" required>
-                  <mat-label>Ad Title NOR</mat-label>
-              </mat-form-field>
+              <div class="row row-with-tooltip">
+                <mat-form-field class="input-field">
+                    <input matInput formControlName="title_no" required>
+                    <mat-label>Ad Title NOR</mat-label>
+                </mat-form-field>
+                <app-tooltip tip="Norwegian title of the ad. Should concise and reasonably short."></app-tooltip>
+              </div>
 
-              <mat-form-field class="row">
-                  <input matInput formControlName="position_title_no" required>
-                  <mat-label>Position Title NOR</mat-label>
-              </mat-form-field>
 
-              <mat-form-field class="row">
-                  <input matInput formControlName="description_short_no" required>
-                  <mat-label>Short Description NOR</mat-label>
-              </mat-form-field>
+              <div class="row row-with-tooltip">
+                <mat-form-field class="input-field">
+                    <input matInput formControlName="position_title_no" required>
+                    <mat-label>Position Title NOR</mat-label>
+                </mat-form-field>
+                <app-tooltip tip="Norwegian position title for the job ad. F.ex 'fronted developer' or 'junior network engineer'."></app-tooltip>
+              </div>
+
+              <div class="row row-with-tooltip">
+                <mat-form-field class="input-field">
+                    <input matInput formControlName="description_short_no" required>
+                    <mat-label>Short Description NOR</mat-label>
+                </mat-form-field>
+                <app-tooltip tip="Short description should be a short and informative introduction to the ad. It sit highlighted between the title and the main description."></app-tooltip>
+              </div>
 
               <app-markdown-textfield 
                 (newMdText)=onDescriptionNoChange($event) 
@@ -32,20 +42,29 @@
 
           <mat-tab label="🇺🇸 ENG">
             <div class="outline">
-              <mat-form-field class="row">
+              <div class="row row-with-tooltip">
+                <mat-form-field class="input-field">
                   <input matInput formControlName="title_en">
                   <mat-label>Ad Title ENG</mat-label>
-              </mat-form-field>
+                </mat-form-field>
+                <app-tooltip tip="If left empty, the norwegian equivalent will be used."></app-tooltip>
+              </div>
 
-              <mat-form-field class="row">
+              <div class="row row-with-tooltip">
+                <mat-form-field class="input-field">
                   <input matInput formControlName="position_title_en">
                   <mat-label>Position Title ENG</mat-label>
-              </mat-form-field>
+                </mat-form-field>
+                <app-tooltip tip="If left empty, the norwegian equivalent will be used."></app-tooltip>
+              </div>
 
-              <mat-form-field class="row">
+              <div class="row row-with-tooltip">
+                <mat-form-field class="input-field">
                   <input matInput formControlName="description_short_en">
                   <mat-label>Short Description ENG</mat-label>
-              </mat-form-field>
+                </mat-form-field>
+                <app-tooltip tip="Short description should be a short and informative introduction to the ad. It sit highlighted between the title and the main description."></app-tooltip>
+              </div>
 
               <app-markdown-textfield 
                 (newMdText)=onDescriptionEnChange($event) 
@@ -59,90 +78,112 @@
 
       <div class="general-grid">
         <!-- Drop Down menu with Autocomplete capabilities for organizations -->
-        <div id="selectorOrganization">
-          <mat-form-field class="row" *ngIf="organizations.length > 0; else elseOrgBlock">
-            <mat-label>Organization</mat-label>
-            <input
-              type="text"
-              matInput
-              [formControl]="autoControlOrgs"
-              [matAutocomplete]="autoOrg"
-              required
-            />
+        <div class="row row-with-tooltip" id="selectorOrganization">
+          <div class="input-field">
+            <mat-form-field *ngIf="organizations.length > 0; else elseOrgBlock">
+              <mat-label>Organization</mat-label>
+              <input
+                type="text"
+                matInput
+                [formControl]="autoControlOrgs"
+                [matAutocomplete]="autoOrg"
+                required
+              />
 
-            <mat-autocomplete autoActiveFirstOption #autoOrg="matAutocomplete" [displayWith]="displayOrganizationFn">
-              <mat-option
-                *ngFor="let o of filteredOrgs | async"
-                [value]="o"
-              >
-                {{ o.name }}
-              </mat-option>
-            </mat-autocomplete>
+              <mat-autocomplete autoActiveFirstOption #autoOrg="matAutocomplete" [displayWith]="displayOrganizationFn">
+                <mat-option
+                  *ngFor="let o of filteredOrgs | async"
+                  [value]="o"
+                >
+                  {{ o.name }}
+                </mat-option>
+              </mat-autocomplete>
 
-            <mat-error *ngIf="autoControlOrgs.hasError('required')">
-              This field is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-          <ng-template #elseOrgBlock>Could not fetch organizations input!</ng-template>
+              <mat-error *ngIf="autoControlOrgs.hasError('required')">
+                This field is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <ng-template #elseOrgBlock>Could not fetch organizations input!</ng-template>
+          </div>
+          <app-tooltip tip="Select the organization responsible for this ad."></app-tooltip>
         </div>
         
-        <mat-form-field class="row" id="jobType">
-            <mat-label>Type</mat-label>
-            <mat-select formControlName="job_type" required>
-              <mat-option *ngFor="let o of JOB_TYPES" [value]="o.id">{{o.name}}</mat-option>
-            </mat-select>
-        </mat-form-field>
+        <div class="row row-with-tooltip" id="jobType">
+          <mat-form-field class="input-field">
+              <mat-label>Type</mat-label>
+              <mat-select formControlName="job_type" required>
+                <mat-option *ngFor="let o of JOB_TYPES" [value]="o.id">{{o.name}}</mat-option>
+              </mat-select>
+          </mat-form-field>
+          <app-tooltip tip="Select the most applicable job type."></app-tooltip>
+        </div>
 
-        <app-datetime 
-          id="timePublish"
-          (newDatetime)=onPublishChange($event)
-          [value]="jobAdForm.get('time_publish')?.value" 
-          [dateLabel]="'Publish Date'" 
-          [timeLabel]="'Publish Time'"
-          [prefillWithTimeNow]="true">
-        </app-datetime>
+        <div class="row row-with-tooltip" id="timePublish">
+          <app-datetime 
+            class="input-field"
+            (newDatetime)=onPublishChange($event)
+            [value]="jobAdForm.get('time_publish')?.value" 
+            [dateLabel]="'Publish Date'" 
+            [timeLabel]="'Publish Time'"
+            [prefillWithTimeNow]="true">
+          </app-datetime>
+          <app-tooltip tip="Leave empty to publish the ad right away. If filled in the ad will be published at the specified date and time."></app-tooltip>
+        </div>
     
-        <app-input-selector
-          class="row"
-          #skillSelector
-          id="skillSelector"
-          [values]="skills"
-          [label]="'Skills'"
-          [placeholder]="'Enter skill'">
-        </app-input-selector>
+        <div class="row row-with-tooltip" id="skillSelector">
+          <app-input-selector
+            class="input-field"
+            #skillSelector
+            [values]="skills"
+            [label]="'Skills'"
+            [placeholder]="'Enter skill'">
+          </app-input-selector>
+          <app-tooltip tip="Enter relevant skills, BUT try to reuse simmilar skills used in other ads in order to minimize the amount of skills in the filter. F.ex reuse 'networking' instead of adding 'network'."></app-tooltip>
+        </div>
 
-        <app-input-selector
-          class="row"
-          #citySelector
-          id="citySelector"
-          [values]="cities"
-          [label]="'Cities'"
-          [placeholder]="'Enter city'">
-        </app-input-selector>
+        <div class="row row-with-tooltip" id="citySelector">
+          <app-input-selector
+            class="input-field"
+            #citySelector
+            [values]="cities"
+            [label]="'Cities'"
+            [placeholder]="'Enter city'">
+          </app-input-selector>
+          <app-tooltip tip="Enter cities where THIS job is offered. Do NOT enter all cities a company has offices in, that is irrelevant for the ad!"></app-tooltip>
+        </div>
 
-        <mat-slide-toggle 
-          id="highlight"
-          style="margin-left: 1rem;"
-          formControlName="highlight">
-          Highlight Ad
-        </mat-slide-toggle>
+        <div class="row row-with-tooltip" id="highlight">
+          <mat-slide-toggle 
+            style="margin-left: 1rem;"
+            formControlName="highlight">
+            Highlight Ad
+          </mat-slide-toggle>
+          <app-tooltip tip="Use this with CAUTION! Companies must pay extra for getting their ad highlighted!"></app-tooltip>
+        </div>
       </div>
     </div>
 
     <div class="block">
         <h2>Application</h2>
-        <mat-form-field class="row">
-            <input matInput formControlName="application_url">
-            <mat-label>Application URL</mat-label>
-        </mat-form-field>
+        <div class="row row-with-tooltip">
+          <mat-form-field class="input-field">
+              <input matInput formControlName="application_url">
+              <mat-label>Application URL</mat-label>
+          </mat-form-field>
+          <app-tooltip tip="Link to the application."></app-tooltip>
+        </div>
         
-        <app-datetime 
-          (newDatetime)=onDeadlineChange($event) 
-          [minDate]="jobAdForm.get('time_publish')?.value"
-          [value]="jobAdForm.get('application_deadline')?.value" 
-          [dateLabel]="'Deadline Date'"
-          [timeLabel]="'Deadline Time'">
-        </app-datetime>
+        <div class="row row-with-tooltip">
+          <app-datetime 
+            class="input-field"
+            (newDatetime)=onDeadlineChange($event) 
+            [minDate]="jobAdForm.get('time_publish')?.value"
+            [value]="jobAdForm.get('application_deadline')?.value" 
+            [dateLabel]="'Deadline Date'"
+            [timeLabel]="'Deadline Time'">
+          </app-datetime>
+          <app-tooltip tip="Deadline date and time. Some ads dont specify deadline time explicitly, if so enter 23:59."></app-tooltip>
+        </div>
     </div>
 
     <div class="block">
@@ -151,12 +192,16 @@
           <span class="material-symbols-sharp">upload</span>Job Ad Images
         </button>
         
-        <app-image-selector
-          [title]="'Banner Image'"
-          [value]="jobAdForm.get('banner_image')?.value"
-          [path]="'/jobs'"
-          (valEmitter)="onBannerImageChange($event)"
-        ></app-image-selector>
+        <div class="row row-with-tooltip">
+          <app-image-selector
+            class="input-field"
+            [title]="'Banner Image'"
+            [value]="jobAdForm.get('banner_image')?.value"
+            [path]="'/jobs'"
+            (valEmitter)="onBannerImageChange($event)"
+          ></app-image-selector>
+          <app-tooltip tip="Banner image for this specific event. Do NOT select the company logo here, but a unique picure of f.ex working enviroment, office builing, etc. The company logo applied to the organization object will be displayed anyways 😉"></app-tooltip>
+        </div>
     </div>
 </div>
 </form>
