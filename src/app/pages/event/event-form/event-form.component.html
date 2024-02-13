@@ -7,20 +7,28 @@
       <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" class="block">
         <mat-tab label="🇳🇴 NOR">
           <div class="outline">
-            <mat-form-field class="row">
-              <input matInput formControlName="name_no" maxlength="50">
-              <mat-label>Event Name NOR</mat-label>
-              <mat-hint align="end">{{eventForm.get('name_no')?.value?.length || 0}} / 50</mat-hint>
-              <mat-error *ngIf="eventForm.controls['name_no'].hasError('required')">
-                This field is <strong>required</strong>
-              </mat-error>
-            </mat-form-field>
+            <div class="row row-with-tooltip">
+              <mat-form-field class="input-field">
+                <input matInput formControlName="name_no" maxlength="50">
+                <mat-label>Event Name NOR</mat-label>
+                <mat-hint align="end">{{eventForm.get('name_no')?.value?.length || 0}} / 50</mat-hint>
+                <mat-error *ngIf="eventForm.controls['name_no'].hasError('required')">
+                  This field is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+              
+              <app-tooltip tip="This is the norwegian title for the event."></app-tooltip>
+            </div>
 
-            <mat-form-field class="row">
-              <input matInput formControlName="informational_no" maxlength="180">
-              <mat-label>Informational NOR</mat-label>
-              <mat-hint align="end">{{eventForm.get('informational_no')?.value?.length || 0}} / 180</mat-hint>
-            </mat-form-field>
+            <div class="row row-with-tooltip">
+              <mat-form-field class="input-field">
+                <input matInput formControlName="informational_no" maxlength="180">
+                <mat-label>Informational NOR</mat-label>
+                <mat-hint align="end">{{eventForm.get('informational_no')?.value?.length || 0}} / 180</mat-hint>
+              </mat-form-field>
+
+              <app-tooltip tip="This should rarely be used. Only for important information that require extra highlighting."></app-tooltip>
+            </div>
 
             <app-markdown-textfield
               class="row" 
@@ -33,17 +41,26 @@
 
         <mat-tab label="🇺🇸 ENG">
           <div class="outline">
-            <mat-form-field class="row">
-              <input matInput formControlName="name_en" maxlength="50">
-              <mat-label>Event Name ENG</mat-label>
-              <mat-hint align="end">{{eventForm.get('name_en')?.value?.length || 0}} / 50</mat-hint>
-            </mat-form-field>
+            <div class="row row-with-tooltip">
+              <mat-form-field class="input-field">
+                <input matInput formControlName="name_en" maxlength="50">
+                <mat-label>Event Name ENG</mat-label>
+                <mat-hint align="end">{{eventForm.get('name_en')?.value?.length || 0}} / 50</mat-hint>
+              </mat-form-field>
+              
+              <app-tooltip tip="If left empty, the norwegian name will be used."></app-tooltip>
+            </div>
 
-            <mat-form-field class="row">
-              <input matInput formControlName="informational_en" maxlength="180">
-              <mat-label>Informational ENG</mat-label>
-              <mat-hint align="end">{{eventForm.get('informational_en')?.value?.length || 0}} / 180</mat-hint>
-            </mat-form-field>
+            <div class="row row-with-tooltip">
+              <mat-form-field class="input-field">
+                <input matInput formControlName="informational_en" maxlength="180">
+                <mat-label>Informational ENG</mat-label>
+                <mat-hint align="end">{{eventForm.get('informational_en')?.value?.length || 0}} / 180</mat-hint>
+              </mat-form-field>
+
+              <app-tooltip tip="This should rarely be used. Only for important information that require extra highlighting."></app-tooltip>
+            </div>
+
 
             <app-markdown-textfield 
               class="row" 
@@ -57,217 +74,273 @@
 
       <div class="general-grid">
         <!-- Drop Down menu with Autocomplete capabilities for categories -->
-        <div id="selectorCategory">
-          <mat-form-field class="row" *ngIf="categories.length > 0; else elseCatBlock">
-            <mat-label>Category</mat-label>
+        <div class="row row-with-tooltip" id="selectorCategory">
+          <div class="input-field">
+            <mat-form-field *ngIf="categories.length > 0; else elseCatBlock">
+              <mat-label>Category</mat-label>
 
-            <input
-              required
-              type="text"
-              matInput
-              [formControl]="autoControlCats"
-              [matAutocomplete]="autoCat"/>
+              <input
+                required
+                type="text"
+                matInput
+                [formControl]="autoControlCats"
+                [matAutocomplete]="autoCat"/>
 
-            <mat-autocomplete autoActiveFirstOption #autoCat="matAutocomplete" [displayWith]="displayCategoryFn">
-              <mat-option
-                *ngFor="let o of filteredCats | async"
-                [value]="o"
-              >
-                <div
-                  [style.width.px]="16"
-                  [style.height.px]="16"
-                  [style.border-radius]="'50%'"
-                  [style.display]="'inline-block'"
-                  [style.margin-right.px]="6"
-                  [style.background-color]="'#' + o.color">
-                </div>
-                {{ o.name_en || o.name_no }}
-              </mat-option>
-            </mat-autocomplete>
+              <mat-autocomplete autoActiveFirstOption #autoCat="matAutocomplete" [displayWith]="displayCategoryFn">
+                <mat-option
+                  *ngFor="let o of filteredCats | async"
+                  [value]="o"
+                >
+                  <div
+                    [style.width.px]="16"
+                    [style.height.px]="16"
+                    [style.border-radius]="'50%'"
+                    [style.display]="'inline-block'"
+                    [style.margin-right.px]="6"
+                    [style.background-color]="'#' + o.color">
+                  </div>
+                  {{ o.name_en || o.name_no }}
+                </mat-option>
+              </mat-autocomplete>
 
-            <mat-error *ngIf="eventForm.controls['category'].hasError('required')">
-              This field is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-          <ng-template #elseCatBlock>Could not fetch categories input!</ng-template>
+              <mat-error *ngIf="eventForm.controls['category'].hasError('required')">
+                This field is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <ng-template #elseCatBlock>Could not fetch categories input!</ng-template>
+          </div>
+
+          <app-tooltip tip="Select appropriate category for the event."></app-tooltip>
         </div>
 
+
         <!-- Drop Down menu with Autocomplete capabilities for organizations -->
-        <div id="selectorOrganization">
-          <mat-form-field class="row" *ngIf="organizations.length > 0; else elseOrgBlock">
-            <mat-label>Organization</mat-label>
-            <input
-              required
-              type="text"
-              matInput
-              [formControl]="autoControlOrgs"
-              [matAutocomplete]="autoOrg"
-              />
+        <div class="row row-with-tooltip" id="selectorOrganization">
+          <div class="input-field">
+            <mat-form-field class="input-field" *ngIf="organizations.length > 0; else elseOrgBlock">
+              <mat-label>Organization</mat-label>
+              <input
+                required
+                type="text"
+                matInput
+                [formControl]="autoControlOrgs"
+                [matAutocomplete]="autoOrg"
+                />
 
-            <mat-autocomplete autoActiveFirstOption #autoOrg="matAutocomplete" [displayWith]="displayOrganizationFn">
-              <mat-option
-                *ngFor="let o of filteredOrgs | async"
-                [value]="o"
-              >
-                {{ o.name }}
-              </mat-option>
-            </mat-autocomplete>
+              <mat-autocomplete autoActiveFirstOption #autoOrg="matAutocomplete" [displayWith]="displayOrganizationFn">
+                <mat-option
+                  *ngFor="let o of filteredOrgs | async"
+                  [value]="o"
+                >
+                  {{ o.name }}
+                </mat-option>
+              </mat-autocomplete>
 
-            <mat-error *ngIf="eventForm.controls['organization'].hasError('required')">
-              This field is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-          <ng-template #elseOrgBlock>Could not fetch organizations input!</ng-template>
+              <mat-error *ngIf="eventForm.controls['organization'].hasError('required')">
+                This field is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <ng-template #elseOrgBlock>Could not fetch organizations input!</ng-template>
+          </div>
+
+          <app-tooltip tip="Select the organization responsible for hosting this event."></app-tooltip>
         </div>
 
         <!-- Drop Down menu with Autocomplete capabilities for locations -->
-        <div id="selectorLocation">
-          <mat-form-field class="row" *ngIf="locations.length > 0; else elseLocBlock">
-            <mat-label>Location</mat-label>
-            <input
-              type="text"
-              matInput
-              [formControl]="autoControlLocs"
-              [matAutocomplete]="autoLoc"
-              />
+        <div class="row row-with-tooltip" id="selectorLocation">
+          <div class="input-field">
+            <mat-form-field class="input-field" *ngIf="locations.length > 0; else elseLocBlock">
+              <mat-label>Location</mat-label>
+              <input
+                type="text"
+                matInput
+                [formControl]="autoControlLocs"
+                [matAutocomplete]="autoLoc"
+                />
 
-            <mat-autocomplete autoActiveFirstOption #autoLoc="matAutocomplete" [displayWith]="displayLocationFn">
-              <mat-option
-                *ngFor="let l of filteredLocs | async"
-                [value]="l"
-              >
-                <div class="dropdown-item">
-                  <span>{{ l.name }}</span> |
-                  <small>{{ l.details }}</small>
-                </div>
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-          <ng-template #elseLocBlock>Could not fetch locations input!</ng-template>
+              <mat-autocomplete autoActiveFirstOption #autoLoc="matAutocomplete" [displayWith]="displayLocationFn">
+                <mat-option
+                  *ngFor="let l of filteredLocs | async"
+                  [value]="l"
+                >
+                  <div class="dropdown-item">
+                    <span>{{ l.name }}</span> |
+                    <small>{{ l.details }}</small>
+                  </div>
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <ng-template #elseLocBlock>Could not fetch locations input!</ng-template>
+          </div>
+
+          <app-tooltip tip="Select the location for the event. If the event has more locations, select the most appropriate."></app-tooltip>
         </div>
 
         <!-- Drop Down menu with Autocomplete capabilities for rules -->
-        <div id="selectorRule">
-          <mat-form-field class="row" *ngIf="rules.length > 0; else elseRuleBlock">
-            <mat-label>Rule</mat-label>
-            <input
-              type="text"
-              matInput
-              [formControl]="autoControlRules"
-              [matAutocomplete]="autoRule"
-              />
+        <div class="row row-with-tooltip" id="selectorRule">
+          <div class="input-field">
+            <mat-form-field *ngIf="rules.length > 0; else elseRuleBlock">
+              <mat-label>Rule</mat-label>
+              <input
+                type="text"
+                matInput
+                [formControl]="autoControlRules"
+                [matAutocomplete]="autoRule"
+                />
 
-            <mat-autocomplete autoActiveFirstOption #autoRule="matAutocomplete" [displayWith]="displayRuleFn">
-              <mat-option
-                *ngFor="let r of filteredRules | async"
-                [value]="r"
-              >
-                <div class="dropdown-item">
-                  <span>{{ r.name }}</span>
-                </div>
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-          <ng-template #elseRuleBlock>Could not fetch rules input!</ng-template>
+              <mat-autocomplete autoActiveFirstOption #autoRule="matAutocomplete" [displayWith]="displayRuleFn">
+                <mat-option
+                  *ngFor="let r of filteredRules | async"
+                  [value]="r"
+                >
+                  <div class="dropdown-item">
+                    <span>{{ r.name }}</span>
+                  </div>
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <ng-template #elseRuleBlock>Could not fetch rules input!</ng-template>
+          </div>
+        
+          <app-tooltip tip="Select an appropriate rule object."></app-tooltip>
         </div>
 
-        <app-audience-selector
-          id="selectorAudience"
-          class="row"
-          [values]="eventForm.get('audience')?.value"
-          [label]="'Audiences'"
-          [placeholder]="'Select audience'"
-          (newChipSet)="onAudienceSetChange($event)">
-        </app-audience-selector>
 
-        <mat-form-field id="timeType" class="row">
-          <mat-label>Time Type</mat-label>
-          <mat-select formControlName="time_type" required>
-            <mat-option *ngFor="let type of time_types" [value]="type.type">
-              {{type.name}}
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="eventForm.controls['time_type'].hasError('required')">
-            This field is <strong>required</strong>. Available options is based on start and end time.
-          </mat-error>
-        </mat-form-field>
+        <div class="row row-with-tooltip" id="selectorAudience">
+          <app-audience-selector
+            class="input-field"
+            [values]="eventForm.get('audience')?.value"
+            [label]="'Audiences'"
+            [placeholder]="'Select audience'"
+            (newChipSet)="onAudienceSetChange($event)">
+          </app-audience-selector>
 
-        <app-datetime
-          id="timeStart"
-          class="row"
-          (newDatetime)=onTimeStartChange($event)
-          [dateLabel]="'Start Date'"
-          [timeLabel]="'Start Time'"
-          [isDateRequired]="true"
-          [isTimeRequired]="true"
-          [disableTime]="isStartTimeDisabled"
-          [maxDate]="eventForm.get('time_end')?.value"
-          [value]="eventForm.get('time_start')?.value">
-        </app-datetime>
+          <app-tooltip tip="Select target audience for this event."></app-tooltip>
+        </div>
 
-        <app-datetime
-          id="timeEnd"
-          class="row"
-          (newDatetime)=onTimeEndChange($event)
-          [dateLabel]="'End Date'"
-          [timeLabel]="'End Time'"
-          [isDateRequired]="true"
-          [isTimeRequired]="true"
-          [disableTime]="isEndTimeDisabled"
-          [minDate]="eventForm.get('time_start')?.value"
-          [value]="eventForm.get('time_end')?.value">
-        </app-datetime>
+        <div class="row row-with-tooltip" id="timeType">
+          <mat-form-field id="timeType" class="input-field">
+            <mat-label>Time Type</mat-label>
+            <mat-select formControlName="time_type" required>
+              <mat-option *ngFor="let type of time_types" [value]="type.type">
+                {{type.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="eventForm.controls['time_type'].hasError('required')">
+              This field is <strong>required</strong>. Available options is based on start and end time.
+            </mat-error>
+          </mat-form-field>
 
-        <app-datetime
-          id="timePublish"
-          class="row"
-          (newDatetime)=onTimePublishChange($event)
-          [dateLabel]="'Publish Date'"
-          [timeLabel]="'Publish Time'"
-          [maxDate]="eventForm.get('time_start')?.value"
-          [value]="eventForm.get('time_publish')?.value"
-          [prefillWithTimeNow]="true">
-        </app-datetime>
+          <app-tooltip tip="Time type affects how start- and endtime is rendered on Beehive. The start and end date will allways be rendered."></app-tooltip>
+        </div>
+
+        <div class="row row-with-tooltip" id="timeStart">
+          <app-datetime
+            class="input-field"
+            (newDatetime)=onTimeStartChange($event)
+            [dateLabel]="'Start Date'"
+            [timeLabel]="'Start Time'"
+            [isDateRequired]="true"
+            [isTimeRequired]="true"
+            [disableTime]="isStartTimeDisabled"
+            [maxDate]="eventForm.get('time_end')?.value"
+            [value]="eventForm.get('time_start')?.value">
+          </app-datetime>
+
+          <app-tooltip tip="Date and time when the event starts. Events are sorted according to these values."></app-tooltip>
+        </div>
+
+        <div class="row row-with-tooltip" id="timeEnd">
+          <app-datetime
+            class="input-field"
+            (newDatetime)=onTimeEndChange($event)
+            [dateLabel]="'End Date'"
+            [timeLabel]="'End Time'"
+            [isDateRequired]="true"
+            [isTimeRequired]="true"
+            [disableTime]="isEndTimeDisabled"
+            [minDate]="eventForm.get('time_start')?.value"
+            [value]="eventForm.get('time_end')?.value">
+          </app-datetime>
+
+          <app-tooltip tip="Date and time when the event ends. The event disappears after this date and time has passed."></app-tooltip>
+        </div>
+
+        <div class="row row-with-tooltip" id="timePublish">
+          <app-datetime
+            class="input-field"
+            (newDatetime)=onTimePublishChange($event)
+            [dateLabel]="'Publish Date'"
+            [timeLabel]="'Publish Time'"
+            [maxDate]="eventForm.get('time_start')?.value"
+            [value]="eventForm.get('time_publish')?.value"
+            [prefillWithTimeNow]="true">
+          </app-datetime>
+
+          <app-tooltip tip="If left empty the event will be released right away, elsewise it is published at the specified date and time."></app-tooltip>
+        </div>
       </div>
     </div>
 
     <div class="block">
       <h2>Signup</h2>
       <div class="signup-grid">
-        <mat-form-field id="link-signup" class="row">
-          <input matInput formControlName="link_signup">
-          <mat-label>Signup Link</mat-label>
-        </mat-form-field>
+        <div class="row row-with-tooltip" id="link-signup">
+          <mat-form-field class="input-field">
+            <input matInput formControlName="link_signup">
+            <mat-label>Signup Link</mat-label>
+          </mat-form-field>
+          
+          <app-tooltip tip="Enter primary signup link. This will allways be accesible on Beehive, regardless of set release time."></app-tooltip>
+        </div>
 
-        <app-datetime
-          id="release"
-          (newDatetime)=onSignupReleaseChange($event)
-          [dateLabel]="'Release Date'"
-          [timeLabel]="'Release Time'"
-          [maxDate]="eventForm.get('time_signup_deadline')?.value"
-          [value]="eventForm.get('time_signup_release')?.value">
-        </app-datetime>
 
-        <app-datetime
-          id="deadline"
-          (newDatetime)=onSignupDeadlineChange($event)
-          [dateLabel]="'Deadline Date'"
-          [timeLabel]="'Deadline Time'"
-          [minDate]="eventForm.get('time_signup_release')?.value"
-          [value]="eventForm.get('time_signup_deadline')?.value">
-        </app-datetime>
+        <div class="row row-with-tooltip" id="release">
+          <app-datetime
+            class="input-field"
+            (newDatetime)=onSignupReleaseChange($event)
+            [dateLabel]="'Release Date'"
+            [timeLabel]="'Release Time'"
+            [maxDate]="eventForm.get('time_signup_deadline')?.value"
+            [value]="eventForm.get('time_signup_release')?.value">
+          </app-datetime>
 
-        <mat-form-field id="capacity" class="row">
-          <input matInput type="number" min="0" step="1" formControlName="capacity" placeholder="Enter number">
-          <mat-label>Capacity</mat-label>
-          <mat-error *ngIf="eventForm.controls['capacity'].hasError('min')">
-            Number must be <strong>positive</strong>
-          </mat-error>
-          <mat-error *ngIf="eventForm.controls['capacity'].hasError('decimal')">
-            Number cannot be a <strong>decimal</strong>
-          </mat-error>
-        </mat-form-field>
-        <mat-slide-toggle style="margin-left: 1rem;">Is full</mat-slide-toggle>
+          <app-tooltip tip="Indicates to the user when the signup form opens."></app-tooltip>
+        </div>
+
+        <div class="row row-with-tooltip" id="deadline">
+          <app-datetime
+            class="input-field"
+            (newDatetime)=onSignupDeadlineChange($event)
+            [dateLabel]="'Deadline Date'"
+            [timeLabel]="'Deadline Time'"
+            [minDate]="eventForm.get('time_signup_release')?.value"
+            [value]="eventForm.get('time_signup_deadline')?.value">
+          </app-datetime>
+
+          <app-tooltip tip="Indicates to the user when the signup form closes."></app-tooltip>
+        </div>
+
+        <div class="row row-with-tooltip" id="capacity">
+          <mat-form-field class="input-field">
+            <input matInput type="number" min="0" step="1" formControlName="capacity" placeholder="Enter number">
+            <mat-label>Capacity</mat-label>
+            <mat-error *ngIf="eventForm.controls['capacity'].hasError('min')">
+              Number must be <strong>positive</strong>
+            </mat-error>
+            <mat-error *ngIf="eventForm.controls['capacity'].hasError('decimal')">
+              Number cannot be a <strong>decimal</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <app-tooltip tip="Indicates how many can sign up to the event."></app-tooltip>
+        </div>
+
+        <div class="row row-with-tooltip" style="align-items: center;">
+          <mat-slide-toggle style="margin-left: 1rem; padding-right: 1rem;">Is full</mat-slide-toggle>
+
+          <app-tooltip tip="Boolean to indicate wether event is full or not."></app-tooltip>
+        </div>
       </div>
     </div>
 
@@ -277,41 +350,61 @@
         <span class="material-symbols-sharp">upload</span>Banner Images
       </button>
 
-      <app-image-selector
-        [title]="'Image Banner'"
-        [value]="eventForm.get('image_banner')?.value"
-        [path]="'/events/banner'"
-        (valEmitter)="onImageBannerChange($event)"
-      ></app-image-selector>
+      <div class="row row-with-tooltip">
+        <app-image-selector
+          class="input-field"
+          [title]="'Image Banner'"
+          [value]="eventForm.get('image_banner')?.value"
+          [path]="'/events/banner'"
+          (valEmitter)="onImageBannerChange($event)"
+        ></app-image-selector>
+        <app-tooltip tip="The banner image is used on the event page for this specific event."></app-tooltip>
+      </div>
 
       <button class="img-manager-btn" (click)="imageManagerSmall()" mat-raised-button color="primary">
         <span class="material-symbols-sharp">upload</span>Small Images
       </button>
-
-      <app-image-selector
-        [title]="'Image Small'"
-        [value]="eventForm.get('image_small')?.value"
-        [path]="'/events/small'"
-        (valEmitter)="onImageSmallChange($event)"
-      ></app-image-selector>
+      
+      <div class="row row-with-tooltip">
+        <app-image-selector
+          class="input-field"
+          [title]="'Image Small'"
+          [value]="eventForm.get('image_small')?.value"
+          [path]="'/events/small'"
+          (valEmitter)="onImageSmallChange($event)"
+        ></app-image-selector>
+        <app-tooltip tip="The small image is used in the image list on the page '/events'."></app-tooltip>
+      </div>
     </div>
 
     <div class="block">
       <h2>Social Links</h2>
-      <mat-form-field class="row">
-        <input matInput formControlName="link_facebook">
-        <mat-label>Facebook Link</mat-label>
-      </mat-form-field>
+      <div class="row row-with-tooltip">
+        <mat-form-field class="input-field">
+          <input matInput formControlName="link_facebook">
+          <mat-label>Facebook Link</mat-label>
+        </mat-form-field>
+        
+        <app-tooltip tip="Used to link to other post about this event on Facebook. F.ex if this is a UKA event, this can be used to refer to them."></app-tooltip>
+      </div>
 
-      <mat-form-field class="row">
-        <input matInput formControlName="link_discord">
-        <mat-label>Discord Link</mat-label>
-      </mat-form-field>
+      <div class="row row-with-tooltip">
+        <mat-form-field class="input-field">
+          <input matInput formControlName="link_discord">
+          <mat-label>Discord Link</mat-label>
+        </mat-form-field>
 
-      <mat-form-field class="row">
-        <input matInput formControlName="link_stream">
-        <mat-label>Stream Link</mat-label>
-      </mat-form-field>
+        <app-tooltip tip="Used to link to other post about this event on Discord. F.ex if this is a NTNUi Esport event, this can be used to refer to them."></app-tooltip>
+      </div>
+
+      <div class="row row-with-tooltip">
+        <mat-form-field class="input-field">
+          <input matInput formControlName="link_stream">
+          <mat-label>Stream Link</mat-label>
+        </mat-form-field>
+
+        <app-tooltip tip="Links to online stream."></app-tooltip>
+      </div>
     </div>
   </div>
 </form>

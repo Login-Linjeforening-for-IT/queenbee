@@ -76,6 +76,8 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatSliderModule} from "@angular/material/slider";
 import { ImageManagerComponent } from './components/dialog/image-manager/image-manager.component';
 import { LoginComponent } from './pages/login/login.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TooltipComponent } from './components/tooltip/tooltip.component';
 
 @NgModule({
   declarations: [
@@ -124,7 +126,8 @@ import { LoginComponent } from './pages/login/login.component';
     TopbarComponent,
     NavBtnComponent,
     ImageManagerComponent,
-    LoginComponent
+    LoginComponent,
+    TooltipComponent
   ],
     imports: [
         BrowserModule,
@@ -148,6 +151,7 @@ import { LoginComponent } from './pages/login/login.component';
         FormsModule,
         MatTabsModule,
         MatMenuModule,
+        MatTooltipModule,
         MarkdownModule.forRoot({
           markedOptions: {
             provide: MarkedOptions,
