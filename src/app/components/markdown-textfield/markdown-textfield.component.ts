@@ -146,6 +146,39 @@ export class MarkdownTextfieldComponent implements AfterViewInit, OnInit {
     this.surroundText('*');
   }
 
+  insertEmbed() {
+    const textarea = this.textarea.nativeElement;
+    // Get current cursor position
+    const cursorPosition = textarea.selectionStart;
+
+    // Get selected text (if any)
+    const selectedText = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd);
+
+    // New text to insert
+    const newText = '[:<event|ads>](<id>)';
+
+    // Check if there is a selected text
+    if (selectedText) {
+        // If selected text exists, insert the new text at the cursor position
+        this.markdown = this.markdown.slice(0, cursorPosition) + newText + selectedText.trim() + newText + this.markdown.slice(textarea.selectionEnd);
+    } else {
+        // If no selected text, insert the new text at the end of the existing text
+        this.markdown = this.markdown.slice(0, cursorPosition) + newText + this.markdown.slice(cursorPosition);
+    }
+
+    // Update the textarea value
+    textarea.value = this.markdown;
+
+    // Set the new cursor position
+    const newCursorPosition = cursorPosition + newText.length;
+
+    // Update the cursor position
+    textarea.setSelectionRange(newCursorPosition, newCursorPosition);
+
+    // Emit the updated markdown
+    this.markdownChange.next(this.markdown);
+  }
+
   toggleTableMaker() {
     this.showTableInputs = !this.showTableInputs;
   }
