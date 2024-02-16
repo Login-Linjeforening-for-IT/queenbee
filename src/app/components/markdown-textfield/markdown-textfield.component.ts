@@ -155,7 +155,7 @@ export class MarkdownTextfieldComponent implements AfterViewInit, OnInit {
     const selectedText = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd);
 
     // New text to insert
-    const newText = '[:<event|ads>](<id>)';
+    const newText = '[:<event|jobad>](<id>)';
 
     // Check if there is a selected text
     if (selectedText) {
