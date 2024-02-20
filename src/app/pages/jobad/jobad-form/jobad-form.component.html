@@ -80,7 +80,7 @@
         <!-- Drop Down menu with Autocomplete capabilities for organizations -->
         <div class="row row-with-tooltip" id="selectorOrganization">
           <div class="input-field">
-            <mat-form-field *ngIf="organizations.length > 0; else elseOrgBlock">
+            <mat-form-field class="row" *ngIf="organizations.length > 0; else elseOrgBlock">
               <mat-label>Organization</mat-label>
               <input
                 type="text"

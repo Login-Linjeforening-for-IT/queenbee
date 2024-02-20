@@ -76,7 +76,7 @@
         <!-- Drop Down menu with Autocomplete capabilities for categories -->
         <div class="row row-with-tooltip" id="selectorCategory">
           <div class="input-field">
-            <mat-form-field *ngIf="categories.length > 0; else elseCatBlock">
+            <mat-form-field class="row" *ngIf="categories.length > 0; else elseCatBlock">
               <mat-label>Category</mat-label>
 
               <input
@@ -179,7 +179,7 @@
         <!-- Drop Down menu with Autocomplete capabilities for rules -->
         <div class="row row-with-tooltip" id="selectorRule">
           <div class="input-field">
-            <mat-form-field *ngIf="rules.length > 0; else elseRuleBlock">
+            <mat-form-field class="row" *ngIf="rules.length > 0; else elseRuleBlock">
               <mat-label>Rule</mat-label>
               <input
                 type="text"
