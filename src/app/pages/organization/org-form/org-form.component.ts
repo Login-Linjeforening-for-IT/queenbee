@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ImageManagerComponent } from 'src/app/components/dialog/image-manager/image-manager.component';
 import { Organization } from 'src/app/models/dataInterfaces.model';
 
 @Component({
@@ -11,7 +13,7 @@ export class OrgFormComponent {
   @Input() disableShortnameInput!: boolean;
   orgForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private dialog: MatDialog) {}
 
   ngOnInit() {
     this.initForm();
@@ -45,6 +47,16 @@ export class OrgFormComponent {
 
   onImageLogoChange(newVal: {val: string}) {
     this.orgForm.get('logo')?.setValue(newVal.val);
+  }
+
+  imageManager() {
+    this.dialog.open(ImageManagerComponent, {
+      data: {
+        title: "Organizations",
+        path: "/organizations",
+        aspectRatio: 3 / 2
+      }
+    });
   }
 
   private initForm() {

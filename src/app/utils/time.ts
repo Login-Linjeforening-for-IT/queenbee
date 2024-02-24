@@ -49,3 +49,18 @@ export function convertDateToRFC3339(date: Date): string {
 
   return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`;
 }
+
+export function getFullDate(date: Date): string {
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+}
+
+export function getFullTime(date: Date): string {
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+
+  return `${hours}:${minutes}`;
+}

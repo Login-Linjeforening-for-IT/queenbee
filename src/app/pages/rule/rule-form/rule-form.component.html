@@ -3,14 +3,17 @@
     <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" class="block">
       <mat-tab label="🇳🇴 NOR">
         <div class="outline">
-          <mat-form-field class="row">
-            <input matInput formControlName="name_no" maxlength="50">
-            <mat-label>Rule Name NOR</mat-label>
-            <mat-hint align="end">{{ruleForm.get('name_no')?.value?.length || 0}} / 50</mat-hint>
-            <mat-error *ngIf="ruleForm.controls['name_no'].hasError('required')">
-              This field is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
+          <div class="row row-with-tooltip">
+            <mat-form-field class="input-field">
+              <input matInput formControlName="name_no" maxlength="50">
+              <mat-label>Rule Name NOR</mat-label>
+              <mat-hint align="end">{{ruleForm.get('name_no')?.value?.length || 0}} / 50</mat-hint>
+              <mat-error *ngIf="ruleForm.controls['name_no'].hasError('required')">
+                This field is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <app-tooltip tip="Name of rule, f.ex 'TekKom regler'. This name should reflect the rules defined in the description."></app-tooltip>
+          </div>
 
           <app-markdown-textfield 
             class="row"
@@ -23,14 +26,17 @@
 
       <mat-tab label="🇺🇸 ENG">
         <div class="outline">
-          <mat-form-field class="row">
-            <input matInput formControlName="name_en" maxlength="50">
-            <mat-label>Rule Name ENG</mat-label>
-            <mat-hint align="end">{{ruleForm.get('name_en')?.value?.length || 0}} / 50</mat-hint>
-            <mat-error *ngIf="ruleForm.controls['name_en'].hasError('required')">
-              This field is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
+          <div class="row row-with-tooltip">
+            <mat-form-field class="input-field">
+              <input matInput formControlName="name_en" maxlength="50">
+              <mat-label>Rule Name ENG</mat-label>
+              <mat-hint align="end">{{ruleForm.get('name_en')?.value?.length || 0}} / 50</mat-hint>
+              <mat-error *ngIf="ruleForm.controls['name_en'].hasError('required')">
+                This field is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <app-tooltip tip="If left blank the norwegian name will be used."></app-tooltip>
+          </div>
 
           <app-markdown-textfield 
             class="row"

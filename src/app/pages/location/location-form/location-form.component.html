@@ -3,61 +3,81 @@
     <div class="block">
       <h2>General Information</h2>
 
-      <mat-form-field class="row">
-        <input matInput formControlName="name_no" maxlength="50">
-        <mat-label>Location Nickname NOR</mat-label>
-      </mat-form-field>
+      <div class="row row-with-tooltip">
+        <mat-form-field class="input-field">
+          <input matInput formControlName="name_no" maxlength="50">
+          <mat-label>Location Nickname NOR</mat-label>
+        </mat-form-field>
+        <app-tooltip tip="F.ex 'Login Lounge' instead of 'A155' or 'Heim' instead of 'Elvegata 6'. Enter adress bellow!"></app-tooltip>
+      </div>
 
-      <mat-form-field class="row">
-        <input matInput formControlName="name_en" maxlength="50">
-        <mat-label>Location Nickname ENG</mat-label>
-      </mat-form-field>
+      <div class="row row-with-tooltip">
+        <mat-form-field class="input-field">
+          <input matInput formControlName="name_en" maxlength="50">
+          <mat-label>Location Nickname ENG</mat-label>
+        </mat-form-field>
+        <app-tooltip tip="If left blank, the norwegian nickname is used"></app-tooltip>  
+      </div>
 
-      <mat-form-field class="row">
-        <input matInput formControlName="url">
-        <mat-label>URL</mat-label>
-      </mat-form-field>
+      <div class="row row-with-tooltip">
+        <mat-form-field class="input-field">
+          <input matInput formControlName="url">
+          <mat-label>URL</mat-label>
+        </mat-form-field>
+        <app-tooltip tip="Rarely used. Intended for special cases, f.ex link with directions to a cave or bunker which may be hard to find."></app-tooltip>  
+      </div>
 
-      <!-- Normal mode label/message - i.e. create new -->
-      <ng-container *ngIf="locationForm.value.type === 'address' || locationForm.value.type === 'mazemap' || locationForm.value.type === 'coords'">
-        <label id="example-radio-group-label">Select location type:</label>
-        <p class="weak-text">
-          (Changing type will clear the location-type data below.)
-        </p>
-      </ng-container>
-      <!-- Edit mode label/message -->
-      <ng-container *ngIf="disableRadioBtn">
-        <label id="example-radio-group-label">Selected location type:</label>
-        <p class="weak-text">
-          (Location type cannot be changed on an existing object.)
-        </p>
-      </ng-container>
+      <div class="row row-with-tooltip" style="align-items: center;;">
+        <div>
+          <label id="example-radio-group-label" style="display: block;">Select location type:</label>
+          <!-- Normal mode label/message - i.e. create new -->
+          <ng-container *ngIf="locationForm.value.type === 'address' || locationForm.value.type === 'mazemap' || locationForm.value.type === 'coords'">
+            <p class="weak-text">
+              (Changing type will clear the location-type data below.)
+            </p>
+          </ng-container>
+          <!-- Edit mode label/message -->
+          <ng-container *ngIf="disableRadioBtn">
+            <p class="weak-text">
+              (Location type cannot be changed on an existing object.)
+            </p>
+          </ng-container>
+          
+          <mat-radio-group
+            aria-labelledby="example-radio-group-label"
+            formControlName="type"
+            (ngModelChange)="onTypeChange()">
+            <!-- Hardcoded radio button value types. Acceptable because they are unlikely to be changed, and if so easy to refactor -->
+            <mat-radio-button [value]="'none'">None</mat-radio-button>
+            <mat-radio-button [value]="'address'">Address</mat-radio-button>
+            <mat-radio-button [value]="'mazemap'">MazeMap</mat-radio-button>
+            <mat-radio-button [value]="'coords'">Coordinates</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <app-tooltip style="padding-left: 1rem;" tip="Location type defines what type of location you are creating, and will be displayed accordingly on Beehive. A location can only be a single type."></app-tooltip>
+      </div>
       
-      <mat-radio-group
-        aria-labelledby="example-radio-group-label"
-        formControlName="type"
-        (ngModelChange)="onTypeChange()">
-        <!-- Hardcoded radio button value types. Acceptable because they are unlikely to be changed, and if so easy to refactor -->
-        <mat-radio-button [value]="'none'">None</mat-radio-button>
-        <mat-radio-button [value]="'address'">Address</mat-radio-button>
-        <mat-radio-button [value]="'mazemap'">MazeMap</mat-radio-button>
-        <mat-radio-button [value]="'coords'">Coordinates</mat-radio-button>
-      </mat-radio-group>
     </div>
 
     <div class="block map-block" *ngIf="locationForm.value.type === 'mazemap' || this.loc?.type === 'mazemap'">
       <h2>MazeMap</h2>
 
       <div class="map-input">
-        <mat-form-field class="row">
-          <input matInput formControlName="mazemap_campus_id">
-          <mat-label>Campus ID</mat-label>
-        </mat-form-field>
+        <div class="row row-with-tooltip">
+          <mat-form-field class="input-field">
+            <input matInput formControlName="mazemap_campus_id">
+            <mat-label>Campus ID</mat-label>
+          </mat-form-field>
+          <app-tooltip tip="Every campus has an unique id. The id for NTNU Gjøvik is 55."></app-tooltip>  
+        </div>
 
-        <mat-form-field class="row">
-          <input matInput formControlName="mazemap_poi_id">
-          <mat-label>POI ID</mat-label>
-        </mat-form-field>
+        <div class="row row-with-tooltip">
+            <mat-form-field class="input-field">
+            <input matInput formControlName="mazemap_poi_id">
+            <mat-label>POI ID</mat-label>
+          </mat-form-field>
+          <app-tooltip tip="Within every campus, each room has a unique id (POI id). Check MazeMap tools to get the right id for a room!"></app-tooltip>  
+        </div>
       </div>
 
       <div class="map-container">
@@ -67,20 +87,29 @@
 
     <div class="block" *ngIf="locationForm.value.type === 'address' || this.loc?.type === 'address'">
       <h2>Address</h2>
-      <mat-form-field class="row">
-        <input matInput formControlName="address_street">
-        <mat-label>Address</mat-label>
-      </mat-form-field>
+      <div class="row row-with-tooltip">
+        <mat-form-field class="input-field">
+          <input matInput formControlName="address_street">
+          <mat-label>Address</mat-label>
+        </mat-form-field>
+        <app-tooltip tip="Include BOTH streetname and house number!"></app-tooltip>  
+      </div>
 
-      <mat-form-field class="row">
-        <input matInput formControlName="address_postcode">
-        <mat-label>Postal Code</mat-label>
-      </mat-form-field>
+      <div class="row row-with-tooltip">
+        <mat-form-field class="input-field">
+          <input matInput formControlName="address_postcode">
+          <mat-label>Postal Code</mat-label>
+        </mat-form-field>
+        <app-tooltip tip="Postal codes in Norway consist of 4 digits. F.ex the postal code of NTNU campus Gjøvik is 2815."></app-tooltip>  
+      </div>
 
-      <mat-form-field class="row">
-        <input matInput formControlName="city_name">
-        <mat-label>City</mat-label>
-      </mat-form-field>
+      <div class="row row-with-tooltip">
+        <mat-form-field class="input-field">
+          <input matInput formControlName="city_name">
+          <mat-label>City</mat-label>
+        </mat-form-field>
+        <app-tooltip tip="City is the same as 'poststed' in norwegian. F.ex OSLO or RANHEIM."></app-tooltip>  
+      </div>
     </div>
 
     <div class="block map-block" *ngIf="locationForm.value.type === 'coords' || this.loc?.type === 'coords'">
@@ -91,15 +120,21 @@
         
         <br>
 
-        <mat-form-field class="row">
-          <input matInput formControlName="coordinate_lat">
-          <mat-label>Latitude</mat-label>
-        </mat-form-field>
+        <div class="row row-with-tooltip">
+          <mat-form-field class="input-field">
+            <input matInput formControlName="coordinate_lat">
+            <mat-label>Latitude</mat-label>
+          </mat-form-field>
+          <app-tooltip tip="Use numeric coordinates. Lines of latitude are measured in degrees north or south of the equator."></app-tooltip>  
+        </div>
 
-        <mat-form-field class="row">
-          <input matInput formControlName="coordinate_long">
-          <mat-label>Longitude</mat-label>
-        </mat-form-field>
+        <div class="row row-with-tooltip">
+          <mat-form-field class="input-field">
+            <input matInput formControlName="coordinate_long">
+            <mat-label>Longitude</mat-label>
+          </mat-form-field>
+          <app-tooltip tip="Use numeric coordinates. Lines of longitude are measured in degrees east or west of the prime meridian."></app-tooltip>  
+        </div>
       </div>
 
       <div class="map-container">

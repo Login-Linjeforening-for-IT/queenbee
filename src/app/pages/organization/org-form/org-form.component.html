@@ -3,18 +3,24 @@
         <h2>General Information</h2>
         
         <p *ngIf="disableShortnameInput" class="weak-text">(Shortname cannot be changed, because it's a PK.)</p>
-        <mat-form-field class="row">
-            <input matInput formControlName="shortname" required>
-            <mat-label>Shortname</mat-label>
-        </mat-form-field>
+        <div class="row row-with-tooltip">
+            <mat-form-field class="input-field">
+                <input matInput formControlName="shortname" required>
+                <mat-label>Shortname</mat-label>
+            </mat-form-field>
+            <app-tooltip tip="Shortname is the primary key of this object, it will not be displayed on Beehive. Also it cannot be edited!"></app-tooltip>
+        </div>
 
         <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" class="block">
             <mat-tab label="🇳🇴 NOR">
                 <div class="outline">
-                    <mat-form-field class="row">
-                        <input matInput formControlName="name_no" required>
-                        <mat-label>Name NOR</mat-label>
-                    </mat-form-field>
+                    <div class="row row-with-tooltip">
+                        <mat-form-field class="input-field">
+                            <input matInput formControlName="name_no" required>
+                            <mat-label>Name NOR</mat-label>
+                        </mat-form-field>
+                        <app-tooltip tip="Norwegian name of the organization."></app-tooltip>
+                    </div>
 
                     <app-markdown-textfield (newMdText)=onDescriptionNoChange($event) [placeholder]="'Description NOR'" class="row"></app-markdown-textfield>
                 </div>
@@ -22,10 +28,13 @@
             
             <mat-tab label="🇺🇸 ENG">
                 <div class="outline">
-                    <mat-form-field class="row">
-                        <input matInput formControlName="name_en" required>
-                        <mat-label>Name ENG</mat-label>
-                    </mat-form-field>
+                    <div class="row row-with-tooltip">
+                        <mat-form-field class="input-field">
+                            <input matInput formControlName="name_en" required>
+                            <mat-label>Name ENG</mat-label>
+                        </mat-form-field>
+                        <app-tooltip tip="If left blank, the norwegian name will be used on Beehive."></app-tooltip>
+                    </div>
 
                     <app-markdown-textfield (newMdText)=onDescriptionEnChange($event) [placeholder]="'Description ENG'" class="row"></app-markdown-textfield>
                 </div>
@@ -34,7 +43,11 @@
     </div>
   
     <div class="block">
-        <h2>Social Links</h2>
+        <div class="row-with-tooltip" style="align-items: center;">
+            <h2>Social Links</h2>
+            <app-tooltip style="padding: 1rem;" tip="Social links to the organizations platforms."></app-tooltip>
+        </div>
+        
         <mat-form-field class="row">
             <input matInput formControlName="link_homepage">
             <mat-label>Link Homepage</mat-label>
@@ -58,9 +71,19 @@
 
     <div class="block">
         <h2>Image Link</h2>
-        <app-image-selector 
-            [title]="'Organization Logo'"
-            (valEmitter)="onImageLogoChange($event)"
-      ></app-image-selector>
+        <button class="img-manager-btn" (click)="imageManager()" mat-raised-button color="primary">
+            <span class="material-symbols-sharp">upload</span>Organization Images 
+          </button>
+
+          <div class="row row-with-tooltip">
+            <app-image-selector 
+                class="input-field"
+                [title]="'Organization Logo'"
+                [value]="orgForm.get('logo')?.value"
+                [path]="'/organizations'"
+                (valEmitter)="onImageLogoChange($event)"
+            ></app-image-selector>
+            <app-tooltip tip="Select this organizations logo. Please upload if not present in th dropdown."></app-tooltip>
+        </div>
     </div>
   </form>

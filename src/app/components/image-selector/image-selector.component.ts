@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DoSpacesService } from 'src/app/services/do/do-spaces.service';
+import { DoSpacesService } from 'src/app/services/admin-api/do-spaces.service';
 import {FormBuilder, FormControl} from "@angular/forms";
 import {Observable, startWith} from "rxjs";
 import {map} from "rxjs/operators";
@@ -25,6 +25,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class ImageSelectorComponent {
   @Input() title: string = '';
   @Input() value!: string;
+  @Input() path!: string;
   @Output() valEmitter = new EventEmitter<{val: string}>();
 
   selectedImg = new FormControl('');
@@ -44,7 +45,7 @@ export class ImageSelectorComponent {
       map(value => this._filter(value || '')),
     );
 
-    this.doService.fetchImageList().subscribe(
+    this.doService.fetchImageList(this.path).subscribe(
       (array: DropDownFileItem[]) => {
         this.images = array;
       },
