@@ -40,3 +40,4 @@ Thumbs.db
 
 # Containing credentials, DO NOT REMOVE!! 
 src/app/config/env.ts
+.env
