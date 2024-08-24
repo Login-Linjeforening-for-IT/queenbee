@@ -1,9 +1,6 @@
-import { Component } from '@angular/core'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { Router } from '@angular/router'
-import { AuthService } from 'src/app/services/auth/auth.service'
-
-const api = 'https://ldap-api.login.no/auth'
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -11,46 +8,17 @@ const api = 'https://ldap-api.login.no/auth'
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-    loginForm!: FormGroup;
-    feedback: string = ''
+  feedback: string = '';
 
-    constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
-    ngOnInit() {
-        this.initForm();
-    }
+  ngOnInit() {
+    // Initiate SAML login redirect on component load or based on user action
+    this.redirectToSaml();
+  }
 
-    async login() {
-        const username = this.loginForm.get('username')?.value || 'empty'
-        const password = this.loginForm.get('password')?.value || 'empty'
-
-        const response = await fetch(api, {
-            method: "POST",
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({user: username, pass: password})
-        });
-
-        if (!response.ok) {
-            this.feedback = 'Login failed. Please check your credentials.';
-            console.log("Fetch failed")
-            return
-        }
-
-        const data = await response.json()
-        document.cookie = `token=${data.authorized}; path=/`;
-        this.feedback = 'Login failed. Please check your credentials.';
-        this.router.navigate(['dashboard'])
-    }
-
-    private initForm() {
-        this.loginForm = this.fb.group({
-            username: ['', Validators.required],
-            password: ['', Validators.required]
-        })
-
-        // Subscribe to value changes for a specific form control
-        // this.loginForm?.valueChanges.subscribe((value) => {
-        //     console.log('login form value changed:', value);
-        // });
-    }
+  // Function to redirect user to the SAML SSO endpoint
+  redirectToSaml() {
+    window.location.href = 'https://authentik.login.no/application/saml/queenbee/sso/binding/init/';
+  }
 }

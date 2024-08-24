@@ -1,26 +1,30 @@
 import { Injectable } from '@angular/core';
-import valid from 'src/app/pages/login/valid';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-    constructor() {}
+    constructor(private router: Router) {}
 
-    // Method to check authentication status
-    isAuthenticatedUser(): boolean {
-        const token = getCookie('token');
-        return valid(token)
+    handleAuthResponse() {
+        const token = this.getTokenFromUrl();
+        if (token) {
+            document.cookie = `token=${token}; path=/; Secure; HttpOnly; SameSite=Strict`;
+            this.router.navigate(['dashboard']);
+        } else {
+            this.router.navigate(['login']);
+        }
     }
-}
 
-function getCookie(name: string) {
-    const cookies = document.cookie.split(';');
-    for (let i = 0; i < cookies.length; i++) {
-      const cookie = cookies[i].trim();
-      if (cookie.startsWith(`${name}=`)) {
-        return cookie.substring(name.length + 1);
-      }
+    private getTokenFromUrl(): string | null {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('token'); 
     }
-    return null;
+
+    // Add method to check if the user is authenticated
+    isAuthenticated(): boolean {
+        // Logic to check if the user is authenticated
+        return document.cookie.includes('token=');
+    }
 }

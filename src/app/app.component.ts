@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from './services/auth/auth.service';
 
 @Component({
@@ -6,12 +6,13 @@ import { AuthService } from './services/auth/auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = 'queenbee';
-  
+export class AppComponent implements OnInit {
+  authenticated: boolean = false;
+
   constructor(private authService: AuthService) {}
 
-  get authenticated(): boolean {
-    return this.authService.isAuthenticatedUser();
+  ngOnInit() {
+    // Initialize the authenticated property using a method from AuthService
+    this.authenticated = this.authService.isAuthenticated();
   }
 }

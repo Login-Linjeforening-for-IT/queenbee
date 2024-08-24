@@ -9,7 +9,7 @@ export class authGuard {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(): boolean {
-    const isAuthenticated = this.authService.isAuthenticatedUser();
+    const isAuthenticated = this.authService.isAuthenticated();
 
     if (isAuthenticated) {
       return true; // Allow access if the user is authenticated
