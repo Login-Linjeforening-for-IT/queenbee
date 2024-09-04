@@ -1,8 +1,6 @@
-import { config } from 'dotenv'
+import { environment } from '../../../environment.prod';
 
-config()
-
-const { BASE_URL } = process.env
+const { BASE_URL } = environment
 
 if (!BASE_URL) {
     throw new Error('Missing BASE_URL environment variable.')

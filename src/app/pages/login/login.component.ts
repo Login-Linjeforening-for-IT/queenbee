@@ -1,11 +1,9 @@
 import { Component } from '@angular/core'
 import { Router } from '@angular/router'
 import { AuthService } from 'src/app/services/auth/auth.service'
-import { config } from 'dotenv'
+import { environment } from '../../../../environment.prod';
 
-config()
-
-const { SAML_URL } = process.env
+const { SAML_URL } = environment
 
 if ( !SAML_URL ) {
     throw new Error('Missing SAML_URL environment variable.')
