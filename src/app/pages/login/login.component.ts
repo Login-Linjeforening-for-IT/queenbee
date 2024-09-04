@@ -3,10 +3,10 @@ import { Router } from '@angular/router'
 import { AuthService } from 'src/app/services/auth/auth.service'
 import { environment } from '../../../../environment.prod';
 
-const { SAML_URL } = environment
+const { OAUTH_URL } = environment
 
-if ( !SAML_URL ) {
-    throw new Error('Missing SAML_URL environment variable.')
+if ( !OAUTH_URL ) {
+    throw new Error('Missing OAUTH_URL environment variable.')
 }
 
 @Component({
@@ -20,12 +20,12 @@ export class LoginComponent {
     constructor(private authService: AuthService, private router: Router) {}
 
     ngOnInit() {
-        // Initiate SAML login redirect on component load or based on user action
-        this.redirectToSaml();
+        // Initiate oauth login redirect on component load or based on user action
+        this.redirectToOauth();
     }
 
-    // Function to redirect user to the SAML SSO endpoint
-    redirectToSaml() {
-        window.location.href = SAML_URL || 'https://login.no/404';
+    // Function to redirect user to the OAUTH SSO endpoint
+    redirectToOauth() {
+        window.location.href = OAUTH_URL || 'https://login.no/404';
     }
 }
