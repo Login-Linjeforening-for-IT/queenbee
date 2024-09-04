@@ -1,6 +1,15 @@
-export const BeehiveAPI = {
-    BASE_URL: 'http://localhost:8080/api',
+import { config } from 'dotenv'
 
+config()
+
+const { BASE_URL } = process.env
+
+if (!BASE_URL) {
+    throw new Error('Missing BASE_URL environment variable.')
+}
+
+export const BeehiveAPI = {
+    BASE_URL: BASE_URL || 'http://localhost:8080/api',
     EVENTS_PATH: '/events/',
     JOBADS_PATH: '/jobs/',
     CATEGORIES_PATH: '/categories/',
@@ -11,7 +20,6 @@ export const BeehiveAPI = {
     SKILLS_PATH: 'skills',
     CITIES_PATH: 'cities',
     IMAGES_PATH: '/images',
-
     SECRET: 'secret', // Cosmic secret, quite strong password
     AUDIENCES_PATH_2: 'audiences',
 }
