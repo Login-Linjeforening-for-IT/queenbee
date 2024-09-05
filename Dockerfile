@@ -6,4 +6,4 @@ COPY . .
 RUN npm run build
 ENV PORT=4200
 EXPOSE $PORT
-CMD npm run prodn
+CMD npm run prod
