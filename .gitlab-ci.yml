@@ -3,11 +3,3 @@ include:
   project: tekkom/infrastructure/pipline-templates
   ref: main
   file: .container-build.gitlab-ci.yml
-
-build-job:
-  script:
-    - echo "running custom build script"
-    - npm cache clean --force
-    - rm -rf node_modules/.cache
-    - rm -rf .angular/cache
-    - npm run build --verbose --configuration production
