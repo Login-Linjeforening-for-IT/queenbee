@@ -4,7 +4,7 @@
   "scripts": {
     "start": "ng serve",
     "ng": "ng",
-    "build": "ng build",
+    "build": "ng build --verbose --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "prod": "http-server-spa dist/queenbee/ index.html 4200"
