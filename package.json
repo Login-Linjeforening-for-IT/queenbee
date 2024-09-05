@@ -1,6 +1,6 @@
 {
   "name": "queenbee",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "scripts": {
     "start": "ng serve",
     "ng": "ng",
