@@ -1,9 +1,8 @@
 import { Component } from '@angular/core'
 import { Router } from '@angular/router'
 import { AuthService } from 'src/app/services/auth/auth.service'
-import { environment } from '../../../../environment.prod';
 
-const { OAUTH_URL } = environment
+const OAUTH_URL = process.env['OAUTH_URL'] || 'https://login.no/404';
 
 if ( !OAUTH_URL ) {
     throw new Error('Missing OAUTH_URL environment variable.')
