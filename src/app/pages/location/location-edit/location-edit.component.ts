@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { convertFromRFC3339 } from 'src/app/utils/time';
-import { BeehiveAPI } from 'src/app/config/constants';
+import { BeehiveAPI } from '@env';
 import { ErrorComponent } from 'src/app/components/dialog/error/error.component';
 
 @Component({

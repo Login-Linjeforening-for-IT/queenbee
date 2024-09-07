@@ -4,7 +4,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {Observable, catchError, map, retry, mergeMap, forkJoin} from 'rxjs';
-import { BeehiveAPI } from 'src/app/config/constants';
+import { BeehiveAPI } from '@env';
 import { EventTableItem, EventShort, FullEvent, EventData } from 'src/app/models/dataInterfaces.model';
 import { convertFromRFC3339 } from 'src/app/utils/time';
 

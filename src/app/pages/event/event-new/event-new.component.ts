@@ -1,12 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorComponent } from 'src/app/components/dialog/error/error.component';
-import { EventData, FullEvent } from 'src/app/models/dataInterfaces.model';
+import { EventData } from 'src/app/models/dataInterfaces.model';
 import { EventService } from 'src/app/services/admin-api/event.service';
 import { EventFormComponent } from '../event-form/event-form.component';
 import { Router } from '@angular/router';
 import { SnackbarService } from 'src/app/services/snackbar.service';
-import { BeehiveAPI } from 'src/app/config/constants';
+import { BeehiveAPI } from '@env';
 
 @Component({
   selector: 'app-event-new',

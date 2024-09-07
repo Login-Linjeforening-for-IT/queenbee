@@ -6,7 +6,7 @@ import { convertFromRFC3339 } from 'src/app/utils/time';
 import { OrganizationService } from 'src/app/services/admin-api/organizations.service';
 import { OrgFormComponent } from '../org-form/org-form.component';
 import { Organization } from 'src/app/models/dataInterfaces.model';
-import { BeehiveAPI } from 'src/app/config/constants';
+import { BeehiveAPI } from '@env';
 import { ErrorComponent } from 'src/app/components/dialog/error/error.component';
 
 @Component({

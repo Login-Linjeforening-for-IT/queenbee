@@ -2,12 +2,18 @@
  * This is a base class containing common functionality for the DataSources of tables in the application. 
  * Simply extend it to inherit it's methods.
  */
-import {DataSource} from '@angular/cdk/collections';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-import {Observable, of as observableOf, merge, fromEvent, BehaviorSubject} from 'rxjs';
-import {ElementRef} from "@angular/core";
-import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
+import { DataSource } from '@angular/cdk/collections';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { ElementRef} from "@angular/core";
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { 
+    Observable, 
+    of as observableOf, 
+    merge, 
+    fromEvent, 
+    BehaviorSubject 
+} from 'rxjs';
 
 export abstract class BaseDataSource<T> extends DataSource<T> {
   data = new BehaviorSubject<T[]>([]);

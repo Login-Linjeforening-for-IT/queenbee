@@ -1,13 +1,12 @@
-import {Component, ViewChild} from '@angular/core';
-import {RuleFormComponent} from "../../rule/rule-form/rule-form.component";
-import {JobadDetail, Rule} from "../../../models/dataInterfaces.model";
-import {JobadFormComponent} from "../jobad-form/jobad-form.component";
-import {JobadService} from "../../../services/admin-api/jobad.service";
-import {MatDialog} from "@angular/material/dialog";
-import {Router} from "@angular/router";
-import {SnackbarService} from "../../../services/snackbar.service";
-import {BeehiveAPI} from "../../../config/constants";
-import {ErrorComponent} from "../../../components/dialog/error/error.component";
+import { Component, ViewChild } from '@angular/core';
+import { JobadDetail } from "../../../models/dataInterfaces.model";
+import { JobadFormComponent } from "../jobad-form/jobad-form.component";
+import { JobadService } from "../../../services/admin-api/jobad.service";
+import { MatDialog } from "@angular/material/dialog";
+import { Router } from "@angular/router";
+import { SnackbarService } from "../../../services/snackbar.service";
+import { BeehiveAPI } from '@env';
+import { ErrorComponent } from "../../../components/dialog/error/error.component";
 
 @Component({
   selector: 'app-jobad-new',

@@ -8,7 +8,7 @@ import { convertFromRFC3339 } from 'src/app/utils/time';
 import { EventFormComponent } from '../event-form/event-form.component';
 import { ErrorComponent } from 'src/app/components/dialog/error/error.component';
 import { SnackbarService } from 'src/app/services/snackbar.service';
-import { BeehiveAPI } from 'src/app/config/constants';
+import { BeehiveAPI } from '@env';
 
 @Component({
   selector: 'app-event-edit',

@@ -1,12 +1,16 @@
 /**
  * Service for handeling requests to the organization endpoint of Beehive API
  */
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { BeehiveAPI } from 'src/app/config/constants';
-import { OrgShort, OrgTableItem, Organization } from 'src/app/models/dataInterfaces.model';
+import { BeehiveAPI } from '@env';
 import { convertFromRFC3339 } from 'src/app/utils/time';
+import { 
+    OrgShort, 
+    OrgTableItem, 
+    Organization 
+} from 'src/app/models/dataInterfaces.model';
 
 @Injectable({
   providedIn: 'root'

@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Observable, map, startWith } from 'rxjs';
 import { NoDecimalValidator } from 'src/app/common/validators';
 import { AudienceSelectorComponent } from 'src/app/components/chip-selectors/audience-selector/audience-selector.component';
-import { TIME, TIME_TYPE } from 'src/app/config/constants';
+import { TIME, TIME_TYPE } from '@env';
 import { Category, FullEvent, DropDownItem, OrgTableItem, EventData } from 'src/app/models/dataInterfaces.model';
 import { AudienceService } from 'src/app/services/admin-api/audience.service';
 import { CategoryService } from 'src/app/services/admin-api/category.service';

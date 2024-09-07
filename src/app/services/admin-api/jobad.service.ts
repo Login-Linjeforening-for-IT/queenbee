@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, forkJoin, map, mergeMap, of, switchMap } from 'rxjs';
-import { BeehiveAPI } from 'src/app/config/constants';
+import { Observable, forkJoin, map, mergeMap, switchMap } from 'rxjs';
+import { BeehiveAPI } from '@env';
 import { JobadDetail, JobadShort, JobadTableItem } from 'src/app/models/dataInterfaces.model';
 import { convertFromRFC3339 } from 'src/app/utils/time';
 

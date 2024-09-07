@@ -5,7 +5,7 @@ import { OrganizationService } from 'src/app/services/admin-api/organizations.se
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { SnackbarService } from 'src/app/services/snackbar.service';
-import { BeehiveAPI } from 'src/app/config/constants';
+import { BeehiveAPI } from '@env';
 import { ErrorComponent } from 'src/app/components/dialog/error/error.component';
 
 @Component({

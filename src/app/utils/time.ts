@@ -1,4 +1,4 @@
-import { TIME } from "../config/constants";
+import { TIME } from '@env';
 
 /**
  * Converts a datetime string on the format 'YYYY-MM-DD HH:MM:ss' to the RFC3339 format.

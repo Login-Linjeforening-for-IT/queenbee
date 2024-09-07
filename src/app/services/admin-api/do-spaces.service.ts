@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ObjectCannedACL, PutObjectCommand, S3 } from "@aws-sdk/client-s3";
-import { Observable, catchError, from, map, of } from 'rxjs';
-import {DropDownFileItem} from "../../models/dataInterfaces.model";
-import { BeehiveAPI } from 'src/app/config/constants';
+import { Observable, catchError, map, of } from 'rxjs';
+import { DropDownFileItem } from "../../models/dataInterfaces.model";
+import { BeehiveAPI } from '@env';
 
 @Injectable({
   providedIn: 'root'

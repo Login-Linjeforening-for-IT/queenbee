@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Rule } from 'src/app/models/dataInterfaces.model';
 import { RuleFormComponent } from '../rule-form/rule-form.component';
-import { BeehiveAPI } from 'src/app/config/constants';
+import { BeehiveAPI } from '@env';
 import { ErrorComponent } from 'src/app/components/dialog/error/error.component';
 import { RulesService } from 'src/app/services/admin-api/rules.service';
 import { MatDialog } from '@angular/material/dialog';

@@ -1,8 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { BeehiveAPI } from 'src/app/config/constants';
-import { DropDownItem, Rule, RulesTableItem } from 'src/app/models/dataInterfaces.model';
+import { BeehiveAPI } from '@env';
+import { 
+    DropDownItem, 
+    Rule, 
+    RulesTableItem 
+} from 'src/app/models/dataInterfaces.model';
 
 @Injectable({
   providedIn: 'root'
