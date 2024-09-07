@@ -1,7 +1,3 @@
-export const environment = {
-    OAUTH_URL: '__OAUTH_URL_PLACEHOLDER__',
-}
-
 export const BeehiveAPI = {
     BASE_URL: '__BASE_URL_PLACEHOLDER__',
     EVENTS_PATH: '/events/',
@@ -37,5 +33,3 @@ export const JOB_TYPE = {
   SUMMER: 'summer',
   VERV: 'verv'
 } as const;
-
-export default environment

@@ -1,12 +1,12 @@
 import { Component } from '@angular/core'
 import { Router } from '@angular/router'
 import { AuthService } from 'src/app/services/auth/auth.service'
-import environment from '../../../../environment.prod'
+import { BeehiveAPI } from '@env'
 
-const { OAUTH_URL } = environment
+const { BASE_URL } = BeehiveAPI
 
-if ( !OAUTH_URL ) {
-    throw new Error('Missing OAUTH_URL environment variable.')
+if ( !BASE_URL ) {
+    throw new Error('Missing BASE_URL environment variable.')
 }
 
 @Component({
@@ -26,6 +26,6 @@ export class LoginComponent {
 
     // Function to redirect user to the OAUTH SSO endpoint
     redirectToOauth() {
-        window.location.href = OAUTH_URL || 'https://login.no/404';
+        window.location.href = `${BASE_URL}/oauth2/login`;
     }
 }
