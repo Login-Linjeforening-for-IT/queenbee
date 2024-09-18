@@ -8,51 +8,54 @@ import { BeehiveAPI } from '@env';
 import { Audience, AudienceChip } from 'src/app/models/dataInterfaces.model';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class AudienceService {
 
-  constructor(private http: HttpClient) { }
+constructor(private http: HttpClient) { }
 
-  /**
-   * Returns all audiences
-   * @returns Audience array
-   */
-  fetchAudiences(): Observable<AudienceChip[]> {
+/**
+ * Returns all audiences
+ * @returns Audience array
+ */
+fetchAudiences(): Observable<AudienceChip[]> {
     return this.http
-      .get<{ [id: number]: Audience }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.AUDIENCES_PATH}`)
-      .pipe(
+    .get<{ [id: number]: Audience }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.AUDIENCES_PATH}`)
+    .pipe(
         map(resData => {
-          const audienceArray: AudienceChip[] = [];
-          for (const id in resData) {
-            if (resData.hasOwnProperty(id)) {
-              const aud: AudienceChip = {id: resData[id].id, name: resData[id].name_en};
-              audienceArray.push(aud);
-            }
-          }
-          return audienceArray;
-        })
-      );
-  }
+            const audienceArray: AudienceChip[] = [];
 
-  /**
-   * Returns all audiences
-   * @returns Audience array
-   */
-  fetchAudiencesWithId(ids: number[]): Observable<AudienceChip[]> {
-    return this.http
-      .get<{ [id: number]: Audience }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.AUDIENCES_PATH}`)
-      .pipe(
-        map(resData => {
-          const audienceArray: AudienceChip[] = [];
-          for (const id in resData) {
-            if (resData.hasOwnProperty(id) && ids.includes(Number(id))) {
-              const aud: AudienceChip = {id: resData[id].id, name: resData[id].name_en};
-              audienceArray.push(aud);
+            for (const id in resData) {
+                if (resData.hasOwnProperty(id)) {
+                    const aud: AudienceChip = {id: resData[id].id, name: resData[id].name_en};
+                    audienceArray.push(aud);
+                }
             }
-          }
-          return audienceArray;
+
+            return audienceArray;
         })
-      );
-  }
+    )
+}
+
+/**
+ * Returns all audiences
+ * @returns Audience array
+ */
+fetchAudiencesWithId(ids: number[]): Observable<AudienceChip[]> {
+    return this.http
+    .get<{ [id: number]: Audience }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.AUDIENCES_PATH}`)
+    .pipe(
+        map(resData => {
+            const audienceArray: AudienceChip[] = [];
+            for (const id in resData) {
+                if (resData.hasOwnProperty(id) && ids.includes(Number(id))) {
+                    const aud: AudienceChip = {id: resData[id].id, name: resData[id].name_en};
+                    audienceArray.push(aud);
+                }
+            }
+
+            return audienceArray
+        })
+    )
+}
 }

@@ -1,27 +1,27 @@
 .grid-container {
-  display: grid;
-  grid-template-columns: 1fr 5fr 1fr;
-  grid-template-rows: 4rem 1fr;
-  grid-template-areas:
-    "topbar topbar topbar"
-    "sidebar main log";
-  height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 5fr 1fr;
+    grid-template-rows: 4rem 1fr;
+    grid-template-areas:
+        "topbar topbar topbar"
+        "sidebar main log";
+    height: 100%;
 }
 
 .topbar {
-  grid-area: topbar;
+    grid-area: topbar;
 }
 
 .sidebar {
-  grid-area: sidebar;
+    grid-area: sidebar;
 }
 
 .log {
-  grid-area: log;
+    grid-area: log;
 }
 
 .main {
-  grid-area: main;
-  padding: 0.5rem;
-  overflow-y: scroll;
+    grid-area: main;
+    padding: 0.5rem;
+    overflow-y: scroll;
 }

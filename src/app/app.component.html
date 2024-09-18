@@ -1,15 +1,15 @@
 <div class="grid-container" *ngIf="authenticated">
-  <app-topbar class="topbar"></app-topbar>
-  <aside class="sidebar">
-    <app-sidebar></app-sidebar>
-  </aside>
-  <main class="main">
+    <app-topbar class="topbar"></app-topbar>
+    <aside class="sidebar">
+        <app-sidebar></app-sidebar>
+    </aside>
+    <main class="main">
+        <router-outlet></router-outlet>
+    </main>
+    <aside class="log">
+        <!-- log -->
+    </aside>
+    </div>
+    <div *ngIf="!authenticated">
     <router-outlet></router-outlet>
-  </main>
-  <aside class="log">
-    <!-- log -->
-  </aside>
-</div>
-<div *ngIf="!authenticated">
-  <router-outlet></router-outlet>
 </div>

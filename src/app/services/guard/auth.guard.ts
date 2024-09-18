@@ -3,19 +3,20 @@ import { Injectable } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class authGuard {
-  constructor(private authService: AuthService, private router: Router) {}
+    constructor(private authService: AuthService, private router: Router) {}
 
-  canActivate(): boolean {
-    const isAuthenticated = this.authService.isAuthenticated();
+    canActivate(): boolean {
+        const isAuthenticated = this.authService.isAuthenticated()
 
-    if (isAuthenticated) {
-      return true; // Allow access if the user is authenticated
-    } else {
-      this.router.navigate(['/login']);
-      return false;
+        if (isAuthenticated) {
+            // Allow access if the user is authenticated
+            return true
+        } else {
+            this.router.navigate(['/login']);
+            return false
+        }
     }
-  }
 }

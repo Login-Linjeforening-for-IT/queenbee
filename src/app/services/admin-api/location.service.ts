@@ -6,156 +6,157 @@ import { Location, DropDownItem, LocationTableItem } from 'src/app/models/dataIn
 import { convertFromRFC3339 } from 'src/app/utils/time';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class LocationService {
 
-  constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) { }
 
-  /**
-   * The 'fetchLocation' function is used to fetch a location by a given ID.
-   * @param locID number, ID to fetch
-   * @returns Location
-   */
-  fetchLocation(locID: number): Observable<Location> {
-    return this.http
-      .get<Location>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}${locID}`)
-      .pipe(
-        map(loc => {
-          if (loc) {
-            return loc;
-          } else {
-            throw new Error('Location not found');
-          }
-        })
-      );
-  }
+    /**
+     * The 'fetchLocation' function is used to fetch a location by a given ID.
+     * @param locID number, ID to fetch
+     * @returns Location
+     */
+    fetchLocation(locID: number): Observable<Location> {
+        return this.http
+        .get<Location>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}${locID}`)
+        .pipe(
+            map(loc => {
+            if (loc) {
+                return loc;
+            } else {
+                throw new Error('Location not found');
+            }
+            })
+        );
+    }
 
-  /**
-   * The 'patchLoc' function is used to patch a location.
-   * @param loc Location to update to
-   * @returns Location
-   */
-  patchLoc(loc: Location) {
-    return this.http
-      .patch<Location>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}`, loc)
-      .pipe(
-        map(resData => {
-          if(resData) {
-            const newLoc: Location = resData;
-            return newLoc;
-          }
-          throw new Error('Failed to patch location')
-        })
-      )
-  }
+    /**
+     * The 'patchLoc' function is used to patch a location.
+     * @param loc Location to update to
+     * @returns Location
+     */
+    patchLoc(loc: Location) {
+        return this.http
+        .patch<Location>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}`, loc)
+        .pipe(
+            map(resData => {
+            if(resData) {
+                const newLoc: Location = resData;
+                return newLoc;
+            }
+            throw new Error('Failed to patch location')
+            })
+        )
+    }
 
-  /**
-   * Returns all locations
-   * @returns Location array
-   */
-  fetchLocations(type: string): Observable<LocationTableItem[]> {
-    return this.http
-      .get<{ [id: string]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}?type=${type}&limit=10000`)
-      .pipe(
-        map(resData => {
-          const locArray: LocationTableItem[] = [];
-          for (const shortname in resData) {
-            const locDefault: Location = resData[shortname]
+    /**
+     * Returns all locations
+     * @returns Location array
+     */
+    fetchLocations(type: string): Observable<LocationTableItem[]> {
+        return this.http
+        .get<{ [id: string]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}?type=${type}&limit=10000`)
+        .pipe(
+            map(resData => {
+            const locArray: LocationTableItem[] = [];
+            for (const shortname in resData) {
+                const locDefault: Location = resData[shortname]
+                
+                const loc: LocationTableItem = {
+                id: locDefault.id,
+                name: locDefault.name_en || locDefault.name_no, // Set name to name_en if it exists, else set to name_no
+                address_street: locDefault.address_street,
+                address_postcode: locDefault.address_postcode,
+                city_name: locDefault.city_name,
+                mazemap_campus_id: locDefault.mazemap_campus_id,
+                mazemap_poi_id: locDefault.mazemap_poi_id,
+                coordinate_lat: locDefault.coordinate_lat,
+                coordinate_long: locDefault.coordinate_long,
+                url: locDefault.url,
+                updated_at: convertFromRFC3339(locDefault.updated_at),
+                };
+
+                locArray.push(loc);
+            }
+            return locArray;
+            })
+        );
+    }
+
+    /**
+     * The function 'fetchDropDown' returns an array of Location objects tailored for dropdown menu.
+     * @returns Observable<DropDownItem[]>
+     */
+    fetchDropDown(): Observable<DropDownItem[]> {
+        return this.http
+        .get<{ [id: number]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}`)
+        .pipe(
+            map(resData => {
+            const locArray: DropDownItem[] = [];
             
-            const loc: LocationTableItem = {
-              id: locDefault.id,
-              name: locDefault.name_en || locDefault.name_no, // Set name to name_en if it exists, else set to name_no
-              address_street: locDefault.address_street,
-              address_postcode: locDefault.address_postcode,
-              city_name: locDefault.city_name,
-              mazemap_campus_id: locDefault.mazemap_campus_id,
-              mazemap_poi_id: locDefault.mazemap_poi_id,
-              coordinate_lat: locDefault.coordinate_lat,
-              coordinate_long: locDefault.coordinate_long,
-              url: locDefault.url,
-              updated_at: convertFromRFC3339(locDefault.updated_at),
+            for (const i in resData) {
+                const resObj: Location = resData[i]
+                
+                const loc: DropDownItem = {
+                id: resObj.id,
+                name: resObj.name_en || resObj.name_no, // Set name to name_en if it exists, else set to name_no
+                details: '',
+                }
+
+                switch (resObj.type) {
+                case 'address':
+                    loc.details = 'ADDRESS ' + resObj.address_street;
+                    break;
+                case 'mazemap':
+                    loc.details = 'MAZE ' + resObj.mazemap_poi_id.toString();
+                    break;
+                case 'coords':
+                    loc.details = 'COORDS ' + resObj.coordinate_lat.toFixed(4).toString() + ', ' + resObj.coordinate_long.toFixed(4).toString();
+                    break;
+                
+                default:
+                    loc.details = 'NONE';
+                    break;
+                }
+
+                locArray.push(loc);   
             };
-
-            locArray.push(loc);
-          }
-          return locArray;
-        })
-      );
-  }
-
-  /**
-   * The function 'fetchDropDown' returns an array of Location objects tailored for dropdown menu.
-   * @returns Observable<DropDownItem[]>
-   */
-  fetchDropDown(): Observable<DropDownItem[]> {
-    return this.http
-      .get<{ [id: number]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}`)
-      .pipe(
-        map(resData => {
-          const locArray: DropDownItem[] = [];
-          
-          for (const i in resData) {
-            const resObj: Location = resData[i]
             
-            const loc: DropDownItem = {
-              id: resObj.id,
-              name: resObj.name_en || resObj.name_no, // Set name to name_en if it exists, else set to name_no
-              details: '',
+            return locArray;
+            })
+        );
+    }
+
+    /**
+     * The 'createLocation' functions creates a new location.
+     * @param loc Location
+     */
+    createLocation(loc: Location): Observable<Location> {
+        return this.http
+        .post<Location>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}`, loc)
+        .pipe(
+            map(resData => {
+                if (resData) {
+                    const newLoc: Location = resData;
+                    return newLoc;
+                }
+
+                throw new Error('Failed to create event');
+            })
+        );
+    }
+
+    /**
+     * The 'deleteLoc' function deletes the location by the given id.
+     * @param id number
+     */
+    deleteLoc(id: number) {
+        this.http.delete<Location>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}${id}`)
+        .subscribe({
+            error: error => {
+                throw new Error('Failed to delete location', error)
             }
-
-            switch (resObj.type) {
-              case 'address':
-                loc.details = 'ADDRESS ' + resObj.address_street;
-                break;
-              case 'mazemap':
-                loc.details = 'MAZE ' + resObj.mazemap_poi_id.toString();
-                break;
-              case 'coords':
-                loc.details = 'COORDS ' + resObj.coordinate_lat.toFixed(4).toString() + ', ' + resObj.coordinate_long.toFixed(4).toString();
-                break;
-            
-              default:
-                loc.details = 'NONE';
-                break;
-            }
-
-            locArray.push(loc);   
-          };
-        
-          return locArray;
-        })
-      );
-  }
-
-  /**
-   * The 'createLocation' functions creates a new location.
-   * @param loc Location
-   */
-  createLocation(loc: Location): Observable<Location> {
-    return this.http
-      .post<Location>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}`, loc)
-      .pipe(
-        map(resData => {
-          if (resData) {
-            const newLoc: Location = resData;
-            return newLoc;
-          }
-          throw new Error('Failed to create event');
-        })
-      );
-  }
-
-  /**
-   * The 'deleteLoc' function deletes the location by the given id.
-   * @param id number
-   */
-  deleteLoc(id: number) {
-    this.http.delete<Location>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}${id}`)
-    .subscribe({
-      error: error => {
-        throw new Error('Failed to delete location', error)
-      }
-    });
-  }
+        });
+    }
 }

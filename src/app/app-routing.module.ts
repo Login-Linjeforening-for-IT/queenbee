@@ -24,33 +24,34 @@ import { LoginComponent } from "./pages/login/login.component";
 import { authGuard } from "./services/guard/auth.guard";
 
 const routes: Routes = [
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent, pathMatch: 'full' },
-  { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard]},
-  { path: 'events', component: EventsComponent, pathMatch: 'full', canActivate: [authGuard]},
-  { path: 'events/new', component: EventNewComponent, pathMatch: 'full', canActivate: [authGuard]},
-  { path: 'events/edit/:id', component: EventEditComponent, pathMatch: 'full', canActivate: [authGuard]},
-  { path: 'events/copy/:id', component: EventCopyComponent, pathMatch: 'full', canActivate: [authGuard]},
-  { path: 'jobs', component: JobadsComponent, pathMatch: 'full', canActivate: [authGuard]},
-  { path: 'jobs/new', component: JobadNewComponent, pathMatch: 'full', canActivate: [authGuard]},
-  { path: 'jobs/edit/:id', component: JobadEditComponent, pathMatch: 'full', canActivate: [authGuard]},
-  { path: 'jobs/copy/:id', component: JobadCopyComponent, pathMatch: 'full', canActivate: [authGuard]},
-  { path: 'organizations', component: OrganizationsComponent, canActivate: [authGuard]},
-  { path: 'organizations/new', component: OrgNewComponent, pathMatch: 'full', canActivate: [authGuard]},
-  { path: 'organizations/edit/:id', component: OrgEditComponent, pathMatch: 'full', canActivate: [authGuard]},
-  { path: 'locations', component: LocationsComponent, pathMatch: 'full', canActivate: [authGuard]},
-  { path: 'locations/new', component: LocationNewComponent, pathMatch: 'full', canActivate: [authGuard]},
-  { path: 'locations/edit/:id', component: LocationEditComponent, pathMatch: 'full', canActivate: [authGuard]},
-  { path: 'rules', component: RulesComponent, pathMatch: 'full', canActivate: [authGuard]},
-  { path: 'rules/new', component: RuleNewComponent, pathMatch: 'full', canActivate: [authGuard]},
-  { path: 'rules/edit/:id', component: RuleEditComponent, pathMatch: 'full', canActivate: [authGuard]},
-  { path: 'rules/copy/:id', component: RuleCopyComponent, pathMatch: 'full', canActivate: [authGuard]},
-  { path: '**', component: PageNotFoundComponent, canActivate: [authGuard]} // ** detects all other routes, IMPORTANT that its last
+    { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+    { path: 'login', component: LoginComponent, pathMatch: 'full' },
+    { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard]},
+    { path: 'events', component: EventsComponent, pathMatch: 'full', canActivate: [authGuard]},
+    { path: 'events/new', component: EventNewComponent, pathMatch: 'full', canActivate: [authGuard]},
+    { path: 'events/edit/:id', component: EventEditComponent, pathMatch: 'full', canActivate: [authGuard]},
+    { path: 'events/copy/:id', component: EventCopyComponent, pathMatch: 'full', canActivate: [authGuard]},
+    { path: 'jobs', component: JobadsComponent, pathMatch: 'full', canActivate: [authGuard]},
+    { path: 'jobs/new', component: JobadNewComponent, pathMatch: 'full', canActivate: [authGuard]},
+    { path: 'jobs/edit/:id', component: JobadEditComponent, pathMatch: 'full', canActivate: [authGuard]},
+    { path: 'jobs/copy/:id', component: JobadCopyComponent, pathMatch: 'full', canActivate: [authGuard]},
+    { path: 'organizations', component: OrganizationsComponent, canActivate: [authGuard]},
+    { path: 'organizations/new', component: OrgNewComponent, pathMatch: 'full', canActivate: [authGuard]},
+    { path: 'organizations/edit/:id', component: OrgEditComponent, pathMatch: 'full', canActivate: [authGuard]},
+    { path: 'locations', component: LocationsComponent, pathMatch: 'full', canActivate: [authGuard]},
+    { path: 'locations/new', component: LocationNewComponent, pathMatch: 'full', canActivate: [authGuard]},
+    { path: 'locations/edit/:id', component: LocationEditComponent, pathMatch: 'full', canActivate: [authGuard]},
+    { path: 'rules', component: RulesComponent, pathMatch: 'full', canActivate: [authGuard]},
+    { path: 'rules/new', component: RuleNewComponent, pathMatch: 'full', canActivate: [authGuard]},
+    { path: 'rules/edit/:id', component: RuleEditComponent, pathMatch: 'full', canActivate: [authGuard]},
+    { path: 'rules/copy/:id', component: RuleCopyComponent, pathMatch: 'full', canActivate: [authGuard]},
+    // ** detects all other routes, IMPORTANT that its last
+    { path: '**', component: PageNotFoundComponent, canActivate: [authGuard]}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
 })
 
 export class AppRoutingModule {}

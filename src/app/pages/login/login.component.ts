@@ -26,6 +26,6 @@ export class LoginComponent {
 
     // Function to redirect user to the OAUTH SSO endpoint
     redirectToOauth() {
-        window.location.href = `${BASE_URL}/oauth2/login`;
+        window.location.href = `${BASE_URL === '__BASE_URL_PLACEHOLDER__' ? 'https://queenbee-api-dev.login.no/v1' : BASE_URL}/oauth2/login`;
     }
 }
