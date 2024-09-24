@@ -1,59 +1,51 @@
 import { Injectable } from '@angular/core'
-import { Router } from '@angular/router'
+import { Router, ActivatedRoute } from '@angular/router'
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
-    constructor(private router: Router) {}
+    constructor(private router: Router, private route: ActivatedRoute) {}
 
-    // Handles the response from the Admin API
+    // Handles the response from the Admin API (now from the URL query params)
     handleAuthResponse() {
-        const accessToken = this.getCookie('access_token')
-        const refreshToken = this.getCookie('refresh_token')
-        const userId = this.getCookie('user_id')
-        const userName = this.getCookie('user_name')
-        const userRoles = this.getCookie('user_roles')
-    
+        const queryParams = this.route.snapshot.queryParams
+
+        const accessToken = queryParams['access_token']
+        const refreshToken = queryParams['refresh_token']
+        const userId = queryParams['user_id']
+        const userName = queryParams['user_name']
+        const userRoles = queryParams['user_roles']
+
         console.log(accessToken, refreshToken, userId, userName, userRoles)
-        if (accessToken && refreshToken && userId && userName && userRoles) {
-            // Stores all cookies securely
-            document.cookie = `access_token=${accessToken}; path=/; Secure; HttpOnly; SameSite=Strict`
-            document.cookie = `refresh_token=${refreshToken}; path=/; Secure; HttpOnly; SameSite=Strict`
-            document.cookie = `user_id=${userId}; path=/; Secure; HttpOnly; SameSite=Strict`
-            document.cookie = `user_name=${userName}; path=/; Secure; HttpOnly; SameSite=Strict`
-            document.cookie = `user_roles=${userRoles}; path=/; Secure; HttpOnly; SameSite=Strict`
         
-            // Redirects to dashboard
+        if (accessToken && refreshToken && userId && userName && userRoles) {
+            // Store items in sessionStorage
+            sessionStorage.setItem('access_token', accessToken)
+            sessionStorage.setItem('refresh_token', refreshToken)
+            sessionStorage.setItem('user_id', userId)
+            sessionStorage.setItem('user_name', userName)
+            sessionStorage.setItem('user_roles', userRoles)
+
+            // Redirect to dashboard after storing data
             this.router.navigate(['dashboard'])
         } else {
-            // Redirects to login if any cookie is missing
+            // Redirects to login if any query params are missing
             this.router.navigate(['login'])
         }
     }
 
-    // Add method to check if the user is authenticated
+    // Checks if the user is authenticated
     isAuthenticated(): boolean {
-        this.handleAuthResponse()
-        // Check if all required cookies are present
-        const accessToken = this.getCookie('access_token')
-        const refreshToken = this.getCookie('refresh_token')
-        const userId = this.getCookie('user_id')
-        const userName = this.getCookie('user_name')
-        const userRoles = this.getCookie('user_roles')
-        console.log("gubbe", accessToken, refreshToken, userId, userName, userRoles)
-    
+        // Checks sessionStorage for required tokens and data
+        const accessToken = sessionStorage.getItem('access_token')
+        const refreshToken = sessionStorage.getItem('refresh_token')
+        const userId = sessionStorage.getItem('user_id')
+        const userName = sessionStorage.getItem('user_name')
+        const userRoles = sessionStorage.getItem('user_roles')
+
+        console.log("Auth check:", accessToken, refreshToken, userId, userName, userRoles)
+
         return !!(accessToken && refreshToken && userId && userName && userRoles)
-    }
-
-    // Helper method to retrieve cookie by name
-    private getCookie(name: string): string | null {
-        const matches = document.cookie.match(new RegExp(
-            `(?:^|; )${name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1')}=([^;]*)`
-        ))
-
-        console.log(document.cookie)
-
-        return matches ? decodeURIComponent(matches[1]) : null
     }
 }
