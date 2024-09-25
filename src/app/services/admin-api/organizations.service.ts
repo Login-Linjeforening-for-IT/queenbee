@@ -1,7 +1,7 @@
 /**
  * Service for handeling requests to the organization endpoint of Beehive API
  */
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { BeehiveAPI } from '@env';
@@ -11,6 +11,7 @@ import {
     OrgTableItem, 
     Organization 
 } from 'src/app/models/dataInterfaces.model';
+import Auth from '../auth/auth';
 
 @Injectable({
     providedIn: 'root'
@@ -20,8 +21,11 @@ export class OrganizationService {
     constructor(private http: HttpClient) { }
 
     fetchOrg(shortname: string): Observable<Organization> {
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
+
         return this.http
-        .get<Organization>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.ORGANIZATIONS_PATH}${shortname}`)
+        .get<Organization>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.ORGANIZATIONS_PATH}${shortname}`, options)
         .pipe(
             map(org => {
             if (org) {
@@ -38,8 +42,11 @@ export class OrganizationService {
      * @returns Organization array
      */
     fetchOrganizations(): Observable<OrgTableItem[]> {
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
+
         return this.http
-        .get<{ [id: string]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.ORGANIZATIONS_PATH}?limit=100000`)
+        .get<{ [id: string]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.ORGANIZATIONS_PATH}?limit=100000`, options)
         .pipe(
             map(resData => {
             const orgArray: OrgTableItem[] = [];
@@ -49,7 +56,7 @@ export class OrganizationService {
                 if(orgShort && !orgShort.is_deleted) {
                 const org: OrgTableItem = {
                     id: orgShort.shortname,
-                    name: orgShort.name_en || orgShort.name_no, // Set name to name_en if it exists, else set to name_no
+                    name: orgShort.name_en || orgShort.name_no,
                     link_homepage: orgShort.link_homepage,
                     logo: orgShort.logo,
                     updated_at: convertFromRFC3339(orgShort.updated_at),
@@ -70,8 +77,11 @@ export class OrganizationService {
      * @returns 
      */
     createOrg(org: Organization): Observable<Organization> {
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
+
         return this.http
-        .post<Organization>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.ORGANIZATIONS_PATH}`, org)
+        .post<Organization>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.ORGANIZATIONS_PATH}`, org, options)
         .pipe(
             map(resData => {
             if (resData) {
@@ -84,8 +94,11 @@ export class OrganizationService {
     }
 
     patchOrg(org: Organization) {
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
+
         return this.http
-        .patch<Organization>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.ORGANIZATIONS_PATH}`, org)
+        .patch<Organization>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.ORGANIZATIONS_PATH}`, org, options)
         .pipe(
             map(resData => {
                 if(resData) {
@@ -99,7 +112,10 @@ export class OrganizationService {
     }
 
     deleteOrg(shortname: string) {
-        this.http.delete<Organization>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.ORGANIZATIONS_PATH}${shortname}`)
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
+
+        return this.http.delete<Organization>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.ORGANIZATIONS_PATH}${shortname}`, options)
         .subscribe({
             error: error => {
                 throw new Error('Failed to delete organization', error)

@@ -4,6 +4,7 @@ import { Observable, forkJoin, map, mergeMap, switchMap } from 'rxjs';
 import { BeehiveAPI } from '@env';
 import { JobadDetail, JobadShort, JobadTableItem } from 'src/app/models/dataInterfaces.model';
 import { convertFromRFC3339 } from 'src/app/utils/time';
+import Auth from '../auth/auth'
 
 @Injectable({
     providedIn: 'root'
@@ -18,8 +19,11 @@ export class JobadService {
      * @returns JobadDetail observable
      */
     fetchJobad(jobadID: number): Observable<JobadDetail> {
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
+
         return this.http
-        .get<JobadDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}${jobadID}`)
+        .get<JobadDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}${jobadID}`, options)
         .pipe(
             map(resData => {
                 if (resData) {
@@ -37,8 +41,11 @@ export class JobadService {
      * @returns EventShort array
      */
     fetchJobads(): Observable<JobadTableItem[]> {
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
+
         return this.http
-        .get<{ [id: string]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}?limit=100000`)
+        .get<{ [id: string]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}?limit=100000`, options)
         .pipe(
             map(resData => {
                 const jobArray: JobadTableItem[] = []
@@ -67,7 +74,7 @@ export class JobadService {
 
                 return jobArray
             })
-        );
+        )
     }
 
     /**
@@ -76,8 +83,11 @@ export class JobadService {
      * @returns JobadDetail, if successful POST
      */
     createJobad(ad: JobadDetail, skills: string[], cities: string[]) {
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
+
         return this.http
-        .post<JobadDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}`, ad)
+        .post<JobadDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}`, ad, options)
         .pipe(
             mergeMap((resData: JobadDetail) => {
                 if (resData) {
@@ -106,7 +116,10 @@ export class JobadService {
      * @param id number
      */
     deleteJobad(id: number) {
-        this.http.delete<JobadDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}${id}`)
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
+
+        return this.http.delete<JobadDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}${id}`, options)
         .subscribe({
         error: error => {
             throw new Error('Failed to delete job ad', error)
@@ -125,42 +138,46 @@ export class JobadService {
     }
 
     private createSkillRequest(jobAdId: number, skill: string): Observable<any> {
-        const enpointURL = `${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}${BeehiveAPI.SKILLS_PATH}`;
-        const requestBody = { id: jobAdId, skill: skill };
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
 
-        return this.http.post(enpointURL, requestBody);
+        const enpointURL = `${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}${BeehiveAPI.SKILLS_PATH}`;
+        const requestBody = { id: jobAdId, skill: skill }
+
+        return this.http.post(enpointURL, requestBody, options);
     }
 
     private createCityRequest(cityID: number, city: string): Observable<any> {
-        const enpointURL = `${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}${BeehiveAPI.CITIES_PATH}`;
-        const requestBody = { id: cityID, city: city };
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
 
-        return this.http.post(enpointURL, requestBody);
+        const enpointURL = `${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}${BeehiveAPI.CITIES_PATH}`;
+        const requestBody = { id: cityID, city: city }
+
+        return this.http.post(enpointURL, requestBody, options)
     }
 
     private deleteSkill(jobAdId: number, skill: string): Observable<any> {
+        const auth = Auth()
         const enpointURL = `${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}${BeehiveAPI.SKILLS_PATH}`;
         
         const options = {
-        headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-        }),
+        headers: new HttpHeaders(auth),
         body: {
             id: jobAdId,
             skill: skill,
         },
         };
 
-        return this.http.delete(enpointURL, options);
+        return this.http.delete(enpointURL, options)
     }
 
     private deleteCity(cityID: number, city: string): Observable<any> {
+        const auth = Auth()
         const enpointURL = `${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}${BeehiveAPI.CITIES_PATH}`;
 
         const options = {
-        headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-        }),
+        headers: new HttpHeaders(auth),
         body: {
             id: cityID,
             city: city,
@@ -176,7 +193,10 @@ export class JobadService {
      * @returns array of skills applied to an ad in DB
      */
     private getOldSkills(jobAdId: number): Observable<string[]> {
-        return this.http.get<JobadDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}${jobAdId}`)
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
+
+        return this.http.get<JobadDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}${jobAdId}`, options)
         .pipe(
             map((resData: JobadDetail) => {
             if (resData) {
@@ -193,13 +213,17 @@ export class JobadService {
      * @returns array of cities applied to an ad in DB
      */
     private getOldCities(cityID: number): Observable<string[]> {
-        return this.http.get<JobadDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}${cityID}`)
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
+
+        return this.http.get<JobadDetail>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.JOBADS_PATH}${cityID}`, options)
         .pipe(
             map((resData: JobadDetail) => {
-            if (resData) {
-                return resData.cities;
-            }
-            throw new Error('No event found with id ' + cityID);
+                if (resData) {
+                    return resData.cities;
+                }
+
+                throw new Error('No event found with id ' + cityID);
             })
         );
     }

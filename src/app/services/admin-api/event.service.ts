@@ -12,6 +12,7 @@ import {
     EventData 
 } from 'src/app/models/dataInterfaces.model'
 import { convertFromRFC3339 } from 'src/app/utils/time'
+import Auth from '../auth/auth';
 
 @Injectable({
     providedIn: 'root'
@@ -26,8 +27,11 @@ export class EventService {
      * @returns EventDetail observable
      */
     fetchEvent(eventId: number): Observable<FullEvent> {
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
+
         return this.http
-        .get<FullEvent>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}${eventId}`)
+        .get<FullEvent>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}${eventId}`, options)
         .pipe(
             map(resData => {
                 if (resData) {
@@ -43,8 +47,11 @@ export class EventService {
     }
 
     fetchEvents(): Observable<EventTableItem[]> {
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
+
         return this.http
-        .get<{ [id: string]: EventShort }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}?limit=1000`)
+        .get<{ [id: string]: EventShort }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}?limit=1000`, options)
         .pipe(
             map(resData => {
                 const eventsArray: EventTableItem[] = [];
@@ -91,17 +98,14 @@ export class EventService {
      * @returns observable
      */
     createEvent(event: EventData) {
-        const httpOptions = {
-        headers: new HttpHeaders({
-            'Content-Type':  'application/json'
-        })
-        };
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
 
         console.log("Creating: ", event)
         console.log("Audience: ", event.audience)
 
         return this.http
-        .post<EventData>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`, event, httpOptions)
+        .post<EventData>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`, event, options)
         .pipe(
             mergeMap(resData => {
             if (resData) {
@@ -124,14 +128,11 @@ export class EventService {
      * @returns observable
      */
     patchEvent(event: EventData) {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type':  'application/json'
-            })
-        };
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
 
         return this.http
-            .patch<EventData>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`, event, httpOptions)
+            .patch<EventData>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}`, event, options)
             .pipe(
                 map(resData => {
                     if (resData) {
@@ -149,7 +150,10 @@ export class EventService {
      * @param id number
      */
     deleteEvent(id: number) {
-        this.http.delete<FullEvent>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}${id}`)
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
+
+        return this.http.delete<FullEvent>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}${id}`, options)
         .subscribe({
             error: error => {
                 throw new Error('Failed to delete event', error)
@@ -158,16 +162,22 @@ export class EventService {
     }
 
     private createOrganization(eventId: number, orgId: string) {
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
+
         const endpointURL = `${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}${BeehiveAPI.SKILLS_PATH}`;
         const reqBody = {event: eventId, organization: orgId};
 
-        return this.http.post(endpointURL, reqBody);
+        return this.http.post(endpointURL, reqBody, options);
     }
 
     private createAudience(eventId: number, audienceId: number) {
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
+
         const endpointURL = `${BeehiveAPI.BASE_URL}${BeehiveAPI.EVENTS_PATH}${BeehiveAPI.AUDIENCES_PATH_2}`;
         const reqBody = {event: eventId, audience: audienceId};
 
-        return this.http.post(endpointURL, reqBody);
+        return this.http.post(endpointURL, reqBody, options);
     }
 }

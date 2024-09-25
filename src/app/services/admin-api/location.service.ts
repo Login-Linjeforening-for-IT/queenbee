@@ -1,9 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { BeehiveAPI } from '@env';
 import { Location, DropDownItem, LocationTableItem } from 'src/app/models/dataInterfaces.model';
 import { convertFromRFC3339 } from 'src/app/utils/time';
+import Auth from '../auth/auth';
 
 @Injectable({
     providedIn: 'root'
@@ -18,15 +19,18 @@ export class LocationService {
      * @returns Location
      */
     fetchLocation(locID: number): Observable<Location> {
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
+
         return this.http
-        .get<Location>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}${locID}`)
+        .get<Location>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}${locID}`, options)
         .pipe(
             map(loc => {
-            if (loc) {
-                return loc;
-            } else {
-                throw new Error('Location not found');
-            }
+                if (loc) {
+                    return loc
+                } else {
+                    throw new Error('Location not found')
+                }
             })
         );
     }
@@ -37,15 +41,19 @@ export class LocationService {
      * @returns Location
      */
     patchLoc(loc: Location) {
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
+
         return this.http
-        .patch<Location>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}`, loc)
+        .patch<Location>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}`, loc, options)
         .pipe(
             map(resData => {
-            if(resData) {
-                const newLoc: Location = resData;
-                return newLoc;
-            }
-            throw new Error('Failed to patch location')
+                if(resData) {
+                    const newLoc: Location = resData
+                    return newLoc
+                }
+
+                throw new Error('Failed to patch location')
             })
         )
     }
@@ -55,8 +63,11 @@ export class LocationService {
      * @returns Location array
      */
     fetchLocations(type: string): Observable<LocationTableItem[]> {
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
+
         return this.http
-        .get<{ [id: string]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}?type=${type}&limit=10000`)
+        .get<{ [id: string]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}?type=${type}&limit=10000`, options)
         .pipe(
             map(resData => {
             const locArray: LocationTableItem[] = [];
@@ -65,7 +76,7 @@ export class LocationService {
                 
                 const loc: LocationTableItem = {
                 id: locDefault.id,
-                name: locDefault.name_en || locDefault.name_no, // Set name to name_en if it exists, else set to name_no
+                name: locDefault.name_en || locDefault.name_no,
                 address_street: locDefault.address_street,
                 address_postcode: locDefault.address_postcode,
                 city_name: locDefault.city_name,
@@ -89,8 +100,11 @@ export class LocationService {
      * @returns Observable<DropDownItem[]>
      */
     fetchDropDown(): Observable<DropDownItem[]> {
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
+
         return this.http
-        .get<{ [id: number]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}`)
+        .get<{ [id: number]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}`, options)
         .pipe(
             map(resData => {
             const locArray: DropDownItem[] = [];
@@ -100,7 +114,7 @@ export class LocationService {
                 
                 const loc: DropDownItem = {
                 id: resObj.id,
-                name: resObj.name_en || resObj.name_no, // Set name to name_en if it exists, else set to name_no
+                name: resObj.name_en || resObj.name_no,
                 details: '',
                 }
 
@@ -133,8 +147,11 @@ export class LocationService {
      * @param loc Location
      */
     createLocation(loc: Location): Observable<Location> {
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
+
         return this.http
-        .post<Location>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}`, loc)
+        .post<Location>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}`, loc, options)
         .pipe(
             map(resData => {
                 if (resData) {
@@ -152,7 +169,10 @@ export class LocationService {
      * @param id number
      */
     deleteLoc(id: number) {
-        this.http.delete<Location>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}${id}`)
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
+
+        return this.http.delete<Location>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.LOCATIONS_PATH}${id}`, options)
         .subscribe({
             error: error => {
                 throw new Error('Failed to delete location', error)

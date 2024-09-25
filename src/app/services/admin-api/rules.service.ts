@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { BeehiveAPI } from '@env';
@@ -7,6 +7,7 @@ import {
     Rule, 
     RulesTableItem 
 } from 'src/app/models/dataInterfaces.model';
+import Auth from '../auth/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +26,11 @@ export class RulesService {
      * @returns Rule
      */
     fetchRule(ruleID: number): Observable<Rule> {
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
+
         return this.http
-            .get<Rule>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.RULES_PATH}${ruleID}`)
+            .get<Rule>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.RULES_PATH}${ruleID}`, options)
             .pipe(
                 map(rule => {
                     if (rule) {
@@ -43,8 +47,11 @@ export class RulesService {
      * @returns array of RulesTableItem
      */
     fetchRules(): Observable<RulesTableItem[]> {
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
+
         return this.http
-            .get<{ [id: string]: RulesTableItem }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.RULES_PATH}?limit=100000`)
+            .get<{ [id: string]: RulesTableItem }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.RULES_PATH}?limit=100000`, options)
             .pipe(
                 map(resData => {
                     if (resData) {
@@ -71,8 +78,11 @@ export class RulesService {
      * @returns Observable<DropDownItem[]>
      */
     fetchDropDown(): Observable<DropDownItem[]> {
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
+
         return this.http
-            .get<{ [id: number]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.RULES_PATH}`)
+            .get<{ [id: number]: any }>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.RULES_PATH}`, options)
             .pipe(
                 map(resData => {
                     const ruleArray: DropDownItem[] = []
@@ -104,8 +114,11 @@ export class RulesService {
      * @returns Rule, if successful POST
      */
     createRule(rule: Rule) {
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
+
         return this.http
-        .post<Rule>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.RULES_PATH}`, rule)
+        .post<Rule>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.RULES_PATH}`, rule, options)
         .pipe(
             map(resData => {
                 if(resData) {
@@ -124,8 +137,11 @@ export class RulesService {
      * @returns Rule
      */
     patchRule(rule: Rule) {
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
+
         return this.http
-            .patch<Rule>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.RULES_PATH}`, rule)
+            .patch<Rule>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.RULES_PATH}`, rule, options)
             .pipe(
                 map(resData => {
                     if(resData) {
@@ -139,8 +155,11 @@ export class RulesService {
     }
 
     deleteRule(ruleID: number) {
+        const auth = Auth()
+        const options = { headers: new HttpHeaders(auth) }
+
         return this.http
-            .delete<Rule>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.RULES_PATH}${ruleID}`)
+            .delete<Rule>(`${BeehiveAPI.BASE_URL}${BeehiveAPI.RULES_PATH}${ruleID}`, options)
             .subscribe({
                 error: error => {
                     throw new Error('Failed to delete rule', error)
