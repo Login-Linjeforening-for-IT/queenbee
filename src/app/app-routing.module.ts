@@ -1,19 +1,19 @@
-import {NgModule} from "@angular/core";
-import {RouterModule, Routes} from "@angular/router";
-import {DashboardComponent} from "./pages/dashboard/dashboard.component";
-import {EventsComponent} from "./pages/events/events.component";
-import {JobadsComponent} from "./pages/jobads/jobads.component";
-import {OrganizationsComponent} from "./pages/organizations/organizations.component";
-import {LocationsComponent} from "./pages/locations/locations.component";
-import {RulesComponent} from "./pages/rules/rules.component";
-import {PageNotFoundComponent} from "./pages/page-not-found/page-not-found.component";
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { DashboardComponent } from "./pages/dashboard/dashboard.component";
+import { EventsComponent } from "./pages/events/events.component";
+import { JobadsComponent } from "./pages/jobads/jobads.component";
+import { OrganizationsComponent } from "./pages/organizations/organizations.component";
+import { LocationsComponent } from "./pages/locations/locations.component";
+import { RulesComponent } from "./pages/rules/rules.component";
+import { PageNotFoundComponent } from "./pages/page-not-found/page-not-found.component";
 import { EventNewComponent } from "./pages/event/event-new/event-new.component";
 import { EventEditComponent } from "./pages/event/event-edit/event-edit.component";
 import { JobadNewComponent } from "./pages/jobad/jobad-new/jobad-new.component";
 import { JobadEditComponent } from "./pages/jobad/jobad-edit/jobad-edit.component";
 import { EventCopyComponent } from "./pages/event/event-copy/event-copy.component";
 import { JobadCopyComponent } from "./pages/jobad/jobad-copy/jobad-copy.component";
-import {LocationNewComponent} from "./pages/location/location-new/location-new.component";
+import {LocationNewComponent } from "./pages/location/location-new/location-new.component";
 import { RuleNewComponent} from "./pages/rule/rule-new/rule-new.component";
 import { RuleCopyComponent } from "./pages/rule/rule-copy/rule-copy.component";
 import { RuleEditComponent } from "./pages/rule/rule-edit/rule-edit.component";
@@ -21,11 +21,13 @@ import { OrgNewComponent } from "./pages/organization/org-new/org-new.component"
 import { OrgEditComponent } from "./pages/organization/org-edit/org-edit.component";
 import { LocationEditComponent } from "./pages/location/location-edit/location-edit.component";
 import { LoginComponent } from "./pages/login/login.component";
+import { LogoutComponent } from "./pages/logout/logout.component";
 import { authGuard } from "./services/guard/auth.guard";
 
 const routes: Routes = [
     { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
     { path: 'login', component: LoginComponent, pathMatch: 'full' },
+    { path: 'logout', component: LogoutComponent, pathMatch: 'full' },
     { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard]},
     { path: 'events', component: EventsComponent, pathMatch: 'full', canActivate: [authGuard]},
     { path: 'events/new', component: EventNewComponent, pathMatch: 'full', canActivate: [authGuard]},

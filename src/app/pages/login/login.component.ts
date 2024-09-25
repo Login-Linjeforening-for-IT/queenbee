@@ -21,11 +21,14 @@ export class LoginComponent {
 
     ngOnInit() {
         // Initiate oauth login redirect on component load or based on user action
-        this.redirectToOauth();
+        this.redirectToOauth()
     }
 
     // Function to redirect user to the OAUTH SSO endpoint
     redirectToOauth() {
-        window.location.href = `${BASE_URL === '__BASE_URL_PLACEHOLDER__' ? 'https://queenbee-api-dev.login.no/v1' : BASE_URL}/oauth2/login`;
+        const recentLogout = sessionStorage.getItem('logout')
+        if (!this.authService.isAuthenticated() && !recentLogout) {
+            window.location.href = `${BASE_URL === '__BASE_URL_PLACEHOLDER__' ? 'https://queenbee-api-dev.login.no/v1' : BASE_URL}/oauth2/login`
+        }
     }
 }

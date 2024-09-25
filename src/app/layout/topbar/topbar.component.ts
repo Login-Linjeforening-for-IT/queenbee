@@ -6,9 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./topbar.component.css']
 })
 export class TopbarComponent {
-  constructor() {}
+    constructor() {}
 
-  logout() {
-    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-  }
+    logout() {
+        sessionStorage.clear()
+        sessionStorage.setItem('logout', 'true')
+        location.href = '/logout'
+    }
 }
