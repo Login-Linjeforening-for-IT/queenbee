@@ -46,6 +46,10 @@
   grid-area: timePublish;
 }
 
+#timeExpire {
+  grid-area: timeExpire;
+}
+
 .signup-grid {
   display: grid;
   grid-template: repeat(2, min-content) / repeat(2, 1fr);

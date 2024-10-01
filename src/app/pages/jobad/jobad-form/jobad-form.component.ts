@@ -86,6 +86,10 @@ export class JobadFormComponent {
   onPublishChange(newVal: {dt: string} | null) {
     newVal && this.jobAdForm.get('time_publish')?.setValue(convertToRFC3339(newVal.dt));
   }
+  
+  onExpireChange(newVal: {dt: string} | null) {
+    newVal && this.jobAdForm.get('time_expire')?.setValue(convertToRFC3339(newVal.dt));
+  }
 
   onDeadlineChange(newVal: {dt: string} | null) {
     newVal && this.jobAdForm.get('application_deadline')?.setValue(convertToRFC3339(newVal.dt));

@@ -33,6 +33,7 @@ export class DataTableJobadsComponent implements AfterViewInit {
     'position_title',
     'job_type',
     'time_publish',
+    'time_expire',
     'application_deadline',
     'application_url',
     'visible',

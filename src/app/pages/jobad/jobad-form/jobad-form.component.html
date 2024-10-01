@@ -129,7 +129,24 @@
           </app-datetime>
           <app-tooltip tip="Leave empty to publish the ad right away. If filled in the ad will be published at the specified date and time."></app-tooltip>
         </div>
-    
+
+        <div class="row row-with-tooltip" id="timeExpire">
+            <app-datetime 
+            class="input-field"
+            (newDatetime)=onExpireChange($event)
+            [value]="jobAdForm.get('time_expire')?.value" 
+            [dateLabel]="'Expire Date'" 
+            [timeLabel]="'Expire Time'"
+            [isDateRequired]="true"
+              [isTimeRequired]="true"
+            [prefillWithTimeNow]="true">
+          </app-datetime>
+          <mat-error *ngIf="jobAdForm.get('time_expire')?.hasError('required')">
+            Expire Date and Time is required.
+          </mat-error>
+          <app-tooltip tip="This is the time the job ad will be removed."></app-tooltip>
+        </div>
+
         <div class="row row-with-tooltip" id="skillSelector">
           <app-input-selector
             class="input-field"
@@ -174,7 +191,7 @@
         </div>
         
         <div class="row row-with-tooltip">
-          <app-datetime 
+          <app-datetime
             class="input-field"
             (newDatetime)=onDeadlineChange($event) 
             [minDate]="jobAdForm.get('time_publish')?.value"
