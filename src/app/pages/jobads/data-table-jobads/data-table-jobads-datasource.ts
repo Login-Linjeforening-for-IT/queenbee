@@ -42,6 +42,7 @@ export class DataTableJobadsDataSource extends BaseDataSource<JobadTableItem> {
         case 'position_title': return compare(a.position_title, b.position_title, isAsc);
         case 'job_type': return compare(a.job_type, b.job_type, isAsc);
         case 'time_publish': return compare(a.time_publish, b.time_publish, isAsc);
+        case 'time_expire': return compare(a.time_expire, b.time_expire, isAsc);
         case 'application_deadline': return compare(a.application_deadline, b.application_deadline, isAsc);
         case 'application_url': return compare(a.application_url, b.application_url, isAsc);
         case 'updated_at': return compare(a.updated_at, b.updated_at, isAsc);

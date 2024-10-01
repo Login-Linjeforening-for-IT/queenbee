@@ -56,6 +56,12 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Publish Time</th>
       <td mat-cell *matCellDef="let row">{{row.time_publish}}</td>
     </ng-container>
+    
+    <!-- Time Expire Column -->
+    <ng-container matColumnDef="time_expire">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Expire Time</th>
+      <td mat-cell *matCellDef="let row">{{row.time_expire}}</td>
+    </ng-container>
 
     <!-- Application Deadline Column -->
     <ng-container matColumnDef="application_deadline">

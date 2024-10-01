@@ -59,6 +59,7 @@ export class JobadService {
                             position_title: jobShort.position_title_en || jobShort.position_title_no,
                             job_type: jobShort.job_type,
                             time_publish: convertFromRFC3339(jobShort.time_publish),
+                            time_expire: convertFromRFC3339(jobShort.time_expire),
                             application_deadline: convertFromRFC3339(jobShort.application_deadline),
                             application_url: jobShort.application_url,
                             updated_at: convertFromRFC3339(jobShort.updated_at),

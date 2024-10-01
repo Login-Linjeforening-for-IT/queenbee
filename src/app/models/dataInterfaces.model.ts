@@ -165,6 +165,7 @@ export interface JobadDetail {
   description_long_en: string,
   organization: string,
   time_publish: string,
+  time_expire: string,
   application_deadline: string,
   updated_at: string,
   application_url: string,
@@ -184,6 +185,7 @@ export interface JobadShort {
   position_title_en: string;
   job_type: string;
   time_publish: string;
+  time_expire: string;
   application_deadline: string;
   application_url: string;
   updated_at: string;
@@ -200,6 +202,7 @@ export interface JobadTableItem {
   position_title: string;
   job_type: string;
   time_publish: string;
+  time_expire: string;
   application_deadline: string;
   application_url: string;
   updated_at: string;
