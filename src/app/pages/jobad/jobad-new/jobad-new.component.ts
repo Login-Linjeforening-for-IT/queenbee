@@ -9,44 +9,43 @@ import { BeehiveAPI } from '@env';
 import { ErrorComponent } from "../../../components/dialog/error/error.component";
 
 @Component({
-  selector: 'app-jobad-new',
-  templateUrl: './jobad-new.component.html'
+    selector: 'app-jobad-new',
+    templateUrl: './jobad-new.component.html'
 })
 export class JobadNewComponent {
-  @ViewChild(JobadFormComponent) jobadFormComponent!: JobadFormComponent;
-  jobadFormValues!: JobadDetail;
+    @ViewChild(JobadFormComponent) jobadFormComponent!: JobadFormComponent;
+    jobadFormValues!: JobadDetail;
 
-  constructor(
-    private jobadService: JobadService,
-    private dialog: MatDialog,
-    private router: Router,
-    private snackbarService: SnackbarService
-  ) {}
+    constructor(
+        private jobadService: JobadService,
+        private dialog: MatDialog,
+        private router: Router,
+        private snackbarService: SnackbarService
+    ) {}
 
-  submitAd() {
-    const formValues = this.jobadFormComponent.getFormValues();
-    const skills = this.jobadFormComponent.getSkills();
-    const cities = this.jobadFormComponent.getCities();
+    submitAd() {
+        const formValues = this.jobadFormComponent.getFormValues();
+        const skills = this.jobadFormComponent.getSkills();
+        const cities = this.jobadFormComponent.getCities();
 
-    this.jobadService.createJobad(formValues, skills, cities).subscribe({
-      next: () => {
-        this.router.navigate([BeehiveAPI.JOBADS_PATH]).then((navigated: boolean) => {
-          if(navigated) {
-            this.snackbarService.openSnackbar("Successfully created jobad", "OK", 2.5)
-          }
+        this.jobadService.createJobad(formValues, skills, cities).subscribe({
+            next: () => {
+                this.router.navigate([BeehiveAPI.JOBADS_PATH]).then((navigated: boolean) => {
+                    if(navigated) {
+                        this.snackbarService.openSnackbar("Successfully created jobad", "OK", 2.5)
+                    }
+                });
+            },
+            error: (error) => {
+                console.log("Erroring")
+                this.dialog.open(ErrorComponent, {
+                    data: {
+                        title: "Error: " + error.status + " " + error.statusText,
+                        details: error.error.error,
+                        autoFocus: false
+                    },
+                });
+            }
         });
-      },
-      error: (error) => {
-        console.log("Erroring")
-        this.dialog.open(ErrorComponent, {
-          data: {
-            title: "Error: " + error.status + " " + error.statusText,
-            details: error.error.error,
-            autoFocus: false
-          },
-        });
-
-      }
-    });
-  }
+    }
 }
