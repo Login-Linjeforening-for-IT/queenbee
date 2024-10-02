@@ -2,7 +2,7 @@
   "name": "queenbee",
   "version": "1.2.0",
   "scripts": {
-    "start": "ng serve",
+    "start": "./serve.sh",
     "ng": "ng",
     "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
