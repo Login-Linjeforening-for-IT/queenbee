@@ -24,7 +24,6 @@ import {
     Database,
     Logs,
     Scale,
-    Server,
     TriangleAlert,
     Waypoints,
     ShieldAlert,
@@ -33,9 +32,8 @@ import {
 } from 'lucide-react'
 import { hexagons7 } from '@lucide/lab'
 import { getCookie, setCookie } from 'utilbee/utils'
-import { PulseDot, Sidebar as SidebarLayout, type SidebarItem } from 'uibee/components'
+import { Sidebar as SidebarLayout, type SidebarItem } from 'uibee/components'
 import SidebarVersion from './sidebarVersion'
-import getDocker from '@utils/api/internal/system/getDocker'
 import config from '@config'
 
 function Hexagons7(props: LucideProps) {
@@ -101,27 +99,13 @@ export default function Sidebar({ mobile, initialExpanded = true, initialHasToke
     const [groups, setGroups] = useState<string | undefined>(undefined)
     const pathname = usePathname()
     const section = getSection(pathname)
-    const isInternal = section === 'internal'
     const lowerGroups = (groups ?? '').toLowerCase()
     const hasTekkom = lowerGroups.includes('tekkom')
     const canManageOrg = lowerGroups.includes('styret') || lowerGroups.includes('authentik admins')
 
-    const [docker, setDocker] = useState<Docker | null>(null)
-
     useEffect(() => {
         setGroups(getCookie('user_groups') || undefined)
-        getDocker().then(d => { if (d) setDocker(d) })
-
-        if (isInternal) {
-            const interval = setInterval(async () => {
-                const updatedDocker = await getDocker()
-                if (updatedDocker) {
-                    setDocker(updatedDocker)
-                }
-            }, 30000)
-            return () => clearInterval(interval)
-        }
-    }, [isInternal])
+    }, [])
 
     if (!hasToken) {
         return null
@@ -224,14 +208,6 @@ export default function Sidebar({ mobile, initialExpanded = true, initialHasToke
                 { name: 'Services', path: '/internal/monitoring' },
                 { name: 'Notifications', path: '/internal/monitoring/notifications' },
             ]
-        },
-        {
-            name: 'Services',
-            path: '/internal/services',
-            icon: Server,
-            status: <PulseDot variant={
-                docker?.status === 'available' ? 'online' : docker?.status === 'unavailable' ? 'offline' : 'unknown'
-            } />
         },
         {
             name: 'Traffic',

@@ -18,7 +18,7 @@
 
 ---
 
-QueenBee is the admin interface for [Login](https://login.no). It gives the organization a single place to manage Beehive content such as events, jobs, and announcements, while also providing internal tooling for monitoring infrastructure, inspecting traffic, and managing services.
+QueenBee is the admin interface for [Login](https://login.no). It gives the organization a single place to manage Beehive content such as events, jobs, and announcements, while also providing internal tooling for monitoring infrastructure and inspecting traffic.
 
 The application connects to several internal APIs including Workerbee, Beekeeper, TekKom-Bot, and the Internal API, and uses Authentik for authentication.
 
