@@ -1,6 +1,6 @@
 'use client'
 
-import { Boxes, Cpu, HardDrive, MemoryStick, Server, Thermometer, Zap, Star } from 'lucide-react'
+import { Boxes, Cpu, HardDrive, MemoryStick, Server, Thermometer, Zap } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Card, IconBubble, StatCard } from 'uibee/components'
 import getInternalDashboard from '@utils/api/beekeeper/dashboard/get'
@@ -23,7 +23,6 @@ const refreshOptions = [
 export default function SystemStats({ initialDashboard }: SystemStatsProps) {
     const [metrics, setMetrics] = useState(initialDashboard.runtime.metrics)
     const [docker, setDocker] = useState(initialDashboard.runtime.docker)
-    const [information, setInformation] = useState(initialDashboard.information)
     const [autoRefresh, setAutoRefresh] = useState(10000)
 
     const usedMemory = metrics?.system?.memory?.used ? (metrics.system.memory.used / 1073741824).toFixed(2) : '0.00'
@@ -39,7 +38,6 @@ export default function SystemStats({ initialDashboard }: SystemStatsProps) {
             const updatedDashboard = await getInternalDashboard()
             setMetrics(updatedDashboard.runtime.metrics)
             setDocker(updatedDashboard.runtime.docker)
-            setInformation(updatedDashboard.information)
         }, autoRefresh)
 
         return () => clearInterval(intervalId)
@@ -73,29 +71,6 @@ export default function SystemStats({ initialDashboard }: SystemStatsProps) {
             </div>
 
             <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5'>
-                <a href='/internal/loadbalancing'>
-                    <Card className='p-4'>
-                        <div className='flex items-center gap-3 mb-3'>
-                            <IconBubble icon={Star} tone='emerald' />
-                            <span className='text-sm font-medium text-login-200'>Primary Site</span>
-                        </div>
-                        <div className='flex gap-2 flex-col font-mono text-sm'>
-                            <div className='flex justify-between items-center text-xs text-login-200'>
-                                <span>ID</span>
-                                <span className='font-semibold text-login-100'>{information.primarySite.id}</span>
-                            </div>
-                            <div className='flex justify-between items-center text-xs text-login-200'>
-                                <span>IP</span>
-                                <span className='font-semibold text-login-100'>{information.primarySite.ip}</span>
-                            </div>
-                            <div className='flex justify-between items-center text-xs text-login-200'>
-                                <span>Name</span>
-                                <span className='font-semibold text-login-100'>{information.primarySite.name}</span>
-                            </div>
-                        </div>
-                    </Card>
-                </a>
-
                 <StatCard icon={Server} label='Operating System' value={metrics?.system?.os || 'Unknown'} tone='blue' />
 
                 <Card className='p-4 lg:col-span-2 xl:col-span-1'>

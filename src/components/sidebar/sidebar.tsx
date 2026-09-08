@@ -23,7 +23,6 @@ import {
     Activity,
     Database,
     Logs,
-    Scale,
     TriangleAlert,
     Waypoints,
     ShieldAlert,
@@ -189,11 +188,6 @@ export default function Sidebar({ mobile, initialExpanded = true, initialHasToke
                 { name: 'Overview', path: '/internal/db' },
                 { name: 'Backup', path: '/internal/db/backups' },
             ]
-        },
-        {
-            name: 'Load Balancing',
-            path: '/internal/loadbalancing',
-            icon: Scale,
         },
         {
             name: 'Logs',

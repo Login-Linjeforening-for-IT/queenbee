@@ -26,7 +26,7 @@ The application connects to several internal APIs including Workerbee, Beekeeper
 
 - **Log in via Authentik** (OAuth2)
 - **CMS** for events, jobs, announcements, albums, organizations, locations, and more
-- **Internal tooling** for monitoring, traffic, logs, load balancing, and vulnerability tracking
+- **Internal tooling** for monitoring, traffic, logs, and vulnerability tracking
 - **Integrates with** Workerbee, Beekeeper, TekKom-Bot, and the Internal API
 
 ## Getting Started
@@ -77,7 +77,7 @@ All variables go in the root `.env` file.
 ## Project Structure
 
 - `src/app/(main)/` - CMS pages (events, jobs, announcements, albums, organizations, etc.)
-- `src/app/internal/` - Internal tooling (monitoring, traffic, logs, load balancing, etc.)
+- `src/app/internal/` - Internal tooling (monitoring, traffic, logs, etc.)
 - `src/app/api/` - API routes for authentication
 - `src/components/` - React components
 - `src/utils/` - Helper functions

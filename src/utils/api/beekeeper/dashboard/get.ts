@@ -22,12 +22,10 @@ function normalizeDashboard(data: unknown): InternalDashboard {
         statistics: {
             alerts: toNumber(statistics.alerts, 0),
             databases: toNumber(statistics.databases, 0),
-            sites: toNumber(statistics.sites, 0),
             monitored: toNumber(statistics.monitored, 0),
             requestsToday: toNumber(statistics.requestsToday, 0)
         },
         information: {
-            primarySite: normalizePrimarySite(information.primarySite),
             system: normalizeSystem(information.system),
         },
         runtime: {
@@ -35,15 +33,6 @@ function normalizeDashboard(data: unknown): InternalDashboard {
             docker: normalizeDocker(runtime.docker),
             databaseOverview: isRecord(runtime.databaseOverview) ? runtime.databaseOverview as GetDatabaseOverview : null,
         }
-    }
-}
-
-function normalizePrimarySite(value: unknown) {
-    const site = isRecord(value) ? value : {}
-    return {
-        id: toNumber(site.id, 0),
-        name: typeof site.name === 'string' ? site.name : 'No primary site',
-        ip: typeof site.ip === 'string' ? site.ip : '0.0.0.0'
     }
 }
 

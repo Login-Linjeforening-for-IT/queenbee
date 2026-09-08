@@ -1047,17 +1047,11 @@ declare global {
     type InternalDashboardStatistics = {
         alerts: number
         databases: number
-        sites: number
         monitored: number
         requestsToday: number
     }
 
     type InternalDashboardInformation = {
-        primarySite: {
-            id: number
-            name: string
-            ip: string
-        }
         system: {
             ram: string
             processes: number
