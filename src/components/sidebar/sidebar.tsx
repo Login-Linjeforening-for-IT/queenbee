@@ -9,7 +9,6 @@ import {
     Building2,
     Calendar,
     ClipboardList,
-    Cloud,
     Contact,
     Gavel,
     Icon,
@@ -212,11 +211,6 @@ export default function Sidebar({ mobile, initialExpanded = true, initialHasToke
                 { name: 'Overview', path: '/internal/db' },
                 { name: 'Backup', path: '/internal/db/backups' },
             ]
-        },
-        {
-            name: 'S3',
-            path: '/internal/s3',
-            icon: Cloud,
         },
         {
             name: 'Load Balancing',
