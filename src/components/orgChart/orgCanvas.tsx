@@ -1,7 +1,9 @@
 'use client'
 
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
-import { Crown, Maximize, Minus, Plus, X } from 'lucide-react'
+import Link from 'next/link'
+import { ChevronRight, Crown, Maximize, Minus, Plus, X } from 'lucide-react'
+import { Badge } from 'uibee/components'
 import type { OrgChart, OrgMember, OrgUnit } from '@utils/api/authentik/getOrgChart'
 
 const CARD_W = 252
@@ -82,7 +84,10 @@ function useLayout(chart: OrgChart) {
 
 type View = { scale: number, x: number, y: number }
 
-export default function OrgCanvas({ chart, className = '' }: { chart: OrgChart, className?: string }) {
+export default function OrgCanvas({ chart, className = '' }: {
+    chart: OrgChart
+    className?: string
+}) {
     const { nodes, edges, bounds, ox, oy, worldW, worldH } = useLayout(chart)
     const nodeByKey = useMemo(() => new Map(nodes.map(node => [node.key, node])), [nodes])
     const viewportRef = useRef<HTMLDivElement>(null)
@@ -162,7 +167,7 @@ export default function OrgCanvas({ chart, className = '' }: { chart: OrgChart, 
     const selectedNode = selected ? nodeByKey.get(selected) ?? null : null
 
     return (
-        <div className={`relative overflow-hidden rounded-xl border border-login-600 bg-login-900 ${className}`}>
+        <div className={`relative overflow-hidden rounded-xl border border-login-500/30 bg-login-950 ${className}`}>
             <div
                 ref={viewportRef}
                 className='h-full w-full cursor-grab select-none active:cursor-grabbing'
@@ -199,25 +204,29 @@ export default function OrgCanvas({ chart, className = '' }: { chart: OrgChart, 
             </div>
 
             <div className={`
-                pointer-events-none absolute left-3 top-3 rounded-md bg-login-950/70
-                px-2.5 py-1 text-xs text-login-100 backdrop-blur
+                pointer-events-none absolute left-3 top-3 rounded-md border border-login-500/30
+                bg-login-950/70 px-2.5 py-1 text-xs text-login-200 backdrop-blur
             `}>
-                Drag to pan · Scroll to zoom
+                Drag to pan, scroll to zoom
             </div>
 
             <div className={`
                 absolute bottom-3 right-3 flex flex-col overflow-hidden
-                rounded-lg border border-login-600 bg-login-800/90 backdrop-blur
+                rounded-lg border border-login-500/30 bg-login-900/90 backdrop-blur
             `}>
                 <ControlButton label='Zoom in' onClick={() => zoomBy(1.2)}><Plus className='h-4 w-4' /></ControlButton>
                 <div className='px-2 py-1 text-center text-[10px] tabular-nums text-login-200'>{Math.round(view.scale * 100)}%</div>
                 <ControlButton label='Zoom out' onClick={() => zoomBy(1 / 1.2)}><Minus className='h-4 w-4' /></ControlButton>
-                <div className='h-px bg-login-600' />
+                <div className='h-px bg-white/5' />
                 <ControlButton label='Fit to screen' onClick={fit}><Maximize className='h-4 w-4' /></ControlButton>
             </div>
 
             {selectedNode && (
-                <MemberPanel node={selectedNode} crownSet={new Set(selectedNode.unit.leaderPks)} onClose={() => setSelected(null)} />
+                <MemberPanel
+                    node={selectedNode}
+                    crownSet={new Set(selectedNode.unit.leaderPks)}
+                    onClose={() => setSelected(null)}
+                />
             )}
         </div>
     )
@@ -230,7 +239,7 @@ function ControlButton({ label, onClick, children }: { label: string, onClick: (
             title={label}
             aria-label={label}
             onClick={onClick}
-            className='flex h-9 w-9 items-center justify-center text-login-100 transition-colors hover:bg-login-700 hover:text-login'
+            className='flex h-9 w-9 items-center justify-center text-login-100 transition-colors hover:bg-login-500 hover:text-login'
         >
             {children}
         </button>
@@ -320,8 +329,8 @@ function NodeCard({ node, left, top, selected, crownSet, onSelect }: {
     const border = selected
         ? 'border-login ring-2 ring-login/60'
         : tier === 'committee'
-            ? 'border-login-600'
-            : 'border-login/40'
+            ? 'border-login-500/30'
+            : 'border-login/30'
 
     return (
         <div
@@ -330,8 +339,9 @@ function NodeCard({ node, left, top, selected, crownSet, onSelect }: {
             onClick={event => { event.stopPropagation(); onSelect() }}
             onKeyDown={event => { if (event.key === 'Enter') onSelect() }}
             className={`
-                absolute flex flex-col gap-2 overflow-hidden rounded-xl border p-3 text-left shadow-xl transition-colors
-                ${tier === 'committee' ? 'bg-login-700' : 'bg-login-800'} ${border}
+                absolute flex flex-col gap-2 overflow-hidden rounded-xl border p-3 text-left
+                shadow-lg shadow-black/20 transition-colors
+                ${tier === 'committee' ? 'bg-login-500/40' : 'bg-login-500/60'} ${border}
                 hover:border-login/60
             `}
             style={{ left, top, width: node.w, height: node.h }}
@@ -339,11 +349,11 @@ function NodeCard({ node, left, top, selected, crownSet, onSelect }: {
             <div className='flex items-start justify-between gap-2'>
                 <div className='flex flex-col'>
                     {label !== title && (
-                        <span className='text-[10px] font-medium uppercase tracking-wider text-login'>{label}</span>
+                        <span className='text-[10px] font-semibold uppercase tracking-wider text-login'>{label}</span>
                     )}
                     <span className={`font-semibold leading-tight text-login-50 ${isBoard ? 'text-base' : ''}`}>{title}</span>
                 </div>
-                <span className='rounded-full bg-login/10 px-2 py-0.5 text-xs font-medium text-login'>{unit.members.length}</span>
+                <Badge text={String(unit.members.length)} variant='orange' />
             </div>
 
             {unit.members.length === 0 ? (
@@ -374,28 +384,32 @@ function MemberRow({ member, crowned }: { member: OrgMember, crowned: boolean })
     )
 }
 
-function MemberPanel({ node, crownSet, onClose }: { node: Node, crownSet: Set<number>, onClose: () => void }) {
+function MemberPanel({ node, crownSet, onClose }: {
+    node: Node
+    crownSet: Set<number>
+    onClose: () => void
+}) {
     const members = node.unit.members
     const title = displayName(node.unit.name)
     const label = TIER_LABEL[node.tier]
     return (
         <div className={`
             absolute bottom-3 right-14 top-3 flex w-72 flex-col
-            rounded-xl border border-login-600 bg-login-800/95 backdrop-blur
+            rounded-xl border border-login-500/30 bg-login-900/95 backdrop-blur
         `}>
-            <div className='flex items-start justify-between gap-2 border-b border-login-600 p-3'>
+            <div className='flex items-start justify-between gap-2 border-b border-white/5 p-3'>
                 <div className='flex flex-col'>
                     {label !== title && (
-                        <span className='text-[10px] font-medium uppercase tracking-wider text-login'>{label}</span>
+                        <span className='text-[10px] font-semibold uppercase tracking-wider text-login'>{label}</span>
                     )}
                     <span className='font-semibold text-login-50'>{title}</span>
-                    <span className='text-xs text-login-200'>{node.unit.members.length} active members</span>
+                    <span className='text-xs text-login-300'>{node.unit.members.length} active members</span>
                 </div>
                 <button
                     type='button'
                     aria-label='Close'
                     onClick={onClose}
-                    className='rounded-md p-1 text-login-200 transition-colors hover:bg-login-700 hover:text-login-50'
+                    className='rounded-md p-1 text-login-200 transition-colors hover:bg-login-500 hover:text-login-50'
                 >
                     <X className='h-4 w-4' />
                 </button>
@@ -403,7 +417,11 @@ function MemberPanel({ node, crownSet, onClose }: { node: Node, crownSet: Set<nu
             <div className='flex flex-col gap-1 overflow-y-auto p-2'>
                 {members.length === 0 && <span className='p-2 text-sm text-login-300'>No active members.</span>}
                 {members.map(member => (
-                    <div key={member.pk} className='flex items-center gap-2.5 rounded-lg p-1.5 hover:bg-login-700'>
+                    <Link
+                        key={member.pk}
+                        href={`/org/member/${member.pk}`}
+                        className='group flex items-center gap-2.5 rounded-lg p-1.5 transition-colors hover:bg-login-500'
+                    >
                         <span className={`
                             flex h-7 w-7 min-w-7 items-center justify-center rounded-full text-[10px] font-medium
                             ${crownSet.has(member.pk) ? 'bg-login/20 text-login' : 'bg-login-600 text-login-100'}
@@ -417,7 +435,8 @@ function MemberPanel({ node, crownSet, onClose }: { node: Node, crownSet: Set<nu
                             </span>
                             <span className='truncate text-xs text-login-300'>{member.email || member.username}</span>
                         </div>
-                    </div>
+                        <ChevronRight className='ml-auto h-3.5 w-3.5 shrink-0 text-login-300 group-hover:text-login-100' />
+                    </Link>
                 ))}
             </div>
         </div>

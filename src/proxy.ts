@@ -39,6 +39,15 @@ export async function proxy(req: NextRequest) {
                 return NextResponse.redirect(new URL('/dashboard', req.url))
             }
         }
+
+        if (req.nextUrl.pathname === '/org' || req.nextUrl.pathname.startsWith('/org/')) {
+            const response = await tokenIsValid(token, req.nextUrl.pathname)
+            const lowerGroups = (response.groups || []).map((g) => g.toLowerCase())
+            const canManageOrg = lowerGroups.includes('styret') || lowerGroups.includes('authentik admins')
+            if (!canManageOrg) {
+                return NextResponse.redirect(new URL('/dashboard', req.url))
+            }
+        }
     }
 
     const theme = req.cookies.get('theme')?.value || 'dark'

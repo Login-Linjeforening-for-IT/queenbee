@@ -8,7 +8,9 @@ import {
     BriefcaseBusiness,
     Building2,
     Calendar,
+    ClipboardList,
     Cloud,
+    Contact,
     Gavel,
     Icon,
     Images,
@@ -26,9 +28,9 @@ import {
     Server,
     TriangleAlert,
     Waypoints,
-    ShieldOff,
     ShieldAlert,
     Bot,
+    type LucideIcon,
     type LucideProps
 } from 'lucide-react'
 import { hexagons7 } from '@lucide/lab'
@@ -42,6 +44,53 @@ function Hexagons7(props: LucideProps) {
     return <Icon iconNode={hexagons7} {...props} />
 }
 
+type Section = 'content' | 'internal' | 'org'
+
+function getSection(pathname: string): Section {
+    if (pathname.startsWith('/internal')) return 'internal'
+    if (pathname === '/org' || pathname.startsWith('/org/')) return 'org'
+    return 'content'
+}
+
+const SECTION_LABEL: Record<Section, string> = {
+    content: 'Content',
+    internal: 'Internal',
+    org: 'Org Management',
+}
+
+function BottomLink({ href, icon: Icon, label, expanded, active }: {
+    href: string
+    icon: LucideIcon
+    label: string
+    expanded: boolean
+    active: boolean
+}) {
+    return (
+        <Link
+            href={href}
+            aria-current={active ? 'page' : undefined}
+            className={`
+                flex items-center p-3 rounded-lg w-full overflow-hidden transition-colors group
+                ${active ? 'bg-login/10 text-login' : 'hover:bg-login-800 text-login-200 hover:text-login-100'}
+            `}
+            title={!expanded ? label : ''}
+        >
+            <div className={`
+                min-w-6 w-6 flex items-center justify-center transition-all duration-300
+                ${expanded ? '' : 'translate-x-1'}
+            `}>
+                <Icon className='w-6 min-w-6' />
+            </div>
+            <span className={`
+                whitespace-nowrap overflow-hidden transition-all duration-300
+                ${expanded ? 'opacity-100 max-w-48 ml-3' : 'opacity-0 max-w-0 ml-0'}
+            `}>
+                {label}
+            </span>
+        </Link>
+    )
+}
+
 type SidebarProps = {
     mobile?: boolean
     initialExpanded?: boolean
@@ -53,7 +102,11 @@ export default function Sidebar({ mobile, initialExpanded = true, initialHasToke
 
     const [groups, setGroups] = useState<string | undefined>(undefined)
     const pathname = usePathname()
-    const isInternal = pathname.startsWith('/internal')
+    const section = getSection(pathname)
+    const isInternal = section === 'internal'
+    const lowerGroups = (groups ?? '').toLowerCase()
+    const hasTekkom = lowerGroups.includes('tekkom')
+    const canManageOrg = lowerGroups.includes('styret') || lowerGroups.includes('authentik admins')
 
     const [docker, setDocker] = useState<Docker | null>(null)
 
@@ -209,9 +262,35 @@ export default function Sidebar({ mobile, initialExpanded = true, initialHasToke
         }
     ]
 
+    const orgPaths: SidebarItem[] = [
+        {
+            name: 'Org Chart',
+            path: '/org/chart',
+            icon: Network,
+        },
+        {
+            name: 'Directory',
+            path: '/org/directory',
+            icon: Contact,
+        },
+        {
+            name: 'Report',
+            path: '/org/report',
+            icon: ClipboardList,
+        },
+    ]
+
+    const items = section === 'internal' ? internalPaths : section === 'org' ? orgPaths : mainPaths
+
+    const sections: { key: Section, label: string, href: string, icon: LucideIcon, show: boolean }[] = [
+        { key: 'content', label: SECTION_LABEL.content, href: '/dashboard', icon: LayoutDashboard, show: true },
+        { key: 'internal', label: SECTION_LABEL.internal, href: '/internal', icon: Shield, show: hasTekkom },
+        { key: 'org', label: SECTION_LABEL.org, href: '/org/chart', icon: Network, show: canManageOrg },
+    ]
+
     return (
         <SidebarLayout
-            items={isInternal ? internalPaths : mainPaths}
+            items={items}
             mobile={mobile}
             initialExpanded={initialExpanded}
             onExpandedChange={(next) => setCookie('sidebar_expanded', String(next))}
@@ -227,68 +306,35 @@ export default function Sidebar({ mobile, initialExpanded = true, initialHasToke
                             priority
                         />
                     </div>
-                    <span className={`
-                        font-bold text-lg tracking-wide text-login-50 whitespace-nowrap
-                        overflow-hidden transition-all duration-300
+                    <div className={`
+                        flex flex-col overflow-hidden transition-all duration-300
                         ${expanded ? 'opacity-100 max-w-48' : 'opacity-0 max-w-0'}
                     `}>
-                        QueenBee
-                    </span>
+                        <span className='font-bold text-lg leading-tight tracking-wide text-login-50 whitespace-nowrap'>
+                            QueenBee
+                        </span>
+                        <span className='text-[10px] font-medium uppercase tracking-wider text-login whitespace-nowrap'>
+                            {SECTION_LABEL[section]}
+                        </span>
+                    </div>
                 </>
             )}
             bottomAction={(expanded) => (
                 <div className='flex flex-col gap-2'>
-                    {groups && groups.includes('TekKom') && (
-                        <Link
-                            href={isInternal ? '/dashboard' : '/internal'}
-                            className={`
-                                flex items-center p-3 rounded-lg w-full overflow-hidden
-                                hover:bg-login-800 text-login-200 hover:text-login-100
-                                transition-colors group
-                            `}
-                            title={!expanded ? (isInternal ? 'Dashboard' : 'Internal') : ''}
-                        >
-                            <div className={`
-                                min-w-6 w-6 flex items-center justify-center transition-all duration-300
-                                ${expanded ? '' : 'translate-x-1'}
-                            `}>
-                                {isInternal ? <ShieldOff className='w-6 min-w-6' /> : <Shield className='w-6 min-w-6' />}
-                            </div>
-                            <span
-                                className={`
-                                    whitespace-nowrap overflow-hidden transition-all duration-300
-                                    ${expanded ? 'opacity-100 max-w-48 ml-3' : 'opacity-0 max-w-0 ml-0'}
-                                `}
-                            >
-                                {isInternal ? 'Dashboard' : 'Internal'}
-                            </span>
-                        </Link>
-                    )}
+                    <div className='flex flex-col gap-1'>
+                        {sections.filter(item => item.show).map(item => (
+                            <BottomLink
+                                key={item.key}
+                                href={item.href}
+                                icon={item.icon}
+                                label={item.label}
+                                expanded={expanded}
+                                active={section === item.key}
+                            />
+                        ))}
+                    </div>
 
-                    <Link
-                        href='/org-chart'
-                        className={`
-                            flex items-center p-3 rounded-lg w-full overflow-hidden
-                            hover:bg-login-800 text-login-200 hover:text-login-100
-                            transition-colors group
-                        `}
-                        title={!expanded ? 'Org Chart' : ''}
-                    >
-                        <div className={`
-                            min-w-6 w-6 flex items-center justify-center transition-all duration-300
-                            ${expanded ? '' : 'translate-x-1'}
-                        `}>
-                            <Network className='w-6 min-w-6' />
-                        </div>
-                        <span
-                            className={`
-                                whitespace-nowrap overflow-hidden transition-all duration-300
-                                ${expanded ? 'opacity-100 max-w-48 ml-3' : 'opacity-0 max-w-0 ml-0'}
-                            `}
-                        >
-                            Org Chart
-                        </span>
-                    </Link>
+                    <div className='h-px bg-login-600' />
 
                     <button
                         onClick={() => window.location.href = config.authPath.logout}

@@ -11,12 +11,12 @@ export default async function Page() {
 
     return (
         <div className='flex h-full flex-col gap-4'>
-            <header className='flex flex-wrap items-end justify-between gap-4'>
-                <div className='flex flex-col gap-1'>
-                    <h1 className='text-xl font-semibold text-login-50'>Org Chart</h1>
-                </div>
-                <div className='flex items-center gap-2 rounded-lg bg-login-900 px-4 py-2'>
-                    <Users className='h-5 w-5 text-login' />
+            <header className='flex flex-wrap items-center justify-between gap-4'>
+                <h1 className='text-lg font-semibold text-login-50'>Org Chart</h1>
+                <div className={`
+                    flex items-center gap-2 rounded-lg border border-login-500/30 bg-login-500/50 px-4 py-2
+                `}>
+                    <Users className='h-4 w-4 text-login' />
                     <span className='text-sm text-login-200'>
                         <span className='font-semibold text-login-50'>{chart.activeCount}</span> active members
                     </span>
