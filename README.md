@@ -68,7 +68,6 @@ All variables go in the root `.env` file.
 | `AUTHENTIK_API_TOKEN`           |                                     | Authentik API token                  |
 | `WORKERBEE_API_URL`             | `https://workerbee.login.no/api/v2` | Workerbee API base URL               |
 | `BEEKEEPER_API_URL`             | `https://beekeeper.login.no/api`    | Beekeeper API base URL               |
-| `BEEKEEPER_WSS_API_URL`         | `wss://beekeeper.login.no/api`      | Beekeeper WebSocket API URL          |
 | `NEXT_PUBLIC_BEEKEEPER_API_URL` | `https://beekeeper.login.no/api`    | Beekeeper API URL (client-side)      |
 | `TEKKOM_BOT_API_URL`            | `https://bot.login.no/api`          | TekKom-Bot API base URL              |
 | `APP_API_URL`                   | `https://app.login.no/api`          | Internal app API base URL            |

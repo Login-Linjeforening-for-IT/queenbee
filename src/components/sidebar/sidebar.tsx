@@ -28,7 +28,6 @@ import {
     TriangleAlert,
     Waypoints,
     ShieldAlert,
-    Bot,
     type LucideIcon,
     type LucideProps
 } from 'lucide-react'
@@ -192,11 +191,6 @@ export default function Sidebar({ mobile, initialExpanded = true, initialHasToke
             name: 'Dashboard',
             path: '/internal',
             icon: LayoutDashboard
-        },
-        {
-            name: 'AI',
-            path: '/internal/ai',
-            icon: Bot,
         },
         {
             name: 'Alerts',
